@@ -1,3 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?><Error><Code>AuthenticationFailed</Code><Message>Server failed to authenticate the request. Make sure the value of Authorization header is formed correctly including the signature.
-RequestId:4b987d92-901e-0064-58da-efb67d000000
-Time:2025-07-08T07:32:22.5152819Z</Message><AuthenticationErrorDetail>Signed expiry time [Tue, 08 Jul 2025 07:19:09 GMT] must be after signed start time [Tue, 08 Jul 2025 07:32:22 GMT]</AuthenticationErrorDetail></Error>
+﻿<!-- Replace with a simple SVG placeholder -->
+<svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#667eea"/>
+  <text x="200" y="200" font-family="Arial" font-size="24" fill="white" text-anchor="middle" dy=".3em">
+    DAMP Baby Bottle
+  </text>
+  <text x="200" y="240" font-family="Arial" font-size="16" fill="white" text-anchor="middle" dy=".3em">
+    Image Coming Soon
+  </text>
+</svg>

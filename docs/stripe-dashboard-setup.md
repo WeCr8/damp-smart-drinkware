@@ -105,8 +105,8 @@ For each product you just created, add **TWO prices**: Pre-order and Default pri
 ## Step 4: Get Your API Keys
 
 1. **Navigate to Developers → API keys**
-2. **Copy your Publishable key** (pk_live_51ReW7yCcrIDahSGRjE5nEx9ENwPj8uzAfCJQtmVBkuEyeS7JNq0xscaAqdUFoKos7JO1cKbJXrIscBfUU4yNRQSy00lWo3F7p2)
-3. **Reveal and copy your Secret key** (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)
+2. **Copy your Publishable key** (`key`)
+3. **Reveal and copy your Secret key** (`key`)
 
 ## Step 5: Test Your Setup
 

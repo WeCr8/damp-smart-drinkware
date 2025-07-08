@@ -26,22 +26,72 @@ stripe products create --name "DAMP Cup Sleeve" --description "Flexible silicone
 stripe products create --name "DAMP Baby Bottle" --description "BPA-free smart baby bottle"
 ```
 
-### 1.2 Create Prices for Each Product
-Create prices for each product (use the product IDs from step 1.1):
+### 1.2 Create Prices with Lookup Keys
+Create prices for each product with your specific lookup keys (use the product IDs from step 1.1):
 
 ```bash
-# DAMP Handle v1.0 - $49.99
-stripe prices create --product prod_YOUR_PRODUCT_ID --unit-amount 4999 --currency usd --nickname "damp-handle-preorder"
+# DAMP Handle v1.0 - Pre-order ($49.99) and Default ($69.99) pricing
+stripe prices create \
+  --product prod_YOUR_HANDLE_PRODUCT_ID \
+  --unit-amount 4999 \
+  --currency usd \
+  --lookup-key "DAMP_HAN_V1_pre-order" \
+  --nickname "DAMP Handle v1.0 Pre-order"
 
-# DAMP Silicone Bottom - $29.99
-stripe prices create --product prod_YOUR_PRODUCT_ID --unit-amount 2999 --currency usd --nickname "silicone-bottom-preorder"
+stripe prices create \
+  --product prod_YOUR_HANDLE_PRODUCT_ID \
+  --unit-amount 6999 \
+  --currency usd \
+  --lookup-key "DAMP_HAN_V1_default" \
+  --nickname "DAMP Handle v1.0 Default"
 
-# DAMP Cup Sleeve - $34.99
-stripe prices create --product prod_YOUR_PRODUCT_ID --unit-amount 3499 --currency usd --nickname "cup-sleeve-preorder"
+# DAMP Silicone Bottom - Pre-order ($29.99) and Default ($39.99) pricing
+stripe prices create \
+  --product prod_YOUR_SILICONE_PRODUCT_ID \
+  --unit-amount 2999 \
+  --currency usd \
+  --lookup-key "DAMP_SIL_BTM_pre-order" \
+  --nickname "DAMP Silicone Bottom Pre-order"
 
-# DAMP Baby Bottle - $79.99
-stripe prices create --product prod_YOUR_PRODUCT_ID --unit-amount 7999 --currency usd --nickname "baby-bottle-preorder"
+stripe prices create \
+  --product prod_YOUR_SILICONE_PRODUCT_ID \
+  --unit-amount 3999 \
+  --currency usd \
+  --lookup-key "DAMP_SIL_BTM_default" \
+  --nickname "DAMP Silicone Bottom Default"
+
+# DAMP Cup Sleeve - Pre-order ($34.99) and Default ($44.99) pricing
+stripe prices create \
+  --product prod_YOUR_SLEEVE_PRODUCT_ID \
+  --unit-amount 3499 \
+  --currency usd \
+  --lookup-key "DAMP_SLV_V1_pre-order" \
+  --nickname "DAMP Cup Sleeve Pre-order"
+
+stripe prices create \
+  --product prod_YOUR_SLEEVE_PRODUCT_ID \
+  --unit-amount 4499 \
+  --currency usd \
+  --lookup-key "DAMP_SLV_V1_default" \
+  --nickname "DAMP Cup Sleeve Default"
+
+# DAMP Baby Bottle - Pre-order ($79.99) and Default ($99.99) pricing
+stripe prices create \
+  --product prod_YOUR_BOTTLE_PRODUCT_ID \
+  --unit-amount 7999 \
+  --currency usd \
+  --lookup-key "DAMP_BBB_V1_pre-order" \
+  --nickname "DAMP Baby Bottle Pre-order"
+
+stripe prices create \
+  --product prod_YOUR_BOTTLE_PRODUCT_ID \
+  --unit-amount 9999 \
+  --currency usd \
+  --lookup-key "DAMP_BBB_V1_default" \
+  --nickname "DAMP Baby Bottle Default"
 ```
+
+**💡 Pro Tip**: Lookup keys make it easy to switch between pre-order and regular pricing later. You can also create these in the Stripe Dashboard under Products → [Your Product] → Pricing.
 
 ### 1.3 Configure Webhooks
 Set up webhooks in your Stripe Dashboard:
@@ -97,6 +147,12 @@ Update the Stripe publishable key in your HTML files:
 // In stripe-checkout.html
 const stripe = Stripe('pk_test_your_actual_stripe_key_here');
 ```
+
+**✅ Your system is already configured with the correct lookup keys:**
+- DAMP_HAN_V1_pre-order / DAMP_HAN_V1_default
+- DAMP_SIL_BTM_pre-order / DAMP_SIL_BTM_default  
+- DAMP_SLV_V1_pre-order / DAMP_SLV_V1_default
+- DAMP_BBB_V1_pre-order / DAMP_BBB_V1_default
 
 ## Part 3: Database Setup (Optional)
 

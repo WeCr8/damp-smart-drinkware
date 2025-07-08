@@ -303,6 +303,37 @@ async function sendCancellationEmail(paymentIntentId) {
     // Send confirmation of cancellation
 }
 
+// Utility function to switch pricing modes
+app.post('/admin/switch-pricing', async (req, res) => {
+    try {
+        const { mode } = req.body; // 'preorder' or 'default'
+        
+        if (!mode || !['preorder', 'default'].includes(mode)) {
+            return res.status(400).json({ error: 'Mode must be "preorder" or "default"' });
+        }
+        
+        const currentPricing = {};
+        Object.keys(PRODUCTS).forEach(productId => {
+            const product = PRODUCTS[productId];
+            currentPricing[productId] = {
+                name: product.name,
+                activeLookupKey: mode === 'preorder' ? product.preOrderLookupKey : product.defaultLookupKey,
+                activePrice: mode === 'preorder' ? product.price : product.originalPrice
+            };
+        });
+        
+        res.json({ 
+            message: `Pricing mode set to: ${mode}`,
+            currentPricing: currentPricing,
+            instructions: `Update your frontend to use the ${mode === 'preorder' ? 'preOrderLookupKey' : 'defaultLookupKey'} for each product.`
+        });
+        
+    } catch (error) {
+        console.error('Error switching pricing:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Admin endpoints for managing pre-orders
 app.get('/admin/preorders', async (req, res) => {
     try {

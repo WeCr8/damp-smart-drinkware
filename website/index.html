@@ -1569,6 +1569,195 @@
         });
     </script>
 
+    <!-- Google Engineering Best Practices - Optimization Scripts -->
+    <script src="assets/js/lazy-loading.js" defer></script>
+    <script src="assets/js/performance-monitor.js" defer></script>
+    <script src="assets/js/critical-css.js" defer></script>
+    <script src="assets/js/seo-optimizer.js" defer></script>
+    
+    <!-- Initialize Google Optimizations -->
+    <script>
+        // Initialize all Google engineering optimizations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Performance monitoring with enhanced metrics
+            if (typeof DAMPPerformanceMonitor !== 'undefined') {
+                window.dampPerformanceMonitor = new DAMPPerformanceMonitor({
+                    enableAnalytics: true,
+                    enableConsoleLogging: false,
+                    sampleRate: 1.0,
+                    endpoint: '/api/analytics/performance'
+                });
+            }
+            
+            // Critical CSS optimization
+            if (typeof DAMPCriticalCSSOptimizer !== 'undefined') {
+                window.dampCriticalCSSOptimizer = new DAMPCriticalCSSOptimizer({
+                    enableCriticalCSS: true,
+                    enableResourceHints: true,
+                    enableImageOptimization: true,
+                    enableFontOptimization: true,
+                    deferNonCriticalCSS: true
+                });
+            }
+            
+            // SEO optimization
+            if (typeof DAMPSEOOptimizer !== 'undefined') {
+                window.dampSEOOptimizer = new DAMPSEOOptimizer({
+                    enableStructuredData: true,
+                    enableBreadcrumbs: true,
+                    baseUrl: 'https://dampdrink.com'
+                });
+            }
+            
+            // Lazy loading optimization
+            if (typeof DAMPLazyLoader !== 'undefined') {
+                window.dampLazyLoader = new DAMPLazyLoader({
+                    enableWebP: true,
+                    enableBlur: true,
+                    fadeInDuration: 300,
+                    retryAttempts: 3
+                });
+            }
+            
+            // Enhanced performance tracking
+            if (typeof gtag !== 'undefined') {
+                // Track Core Web Vitals
+                new PerformanceObserver((entryList) => {
+                    entryList.getEntries().forEach((entry) => {
+                        const metricName = entry.name || entry.entryType;
+                        const value = entry.value || entry.startTime;
+                        
+                        gtag('event', 'web_vitals', {
+                            event_category: 'Performance',
+                            event_label: metricName,
+                            value: Math.round(value),
+                            non_interaction: true
+                        });
+                    });
+                }).observe({ entryTypes: ['largest-contentful-paint', 'first-input', 'layout-shift'] });
+                
+                // Track resource timing
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        const resources = performance.getEntriesByType('resource');
+                        const slowResources = resources.filter(r => r.duration > 1000);
+                        
+                        if (slowResources.length > 0) {
+                            gtag('event', 'slow_resources', {
+                                event_category: 'Performance',
+                                event_label: 'slow_resource_count',
+                                value: slowResources.length
+                            });
+                        }
+                    }, 1000);
+                });
+            }
+            
+            // Enhanced image optimization
+            document.querySelectorAll('img').forEach(img => {
+                // Add loading attribute if not present
+                if (!img.hasAttribute('loading')) {
+                    const rect = img.getBoundingClientRect();
+                    const isAboveTheFold = rect.top < window.innerHeight;
+                    
+                    if (!isAboveTheFold) {
+                        img.setAttribute('loading', 'lazy');
+                    }
+                }
+                
+                // Add error handling
+                img.addEventListener('error', function() {
+                    if (!this.hasAttribute('data-fallback-attempted')) {
+                        this.setAttribute('data-fallback-attempted', 'true');
+                        
+                        // Try WebP to JPG fallback
+                        if (this.src.includes('.webp')) {
+                            this.src = this.src.replace('.webp', '.jpg');
+                        }
+                    }
+                });
+            });
+            
+            // Enhanced font optimization
+            if ('fonts' in document) {
+                document.fonts.ready.then(() => {
+                    document.body.classList.add('fonts-loaded');
+                });
+            }
+            
+            // Network information tracking
+            if ('connection' in navigator) {
+                const connection = navigator.connection;
+                
+                gtag('event', 'connection_type', {
+                    event_category: 'Network',
+                    event_label: connection.effectiveType,
+                    value: connection.downlink
+                });
+            }
+            
+            // Memory usage tracking (if available)
+            if (performance.memory) {
+                gtag('event', 'memory_usage', {
+                    event_category: 'Performance',
+                    event_label: 'used_heap_size',
+                    value: Math.round(performance.memory.usedJSHeapSize / 1024 / 1024) // MB
+                });
+            }
+            
+            // Service worker registration with update handling
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/sw.js')
+                        .then(registration => {
+                            console.log('Service Worker registered');
+                            
+                            // Check for updates
+                            registration.addEventListener('updatefound', () => {
+                                const newWorker = registration.installing;
+                                
+                                newWorker.addEventListener('statechange', () => {
+                                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                        // New version available
+                                        const updateBanner = document.createElement('div');
+                                        updateBanner.innerHTML = `
+                                            <div style="position: fixed; top: 0; left: 0; right: 0; background: #667eea; color: white; padding: 10px; text-align: center; z-index: 10000;">
+                                                A new version is available. 
+                                                <button onclick="window.location.reload()" style="background: none; border: 1px solid white; color: white; padding: 5px 10px; margin-left: 10px; cursor: pointer;">
+                                                    Update Now
+                                                </button>
+                                                <button onclick="this.parentElement.remove()" style="background: none; border: none; color: white; padding: 5px 10px; cursor: pointer;">
+                                                    ×
+                                                </button>
+                                            </div>
+                                        `;
+                                        document.body.appendChild(updateBanner);
+                                    }
+                                });
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Service Worker registration failed:', error);
+                        });
+                });
+            }
+            
+            // Debug mode for development
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                // Add debug functions to window
+                window.dampDebug = {
+                    performance: () => dampPerformanceMonitor?.getPerformanceReport(),
+                    seo: () => dampSEOOptimizer?.getSEOReport(),
+                    optimization: () => dampCriticalCSSOptimizer?.getOptimizationReport(),
+                    lazyLoading: () => dampLazyLoader?.getStats()
+                };
+                
+                console.log('🚀 DAMP Debug Mode Active');
+                console.log('Available debug commands:', Object.keys(window.dampDebug));
+            }
+        });
+    </script>
+
     <!-- Footer -->
     <footer style="padding: 60px 0 40px; background: rgba(0, 0, 0, 0.3); border-top: 1px solid rgba(255, 255, 255, 0.1);">
         <div class="container">

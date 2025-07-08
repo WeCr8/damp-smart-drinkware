@@ -643,7 +643,7 @@
                     </div>
 
                     <button type="submit" class="btn btn-primary" id="submitOrder" disabled>
-                        Complete Pre-Order
+                        🚀 Complete Pre-Order - Secure Checkout
                     </button>
                 </div>
             </form>
@@ -824,18 +824,9 @@
                 timestamp: new Date().toISOString()
             };
             
-            // In a real implementation, this would send to your backend
-            console.log('Pre-order submitted:', orderData);
-            
-            // Show success message
-            document.getElementById('successMessage').classList.add('show');
-            document.getElementById('successMessage').scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'center' 
-            });
-            
-            // Hide form
-            this.style.display = 'none';
+            // Redirect to Stripe Checkout
+            const checkoutUrl = `stripe-checkout.html?product=${selectedProduct}&quantity=${quantity}`;
+            window.location.href = checkoutUrl;
         });
 
         // Get URL parameters to pre-select product

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Pre-Order Checkout</title>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            padding: 40px 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .product-summary {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        .btn {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .loading {
+            display: none;
+            text-align: center;
+            color: #00d4ff;
+        }
+        .error {
+            color: #ff6b6b;
+            background: rgba(255, 107, 107, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 30px; color: #00d4ff;">Complete Your Pre-Order</h1>
+        
+        <div class="product-summary">
+            <h3 style="color: #00d4ff; margin-bottom: 15px;">Order Summary</h3>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span id="product-name">DAMP Handle v1.0</span>
+                <span id="product-price">$49.99</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                <span>Quantity: <span id="quantity">1</span></span>
+                <span id="subtotal">$49.99</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #ff6b6b; font-weight: bold;">
+                <span>Early Bird Savings</span>
+                <span id="savings">-$20.00</span>
+            </div>
+            <hr style="border: 1px solid rgba(255, 255, 255, 0.2); margin: 15px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 1.2rem; font-weight: bold; color: #00ff88;">
+                <span>Total</span>
+                <span id="total">$49.99</span>
+            </div>
+        </div>
+
+        <div style="background: rgba(255, 193, 7, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 1px solid rgba(255, 193, 7, 0.3);">
+            <h4 style="color: #ffc107; margin-bottom: 15px;">🚀 Pre-Order Details</h4>
+            <ul style="list-style: none; padding: 0; margin: 0;">
+                <li style="margin-bottom: 8px;">✅ Payment authorized but not charged until shipping</li>
+                <li style="margin-bottom: 8px;">📅 Estimated delivery: Q3 2025</li>
+                <li style="margin-bottom: 8px;">📧 Monthly development updates</li>
+                <li style="margin-bottom: 8px;">🔒 Full refund guarantee</li>
+                <li style="margin-bottom: 8px;">🎯 Early bird pricing locked in</li>
+            </ul>
+        </div>
+
+        <div class="error" id="error-message"></div>
+        
+        <button class="btn" id="checkout-button" onclick="createCheckoutSession()">
+            Complete Pre-Order - Secure Checkout
+        </button>
+        
+        <div class="loading" id="loading">
+            <p>🔄 Creating secure checkout session...</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px; font-size: 0.9rem; opacity: 0.8;">
+            <p>🔒 Secured by Stripe • Your payment information is encrypted and secure</p>
+            <p style="margin-top: 10px;">Questions? Email us at support@dampdrink.com</p>
+        </div>
+    </div>
+
+    <script>
+        // Replace with your actual Stripe publishable key
+        const stripe = Stripe('pk_test_your_stripe_key_here');
+        
+        // Get product details from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('product') || 'damp-handle';
+        const quantity = parseInt(urlParams.get('quantity')) || 1;
+        
+        // Product data with Stripe Lookup Keys
+        const products = {
+            'damp-handle': {
+                name: 'DAMP Handle v1.0',
+                price: 4999, // $49.99 in cents
+                originalPrice: 6999,
+                preOrderLookupKey: 'DAMP_HAN_V1_pre-order',
+                defaultLookupKey: 'DAMP_HAN_V1_default'
+            },
+            'silicone-bottom': {
+                name: 'DAMP Silicone Bottom',
+                price: 2999, // $29.99 in cents
+                originalPrice: 3999,
+                preOrderLookupKey: 'DAMP_SIL_BTM_pre-order',
+                defaultLookupKey: 'DAMP_SIL_BTM_default'
+            },
+            'cup-sleeve': {
+                name: 'DAMP Cup Sleeve',
+                price: 3499, // $34.99 in cents
+                originalPrice: 4499,
+                preOrderLookupKey: 'DAMP_SLV_V1_pre-order',
+                defaultLookupKey: 'DAMP_SLV_V1_default'
+            },
+            'baby-bottle': {
+                name: 'DAMP Baby Bottle',
+                price: 7999, // $79.99 in cents
+                originalPrice: 9999,
+                preOrderLookupKey: 'DAMP_BBB_V1_pre-order',
+                defaultLookupKey: 'DAMP_BBB_V1_default'
+            }
+        };
+
+        // Update UI with product details
+        function updateProductDisplay() {
+            const product = products[productId];
+            if (!product) return;
+            
+            const savings = (product.originalPrice - product.price) * quantity;
+            const total = product.price * quantity;
+            
+            document.getElementById('product-name').textContent = product.name;
+            document.getElementById('product-price').textContent = `$${(product.price / 100).toFixed(2)}`;
+            document.getElementById('quantity').textContent = quantity;
+            document.getElementById('subtotal').textContent = `$${(total / 100).toFixed(2)}`;
+            document.getElementById('savings').textContent = `-$${(savings / 100).toFixed(2)}`;
+            document.getElementById('total').textContent = `$${(total / 100).toFixed(2)}`;
+        }
+
+        // Create Stripe Checkout Session
+        async function createCheckoutSession() {
+            const button = document.getElementById('checkout-button');
+            const loading = document.getElementById('loading');
+            const errorDiv = document.getElementById('error-message');
+            
+            button.disabled = true;
+            button.style.display = 'none';
+            loading.style.display = 'block';
+            errorDiv.style.display = 'none';
+            
+            try {
+                const product = products[productId];
+                
+                // Call your backend to create checkout session
+                const response = await fetch('/create-checkout-session', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        productId: productId,
+                        quantity: quantity,
+                        lookupKey: product.preOrderLookupKey
+                    })
+                });
+                
+                const session = await response.json();
+                
+                if (session.error) {
+                    throw new Error(session.error);
+                }
+                
+                // Redirect to Stripe Checkout
+                const result = await stripe.redirectToCheckout({
+                    sessionId: session.id
+                });
+                
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+                
+            } catch (error) {
+                console.error('Error:', error);
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+                button.disabled = false;
+                button.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        }
+
+        // Initialize page
+        updateProductDisplay();
+    </script>
+</body>
+</html> 

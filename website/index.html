@@ -885,6 +885,19 @@
             }
         }
     </style>
+
+    <!-- Add these favicon links after line 36 (after the msapplication-config line) -->
+    
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/logo/icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/icon-16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo/icon-180.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/logo/icon-152.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/assets/images/logo/icon-32.png">
+    <meta name="msapplication-TileImage" content="/assets/images/logo/icon-144.png">
+    <!-- Add this in the head section for immediate fallback -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><radialGradient id='bg' cx='50%' cy='50%'><stop offset='0%' stop-color='%23667eea'/><stop offset='100%' stop-color='%23764ba2'/></radialGradient></defs><rect width='100' height='100' fill='url(%23bg)'/><path d='M50 20 C65 20 75 30 75 45 C75 60 50 80 50 80 C50 80 25 60 25 45 C25 30 35 20 50 20 Z' fill='white' opacity='0.9'/><circle cx='42' cy='35' r='5' fill='white' opacity='0.7'/></svg>">
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -1574,6 +1587,7 @@
     <script src="assets/js/performance-monitor.js" defer></script>
     <script src="assets/js/critical-css.js" defer></script>
     <script src="assets/js/seo-optimizer.js" defer></script>
+    <script src="assets/js/icon-generator.js" defer></script>
     
     <!-- Initialize Google Optimizations -->
     <script>
@@ -1616,6 +1630,16 @@
                     enableBlur: true,
                     fadeInDuration: 300,
                     retryAttempts: 3
+                });
+            }
+            
+            // Icon generator and fallback system
+            if (typeof DAMPIconGenerator !== 'undefined') {
+                window.dampIconGenerator = new DAMPIconGenerator({
+                    enableFallback: true,
+                    enableOptimization: true,
+                    sourceIcon: '/assets/images/logo/icon.png',
+                    fallbackIcon: '/assets/images/logo/icon-fallback.png'
                 });
             }
             
@@ -1749,11 +1773,15 @@
                     performance: () => dampPerformanceMonitor?.getPerformanceReport(),
                     seo: () => dampSEOOptimizer?.getSEOReport(),
                     optimization: () => dampCriticalCSSOptimizer?.getOptimizationReport(),
-                    lazyLoading: () => dampLazyLoader?.getStats()
+                    lazyLoading: () => dampLazyLoader?.getStats(),
+                    iconReport: () => dampIconGenerator?.getIconReport(),
+                    validateIcons: () => dampIconGenerator?.validateAllIcons(),
+                    generateIcons: () => dampIconGenerator?.generateAllIcons()
                 };
                 
                 console.log('🚀 DAMP Debug Mode Active');
                 console.log('Available debug commands:', Object.keys(window.dampDebug));
+                console.log('💡 Icon debug: dampDebug.iconReport(), dampDebug.validateIcons()');
             }
         });
     </script>

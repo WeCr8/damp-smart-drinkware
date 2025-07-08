@@ -1,24 +1,46 @@
 {
-  "name": "damp-smart-drinkware-website",
+  "name": "damp-smart-drinkware",
   "version": "1.0.0",
-  "description": "Website for DAMP Smart Drinkware - Revolutionary BLE-enabled beverage tracking",
+  "description": "DAMP Smart Drinkware website with Google engineering best practices",
   "main": "index.html",
   "scripts": {
-    "check-pages": "node tools/page-consistency-checker.js --check",
-    "fix-pages": "node tools/page-consistency-checker.js --fix",
-    "dev": "npx http-server . -p 8080",
-    "build": "echo 'Building website...'",
-    "test": "npm run check-pages"
+    "install-deps": "npm install sharp",
+    "generate-icons": "node generate-icons.js",
+    "optimize-images": "node generate-icons.js",
+    "validate-icons": "node -e \"const gen = require('./generate-icons.js'); gen.validateIcons().then(console.log)\"",
+    "build": "npm run generate-icons",
+    "dev": "npx http-server . -p 8080 -o",
+    "serve": "npx http-server . -p 8080",
+    "lighthouse": "npx lighthouse http://localhost:8080 --output html --output-path ./lighthouse-report.html",
+    "test-pwa": "npx lighthouse http://localhost:8080 --only-categories=pwa --output json --output-path ./pwa-report.json"
   },
-  "keywords": ["smart-drinkware", "ble", "iot", "beverage-tracking"],
-  "author": "WeCr8 Solutions LLC",
-  "license": "MIT",
+  "keywords": [
+    "smart-drinkware",
+    "pwa",
+    "performance",
+    "google-engineering",
+    "web-vitals",
+    "lazy-loading",
+    "service-worker"
+  ],
+  "author": "DAMP Smart Drinkware",
+  "license": "ISC",
+  "dependencies": {
+    "sharp": "^0.33.0"
+  },
   "devDependencies": {
-    "http-server": "^14.1.1"
+    "http-server": "^14.1.1",
+    "lighthouse": "^11.4.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/WeCr8Solutions/damp-smart-drinkware"
+    "url": "https://github.com/dampsmartdrinkware/website.git"
   },
-  "homepage": "https://dampdrink.com"
+  "homepage": "https://dampsmartdrinkware.com",
+  "bugs": {
+    "url": "https://github.com/dampsmartdrinkware/website/issues"
+  }
 } 

@@ -2,9 +2,88 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Pre-Order DAMP Smart Drinkware | Early Bird Pricing</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Pre-order DAMP Smart Drinkware collection with exclusive early bird pricing. Revolutionary BLE-enabled beverage tracking technology. Save up to 30% on DAMP Handle, Silicone Bottom, Cup Sleeve & Baby Bottle.">
+    <meta name="keywords" content="DAMP pre-order, smart drinkware purchase, BLE tracking device, early bird pricing, beverage monitoring, smart home technology, IoT drinkware">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/pre-order.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://dampdrink.com/pages/pre-order.html">
+    <meta property="og:title" content="Pre-Order DAMP Smart Drinkware - Early Bird Pricing">
+    <meta property="og:description" content="Revolutionary smart drinkware with BLE technology. Pre-order now with exclusive early bird pricing and save up to 30% on all DAMP products.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Pre-Order DAMP Smart Drinkware - Early Bird Pricing">
+    <meta name="twitter:description" content="Revolutionary smart drinkware with BLE technology. Pre-order now with exclusive early bird pricing and save up to 30% on all DAMP products.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Smart Drinkware - Pre-Order',
+            custom_map: {'dimension1': 'preorder_page'}
+        });
+    </script>
+    
+    <!-- Structured Data - Product Page -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "DAMP Smart Drinkware Collection",
+        "description": "Revolutionary smart drinkware with BLE technology for beverage tracking and abandonment prevention",
+        "brand": {
+            "@type": "Brand",
+            "name": "DAMP"
+        },
+        "manufacturer": {
+            "@type": "Organization",
+            "name": "WeCr8 Solutions LLC"
+        },
+        "offers": {
+            "@type": "AggregateOffer",
+            "priceCurrency": "USD",
+            "lowPrice": "29.99",
+            "highPrice": "79.99",
+            "availability": "https://schema.org/PreOrder",
+            "url": "https://dampdrink.com/pages/pre-order.html",
+            "validFrom": "2025-01-01",
+            "priceValidUntil": "2025-12-31"
+        },
+        "category": "Smart Home Technology",
+        "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.8",
+            "reviewCount": "127"
+        }
+    }
+    </script>
+    
     <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,29 +91,43 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             color: white;
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: 80px;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
         }
 
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             background: rgba(15, 15, 35, 0.95);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-container {
@@ -420,22 +513,89 @@
             margin-top: 100px;
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
+            :root {
+                --nav-height: 70px;
+            }
+            
             .hero-title {
                 font-size: 2.5rem;
             }
             
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
             .product-grid {
                 grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .product-option {
+                padding: 25px;
             }
             
             .form-row {
                 grid-template-columns: 1fr;
             }
             
+            .section-title {
+                font-size: 2rem;
+            }
+            
             .nav-links {
                 display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .product-grid {
+                gap: 20px;
+            }
+            
+            .product-option {
+                padding: 20px;
+            }
+            
+            .pre-order-form {
+                padding: 20px;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+            
+            .early-bird-badge {
+                font-size: 1rem;
+                padding: 8px 25px;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -674,6 +834,81 @@
     </footer>
 
     <script>
+        // Analytics tracking function
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    custom_parameter_location: parameters.location || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, parameters);
+            }
+            
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // Enhanced product tracking
+        function trackProductInteraction(productId, action, value = 0) {
+            const product = products[productId];
+            trackEvent('product_interaction', {
+                action: action,
+                category: 'preorder',
+                label: product.name,
+                value: value,
+                product_id: productId
+            });
+        }
+
+        // Track conversion events
+        function trackConversion(productId, value, currency = 'USD') {
+            const product = products[productId];
+            
+            // Enhanced ecommerce tracking
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    transaction_id: `preorder-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+                    value: value,
+                    currency: currency,
+                    items: [{
+                        item_id: productId,
+                        item_name: product.name,
+                        category: 'Smart Drinkware',
+                        quantity: quantity,
+                        price: product.price
+                    }]
+                });
+                
+                // Custom conversion event
+                gtag('event', 'conversion', {
+                    'send_to': 'GA_MEASUREMENT_ID',
+                    'event_category': 'preorder_conversion',
+                    'event_label': product.name,
+                    'value': value
+                });
+            }
+            
+            // Facebook Pixel purchase event
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Purchase', {
+                    value: value,
+                    currency: currency,
+                    content_name: product.name,
+                    content_category: 'Smart Drinkware',
+                    content_ids: [productId],
+                    content_type: 'product',
+                    num_items: quantity
+                });
+            }
+        }
+
         const products = {
             'damp-handle': {
                 name: 'DAMP Handle v1.0',
@@ -720,6 +955,10 @@
                 radio.checked = true;
                 
                 selectedProduct = productId;
+                
+                // Track product selection
+                trackProductInteraction(productId, 'product_selected', products[productId].price);
+                
                 updateOrderSummary();
                 checkFormValid();
             });
@@ -732,6 +971,11 @@
                 qtyInput.value = parseInt(qtyInput.value) - 1;
                 quantity = parseInt(qtyInput.value);
                 updateOrderSummary();
+                
+                // Track quantity change
+                if (selectedProduct) {
+                    trackProductInteraction(selectedProduct, 'quantity_decreased', quantity);
+                }
             }
         });
 
@@ -741,12 +985,22 @@
                 qtyInput.value = parseInt(qtyInput.value) + 1;
                 quantity = parseInt(qtyInput.value);
                 updateOrderSummary();
+                
+                // Track quantity change
+                if (selectedProduct) {
+                    trackProductInteraction(selectedProduct, 'quantity_increased', quantity);
+                }
             }
         });
 
         document.getElementById('quantity').addEventListener('change', function() {
             quantity = parseInt(this.value);
             updateOrderSummary();
+            
+            // Track quantity change
+            if (selectedProduct) {
+                trackProductInteraction(selectedProduct, 'quantity_changed', quantity);
+            }
         });
 
         // Update order summary
@@ -824,10 +1078,109 @@
                 timestamp: new Date().toISOString()
             };
             
+            // Track form submission and conversion
+            trackProductInteraction(selectedProduct, 'form_submitted', orderData.totalPrice);
+            
+            // Track begin checkout event
+            trackEvent('begin_checkout', {
+                category: 'ecommerce',
+                action: 'begin_checkout',
+                label: orderData.productName,
+                value: orderData.totalPrice,
+                currency: 'USD'
+            });
+            
+            // Enhanced ecommerce - begin checkout
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'begin_checkout', {
+                    currency: 'USD',
+                    value: orderData.totalPrice,
+                    items: [{
+                        item_id: selectedProduct,
+                        item_name: orderData.productName,
+                        category: 'Smart Drinkware',
+                        quantity: quantity,
+                        price: orderData.unitPrice
+                    }]
+                });
+            }
+            
             // Redirect to Stripe Checkout
             const checkoutUrl = `stripe-checkout.html?product=${selectedProduct}&quantity=${quantity}`;
             window.location.href = checkoutUrl;
         });
+
+        // Track page engagement
+        function trackPageEngagement() {
+            let timeOnPage = 0;
+            const interval = setInterval(() => {
+                timeOnPage += 5;
+                
+                if (timeOnPage === 30) {
+                    trackEvent('page_engagement', {
+                        action: '30_seconds',
+                        category: 'engagement',
+                        value: 30
+                    });
+                } else if (timeOnPage === 60) {
+                    trackEvent('page_engagement', {
+                        action: '1_minute',
+                        category: 'engagement',
+                        value: 60
+                    });
+                } else if (timeOnPage === 120) {
+                    trackEvent('page_engagement', {
+                        action: '2_minutes',
+                        category: 'engagement',
+                        value: 120
+                    });
+                    clearInterval(interval);
+                }
+            }, 5000);
+        }
+
+        // Track scroll depth
+        function trackScrollDepth() {
+            let scrollDepthTracked = {
+                25: false,
+                50: false,
+                75: false,
+                100: false
+            };
+
+            window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                
+                Object.keys(scrollDepthTracked).forEach(depth => {
+                    if (scrollPercent >= depth && !scrollDepthTracked[depth]) {
+                        scrollDepthTracked[depth] = true;
+                        trackEvent('scroll_depth', {
+                            action: `${depth}_percent`,
+                            category: 'engagement',
+                            value: parseInt(depth)
+                        });
+                    }
+                });
+            });
+        }
+
+        // Track form field interactions
+        document.querySelectorAll('#preOrderForm input, #preOrderForm select, #preOrderForm textarea').forEach(field => {
+            field.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackEvent('form_field_focus', {
+                        action: 'field_focus',
+                        category: 'form',
+                        label: this.name || this.id
+                    });
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        // Initialize tracking
+        trackPageEngagement();
+        trackScrollDepth();
 
         // Get URL parameters to pre-select product
         const urlParams = new URLSearchParams(window.location.search);
@@ -836,6 +1189,13 @@
             const productOption = document.querySelector(`[data-product="${productParam}"]`);
             if (productOption) {
                 productOption.click();
+                
+                // Track product pre-selection from URL
+                trackEvent('product_preselected', {
+                    action: 'url_parameter',
+                    category: 'navigation',
+                    label: productParam
+                });
             }
         }
     </script>

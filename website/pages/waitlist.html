@@ -2,9 +2,74 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Join DAMP Waitlist - Get Early Access | DAMP Smart Drinkware</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join the DAMP Smart Drinkware waitlist for early access to revolutionary BLE-enabled beverage tracking technology. Get exclusive updates, pre-order discounts, and be first to know about launch dates.">
+    <meta name="keywords" content="DAMP waitlist, smart drinkware pre-order, BLE beverage tracking, early access, exclusive updates, drink monitoring technology">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/waitlist.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/waitlist.html">
+    <meta property="og:title" content="Join the DAMP Smart Drinkware Waitlist">
+    <meta property="og:description" content="Get early access to revolutionary smart drinkware with BLE technology. Join our waitlist for exclusive updates and pre-order discounts.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Join the DAMP Smart Drinkware Waitlist">
+    <meta name="twitter:description" content="Get early access to revolutionary smart drinkware with BLE technology. Join our waitlist for exclusive updates and pre-order discounts.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Smart Drinkware - Waitlist',
+            custom_map: {'dimension1': 'waitlist_page'}
+        });
+    </script>
+    
+    <!-- Structured Data - Waitlist Page -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "DAMP Smart Drinkware Waitlist",
+        "description": "Join the waitlist for early access to revolutionary smart drinkware with BLE technology",
+        "url": "https://dampdrink.com/pages/waitlist.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "DAMP Smart Drinkware",
+            "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/PreOrder",
+                "category": "Smart Home Technology"
+            }
+        }
+    }
+    </script>
+    
     <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,29 +77,43 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
             color: white;
             line-height: 1.6;
             overflow-x: hidden;
-            padding-top: 80px;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
         }
 
         /* Navigation */
         nav {
             position: fixed;
             top: 0;
-            width: 100%;
+            left: 0;
+            right: 0;
             background: rgba(15, 15, 35, 0.95);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             z-index: 1000;
             padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .nav-container {
@@ -272,18 +351,80 @@
             margin-top: 100px;
         }
 
-        /* Responsive */
+        /* Responsive Design */
         @media (max-width: 768px) {
+            :root {
+                --nav-height: 70px;
+            }
+            
             .hero-title {
                 font-size: 2.5rem;
             }
             
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
             .waitlist-options {
                 grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .waitlist-card {
+                padding: 30px;
+            }
+            
+            .card-title {
+                font-size: 1.6rem;
+            }
+            
+            .card-description {
+                font-size: 1rem;
             }
             
             .nav-links {
                 display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .waitlist-card {
+                padding: 20px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-description {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -444,6 +585,54 @@
     </footer>
 
     <script>
+        // Analytics tracking function
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    custom_parameter_location: parameters.location || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, parameters);
+            }
+            
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // Track form interactions
+        function trackFormStart(formType) {
+            trackEvent('form_start', {
+                action: formType,
+                category: 'waitlist',
+                location: 'waitlist_page'
+            });
+        }
+
+        function trackFormSubmit(formType, additionalData = {}) {
+            trackEvent('form_submit', {
+                action: formType,
+                category: 'waitlist',
+                location: 'waitlist_page',
+                ...additionalData
+            });
+            
+            // Track as conversion
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'GA_MEASUREMENT_ID',
+                    'event_category': 'waitlist_signup',
+                    'event_label': formType
+                });
+            }
+        }
+
         // Handle App Waitlist Form
         document.getElementById('appWaitlistForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -459,11 +648,17 @@
                 updates: formData.get('updates') === 'yes'
             };
             
+            // Track form submission
+            trackFormSubmit('app_waitlist', {
+                platform: data.platform,
+                beta_interested: data.beta
+            });
+            
             // In a real implementation, this would send to your backend
             console.log('App Waitlist Signup:', data);
             
             // Show success message
-            showSuccessMessage();
+            showSuccessMessage('app');
             
             // Reset form
             this.reset();
@@ -484,19 +679,33 @@
                 events: formData.get('events') === 'yes'
             };
             
+            // Track form submission
+            trackFormSubmit('product_waitlist', {
+                product_interest: data.products,
+                use_case: data.useCase,
+                preorder_interested: data.preorder
+            });
+            
             // In a real implementation, this would send to your backend
             console.log('Product Waitlist Signup:', data);
             
             // Show success message
-            showSuccessMessage();
+            showSuccessMessage('product');
             
             // Reset form
             this.reset();
         });
 
-        function showSuccessMessage() {
+        function showSuccessMessage(type = '') {
             const successMessage = document.getElementById('successMessage');
             successMessage.classList.add('show');
+            
+            // Track success message view
+            trackEvent('waitlist_success', {
+                action: 'success_shown',
+                category: 'waitlist',
+                label: type
+            });
             
             // Scroll to success message
             successMessage.scrollIntoView({ 
@@ -510,11 +719,95 @@
             }, 10000);
         }
 
+        // Track form starts when user interacts with form fields
+        document.querySelectorAll('#appWaitlistForm input, #appWaitlistForm select, #appWaitlistForm textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackFormStart('app_waitlist');
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        document.querySelectorAll('#productWaitlistForm input, #productWaitlistForm select, #productWaitlistForm textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackFormStart('product_waitlist');
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        // Track page engagement
+        function trackPageEngagement() {
+            let timeOnPage = 0;
+            const interval = setInterval(() => {
+                timeOnPage += 5;
+                
+                if (timeOnPage === 30) {
+                    trackEvent('page_engagement', {
+                        action: '30_seconds',
+                        category: 'engagement',
+                        value: 30
+                    });
+                } else if (timeOnPage === 60) {
+                    trackEvent('page_engagement', {
+                        action: '1_minute',
+                        category: 'engagement',
+                        value: 60
+                    });
+                } else if (timeOnPage === 120) {
+                    trackEvent('page_engagement', {
+                        action: '2_minutes',
+                        category: 'engagement',
+                        value: 120
+                    });
+                    clearInterval(interval);
+                }
+            }, 5000);
+        }
+
+        // Track scroll depth
+        function trackScrollDepth() {
+            let scrollDepthTracked = {
+                25: false,
+                50: false,
+                75: false,
+                100: false
+            };
+
+            window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                
+                Object.keys(scrollDepthTracked).forEach(depth => {
+                    if (scrollPercent >= depth && !scrollDepthTracked[depth]) {
+                        scrollDepthTracked[depth] = true;
+                        trackEvent('scroll_depth', {
+                            action: `${depth}_percent`,
+                            category: 'engagement',
+                            value: parseInt(depth)
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize tracking
+        trackPageEngagement();
+        trackScrollDepth();
+
         // Get URL parameters to pre-select platform if coming from app buttons
         const urlParams = new URLSearchParams(window.location.search);
         const platform = urlParams.get('platform');
         if (platform) {
             document.getElementById('app-platform').value = platform;
+            
+            // Track referral from specific platform button
+            trackEvent('referral', {
+                action: 'platform_preselect',
+                category: 'navigation',
+                label: platform
+            });
         }
     </script>
 </body>

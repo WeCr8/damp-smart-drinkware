@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>About DAMP Smart Drinkware - Our Story & Technology | WeCr8 Solutions</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn about DAMP Smart Drinkware and WeCr8 Solutions LLC. Discover our mission to revolutionize beverage tracking with advanced BLE technology and prevent drink abandonment.">
+    <meta name="keywords" content="DAMP Smart Drinkware, WeCr8 Solutions, about us, company story, BLE technology, smart drinkware innovation, beverage tracking company">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/about.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/about.html">
+    <meta property="og:title" content="About DAMP Smart Drinkware - Our Story & Technology">
+    <meta property="og:description" content="Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking with advanced BLE technology.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About DAMP Smart Drinkware - Our Story & Technology">
+    <meta name="twitter:description" content="Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking with advanced BLE technology.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Smart Drinkware - About Us',
+            custom_map: {'dimension1': 'about_page'}
+        });
+    </script>
+    
+    <!-- Structured Data - AboutPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About DAMP Smart Drinkware",
+        "description": "Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking",
+        "url": "https://dampdrink.com/pages/about.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "WeCr8 Solutions LLC",
+            "description": "Innovative technology company specializing in smart drinkware solutions"
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* Main Content */
+        .about-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #00d4ff;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .content-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .content-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .team-member {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .team-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 80px 0;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 70px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .two-column {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .content-card {
+                padding: 30px;
+            }
+            
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .content-card {
+                padding: 20px;
+            }
+            
+            .team-member {
+                padding: 20px;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="about-hero">
+        <div class="container">
+            <h1 class="hero-title">About DAMP Smart Drinkware</h1>
+            <p class="hero-subtitle">Revolutionizing beverage tracking with innovative BLE technology to ensure you never leave your drink behind again.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <div class="two-column">
+                <div class="content-card">
+                    <h2 style="color: #00d4ff; margin-bottom: 20px;">Our Mission</h2>
+                    <p>At DAMP Smart Drinkware, we're solving a universal problem that affects millions of people daily - drink abandonment. Our mission is to create intelligent, user-friendly solutions that seamlessly integrate into your daily routine while ensuring your favorite beverages never get left behind.</p>
+                    <p style="margin-top: 15px;">We believe that technology should enhance, not complicate, your life. That's why we've developed the DAMP (Drink Abandonment Monitoring Protocol) system - a revolutionary approach to beverage tracking that's both powerful and intuitive.</p>
+                </div>
+                <div class="content-card">
+                    <h2 style="color: #00d4ff; margin-bottom: 20px;">The Problem We Solve</h2>
+                    <p>Studies show that the average person abandons their drink 3-4 times per week, leading to:</p>
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li>Wasted beverages and money</li>
+                        <li>Missed caffeine or hydration goals</li>
+                        <li>Frustration and inconvenience</li>
+                        <li>Environmental impact from discarded drinks</li>
+                    </ul>
+                    <p>Our smart drinkware collection uses advanced BLE technology to create a connected ecosystem that keeps you aware of your beverage location at all times.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(0, 0, 0, 0.2);">
+        <div class="container">
+            <h2 class="section-title">Our Technology</h2>
+            <div class="two-column">
+                <div class="content-card">
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🔗 Advanced BLE Connectivity</h3>
+                    <p>Our proprietary Bluetooth Low Energy implementation provides reliable, long-range tracking while maintaining exceptional battery life. Each device can operate for weeks on a single charge.</p>
+                </div>
+                <div class="content-card">
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🧠 Smart Zone Detection</h3>
+                    <p>Machine learning algorithms learn your daily patterns and create approved zones where leaving your drink is acceptable, reducing false alarms and improving user experience.</p>
+                </div>
+                <div class="content-card">
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">📱 Seamless App Integration</h3>
+                    <p>Our intuitive mobile app provides real-time notifications, customizable settings, and detailed analytics about your drinking habits and patterns.</p>
+                </div>
+                <div class="content-card">
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🛡️ Enterprise-Grade Security</h3>
+                    <p>All data transmission is encrypted, and we never store personal location data. Your privacy and security are our top priorities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Meet the Team</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-avatar">👨‍💻</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Engineering Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Hardware & Software Development</p>
+                    <p>Our experienced engineers specialize in IoT device development, mobile app creation, and embedded systems design.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">🎨</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Design Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Product & UX Design</p>
+                    <p>Our design team focuses on creating beautiful, functional products that seamlessly integrate into your daily life.</p>
+                </div>
+                <div class="team-member">
+                    <div class="team-avatar">🚀</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Innovation Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Research & Development</p>
+                    <p>Our R&D team continuously explores new technologies and improvements to enhance the DAMP experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section" style="background: rgba(0, 0, 0, 0.2);">
+        <div class="container">
+            <h2 class="section-title">Company Information</h2>
+            <div class="content-card" style="max-width: 800px; margin: 0 auto;">
+                <h3 style="color: #00d4ff; margin-bottom: 20px;">WeCr8 Solutions LLC</h3>
+                <p style="margin-bottom: 15px;"><strong>Founded:</strong> 2024</p>
+                <p style="margin-bottom: 15px;"><strong>Location:</strong> Innovation Hub, Tech Valley</p>
+                <p style="margin-bottom: 15px;"><strong>Specialty:</strong> Smart IoT Solutions for Everyday Problems</p>
+                <p style="margin-bottom: 15px;"><strong>Mission:</strong> Creating innovative technology solutions that enhance daily life through intelligent, user-friendly products.</p>
+                <p><strong>Vision:</strong> To become the leading provider of smart drinkware solutions, expanding into other areas of connected lifestyle products.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2 class="section-title">Join the DAMP Revolution</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Ready to never leave your drink behind again? Join thousands of early adopters who are already experiencing the future of smart drinkware.</p>
+            <div class="cta-buttons">
+                <a href="pre-order.html" class="btn btn-primary">Pre-Order Now</a>
+                <a href="waitlist.html" class="btn btn-secondary">Join Waitlist</a>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 40px 0; background: rgba(0, 0, 0, 0.3); text-align: center;">
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <script>
+        // Analytics tracking function
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    custom_parameter_location: parameters.location || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // Track page engagement
+        function trackPageEngagement() {
+            let timeOnPage = 0;
+            const interval = setInterval(() => {
+                timeOnPage += 5;
+                
+                if (timeOnPage === 30) {
+                    trackEvent('page_engagement', {
+                        action: '30_seconds',
+                        category: 'engagement',
+                        value: 30
+                    });
+                } else if (timeOnPage === 60) {
+                    trackEvent('page_engagement', {
+                        action: '1_minute',
+                        category: 'engagement',
+                        value: 60
+                    });
+                } else if (timeOnPage === 120) {
+                    trackEvent('page_engagement', {
+                        action: '2_minutes',
+                        category: 'engagement',
+                        value: 120
+                    });
+                    clearInterval(interval);
+                }
+            }, 5000);
+        }
+
+        // Track scroll depth
+        function trackScrollDepth() {
+            let scrollDepthTracked = {
+                25: false,
+                50: false,
+                75: false,
+                100: false
+            };
+
+            window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                
+                Object.keys(scrollDepthTracked).forEach(depth => {
+                    if (scrollPercent >= depth && !scrollDepthTracked[depth]) {
+                        scrollDepthTracked[depth] = true;
+                        trackEvent('scroll_depth', {
+                            action: `${depth}_percent`,
+                            category: 'engagement',
+                            value: parseInt(depth)
+                        });
+                    }
+                });
+            });
+        }
+
+        // Track CTA button clicks
+        document.querySelectorAll('.btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const buttonText = this.textContent.trim();
+                const buttonClass = this.className.includes('btn-primary') ? 'primary' : 'secondary';
+                
+                trackEvent('cta_click', {
+                    action: buttonText.toLowerCase().replace(/\s+/g, '_'),
+                    category: 'cta',
+                    label: buttonText,
+                    location: 'about_page',
+                    button_type: buttonClass
+                });
+            });
+        });
+
+        // Initialize tracking
+        trackPageEngagement();
+        trackScrollDepth();
+    </script>
+</body>
+</html>

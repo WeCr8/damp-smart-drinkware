@@ -1,1 +1,2 @@
 # Website deployment instructions
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b498fd04-120f-47e0-8971-0f076976e08d/deploy-status)](https://app.netlify.com/projects/damp-smart-drinkware/deploys)update ui

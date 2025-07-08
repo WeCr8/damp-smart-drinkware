@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Support & Help Center - DAMP Smart Drinkware | Get Help & Contact Us</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions, contact support, and access setup guides for your smart drinkware devices and mobile app.">
+    <meta name="keywords" content="DAMP support, smart drinkware help, customer support, setup guide, troubleshooting, contact support, FAQ">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/support.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/support.html">
+    <meta property="og:title" content="Support & Help Center - DAMP Smart Drinkware">
+    <meta property="og:description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions and contact our support team.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Support & Help Center - DAMP Smart Drinkware">
+    <meta name="twitter:description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions and contact our support team.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Smart Drinkware - Support',
+            custom_map: {'dimension1': 'support_page'}
+        });
+    </script>
+    
+    <!-- Structured Data - ContactPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "DAMP Smart Drinkware Support",
+        "description": "Get help and support for DAMP Smart Drinkware products and services",
+        "url": "https://dampdrink.com/pages/support.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "WeCr8 Solutions LLC",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-555-DAMP-DRINK",
+                "contactType": "customer service",
+                "email": "support@dampdrink.com"
+            }
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* Main Content */
+        .support-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .quick-contact {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #00d4ff;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .support-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .support-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .support-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .faq-section {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            display: none;
+            margin-top: 10px;
+            opacity: 0.9;
+        }
+
+        .faq-answer.active {
+            display: block;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            display: none;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 70px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .support-card,
+            .faq-section,
+            .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .support-card,
+            .faq-section,
+            .contact-form {
+                padding: 20px 15px;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="about.html">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="support-hero">
+        <div class="container">
+            <h1 class="hero-title">Support & Help Center</h1>
+            <p class="hero-subtitle">Get help with your DAMP Smart Drinkware products, find answers to common questions, and contact our support team.</p>
+            <div class="quick-contact">
+                <h3 style="color: #00d4ff; margin-bottom: 15px;">Need immediate help?</h3>
+                <p>📧 <strong>Email:</strong> support@dampdrink.com</p>
+                <p>📞 <strong>Phone:</strong> 1-555-DAMP-DRINK</p>
+                <p style="font-size: 0.9rem; opacity: 0.8; margin-top: 10px;">Support hours: Monday-Friday, 9 AM - 6 PM EST</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">How Can We Help?</h2>
+            <div class="support-grid">
+                <div class="support-card">
+                    <div class="support-icon">📱</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">App Setup & Usage</h3>
+                    <p>Learn how to set up your DAMP mobile app, pair devices, and customize your experience.</p>
+                    <a href="#faq" class="btn btn-secondary" style="margin-top: 20px;">View FAQ</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">🔧</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">Device Setup</h3>
+                    <p>Get help with pairing your smart drinkware devices and troubleshooting connectivity issues.</p>
+                    <a href="#contact" class="btn btn-secondary" style="margin-top: 20px;">Contact Support</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">🔋</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">Charging & Battery</h3>
+                    <p>Learn about charging your devices, battery life optimization, and power management features.</p>
+                    <a href="#faq" class="btn btn-secondary" style="margin-top: 20px;">Learn More</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">📦</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">Orders & Shipping</h3>
+                    <p>Track your pre-order, understand shipping timelines, and get updates on product development.</p>
+                    <a href="#contact" class="btn btn-secondary" style="margin-top: 20px;">Order Help</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">💧</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">Cleaning & Care</h3>
+                    <p>Proper care instructions for your smart drinkware to ensure longevity and optimal performance.</p>
+                    <a href="#faq" class="btn btn-secondary" style="margin-top: 20px;">Care Guide</a>
+                </div>
+                <div class="support-card">
+                    <div class="support-icon">🔒</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">Privacy & Security</h3>
+                    <p>Understand how your data is protected and learn about our privacy and security measures.</p>
+                    <a href="privacy.html" class="btn btn-secondary" style="margin-top: 20px;">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="content-section" style="background: rgba(0, 0, 0, 0.2);">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-section">
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        When will my pre-order ship?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Current estimated shipping dates are:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li><strong>DAMP Handle v1.0:</strong> Q3 2025</li>
+                            <li><strong>Silicone Bottom & Cup Sleeve:</strong> Q4 2025</li>
+                            <li><strong>Baby Bottle:</strong> Q1 2026</li>
+                        </ul>
+                        <p>We'll send regular development updates and notify you as soon as your order ships.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How long does the battery last?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Battery life varies by product:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li><strong>DAMP Handle:</strong> Up to 6 months with typical use</li>
+                            <li><strong>Other products:</strong> 3-4 weeks with regular use</li>
+                        </ul>
+                        <p>All devices use USB-C charging and include low-battery notifications in the app.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Are the products waterproof?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All DAMP products feature IP67 water resistance, meaning they can handle:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>Spills and splashes</li>
+                            <li>Hand washing under running water</li>
+                            <li>Rain and outdoor use</li>
+                            <li>Dishwasher safe (where applicable)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Which devices are compatible?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>DAMP products work with:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li><strong>iOS:</strong> iPhone 8 and newer (iOS 13+)</li>
+                            <li><strong>Android:</strong> Devices with Android 8.0+ and Bluetooth 5.0</li>
+                            <li><strong>Range:</strong> Up to 100 feet in open areas</li>
+                        </ul>
+                        <p>Our app will be available on both the App Store and Google Play.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        Can I cancel my pre-order?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, you can cancel your pre-order anytime before shipping for a full refund. We also offer:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>Full refund guarantee if we can't deliver as promised</li>
+                            <li>30-day return policy after delivery</li>
+                            <li>No-questions-asked cancellation policy</li>
+                        </ul>
+                        <p>Contact support@dampdrink.com to cancel or modify your order.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question" onclick="toggleFAQ(this)">
+                        How do smart zones work?
+                        <span>+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Smart zones are locations where you've approved leaving your drink:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li><strong>Home zone:</strong> Automatically detected from your frequent locations</li>
+                            <li><strong>Work zone:</strong> Set your office or workplace</li>
+                            <li><strong>Custom zones:</strong> Add coffee shops, gyms, or other regular locations</li>
+                        </ul>
+                        <p>The app learns your patterns and reduces false alerts in approved areas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="content-section">
+        <div class="container">
+            <h2 class="section-title">Contact Support</h2>
+            <div class="contact-form">
+                <h3 style="color: #00d4ff; margin-bottom: 30px;">Send us a message</h3>
+                <form id="supportForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="orderNumber">Order Number (if applicable)</label>
+                        <input type="text" id="orderNumber" name="orderNumber" placeholder="Enter your order number">
+                    </div>
+                    <div class="form-group">
+                        <label for="category">Issue Category</label>
+                        <select id="category" name="category" required>
+                            <option value="">Select a category</option>
+                            <option value="pre-order">Pre-order Questions</option>
+                            <option value="shipping">Shipping & Delivery</option>
+                            <option value="device-setup">Device Setup & Pairing</option>
+                            <option value="app-issues">App Issues</option>
+                            <option value="battery-charging">Battery & Charging</option>
+                            <option value="product-care">Product Care & Cleaning</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="billing">Billing & Payments</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="priority">Priority Level</label>
+                        <select id="priority" name="priority">
+                            <option value="low">Low - General question</option>
+                            <option value="medium">Medium - Issue affecting use</option>
+                            <option value="high">High - Urgent issue</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="5" required placeholder="Please describe your issue or question in detail..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" id="updates" name="updates" style="width: auto; margin-right: 10px;">
+                        <label for="updates" style="display: inline;">Send me product updates and support tips</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                </form>
+                <div id="successMessage" class="success-message">
+                    <h4 style="color: #00ff88; margin-bottom: 10px;">Message Sent Successfully!</h4>
+                    <p>Thank you for contacting us. We'll respond within 24 hours (or next business day).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer style="padding: 40px 0; background: rgba(0, 0, 0, 0.3); text-align: center;">
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <script>
+        // Analytics tracking function
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    custom_parameter_location: parameters.location || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // FAQ Toggle Function
+        function toggleFAQ(element) {
+            const answer = element.nextElementSibling;
+            const icon = element.querySelector('span');
+            
+            // Close all other FAQ items
+            document.querySelectorAll('.faq-answer').forEach(item => {
+                if (item !== answer) {
+                    item.classList.remove('active');
+                }
+            });
+            document.querySelectorAll('.faq-question span').forEach(span => {
+                if (span !== icon) {
+                    span.textContent = '+';
+                }
+            });
+            
+            // Toggle current FAQ item
+            answer.classList.toggle('active');
+            icon.textContent = answer.classList.contains('active') ? '−' : '+';
+            
+            // Track FAQ interaction
+            trackEvent('faq_interaction', {
+                action: answer.classList.contains('active') ? 'opened' : 'closed',
+                category: 'support',
+                label: element.textContent.replace(/[+−]/g, '').trim()
+            });
+        }
+
+        // Support Form Submission
+        document.getElementById('supportForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                orderNumber: formData.get('orderNumber'),
+                category: formData.get('category'),
+                priority: formData.get('priority'),
+                message: formData.get('message'),
+                updates: formData.get('updates') === 'on'
+            };
+            
+            // Track form submission
+            trackEvent('support_form_submit', {
+                action: 'form_submitted',
+                category: 'support',
+                label: data.category,
+                priority: data.priority
+            });
+            
+            // In a real implementation, this would send to your backend
+            console.log('Support form submitted:', data);
+            
+            // Show success message
+            document.getElementById('successMessage').style.display = 'block';
+            
+            // Scroll to success message
+            document.getElementById('successMessage').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Track page engagement
+        function trackPageEngagement() {
+            let timeOnPage = 0;
+            const interval = setInterval(() => {
+                timeOnPage += 5;
+                
+                if (timeOnPage === 30) {
+                    trackEvent('page_engagement', {
+                        action: '30_seconds',
+                        category: 'engagement',
+                        value: 30
+                    });
+                } else if (timeOnPage === 60) {
+                    trackEvent('page_engagement', {
+                        action: '1_minute',
+                        category: 'engagement',
+                        value: 60
+                    });
+                } else if (timeOnPage === 120) {
+                    trackEvent('page_engagement', {
+                        action: '2_minutes',
+                        category: 'engagement',
+                        value: 120
+                    });
+                    clearInterval(interval);
+                }
+            }, 5000);
+        }
+
+        // Track scroll depth
+        function trackScrollDepth() {
+            let scrollDepthTracked = {
+                25: false,
+                50: false,
+                75: false,
+                100: false
+            };
+
+            window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                
+                Object.keys(scrollDepthTracked).forEach(depth => {
+                    if (scrollPercent >= depth && !scrollDepthTracked[depth]) {
+                        scrollDepthTracked[depth] = true;
+                        trackEvent('scroll_depth', {
+                            action: `${depth}_percent`,
+                            category: 'engagement',
+                            value: parseInt(depth)
+                        });
+                    }
+                });
+            });
+        }
+
+        // Track support card clicks
+        document.querySelectorAll('.support-card .btn').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const cardTitle = this.closest('.support-card').querySelector('h3').textContent;
+                
+                trackEvent('support_card_click', {
+                    action: 'card_interaction',
+                    category: 'support',
+                    label: cardTitle
+                });
+            });
+        });
+
+        // Track form field interactions
+        document.querySelectorAll('#supportForm input, #supportForm select, #supportForm textarea').forEach(field => {
+            field.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackEvent('support_form_field_focus', {
+                        action: 'field_focus',
+                        category: 'support',
+                        label: this.name || this.id
+                    });
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        // Initialize tracking
+        trackPageEngagement();
+        trackScrollDepth();
+    </script>
+</body>
+</html>

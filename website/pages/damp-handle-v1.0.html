@@ -359,7 +359,7 @@
                 <div class="product-price">$49.99 <span class="original-price">$69.99</span></div>
                 <div class="savings">Save $20 with Early Bird Pre-Order!</div>
                 <div class="product-buttons">
-                    <a href="#preorder" class="btn btn-primary">Pre-Order Now</a>
+                    <a href="pre-order.html?product=damp-handle" class="btn btn-primary">Pre-Order Now</a>
                     <a href="#features" class="btn btn-secondary">Learn More</a>
                 </div>
             </div>
@@ -455,38 +455,15 @@
                     <h3 style="color: #00d4ff; margin-bottom: 15px;">🚀 Early Bird Special</h3>
                     <p style="font-size: 1.1rem;">Be among the first to own the DAMP Handle v1.0. Your pre-order helps fund development and manufacturing.</p>
                 </div>
-                <form onsubmit="submitPreOrder(event)">
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
-                    </div>
-                    <div class="form-group">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
-                    </div>
-                    <div class="form-group">
-                        <label for="color">Preferred Color</label>
-                        <select id="color" name="color" required>
-                            <option value="">Select a color</option>
-                            <option value="black">Midnight Black</option>
-                            <option value="white">Arctic White</option>
-                            <option value="blue">Ocean Blue</option>
-                            <option value="red">Crimson Red</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="quantity">Quantity</label>
-                        <select id="quantity" name="quantity" required>
-                            <option value="1">1 Unit - $49.99</option>
-                            <option value="2">2 Units - $89.99 (Save $10!)</option>
-                            <option value="3">3 Units - $129.99 (Save $20!)</option>
-                            <option value="4">4 Units - $169.99 (Save $30!)</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%; margin: 0;">
-                        Pre-Order Now - Reserve Your DAMP Handle
-                    </button>
-                </form>
+                <div style="text-align: center; margin: 30px 0;">
+                    <a href="pre-order.html?product=damp-handle" class="btn btn-primary" style="padding: 20px 40px; font-size: 1.2rem; width: 100%; display: inline-block; margin: 0;">
+                        🚀 Complete Pre-Order - $49.99
+                    </a>
+                </div>
+                <div style="display: flex; gap: 15px; margin-top: 20px;">
+                    <a href="waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0;">Join Waitlist</a>
+                    <a href="../index.html#products" class="btn btn-secondary" style="flex: 1; margin: 0;">View All Products</a>
+                </div>
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; opacity: 0.8;">
                     <p>✅ 100% secure checkout<br>
                     ✅ Full refund if we can't deliver<br>
@@ -505,24 +482,6 @@
     </footer>
 
     <script>
-        function submitPreOrder(event) {
-            event.preventDefault();
-            
-            const formData = new FormData(event.target);
-            const data = {
-                name: formData.get('name'),
-                email: formData.get('email'),
-                color: formData.get('color'),
-                quantity: formData.get('quantity')
-            };
-            
-            // Show confirmation
-            alert(`Thank you for pre-ordering the DAMP Handle v1.0! 🚀\n\nOrder Details:\n• Name: ${data.name}\n• Email: ${data.email}\n• Color: ${data.color}\n• Quantity: ${data.quantity}\n\nYou'll receive a confirmation email shortly with payment instructions and development updates.`);
-            
-            // In a real implementation, this would send data to your backend
-            console.log('Pre-order data:', data);
-        }
-
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {

@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Order DAMP Smart Drinkware | Early Bird Pricing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* Hero Section */
+        .pre-order-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .early-bird-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            color: white;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+
+        /* Product Selection */
+        .product-selection {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 60px;
+            color: #00d4ff;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .product-option {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .product-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .product-option.selected {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .product-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 193, 7, 0.9);
+            color: #000;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .product-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-image img {
+            max-width: 120px;
+            max-height: 120px;
+            border-radius: 10px;
+        }
+
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+
+        .original-price {
+            font-size: 1.2rem;
+            color: #888;
+            text-decoration: line-through;
+            margin-left: 10px;
+        }
+
+        .savings {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .product-features {
+            list-style: none;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .product-features li {
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .product-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        /* Pre-order Form */
+        .pre-order-form {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .quantity-btn {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid #00d4ff;
+            color: #00d4ff;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .quantity-btn:hover {
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Order Summary */
+        .order-summary {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .order-summary h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .order-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 5px 0;
+        }
+
+        .order-line.total {
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            padding-top: 15px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #00ff88;
+        }
+
+        .savings-highlight {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="pre-order-hero">
+        <div class="container">
+            <div class="early-bird-badge">🎯 Early Bird Pre-Order • Limited Time</div>
+            <h1 class="hero-title">Pre-Order DAMP Smart Drinkware</h1>
+            <p class="hero-subtitle">Support the development of revolutionary smart drinkware technology. Get exclusive early bird pricing and be among the first to experience the future of beverage tracking!</p>
+        </div>
+    </section>
+
+    <section class="product-selection">
+        <div class="container">
+            <h2 class="section-title">Choose Your Products</h2>
+            <form id="preOrderForm">
+                <div class="product-grid">
+                    <div class="product-option" data-product="damp-handle">
+                        <input type="radio" name="product" value="damp-handle" id="handle">
+                        <div class="product-badge">In Development</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0">
+                        </div>
+                        <div class="product-name">DAMP Handle v1.0</div>
+                        <div class="product-price">$49.99 <span class="original-price">$69.99</span></div>
+                        <div class="savings">Save $20.00</div>
+                        <ul class="product-features">
+                            <li>Universal BLE attachment</li>
+                            <li>6-month battery life</li>
+                            <li>Easy snap-on installation</li>
+                            <li>Delivery: Q3 2025</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-option" data-product="silicone-bottom">
+                        <input type="radio" name="product" value="silicone-bottom" id="bottom">
+                        <div class="product-badge">In Development</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/silicone-bottom/silicone-bottome.png" alt="DAMP Silicone Bottom">
+                        </div>
+                        <div class="product-name">DAMP Silicone Bottom</div>
+                        <div class="product-price">$29.99 <span class="original-price">$39.99</span></div>
+                        <div class="savings">Save $10.00</div>
+                        <ul class="product-features">
+                            <li>Smart silicone base</li>
+                            <li>Wireless charging compatible</li>
+                            <li>Dishwasher safe</li>
+                            <li>Delivery: Q4 2025</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-option" data-product="cup-sleeve">
+                        <input type="radio" name="product" value="cup-sleeve" id="sleeve">
+                        <div class="product-badge">In Development</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve">
+                        </div>
+                        <div class="product-name">DAMP Cup Sleeve</div>
+                        <div class="product-price">$34.99 <span class="original-price">$44.99</span></div>
+                        <div class="savings">Save $10.00</div>
+                        <ul class="product-features">
+                            <li>Flexible silicone sleeve</li>
+                            <li>Heat-resistant to 200°F</li>
+                            <li>Fits multiple cup sizes</li>
+                            <li>Delivery: Q4 2025</li>
+                        </ul>
+                    </div>
+
+                    <div class="product-option" data-product="baby-bottle">
+                        <input type="radio" name="product" value="baby-bottle" id="bottle">
+                        <div class="product-badge">In Development</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle">
+                        </div>
+                        <div class="product-name">DAMP Baby Bottle</div>
+                        <div class="product-price">$79.99 <span class="original-price">$99.99</span></div>
+                        <div class="savings">Save $20.00</div>
+                        <ul class="product-features">
+                            <li>BPA-free smart bottle</li>
+                            <li>Temperature monitoring</li>
+                            <li>Feeding reminders</li>
+                            <li>Delivery: Q1 2026</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="pre-order-form">
+                    <h3 style="color: #00d4ff; margin-bottom: 30px; text-align: center;">Complete Your Pre-Order</h3>
+                    
+                    <div class="order-summary" id="orderSummary" style="display: none;">
+                        <h3>Order Summary</h3>
+                        <div class="order-line">
+                            <span id="productName">Select a product</span>
+                            <span id="productPrice">$0.00</span>
+                        </div>
+                        <div class="order-line">
+                            <span>Quantity: <span id="quantityDisplay">1</span></span>
+                            <span id="subtotal">$0.00</span>
+                        </div>
+                        <div class="order-line savings-highlight">
+                            <span>Early Bird Savings</span>
+                            <span id="savings">-$0.00</span>
+                        </div>
+                        <div class="order-line total">
+                            <span>Total</span>
+                            <span id="total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <div class="quantity-selector">
+                            <button type="button" class="quantity-btn" id="decreaseQty">-</button>
+                            <input type="number" id="quantity" name="quantity" value="1" min="1" max="10" class="quantity-input">
+                            <button type="button" class="quantity-btn" id="increaseQty">+</button>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">First Name</label>
+                            <input type="text" id="firstName" name="firstName" required placeholder="Enter your first name">
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName">Last Name</label>
+                            <input type="text" id="lastName" name="lastName" required placeholder="Enter your last name">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Phone Number (Optional)</label>
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="address">Shipping Address</label>
+                        <textarea id="address" name="address" rows="3" required placeholder="Enter your complete shipping address"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="city">City</label>
+                            <input type="text" id="city" name="city" required placeholder="City">
+                        </div>
+                        <div class="form-group">
+                            <label for="zip">ZIP Code</label>
+                            <input type="text" id="zip" name="zip" required placeholder="ZIP Code">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select your country</option>
+                            <option value="US">United States</option>
+                            <option value="CA">Canada</option>
+                            <option value="UK">United Kingdom</option>
+                            <option value="AU">Australia</option>
+                            <option value="DE">Germany</option>
+                            <option value="FR">France</option>
+                            <option value="JP">Japan</option>
+                            <option value="OTHER">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="specialRequests">Special Requests (Optional)</label>
+                        <textarea id="specialRequests" name="specialRequests" rows="3" placeholder="Any special requests or notes for your order?"></textarea>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="updates" name="updates" value="yes" checked>
+                        <label for="updates">Send me development updates and progress reports</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="newsletter" name="newsletter" value="yes">
+                        <label for="newsletter">Subscribe to DAMP newsletter for product announcements</label>
+                    </div>
+
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="terms" name="terms" value="yes" required>
+                        <label for="terms">I agree to the terms and conditions and understand this is a pre-order for a product in development</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitOrder" disabled>
+                        Complete Pre-Order
+                    </button>
+                </div>
+            </form>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message">
+                <h3 style="color: #00ff88; margin-bottom: 20px;">🎉 Pre-Order Confirmed!</h3>
+                <p>Thank you for supporting DAMP development! Your pre-order has been submitted successfully.</p>
+                <div style="margin: 30px 0; padding: 20px; background: rgba(0, 212, 255, 0.1); border-radius: 10px;">
+                    <h4 style="color: #00d4ff; margin-bottom: 15px;">What happens next:</h4>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 10px;">📧 Confirmation email sent to your inbox</li>
+                        <li style="margin-bottom: 10px;">📱 Monthly development updates</li>
+                        <li style="margin-bottom: 10px;">🎯 Priority shipping when ready</li>
+                        <li style="margin-bottom: 10px;">🔔 App beta access invitation</li>
+                    </ul>
+                </div>
+                <p style="margin-top: 20px; font-size: 0.9rem; opacity: 0.8;">Check your email for your order confirmation and tracking information.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <script>
+        const products = {
+            'damp-handle': {
+                name: 'DAMP Handle v1.0',
+                price: 49.99,
+                originalPrice: 69.99,
+                savings: 20.00
+            },
+            'silicone-bottom': {
+                name: 'DAMP Silicone Bottom',
+                price: 29.99,
+                originalPrice: 39.99,
+                savings: 10.00
+            },
+            'cup-sleeve': {
+                name: 'DAMP Cup Sleeve',
+                price: 34.99,
+                originalPrice: 44.99,
+                savings: 10.00
+            },
+            'baby-bottle': {
+                name: 'DAMP Baby Bottle',
+                price: 79.99,
+                originalPrice: 99.99,
+                savings: 20.00
+            }
+        };
+
+        let selectedProduct = null;
+        let quantity = 1;
+
+        // Product selection
+        document.querySelectorAll('.product-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const productId = this.dataset.product;
+                const radio = this.querySelector('input[type="radio"]');
+                
+                // Remove selected class from all options
+                document.querySelectorAll('.product-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Add selected class to clicked option
+                this.classList.add('selected');
+                radio.checked = true;
+                
+                selectedProduct = productId;
+                updateOrderSummary();
+                checkFormValid();
+            });
+        });
+
+        // Quantity controls
+        document.getElementById('decreaseQty').addEventListener('click', function() {
+            const qtyInput = document.getElementById('quantity');
+            if (qtyInput.value > 1) {
+                qtyInput.value = parseInt(qtyInput.value) - 1;
+                quantity = parseInt(qtyInput.value);
+                updateOrderSummary();
+            }
+        });
+
+        document.getElementById('increaseQty').addEventListener('click', function() {
+            const qtyInput = document.getElementById('quantity');
+            if (qtyInput.value < 10) {
+                qtyInput.value = parseInt(qtyInput.value) + 1;
+                quantity = parseInt(qtyInput.value);
+                updateOrderSummary();
+            }
+        });
+
+        document.getElementById('quantity').addEventListener('change', function() {
+            quantity = parseInt(this.value);
+            updateOrderSummary();
+        });
+
+        // Update order summary
+        function updateOrderSummary() {
+            const orderSummary = document.getElementById('orderSummary');
+            
+            if (selectedProduct) {
+                const product = products[selectedProduct];
+                const subtotal = product.price * quantity;
+                const totalSavings = product.savings * quantity;
+                const total = subtotal;
+                
+                document.getElementById('productName').textContent = product.name;
+                document.getElementById('productPrice').textContent = `$${product.price.toFixed(2)}`;
+                document.getElementById('quantityDisplay').textContent = quantity;
+                document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+                document.getElementById('savings').textContent = `-$${totalSavings.toFixed(2)}`;
+                document.getElementById('total').textContent = `$${total.toFixed(2)}`;
+                
+                orderSummary.style.display = 'block';
+            } else {
+                orderSummary.style.display = 'none';
+            }
+        }
+
+        // Form validation
+        function checkFormValid() {
+            const form = document.getElementById('preOrderForm');
+            const submitBtn = document.getElementById('submitOrder');
+            const requiredFields = form.querySelectorAll('input[required], select[required], textarea[required]');
+            const terms = document.getElementById('terms');
+            
+            let allValid = selectedProduct && terms.checked;
+            
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    allValid = false;
+                }
+            });
+            
+            submitBtn.disabled = !allValid;
+        }
+
+        // Add event listeners to form fields
+        document.getElementById('preOrderForm').addEventListener('input', checkFormValid);
+        document.getElementById('preOrderForm').addEventListener('change', checkFormValid);
+
+        // Form submission
+        document.getElementById('preOrderForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const orderData = {
+                product: selectedProduct,
+                productName: products[selectedProduct].name,
+                quantity: quantity,
+                unitPrice: products[selectedProduct].price,
+                totalPrice: products[selectedProduct].price * quantity,
+                savings: products[selectedProduct].savings * quantity,
+                customer: {
+                    firstName: formData.get('firstName'),
+                    lastName: formData.get('lastName'),
+                    email: formData.get('email'),
+                    phone: formData.get('phone'),
+                    address: formData.get('address'),
+                    city: formData.get('city'),
+                    zip: formData.get('zip'),
+                    country: formData.get('country')
+                },
+                preferences: {
+                    updates: formData.get('updates') === 'yes',
+                    newsletter: formData.get('newsletter') === 'yes'
+                },
+                specialRequests: formData.get('specialRequests'),
+                timestamp: new Date().toISOString()
+            };
+            
+            // In a real implementation, this would send to your backend
+            console.log('Pre-order submitted:', orderData);
+            
+            // Show success message
+            document.getElementById('successMessage').classList.add('show');
+            document.getElementById('successMessage').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Hide form
+            this.style.display = 'none';
+        });
+
+        // Get URL parameters to pre-select product
+        const urlParams = new URLSearchParams(window.location.search);
+        const productParam = urlParams.get('product');
+        if (productParam && products[productParam]) {
+            const productOption = document.querySelector(`[data-product="${productParam}"]`);
+            if (productOption) {
+                productOption.click();
+            }
+        }
+    </script>
+</body>
+</html> 

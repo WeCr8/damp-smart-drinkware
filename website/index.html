@@ -1277,27 +1277,70 @@
             observer.observe(card);
         });
 
-        // Dynamic floating elements
+        // Dynamic floating elements - Enhanced air bubble effect
         function createFloatingParticle() {
             const particle = document.createElement('div');
+            
+            // Create varied bubble sizes: tiny, small, medium, large, and extra large
+            const sizeType = Math.random();
+            let size, duration, opacity;
+            
+            if (sizeType < 0.4) {
+                // Tiny bubbles (40% chance)
+                size = Math.random() * 4 + 2; // 2-6px
+                duration = Math.random() * 8 + 12; // 12-20s
+                opacity = Math.random() * 0.15 + 0.05; // Very subtle
+            } else if (sizeType < 0.7) {
+                // Small bubbles (30% chance)
+                size = Math.random() * 8 + 6; // 6-14px
+                duration = Math.random() * 6 + 10; // 10-16s
+                opacity = Math.random() * 0.25 + 0.1;
+            } else if (sizeType < 0.9) {
+                // Medium bubbles (20% chance)
+                size = Math.random() * 12 + 10; // 10-22px
+                duration = Math.random() * 5 + 8; // 8-13s
+                opacity = Math.random() * 0.3 + 0.15;
+            } else if (sizeType < 0.97) {
+                // Large bubbles (7% chance)
+                size = Math.random() * 18 + 15; // 15-33px
+                duration = Math.random() * 4 + 6; // 6-10s
+                opacity = Math.random() * 0.25 + 0.2;
+            } else {
+                // Extra large bubbles (3% chance) - rare but noticeable
+                size = Math.random() * 25 + 20; // 20-45px
+                duration = Math.random() * 3 + 5; // 5-8s (larger bubbles rise faster)
+                opacity = Math.random() * 0.2 + 0.15;
+            }
+            
+            // Random horizontal drift for more natural movement
+            const horizontalDrift = Math.random() * 40 - 20; // -20px to +20px drift
+            
             particle.style.position = 'fixed';
-            particle.style.width = Math.random() * 10 + 5 + 'px';
-            particle.style.height = particle.style.width;
-            particle.style.background = `rgba(0, 212, 255, ${Math.random() * 0.3 + 0.1})`;
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.background = `rgba(0, 212, 255, ${opacity})`;
             particle.style.borderRadius = '50%';
             particle.style.left = Math.random() * window.innerWidth + 'px';
             particle.style.top = window.innerHeight + 'px';
             particle.style.pointerEvents = 'none';
-            particle.style.animation = `floatUp ${Math.random() * 10 + 10}s linear forwards`;
+            particle.style.zIndex = '1';
+            
+            // Add subtle glow effect for larger bubbles
+            if (size > 15) {
+                particle.style.boxShadow = `0 0 ${size/3}px rgba(0, 212, 255, ${opacity * 0.5})`;
+            }
+            
+            particle.style.animation = `floatUp${horizontalDrift >= 0 ? 'Right' : 'Left'} ${duration}s linear forwards`;
+            particle.style.setProperty('--drift', Math.abs(horizontalDrift) + 'px');
             
             document.body.appendChild(particle);
             
             setTimeout(() => {
                 particle.remove();
-            }, 20000);
+            }, duration * 1000 + 2000);
         }
 
-        // Add CSS for floating particles
+        // Add CSS for floating particles with varied animations
         const style = document.createElement('style');
         style.textContent = `
             @keyframes floatUp {
@@ -1310,11 +1353,51 @@
                     opacity: 0;
                 }
             }
+            
+            @keyframes floatUpRight {
+                from {
+                    transform: translateY(0) translateX(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-50vh) translateX(var(--drift)) rotate(180deg);
+                    opacity: 0.8;
+                }
+                to {
+                    transform: translateY(-100vh) translateX(calc(var(--drift) * 1.5)) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+            
+            @keyframes floatUpLeft {
+                from {
+                    transform: translateY(0) translateX(0) rotate(0deg);
+                    opacity: 1;
+                }
+                50% {
+                    transform: translateY(-50vh) translateX(calc(var(--drift) * -1)) rotate(-180deg);
+                    opacity: 0.8;
+                }
+                to {
+                    transform: translateY(-100vh) translateX(calc(var(--drift) * -1.5)) rotate(-360deg);
+                    opacity: 0;
+                }
+            }
         `;
         document.head.appendChild(style);
 
-        // Create particles periodically
-        setInterval(createFloatingParticle, 3000);
+        // Create multiple types of particles at different intervals
+        setInterval(createFloatingParticle, 1200); // Main bubble creation - faster
+        setInterval(createFloatingParticle, 800);  // Additional frequent small bubbles
+        setInterval(createFloatingParticle, 2000); // Medium bubbles
+        
+        // Burst effect occasionally (like a bubble cluster)
+        setInterval(() => {
+            const burstCount = Math.random() * 3 + 2; // 2-5 bubbles in burst
+            for (let i = 0; i < burstCount; i++) {
+                setTimeout(() => createFloatingParticle(), i * 100); // Stagger by 100ms
+            }
+        }, 8000); // Every 8 seconds
 
         // Analytics tracking function
         function trackEvent(eventName, parameters = {}) {

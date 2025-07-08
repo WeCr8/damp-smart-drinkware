@@ -127,16 +127,7 @@ For each product you just created, add **TWO prices**: Pre-order and Default pri
 
 Update your `.env` file with the keys from Step 4:
 
-```env
-# Test Keys (for development)
-STRIPE_SECRET_KEY=sk_test_your_secret_key_here
-STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key_here
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
 
-# When ready for production, replace with live keys:
-# STRIPE_SECRET_KEY=sk_live_your_live_secret_key_here
-# STRIPE_PUBLISHABLE_KEY=pk_live_your_live_publishable_key_here
-```
 
 ## Step 7: Update Your Website
 

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Order Confirmed - DAMP Smart Drinkware | Thank You!</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Thank you for your DAMP Smart Drinkware pre-order! Your order has been confirmed and you'll receive updates throughout the development process.">
+    <meta name="keywords" content="DAMP order confirmation, pre-order success, smart drinkware, order complete">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="noindex, follow">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Smart Drinkware - Order Success',
+            custom_map: {'dimension1': 'success_page'}
+        });
+    </script>
+
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -6px);
+        }
+
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(20px);
+            z-index: 2000;
+            padding: 80px 20px 20px;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 2001;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.5rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #00d4ff;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+        }
+
+        .success-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - var(--nav-height));
+            padding: 40px 0;
+        }
+
+        .success-content {
+            text-align: center;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 60px 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .success-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .order-details {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .order-details h3 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item-details {
+            flex: 1;
+        }
+
+        .order-item-name {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 5px;
+        }
+
+        .order-item-desc {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .order-item-qty {
+            margin: 0 20px;
+            font-weight: bold;
+        }
+
+        .order-item-price {
+            font-weight: bold;
+            color: #00ff88;
+        }
+
+        .what-happens-next {
+            background: rgba(255, 193, 7, 0.1);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: left;
+        }
+
+        .what-happens-next h3 {
+            color: #ffc107;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .next-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        .next-steps li {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 10px 0;
+        }
+
+        .next-steps .step-number {
+            background: #ffc107;
+            color: #0f0f23;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            margin: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #00d4ff;
+            border: 2px solid #00d4ff;
+        }
+
+        .btn-secondary:hover {
+            background: #00d4ff;
+            color: white;
+        }
+
+        .contact-info {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-info h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .contact-info p {
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+
+        .contact-info a {
+            color: #00d4ff;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        .social-share {
+            margin-top: 30px;
+        }
+
+        .social-share h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-btn.twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .social-btn.facebook {
+            background: #4267b2;
+            color: white;
+        }
+
+        .social-btn.linkedin {
+            background: #0077b5;
+            color: white;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .success-content {
+                padding: 40px 20px;
+                margin: 20px;
+            }
+
+            .success-title {
+                font-size: 2rem;
+            }
+
+            .order-details,
+            .what-happens-next {
+                padding: 20px;
+            }
+
+            .order-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .order-item-qty {
+                margin: 0;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .social-btn {
+                width: 200px;
+                justify-content: center;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html#features">Features</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="support.html">Support</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="cart.html">Cart</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="close-btn" onclick="toggleMobileMenu()">×</div>
+        <a href="../index.html#features" onclick="toggleMobileMenu()">Features</a>
+        <a href="../index.html#products" onclick="toggleMobileMenu()">Products</a>
+        <a href="../index.html#app" onclick="toggleMobileMenu()">App</a>
+        <a href="support.html" onclick="toggleMobileMenu()">Support</a>
+        <a href="about.html" onclick="toggleMobileMenu()">About</a>
+        <a href="cart.html" onclick="toggleMobileMenu()">Cart</a>
+    </div>
+
+    <div class="success-container">
+        <div class="container">
+            <div class="success-content">
+                <div id="loading" class="loading">
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🔄 Processing Your Order</h3>
+                    <p>Please wait while we confirm your order details...</p>
+                </div>
+
+                <div id="success-details" style="display: none;">
+                    <div class="success-icon">🎉</div>
+                    <h1 class="success-title">Order Confirmed!</h1>
+                    <p class="success-subtitle">Thank you for supporting DAMP Smart Drinkware development!</p>
+
+                    <div class="order-details">
+                        <h3>📋 Your Order Details</h3>
+                        <div id="order-items">
+                            <!-- Order items will be populated here -->
+                        </div>
+                        <div class="order-item" style="border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 20px; margin-top: 20px; font-size: 1.1rem;">
+                            <div class="order-item-details">
+                                <div class="order-item-name">Total</div>
+                            </div>
+                            <div class="order-item-price" id="order-total">$0.00</div>
+                        </div>
+                    </div>
+
+                    <div class="what-happens-next">
+                        <h3>🚀 What Happens Next?</h3>
+                        <ul class="next-steps">
+                            <li>
+                                <div class="step-number">1</div>
+                                <div>
+                                    <strong>Payment Authorization</strong><br>
+                                    Your payment method has been authorized but not charged. We'll only charge when your order ships.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step-number">2</div>
+                                <div>
+                                    <strong>Order Confirmation Email</strong><br>
+                                    Check your email for a detailed confirmation with your order number and tracking information.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step-number">3</div>
+                                <div>
+                                    <strong>Development Updates</strong><br>
+                                    You'll receive monthly updates on product development, testing, and manufacturing progress.
+                                </div>
+                            </li>
+                            <li>
+                                <div class="step-number">4</div>
+                                <div>
+                                    <strong>Shipping Notification</strong><br>
+                                    We'll notify you when your order is ready to ship with tracking details and payment processing.
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div style="margin: 40px 0;">
+                        <a href="../index.html" class="btn btn-primary">Continue Shopping</a>
+                        <a href="support.html" class="btn btn-secondary">Contact Support</a>
+                    </div>
+
+                    <div class="social-share">
+                        <h4>Share Your Pre-Order</h4>
+                        <div class="social-buttons">
+                            <a href="#" class="social-btn twitter" onclick="shareOnTwitter()">
+                                🐦 Share on Twitter
+                            </a>
+                            <a href="#" class="social-btn facebook" onclick="shareOnFacebook()">
+                                📘 Share on Facebook
+                            </a>
+                            <a href="#" class="social-btn linkedin" onclick="shareOnLinkedIn()">
+                                💼 Share on LinkedIn
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="contact-info">
+                        <h4>Questions About Your Order?</h4>
+                        <p>📧 Email: <a href="mailto:support@dampdrink.com">support@dampdrink.com</a></p>
+                        <p>📞 Phone: +1 (555) 123-4567</p>
+                        <p>🕒 Support Hours: Mon-Fri 9AM-6PM EST</p>
+                        <p style="margin-top: 15px;">
+                            <a href="support.html">Visit our Support Center</a> for FAQs and help resources.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Stripe to retrieve session details
+        const stripe = Stripe('pk_test_your_stripe_key_here');
+        
+        // Get session ID from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+
+        async function loadOrderDetails() {
+            const loading = document.getElementById('loading');
+            const successDetails = document.getElementById('success-details');
+            
+            loading.classList.add('show');
+            
+            try {
+                if (sessionId) {
+                    // Retrieve checkout session details
+                    const response = await fetch(`/api/checkout-session/${sessionId}`);
+                    const session = await response.json();
+                    
+                    if (session.error) {
+                        throw new Error(session.error);
+                    }
+                    
+                    displayOrderDetails(session);
+                } else {
+                    // Fallback - show generic success message
+                    displayGenericSuccess();
+                }
+                
+                // Track successful purchase
+                trackPurchase();
+                
+            } catch (error) {
+                console.error('Error loading order details:', error);
+                displayGenericSuccess();
+            } finally {
+                loading.classList.remove('show');
+                successDetails.style.display = 'block';
+            }
+        }
+
+        function displayOrderDetails(session) {
+            const orderItems = document.getElementById('order-items');
+            const orderTotal = document.getElementById('order-total');
+            
+            // This would be populated with actual order data
+            // For now, showing example structure
+            orderItems.innerHTML = `
+                <div class="order-item">
+                    <div class="order-item-details">
+                        <div class="order-item-name">DAMP Handle v1.0</div>
+                        <div class="order-item-desc">Universal BLE attachment for existing mugs</div>
+                    </div>
+                    <div class="order-item-qty">Qty: 1</div>
+                    <div class="order-item-price">$49.99</div>
+                </div>
+            `;
+            
+            orderTotal.textContent = '$49.99';
+        }
+
+        function displayGenericSuccess() {
+            const orderItems = document.getElementById('order-items');
+            const orderTotal = document.getElementById('order-total');
+            
+            orderItems.innerHTML = `
+                <div style="text-align: center; padding: 20px;">
+                    <p style="color: #00d4ff;">Your order has been confirmed!</p>
+                    <p>Check your email for complete order details.</p>
+                </div>
+            `;
+            
+            orderTotal.textContent = 'See Email';
+        }
+
+        function trackPurchase() {
+            // Track successful purchase
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'purchase', {
+                    transaction_id: sessionId || 'unknown',
+                    value: 49.99,
+                    currency: 'USD',
+                    items: [{
+                        item_id: 'damp-handle',
+                        item_name: 'DAMP Handle v1.0',
+                        category: 'Smart Drinkware',
+                        quantity: 1,
+                        price: 49.99
+                    }]
+                });
+            }
+            
+            // Track page view
+            trackEvent('page_view', {
+                action: 'success_page_viewed',
+                category: 'ecommerce',
+                label: 'order_confirmation'
+            });
+        }
+
+        function shareOnTwitter() {
+            const text = "I just pre-ordered DAMP Smart Drinkware! 🚀 Revolutionary BLE technology to never leave your drink behind. Join the innovation!";
+            const url = "https://dampdrink.com";
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnFacebook() {
+            const url = "https://dampdrink.com";
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+        }
+
+        function shareOnLinkedIn() {
+            const url = "https://dampdrink.com";
+            const title = "DAMP Smart Drinkware - Pre-Order";
+            const summary = "Revolutionary BLE technology to never leave your drink behind";
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}&summary=${encodeURIComponent(summary)}`, '_blank');
+        }
+
+        // Analytics tracking
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            mobileMenu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (!mobileMenu.contains(event.target) && !hamburger.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const mobileMenu = document.getElementById('mobileMenu');
+                const hamburger = document.querySelector('.hamburger');
+                
+                mobileMenu.classList.remove('active');
+                hamburger.classList.remove('active');
+            }
+        });
+
+        // Initialize page
+        loadOrderDetails();
+    </script>
+</body>
+</html> 

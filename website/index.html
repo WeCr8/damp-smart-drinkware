@@ -905,6 +905,7 @@
                 <li><a href="#app">App</a></li>
                 <li><a href="pages/support.html">Support</a></li>
                 <li><a href="pages/about.html">About</a></li>
+                <li><a href="pages/cart.html">Cart</a></li>
             </ul>
             <div class="hamburger" onclick="toggleMobileMenu()">
                 <span></span>
@@ -922,6 +923,7 @@
         <a href="#app" onclick="toggleMobileMenu()">App</a>
         <a href="pages/support.html" onclick="toggleMobileMenu()">Support</a>
         <a href="pages/about.html" onclick="toggleMobileMenu()">About</a>
+        <a href="pages/cart.html" onclick="toggleMobileMenu()">Cart</a>
     </div>
 
     <section class="hero">
@@ -1006,7 +1008,7 @@
                     </ul>
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <a href="pages/damp-handle-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
-                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                        <a href="pages/cart.html?product=damp-handle&quantity=1" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;" onclick="trackEvent('add_to_cart', {action: 'quick_add', label: 'DAMP Handle v1.0', category: 'product'})">Add to Cart</a>
                     </div>
                 </div>
                 <div class="product-card">
@@ -1027,7 +1029,7 @@
                     </ul>
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <a href="pages/silicone-bottom-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
-                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                        <a href="pages/cart.html?product=silicone-bottom&quantity=1" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;" onclick="trackEvent('add_to_cart', {action: 'quick_add', label: 'DAMP Silicone Bottom', category: 'product'})">Add to Cart</a>
                     </div>
                 </div>
                 <div class="product-card">
@@ -1048,7 +1050,7 @@
                     </ul>
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <a href="pages/cup-sleeve-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
-                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                        <a href="pages/cart.html?product=cup-sleeve&quantity=1" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;" onclick="trackEvent('add_to_cart', {action: 'quick_add', label: 'DAMP Cup Sleeve', category: 'product'})">Add to Cart</a>
                     </div>
                 </div>
                 <div class="product-card">
@@ -1069,7 +1071,7 @@
                     </ul>
                     <div style="display: flex; gap: 10px; margin-top: 20px;">
                         <a href="pages/baby-bottle-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
-                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                        <a href="pages/cart.html?product=baby-bottle&quantity=1" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;" onclick="trackEvent('add_to_cart', {action: 'quick_add', label: 'DAMP Baby Bottle', category: 'product'})">Add to Cart</a>
                     </div>
                 </div>
             </div>

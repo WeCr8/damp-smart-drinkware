@@ -1,0 +1,24 @@
+{
+  "name": "damp-smart-drinkware-website",
+  "version": "1.0.0",
+  "description": "Website for DAMP Smart Drinkware - Revolutionary BLE-enabled beverage tracking",
+  "main": "index.html",
+  "scripts": {
+    "check-pages": "node tools/page-consistency-checker.js --check",
+    "fix-pages": "node tools/page-consistency-checker.js --fix",
+    "dev": "npx http-server . -p 8080",
+    "build": "echo 'Building website...'",
+    "test": "npm run check-pages"
+  },
+  "keywords": ["smart-drinkware", "ble", "iot", "beverage-tracking"],
+  "author": "WeCr8 Solutions LLC",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WeCr8Solutions/damp-smart-drinkware"
+  },
+  "homepage": "https://dampdrink.com"
+} 

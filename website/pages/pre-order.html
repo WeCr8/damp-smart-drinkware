@@ -175,6 +175,91 @@
             color: #00d4ff;
         }
 
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-6px, -6px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1001;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 40px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #00d4ff;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
         /* Hero Section */
         .pre-order-hero {
             padding: 100px 0 60px;
@@ -613,6 +698,20 @@
                 <li><a href="../index.html#app">App</a></li>
                 <li><a href="../index.html#contact">Contact</a></li>
             </ul>
+            
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="mobile-menu" id="mobile-menu">
+            <button class="mobile-close" onclick="toggleMobileMenu()">×</button>
+            <a href="../index.html">Home</a>
+            <a href="../index.html#products">Products</a>
+            <a href="../index.html#app">App</a>
+            <a href="../index.html#contact">Contact</a>
         </div>
     </nav>
 
@@ -1105,8 +1204,8 @@
                 });
             }
             
-            // Redirect to Stripe Checkout
-            const checkoutUrl = `stripe-checkout.html?product=${selectedProduct}&quantity=${quantity}`;
+            // Redirect to Cart Page
+            const checkoutUrl = `cart.html?product=${selectedProduct}&quantity=${quantity}`;
             window.location.href = checkoutUrl;
         });
 
@@ -1198,6 +1297,40 @@
                 });
             }
         }
+
+        // Hamburger menu functionality
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (menu.classList.contains('active') && 
+                !menu.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const menu = document.getElementById('mobile-menu');
+                if (menu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
     </script>
 </body>
 </html> 

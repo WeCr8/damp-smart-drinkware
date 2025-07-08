@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DAMP Silicone Bottom - Smart Base for Your Drinkware | DAMP Smart Drinkware</title>
+    <title>DAMP Silicone Bottom v1.0 - Smart Base for Your Drinkware | DAMP Smart Drinkware</title>
     <style>
         * {
             margin: 0;
@@ -47,6 +47,9 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, #00d4ff, #0099cc);
@@ -54,6 +57,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -328,7 +337,10 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="../index.html" class="logo">DAMP</a>
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../index.html#products">Products</a></li>
@@ -342,7 +354,7 @@
         <div class="container">
             <div class="product-info">
                 <div class="product-badge">In Development</div>
-                <h1>DAMP Silicone Bottom</h1>
+                <h1>DAMP Silicone Bottom v1.0</h1>
                 <p style="font-size: 1.3rem; margin-bottom: 30px; opacity: 0.9;">Smart silicone base that transforms any cup or mug into intelligent drinkware. Wireless charging compatible with advanced grip technology.</p>
                 <div class="product-price">$29.99 <span class="original-price">$39.99</span></div>
                 <div class="savings">Save $10 with Early Bird Pre-Order!</div>
@@ -437,7 +449,7 @@
 
     <section id="preorder" class="preorder-section">
         <div class="container">
-            <h2 class="section-title">Pre-Order DAMP Silicone Bottom</h2>
+            <h2 class="section-title">Pre-Order DAMP Silicone Bottom v1.0</h2>
             <div class="preorder-form">
                 <div style="margin-bottom: 30px;">
                     <h3 style="color: #00d4ff; margin-bottom: 15px;">🚀 Early Bird Special</h3>
@@ -505,7 +517,7 @@
             };
             
             // Show confirmation
-            alert(`Thank you for pre-ordering the DAMP Silicone Bottom! 🚀\n\nOrder Details:\n• Name: ${data.name}\n• Email: ${data.email}\n• Color: ${data.color}\n• Quantity: ${data.quantity}\n\nYou'll receive a confirmation email shortly with payment instructions and development updates.`);
+            alert(`Thank you for pre-ordering the DAMP Silicone Bottom v1.0! 🚀\n\nOrder Details:\n• Name: ${data.name}\n• Email: ${data.email}\n• Color: ${data.color}\n• Quantity: ${data.quantity}\n\nYou'll receive a confirmation email shortly with payment instructions and development updates.`);
             
             // In a real implementation, this would send data to your backend
             console.log('Pre-order data:', data);

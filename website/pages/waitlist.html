@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join DAMP Waitlist - Get Early Access | DAMP Smart Drinkware</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: 80px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* Main Content */
+        .waitlist-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .waitlist-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .waitlist-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .waitlist-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .benefits {
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .benefits h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .waitlist-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="waitlist-hero">
+        <div class="container">
+            <h1 class="hero-title">Join the DAMP Revolution</h1>
+            <p class="hero-subtitle">Get early access to our smart drinkware products and mobile app. Be among the first to experience the future of beverage tracking!</p>
+        </div>
+    </section>
+
+    <section style="padding: 0 0 100px;">
+        <div class="container">
+            <div class="waitlist-options">
+                <!-- App Waitlist -->
+                <div class="waitlist-card">
+                    <div class="card-icon">📱</div>
+                    <h3 class="card-title">Mobile App Waitlist</h3>
+                    <p class="card-description">Be the first to download the DAMP mobile app when it launches. Get beta access and help shape the future of smart drinkware.</p>
+                    
+                    <form id="appWaitlistForm">
+                        <div class="form-group">
+                            <label for="app-name">Full Name</label>
+                            <input type="text" id="app-name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="app-email">Email Address</label>
+                            <input type="email" id="app-email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="app-platform">Preferred Platform</label>
+                            <select id="app-platform" name="platform" required>
+                                <option value="">Select your platform</option>
+                                <option value="ios">iOS (iPhone/iPad)</option>
+                                <option value="android">Android</option>
+                                <option value="both">Both iOS and Android</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="app-interests">What features interest you most?</label>
+                            <textarea id="app-interests" name="interests" rows="3" placeholder="Tell us what you're most excited about (optional)"></textarea>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="app-beta" name="beta" value="yes">
+                            <label for="app-beta">I'm interested in beta testing the app before public release</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="app-updates" name="updates" value="yes" checked>
+                            <label for="app-updates">Send me development updates and progress reports</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join App Waitlist</button>
+                    </form>
+
+                    <div class="benefits">
+                        <h4>App Waitlist Benefits:</h4>
+                        <ul>
+                            <li>First access to beta testing</li>
+                            <li>Priority download when app launches</li>
+                            <li>Exclusive development updates</li>
+                            <li>Direct feedback channel to our team</li>
+                            <li>Special in-app features for early users</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product Updates Waitlist -->
+                <div class="waitlist-card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Product Updates List</h3>
+                    <p class="card-description">Stay informed about all DAMP products, pre-order opportunities, and exclusive launch events. Get insider access to our development process.</p>
+                    
+                    <form id="productWaitlistForm">
+                        <div class="form-group">
+                            <label for="product-name">Full Name</label>
+                            <input type="text" id="product-name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-email">Email Address</label>
+                            <input type="email" id="product-email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-interests">Which products interest you most?</label>
+                            <select id="product-interests" name="products" required>
+                                <option value="">Select your interest</option>
+                                <option value="damp-handle">DAMP Handle v1.0</option>
+                                <option value="silicone-bottom">DAMP Silicone Bottom</option>
+                                <option value="cup-sleeve">DAMP Cup Sleeve</option>
+                                <option value="baby-bottle">DAMP Baby Bottle</option>
+                                <option value="all">All Products</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-role">How would you use DAMP products?</label>
+                            <select id="product-role" name="useCase">
+                                <option value="">Select use case</option>
+                                <option value="personal">Personal use at home</option>
+                                <option value="office">Office/workplace</option>
+                                <option value="travel">Travel and commuting</option>
+                                <option value="cafe">Coffee shops and cafes</option>
+                                <option value="parent">Parenting and childcare</option>
+                                <option value="business">Business/corporate gifts</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="product-preorder" name="preorder" value="yes">
+                            <label for="product-preorder">Notify me when pre-orders open for my selected products</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="product-events" name="events" value="yes">
+                            <label for="product-events">Invite me to exclusive launch events and demos</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join Product Updates</button>
+                    </form>
+
+                    <div class="benefits">
+                        <h4>Product Updates Benefits:</h4>
+                        <ul>
+                            <li>Early pre-order access with special pricing</li>
+                            <li>Monthly development progress reports</li>
+                            <li>Exclusive launch event invitations</li>
+                            <li>Behind-the-scenes content and videos</li>
+                            <li>Direct input on product features</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message">
+                <h3 style="color: #00ff88; margin-bottom: 15px;">🎉 Welcome to the DAMP Community!</h3>
+                <p>Thank you for joining our waitlist. You'll receive a confirmation email shortly with your next steps and exclusive updates.</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Check your spam folder if you don't see our email within a few minutes.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <script>
+        // Handle App Waitlist Form
+        document.getElementById('appWaitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                type: 'app_waitlist',
+                name: formData.get('name'),
+                email: formData.get('email'),
+                platform: formData.get('platform'),
+                interests: formData.get('interests'),
+                beta: formData.get('beta') === 'yes',
+                updates: formData.get('updates') === 'yes'
+            };
+            
+            // In a real implementation, this would send to your backend
+            console.log('App Waitlist Signup:', data);
+            
+            // Show success message
+            showSuccessMessage();
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Handle Product Waitlist Form
+        document.getElementById('productWaitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                type: 'product_waitlist',
+                name: formData.get('name'),
+                email: formData.get('email'),
+                products: formData.get('products'),
+                useCase: formData.get('useCase'),
+                preorder: formData.get('preorder') === 'yes',
+                events: formData.get('events') === 'yes'
+            };
+            
+            // In a real implementation, this would send to your backend
+            console.log('Product Waitlist Signup:', data);
+            
+            // Show success message
+            showSuccessMessage();
+            
+            // Reset form
+            this.reset();
+        });
+
+        function showSuccessMessage() {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Hide after 10 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 10000);
+        }
+
+        // Get URL parameters to pre-select platform if coming from app buttons
+        const urlParams = new URLSearchParams(window.location.search);
+        const platform = urlParams.get('platform');
+        if (platform) {
+            document.getElementById('app-platform').value = platform;
+        }
+    </script>
+</body>
+</html> 

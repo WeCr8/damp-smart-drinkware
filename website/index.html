@@ -48,12 +48,22 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, #00d4ff, #0099cc);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -619,7 +629,10 @@
 <body>
     <nav>
         <div class="nav-container">
-            <div class="logo">DAMP</div>
+            <a href="#" class="logo">
+                <img src="assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
             <ul class="nav-links">
                 <li><a href="#features">Features</a></li>
                 <li><a href="#products">Products</a></li>
@@ -649,8 +662,8 @@
                 <h1>Never Leave Your Drink Behind</h1>
                 <p class="subtitle">DAMP Smart Drinkware uses advanced BLE technology and intelligent zone detection to ensure you never abandon your favorite beverages again. <strong>Pre-order now and help bring these innovative products to life!</strong></p>
                 <div class="hero-buttons">
-                    <a href="#products" class="btn btn-primary">Pre-Order Now</a>
-                    <a href="#app" class="btn btn-secondary">Get the App</a>
+                    <a href="#products" class="btn btn-primary">View Products</a>
+                    <a href="pages/waitlist.html" class="btn btn-secondary">Join Waitlist</a>
                 </div>
             </div>
         </div>
@@ -723,7 +736,10 @@
                         <li>6-month battery life</li>
                         <li>Estimated delivery: Q3 2025</li>
                     </ul>
-                    <a href="pages/damp-handle-v1.0.html" class="btn btn-primary">View Product</a>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <a href="pages/damp-handle-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
+                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                    </div>
                 </div>
                 <div class="product-card">
                     <div class="product-badge">In Development</div>
@@ -741,7 +757,10 @@
                         <li>Wireless charging compatible</li>
                         <li>Estimated delivery: Q4 2025</li>
                     </ul>
-                    <a href="pages/silicone-bottom.html" class="btn btn-primary">View Product</a>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <a href="pages/silicone-bottom-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
+                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                    </div>
                 </div>
                 <div class="product-card">
                     <div class="product-badge">In Development</div>
@@ -759,7 +778,10 @@
                         <li>Easy clean and maintain</li>
                         <li>Estimated delivery: Q4 2025</li>
                     </ul>
-                    <a href="pages/cup-sleeve-v1.0.html" class="btn btn-primary">View Product</a>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <a href="pages/cup-sleeve-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
+                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                    </div>
                 </div>
                 <div class="product-card">
                     <div class="product-badge">In Development</div>
@@ -777,7 +799,10 @@
                         <li>Easy-clean design</li>
                         <li>Estimated delivery: Q1 2026</li>
                     </ul>
-                    <a href="pages/baby-bottle-v1.0.html" class="btn btn-primary">View Product</a>
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <a href="pages/baby-bottle-v1.0.html" class="btn btn-primary" style="flex: 1; margin: 0;">View Details</a>
+                        <a href="pages/waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0; background: transparent; border: 2px solid #00d4ff; color: #00d4ff;">Get Updates</a>
+                    </div>
                 </div>
             </div>
             <div style="text-align: center; margin-top: 50px; padding: 30px; background: rgba(0, 212, 255, 0.1); border-radius: 15px; border: 1px solid rgba(0, 212, 255, 0.3);">
@@ -824,14 +849,14 @@
             </div>
             <p style="font-size: 1.2rem; max-width: 600px; margin: 0 auto;">Control your smart drinkware, set up zones, customize alerts, and track your hydration habits with our intuitive mobile app. Pre-order customers get early access to the beta version!</p>
             <div class="app-buttons">
-                <a href="#" class="app-btn" onclick="joinWaitlist('ios')">
+                <a href="pages/waitlist.html?platform=ios" class="app-btn">
                     <div class="app-icon">🍎</div>
                     <div>
                         <div style="font-size: 0.9rem; opacity: 0.8;">Join Waitlist</div>
                         <div style="font-weight: bold;">iOS App</div>
                     </div>
                 </a>
-                <a href="#" class="app-btn" onclick="joinWaitlist('android')">
+                <a href="pages/waitlist.html?platform=android" class="app-btn">
                     <div class="app-icon">🤖</div>
                     <div>
                         <div style="font-size: 0.9rem; opacity: 0.8;">Join Waitlist</div>
@@ -941,49 +966,25 @@
             }
         });
 
-        // Pre-order functionality
-        function preOrderProduct(productId) {
-            // Map product IDs to names for better UX
-            const productNames = {
-                'damp-handle': 'DAMP Handle v1.0',
-                'silicone-bottom': 'DAMP Silicone Bottom', 
-                'cup-sleeve': 'DAMP Silicone Cup Sleeve',
-                'baby-bottle': 'DAMP Baby Bottle'
-            };
-            
-            const productName = productNames[productId] || productId;
-            
-            // Show pre-order confirmation
-            if (confirm(`Ready to pre-order the ${productName}?\n\nBy pre-ordering, you're helping fund the development of this innovative product. You'll receive:\n\n✅ Early bird pricing\n✅ Development updates\n✅ Priority delivery\n✅ Exclusive access to beta features\n\nContinue to checkout?`)) {
-                // In a real implementation, this would integrate with your e-commerce platform
-                alert(`Thank you for supporting DAMP development! 🚀\n\nYour pre-order for ${productName} helps us bring this product to market.\n\nYou'll be redirected to secure checkout...`);
-                
-                // Example of what this might look like:
-                // window.location.href = `https://checkout.dampdrink.com/preorder/${productId}`;
-            }
-        }
+        // Smooth product card animations on scroll
+        const productObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-        // Legacy purchase function (keeping for compatibility)
-        function purchaseProduct(productId) {
-            preOrderProduct(productId);
-        }
-
-        // App waitlist functionality
-        function joinWaitlist(platform) {
-            const platformName = platform === 'ios' ? 'iOS' : 'Android';
-            
-            if (confirm(`Join the DAMP ${platformName} App waitlist?\n\nYou'll be notified when:\n✅ Beta version is ready\n✅ App launches in store\n✅ New features are available\n\nPre-order customers get priority access!`)) {
-                alert(`Thanks for joining the ${platformName} waitlist! 📱\n\nWe'll email you as soon as the app is ready for testing.`);
-                
-                // In a real implementation, this would collect email and platform preference
-                // window.location.href = `https://dampdrink.com/waitlist?platform=${platform}`;
-            }
-        }
-
-        // Legacy download function (keeping for compatibility)
-        function downloadApp(platform) {
-            joinWaitlist(platform);
-        }
+        // Observe product cards for animation with slight delay
+        setTimeout(() => {
+            document.querySelectorAll('.product-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                productObserver.observe(card);
+            });
+        }, 100);
 
         // Intersection Observer for animations
         const observerOptions = {
@@ -1000,8 +1001,8 @@
             });
         }, observerOptions);
 
-        // Observe feature cards for animation
-        document.querySelectorAll('.feature-card, .product-card').forEach(card => {
+        // Observe feature cards for animation (but not product cards to ensure buttons are visible)
+        document.querySelectorAll('.feature-card').forEach(card => {
             card.style.opacity = '0';
             card.style.transform = 'translateY(30px)';
             card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';

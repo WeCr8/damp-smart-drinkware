@@ -47,6 +47,9 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
             font-size: 1.8rem;
             font-weight: bold;
             background: linear-gradient(45deg, #00d4ff, #0099cc);
@@ -54,6 +57,12 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
             text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
         }
 
         .nav-links {
@@ -255,7 +264,10 @@
 <body>
     <nav>
         <div class="nav-container">
-            <a href="../index.html" class="logo">DAMP</a>
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
             <ul class="nav-links">
                 <li><a href="../index.html">Home</a></li>
                 <li><a href="../index.html#products">Products</a></li>

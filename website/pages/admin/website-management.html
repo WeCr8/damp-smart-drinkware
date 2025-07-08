@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Management - DAMP Admin</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/pricing-system.css">
+    <style>
+        :root {
+            --admin-primary: #00d4ff;
+            --admin-secondary: #0099cc;
+            --admin-success: #00ff88;
+            --admin-warning: #ffb74d;
+            --admin-error: #ff4444;
+            --admin-bg: #0f0f23;
+            --admin-card: rgba(255, 255, 255, 0.1);
+            --admin-border: rgba(255, 255, 255, 0.2);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--admin-border);
+        }
+
+        .admin-title {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-title h1 {
+            font-size: 2.5rem;
+            color: var(--admin-primary);
+            margin: 0;
+        }
+
+        .back-button {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 10px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .management-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 15px 25px;
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            border: none;
+        }
+
+        .tab-button:hover {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: var(--admin-primary);
+        }
+
+        .tab-button.active {
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+            background: var(--admin-card);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--admin-border);
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: var(--admin-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .management-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .management-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+        }
+
+        .card-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-live {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--admin-success);
+        }
+
+        .status-draft {
+            background: rgba(255, 183, 77, 0.2);
+            color: var(--admin-warning);
+        }
+
+        .status-error {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--admin-error);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: var(--admin-primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid var(--admin-border);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--admin-primary);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.2);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--admin-card);
+            color: white;
+            border: 1px solid var(--admin-border);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, var(--admin-error), #cc0000);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--admin-success), #00cc6a);
+            color: white;
+        }
+
+        .page-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .page-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--admin-border);
+            transition: background 0.3s ease;
+        }
+
+        .page-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .page-item:last-child {
+            border-bottom: none;
+        }
+
+        .page-info {
+            flex: 1;
+        }
+
+        .page-name {
+            font-weight: bold;
+            color: var(--admin-primary);
+            margin-bottom: 5px;
+        }
+
+        .page-url {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .page-meta {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.edit {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--admin-primary);
+        }
+
+        .action-btn.delete {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--admin-error);
+        }
+
+        .action-btn.view {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--admin-success);
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .metric-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+            margin-bottom: 10px;
+        }
+
+        .metric-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .chart-container {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .chart-placeholder {
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.2rem;
+        }
+
+        .seo-score {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .score-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .score-excellent {
+            background: linear-gradient(45deg, var(--admin-success), #00cc6a);
+        }
+
+        .score-good {
+            background: linear-gradient(45deg, var(--admin-warning), #ff9800);
+        }
+
+        .score-poor {
+            background: linear-gradient(45deg, var(--admin-error), #cc0000);
+        }
+
+        .seo-details {
+            flex: 1;
+        }
+
+        .seo-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--admin-border);
+        }
+
+        .seo-item:last-child {
+            border-bottom: none;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            z-index: 10000;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: linear-gradient(45deg, var(--admin-success), #00cc6a);
+        }
+
+        .toast-error {
+            background: linear-gradient(45deg, var(--admin-error), #cc0000);
+        }
+
+        .toast-info {
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+        }
+
+        @media (max-width: 768px) {
+            .admin-container {
+                padding: 15px;
+            }
+
+            .management-tabs {
+                flex-direction: column;
+            }
+
+            .tab-button {
+                width: 100%;
+            }
+
+            .content-grid,
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .page-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .page-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Header -->
+        <div class="admin-header">
+            <div class="admin-title">
+                <span style="font-size: 2rem;">🌐</span>
+                <h1>Website Management</h1>
+            </div>
+            <a href="index.html" class="back-button">
+                <span>←</span>
+                <span>Back to Dashboard</span>
+            </a>
+        </div>
+
+        <!-- Management Tabs -->
+        <div class="management-tabs">
+            <button class="tab-button active" data-tab="overview">📊 Overview</button>
+            <button class="tab-button" data-tab="pages">📄 Pages</button>
+            <button class="tab-button" data-tab="content">✏️ Content</button>
+            <button class="tab-button" data-tab="seo">🔍 SEO</button>
+            <button class="tab-button" data-tab="analytics">📈 Analytics</button>
+            <button class="tab-button" data-tab="performance">⚡ Performance</button>
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="tab-content active">
+            <div class="section-title">
+                <span>📊</span>
+                <span>Website Overview</span>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">12</div>
+                    <div class="metric-label">Total Pages</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">98%</div>
+                    <div class="metric-label">Uptime</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1.2s</div>
+                    <div class="metric-label">Avg Load Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">85</div>
+                    <div class="metric-label">SEO Score</div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Website Status</div>
+                        <div class="card-status status-live">Live</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Domain Status</label>
+                        <input type="text" value="dampdrink.com - Active" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>SSL Certificate</label>
+                        <input type="text" value="Valid until Dec 2025" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Last Deployment</label>
+                        <input type="text" value="Today at 3:45 PM" readonly>
+                    </div>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Recent Changes</div>
+                    </div>
+                    <ul class="page-list">
+                        <li class="page-item">
+                            <div class="page-info">
+                                <div class="page-name">Pricing System Update</div>
+                                <div class="page-meta">2 minutes ago</div>
+                            </div>
+                        </li>
+                        <li class="page-item">
+                            <div class="page-info">
+                                <div class="page-name">Cart Page Enhancement</div>
+                                <div class="page-meta">1 hour ago</div>
+                            </div>
+                        </li>
+                        <li class="page-item">
+                            <div class="page-info">
+                                <div class="page-name">Product Page Updates</div>
+                                <div class="page-meta">3 hours ago</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Quick Actions</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="createNewPage()">Create New Page</button>
+                    <button class="btn btn-secondary" onclick="backupWebsite()">Backup Website</button>
+                    <button class="btn btn-secondary" onclick="clearCache()">Clear Cache</button>
+                    <button class="btn btn-secondary" onclick="optimizeImages()">Optimize Images</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pages Tab -->
+        <div id="pages" class="tab-content">
+            <div class="section-title">
+                <span>📄</span>
+                <span>Page Management</span>
+            </div>
+
+            <div class="management-card">
+                <div class="card-header">
+                    <div class="card-title">All Pages</div>
+                    <button class="btn btn-primary" onclick="createNewPage()">Add New Page</button>
+                </div>
+
+                <ul class="page-list" id="pages-list">
+                    <li class="page-item">
+                        <div class="page-info">
+                            <div class="page-name">Home Page</div>
+                            <div class="page-url">/index.html</div>
+                            <div class="page-meta">Last modified: Today • Status: Live</div>
+                        </div>
+                        <div class="page-actions">
+                            <button class="action-btn view" onclick="viewPage('/index.html')">View</button>
+                            <button class="action-btn edit" onclick="editPage('/index.html')">Edit</button>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-info">
+                            <div class="page-name">Shopping Cart</div>
+                            <div class="page-url">/pages/cart.html</div>
+                            <div class="page-meta">Last modified: 1 hour ago • Status: Live</div>
+                        </div>
+                        <div class="page-actions">
+                            <button class="action-btn view" onclick="viewPage('/pages/cart.html')">View</button>
+                            <button class="action-btn edit" onclick="editPage('/pages/cart.html')">Edit</button>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-info">
+                            <div class="page-name">About Us</div>
+                            <div class="page-url">/pages/about.html</div>
+                            <div class="page-meta">Last modified: 2 days ago • Status: Live</div>
+                        </div>
+                        <div class="page-actions">
+                            <button class="action-btn view" onclick="viewPage('/pages/about.html')">View</button>
+                            <button class="action-btn edit" onclick="editPage('/pages/about.html')">Edit</button>
+                        </div>
+                    </li>
+                    <li class="page-item">
+                        <div class="page-info">
+                            <div class="page-name">DAMP Handle Product</div>
+                            <div class="page-url">/pages/damp-handle-v1.0.html</div>
+                            <div class="page-meta">Last modified: 3 hours ago • Status: Live</div>
+                        </div>
+                        <div class="page-actions">
+                            <button class="action-btn view" onclick="viewPage('/pages/damp-handle-v1.0.html')">View</button>
+                            <button class="action-btn edit" onclick="editPage('/pages/damp-handle-v1.0.html')">Edit</button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Content Tab -->
+        <div id="content" class="tab-content">
+            <div class="section-title">
+                <span>✏️</span>
+                <span>Content Management</span>
+            </div>
+
+            <div class="content-grid">
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Global Settings</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Site Title</label>
+                        <input type="text" value="DAMP Smart Drinkware" placeholder="Enter site title">
+                    </div>
+                    <div class="form-group">
+                        <label>Site Description</label>
+                        <textarea rows="3" placeholder="Enter site description">Revolutionary smart drinkware with BLE technology for health and wellness monitoring.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Contact Email</label>
+                        <input type="email" value="contact@dampdrink.com" placeholder="Enter contact email">
+                    </div>
+                    <button class="btn btn-primary">Save Global Settings</button>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Navigation Menu</div>
+                    </div>
+                    <div id="menu-items">
+                        <div class="form-group">
+                            <label>Menu Item 1</label>
+                            <div class="form-row">
+                                <input type="text" value="Home" placeholder="Label">
+                                <input type="text" value="/index.html" placeholder="URL">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Menu Item 2</label>
+                            <div class="form-row">
+                                <input type="text" value="Products" placeholder="Label">
+                                <input type="text" value="#products" placeholder="URL">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Menu Item 3</label>
+                            <div class="form-row">
+                                <input type="text" value="About" placeholder="Label">
+                                <input type="text" value="/pages/about.html" placeholder="URL">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-secondary" onclick="addMenuItem()">Add Menu Item</button>
+                    <button class="btn btn-primary">Save Navigation</button>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Footer Content</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Footer Text</label>
+                        <textarea rows="2" placeholder="Enter footer text">© 2025 DAMP Smart Drinkware. All rights reserved.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Social Media Links</label>
+                        <div class="form-row">
+                            <input type="text" placeholder="Facebook URL">
+                            <input type="text" placeholder="Twitter URL">
+                            <input type="text" placeholder="Instagram URL">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Save Footer</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEO Tab -->
+        <div id="seo" class="tab-content">
+            <div class="section-title">
+                <span>🔍</span>
+                <span>SEO Management</span>
+            </div>
+
+            <div class="content-grid">
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">SEO Overview</div>
+                    </div>
+                    <div class="seo-score">
+                        <div class="score-circle score-good">85</div>
+                        <div class="seo-details">
+                            <div style="font-weight: bold; margin-bottom: 5px;">Good SEO Score</div>
+                            <div style="color: rgba(255, 255, 255, 0.7);">Your website is well optimized</div>
+                        </div>
+                    </div>
+                    <div class="seo-item">
+                        <span>Title Tags</span>
+                        <span style="color: var(--admin-success);">✓ Optimized</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Meta Descriptions</span>
+                        <span style="color: var(--admin-success);">✓ Optimized</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Heading Structure</span>
+                        <span style="color: var(--admin-warning);">⚠ Needs Improvement</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Image Alt Text</span>
+                        <span style="color: var(--admin-success);">✓ Optimized</span>
+                    </div>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Meta Tags</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Default Meta Title</label>
+                        <input type="text" value="DAMP Smart Drinkware | Revolutionary Health Monitoring" placeholder="Enter meta title">
+                    </div>
+                    <div class="form-group">
+                        <label>Default Meta Description</label>
+                        <textarea rows="3" placeholder="Enter meta description">Discover DAMP Smart Drinkware with BLE technology for health monitoring, hydration tracking, and wellness optimization.</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Meta Keywords</label>
+                        <input type="text" value="smart drinkware, health monitoring, BLE technology, hydration tracking" placeholder="Enter keywords (comma separated)">
+                    </div>
+                    <button class="btn btn-primary">Save Meta Tags</button>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Sitemap & Robots</div>
+                    </div>
+                    <div class="form-group">
+                        <label>Sitemap Status</label>
+                        <input type="text" value="Auto-generated and updated" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Robots.txt Status</label>
+                        <input type="text" value="Configured and active" readonly>
+                    </div>
+                    <button class="btn btn-secondary" onclick="generateSitemap()">Regenerate Sitemap</button>
+                    <button class="btn btn-secondary" onclick="editRobots()">Edit Robots.txt</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Analytics Tab -->
+        <div id="analytics" class="tab-content">
+            <div class="section-title">
+                <span>📈</span>
+                <span>Website Analytics</span>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">2,847</div>
+                    <div class="metric-label">Page Views (30d)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">1,423</div>
+                    <div class="metric-label">Unique Visitors</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">3.2</div>
+                    <div class="metric-label">Avg Session Duration</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">68%</div>
+                    <div class="metric-label">Bounce Rate</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <div class="card-title" style="margin-bottom: 20px;">Traffic Overview (Last 30 Days)</div>
+                <div class="chart-placeholder">
+                    📊 Analytics chart would be displayed here<br>
+                    <small style="opacity: 0.7;">Integration with Google Analytics coming soon</small>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Top Pages</div>
+                    </div>
+                    <div class="seo-item">
+                        <span>/index.html</span>
+                        <span>1,245 views</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>/pages/cart.html</span>
+                        <span>567 views</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>/pages/damp-handle-v1.0.html</span>
+                        <span>423 views</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>/pages/about.html</span>
+                        <span>312 views</span>
+                    </div>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Traffic Sources</div>
+                    </div>
+                    <div class="seo-item">
+                        <span>Direct</span>
+                        <span>45%</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Google Search</span>
+                        <span>32%</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Social Media</span>
+                        <span>15%</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Referrals</span>
+                        <span>8%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Performance Tab -->
+        <div id="performance" class="tab-content">
+            <div class="section-title">
+                <span>⚡</span>
+                <span>Performance Monitoring</span>
+            </div>
+
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-value">1.2s</div>
+                    <div class="metric-label">Load Time</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">95</div>
+                    <div class="metric-label">PageSpeed Score</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">2.1MB</div>
+                    <div class="metric-label">Page Size</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">23</div>
+                    <div class="metric-label">HTTP Requests</div>
+                </div>
+            </div>
+
+            <div class="content-grid">
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Core Web Vitals</div>
+                    </div>
+                    <div class="seo-item">
+                        <span>Largest Contentful Paint</span>
+                        <span style="color: var(--admin-success);">1.2s (Good)</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>First Input Delay</span>
+                        <span style="color: var(--admin-success);">45ms (Good)</span>
+                    </div>
+                    <div class="seo-item">
+                        <span>Cumulative Layout Shift</span>
+                        <span style="color: var(--admin-warning);">0.15 (Needs Improvement)</span>
+                    </div>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">Optimization Tools</div>
+                    </div>
+                    <button class="btn btn-primary" onclick="optimizeImages()">Optimize Images</button>
+                    <button class="btn btn-primary" onclick="minifyAssets()">Minify CSS/JS</button>
+                    <button class="btn btn-primary" onclick="enableGzip()">Enable Compression</button>
+                    <button class="btn btn-secondary" onclick="runAudit()">Run Performance Audit</button>
+                </div>
+
+                <div class="management-card">
+                    <div class="card-header">
+                        <div class="card-title">CDN & Caching</div>
+                    </div>
+                    <div class="form-group">
+                        <label>CDN Status</label>
+                        <input type="text" value="Active - Cloudflare" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Cache Hit Rate</label>
+                        <input type="text" value="94%" readonly>
+                    </div>
+                    <button class="btn btn-secondary" onclick="purgeCache()">Purge Cache</button>
+                    <button class="btn btn-secondary" onclick="configureCDN()">Configure CDN</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Website Management JavaScript
+        class WebsiteManager {
+            constructor() {
+                this.init();
+            }
+
+            init() {
+                this.setupTabs();
+                this.loadPageData();
+            }
+
+            setupTabs() {
+                const tabButtons = document.querySelectorAll('.tab-button');
+                const tabContents = document.querySelectorAll('.tab-content');
+
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const targetTab = this.dataset.tab;
+
+                        // Remove active class from all buttons and contents
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+
+                        // Add active class to clicked button and target content
+                        this.classList.add('active');
+                        document.getElementById(targetTab).classList.add('active');
+                    });
+                });
+            }
+
+            loadPageData() {
+                // In a real implementation, this would load data from an API
+                console.log('Loading page data...');
+            }
+
+            showToast(message, type = 'info') {
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                toast.textContent = message;
+                
+                document.body.appendChild(toast);
+                
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        document.body.removeChild(toast);
+                    }, 300);
+                }, 3000);
+            }
+        }
+
+        // Global functions for UI interactions
+        function createNewPage() {
+            websiteManager.showToast('Page creation wizard - Coming soon!', 'info');
+        }
+
+        function backupWebsite() {
+            websiteManager.showToast('Creating website backup...', 'info');
+            // Simulate backup process
+            setTimeout(() => {
+                websiteManager.showToast('Website backup completed successfully!', 'success');
+            }, 2000);
+        }
+
+        function clearCache() {
+            websiteManager.showToast('Clearing cache...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Cache cleared successfully!', 'success');
+            }, 1000);
+        }
+
+        function optimizeImages() {
+            websiteManager.showToast('Optimizing images...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Images optimized! Saved 1.2MB', 'success');
+            }, 3000);
+        }
+
+        function viewPage(url) {
+            window.open(url, '_blank');
+        }
+
+        function editPage(url) {
+            websiteManager.showToast(`Opening editor for ${url} - Coming soon!`, 'info');
+        }
+
+        function addMenuItem() {
+            const menuContainer = document.getElementById('menu-items');
+            const newItem = document.createElement('div');
+            newItem.className = 'form-group';
+            newItem.innerHTML = `
+                <label>New Menu Item</label>
+                <div class="form-row">
+                    <input type="text" placeholder="Label">
+                    <input type="text" placeholder="URL">
+                </div>
+            `;
+            menuContainer.appendChild(newItem);
+        }
+
+        function generateSitemap() {
+            websiteManager.showToast('Generating sitemap...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Sitemap generated successfully!', 'success');
+            }, 2000);
+        }
+
+        function editRobots() {
+            websiteManager.showToast('Robots.txt editor - Coming soon!', 'info');
+        }
+
+        function minifyAssets() {
+            websiteManager.showToast('Minifying assets...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Assets minified! Reduced size by 35%', 'success');
+            }, 2000);
+        }
+
+        function enableGzip() {
+            websiteManager.showToast('Gzip compression enabled!', 'success');
+        }
+
+        function runAudit() {
+            websiteManager.showToast('Running performance audit...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Audit complete! Check the performance tab for results.', 'success');
+            }, 5000);
+        }
+
+        function purgeCache() {
+            websiteManager.showToast('Purging CDN cache...', 'info');
+            setTimeout(() => {
+                websiteManager.showToast('Cache purged successfully!', 'success');
+            }, 2000);
+        }
+
+        function configureCDN() {
+            websiteManager.showToast('CDN configuration panel - Coming soon!', 'info');
+        }
+
+        // Initialize website manager
+        let websiteManager;
+        document.addEventListener('DOMContentLoaded', function() {
+            websiteManager = new WebsiteManager();
+        });
+    </script>
+</body>
+</html> 

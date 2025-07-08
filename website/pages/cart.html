@@ -17,6 +17,7 @@
     
     <!-- Google Analytics 4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <link rel="stylesheet" href="../assets/css/pricing-system.css">
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
@@ -628,6 +629,27 @@
 
                 <div class="order-summary">
                     <h3 style="color: #00d4ff; margin-bottom: 30px;">Order Summary</h3>
+                    
+                    <!-- Promo Code Section -->
+                    <div class="promo-code-section">
+                        <div class="promo-code-title">Have a Promo Code?</div>
+                        <div class="promo-code-input-group">
+                            <input type="text" 
+                                   class="promo-code-input" 
+                                   id="promo-code-input"
+                                   data-promo-input="cart"
+                                   placeholder="Enter promo code" 
+                                   maxlength="20">
+                            <button class="promo-code-apply" 
+                                    id="promo-code-apply"
+                                    data-promo-apply="cart" 
+                                    disabled>Apply</button>
+                        </div>
+                        <div class="promo-code-suggestions" id="promo-suggestions">
+                            <!-- Dynamic suggestions will be populated here -->
+                        </div>
+                    </div>
+
                     <div id="summary-details">
                         <!-- Summary will be populated here -->
                     </div>
@@ -662,9 +684,19 @@
         </div>
     </div>
 
+    <script src="../assets/js/pricing-config.js"></script>
     <script>
         // Initialize Stripe
         const stripe = Stripe('pk_test_your_stripe_key_here');
+        
+        // Enhanced cart system with dynamic pricing
+        let currentPromoCode = null;
+        let appliedDiscounts = {
+            quantity: 0,
+            promo: 0,
+            seasonal: 0,
+            shipping: 0
+        };
 
         // Product catalog
         const products = {
@@ -813,24 +845,61 @@
             cartItems.innerHTML = html;
         }
 
-        // Update summary
+        // Update summary with dynamic pricing
         function updateSummary() {
             const cartKeys = Object.keys(cart);
             let subtotal = 0;
             let originalTotal = 0;
             let itemCount = 0;
+            let totalQuantityDiscount = 0;
+            let totalSeasonalDiscount = 0;
 
+            // Calculate subtotal with dynamic pricing
             cartKeys.forEach(productId => {
-                const product = products[productId];
                 const quantity = cart[productId];
-                subtotal += product.price * quantity;
-                originalTotal += product.originalPrice * quantity;
                 itemCount += quantity;
+                
+                if (window.DAMPPricing) {
+                    const pricing = window.DAMPPricing.getProductPrice(productId, quantity, currentPromoCode);
+                    subtotal += pricing.total_price / 100; // Convert from cents
+                    originalTotal += pricing.base_price * quantity / 100;
+                    
+                    // Sum up quantity discounts
+                    pricing.discounts.forEach(discount => {
+                        if (discount.type === 'quantity') {
+                            totalQuantityDiscount += discount.amount * quantity / 100;
+                        } else if (discount.type === 'seasonal') {
+                            totalSeasonalDiscount += discount.amount * quantity / 100;
+                        }
+                    });
+                } else {
+                    // Fallback to static pricing
+                    const product = products[productId];
+                    if (product) {
+                        subtotal += product.price * quantity / 100;
+                        originalTotal += product.originalPrice * quantity / 100;
+                    }
+                }
             });
 
-            const savings = originalTotal - subtotal;
-            const tax = 0; // Pre-order, no tax until shipping
-            const total = subtotal;
+            // Apply promo code discount
+            let promoDiscount = 0;
+            if (currentPromoCode && window.DAMPPricing) {
+                const promoResult = window.DAMPPricing.applyPromoCode(currentPromoCode, subtotal * 100);
+                if (promoResult) {
+                    promoDiscount = promoResult.amount / 100;
+                    subtotal -= promoDiscount;
+                }
+            }
+
+            // Calculate shipping
+            const shippingThreshold = window.DAMPPricing ? 
+                window.DAMPPricing.config.settings.shipping_threshold / 100 : 75;
+            const shippingCost = window.DAMPPricing ? 
+                window.DAMPPricing.config.settings.shipping_cost / 100 : 5.99;
+            
+            const shipping = subtotal >= shippingThreshold ? 0 : shippingCost;
+            const total = subtotal + shipping;
 
             const summaryDiv = document.getElementById('summary-details');
             const checkoutBtn = document.getElementById('checkout-btn');
@@ -842,27 +911,97 @@
                 return;
             }
 
-            summaryDiv.innerHTML = `
+            let summaryHTML = `
                 <div class="summary-row">
                     <span>Items (${itemCount})</span>
-                    <span>$${(originalTotal / 100).toFixed(2)}</span>
+                    <span>$${(originalTotal).toFixed(2)}</span>
                 </div>
-                <div class="summary-row" style="color: #ff6b6b;">
-                    <span>Early Bird Savings</span>
-                    <span>-$${(savings / 100).toFixed(2)}</span>
+            `;
+
+            // Add early bird savings
+            const earlyBirdSavings = originalTotal - subtotal - promoDiscount - totalQuantityDiscount - totalSeasonalDiscount;
+            if (earlyBirdSavings > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #ff6b6b;">
+                        <span>Early Bird Savings</span>
+                        <span>-$${earlyBirdSavings.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            // Add quantity discount
+            if (totalQuantityDiscount > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #00ff88;">
+                        <span>Bulk Discount</span>
+                        <span>-$${totalQuantityDiscount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            // Add seasonal discount
+            if (totalSeasonalDiscount > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #00ff88;">
+                        <span>Seasonal Discount</span>
+                        <span>-$${totalSeasonalDiscount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            // Add promo code discount
+            if (promoDiscount > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #00ff88;">
+                        <span>Promo Code (${currentPromoCode})</span>
+                        <span>-$${promoDiscount.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            // Add shipping
+            summaryHTML += `
+                <div class="summary-row">
+                    <span>Shipping</span>
+                    <span>${shipping === 0 ? 'FREE' : '$' + shipping.toFixed(2)}</span>
                 </div>
+            `;
+
+            if (shipping === 0 && shippingCost > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #00ff88; font-size: 0.9rem;">
+                        <span>🎉 Free shipping unlocked!</span>
+                        <span>-$${shippingCost.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            summaryHTML += `
                 <div class="summary-row">
                     <span>Tax</span>
                     <span>Calculated at shipping</span>
                 </div>
                 <div class="summary-total">
                     <span>Total</span>
-                    <span>$${(total / 100).toFixed(2)}</span>
+                    <span>$${total.toFixed(2)}</span>
                 </div>
             `;
 
+            // Show total savings
+            const totalSavings = originalTotal - total;
+            if (totalSavings > 0) {
+                summaryHTML += `
+                    <div class="summary-row" style="color: #00ff88; font-weight: bold; margin-top: 10px;">
+                        <span>💰 You Save</span>
+                        <span>$${totalSavings.toFixed(2)}</span>
+                    </div>
+                `;
+            }
+
+            summaryDiv.innerHTML = summaryHTML;
+
             checkoutBtn.disabled = false;
-            checkoutBtn.textContent = `Complete Pre-Order - $${(total / 100).toFixed(2)}`;
+            checkoutBtn.textContent = `Complete Pre-Order - $${total.toFixed(2)}`;
         }
 
         // Proceed to checkout
@@ -963,10 +1102,177 @@
             }
         });
 
+        // Initialize promo code system
+        function initializePromoCodeSystem() {
+            const promoInput = document.getElementById('promo-code-input');
+            const promoButton = document.getElementById('promo-code-apply');
+            const suggestionsContainer = document.getElementById('promo-suggestions');
+            
+            if (!promoInput || !promoButton || !suggestionsContainer) return;
+            
+            // Add input event listeners
+            promoInput.addEventListener('input', function(e) {
+                const code = e.target.value.trim().toUpperCase();
+                promoButton.disabled = code.length < 3;
+                
+                // Clear previous promo if user is typing a new one
+                if (currentPromoCode && code !== currentPromoCode) {
+                    removePromoCode();
+                }
+            });
+            
+            // Add apply button event listener
+            promoButton.addEventListener('click', function() {
+                const code = promoInput.value.trim().toUpperCase();
+                if (code.length >= 3) {
+                    applyPromoCode(code);
+                }
+            });
+            
+            // Add enter key support
+            promoInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !promoButton.disabled) {
+                    promoButton.click();
+                }
+            });
+            
+            // Load active promotions as suggestions
+            loadPromoSuggestions();
+        }
+
+        // Load and display promo suggestions
+        function loadPromoSuggestions() {
+            if (!window.DAMPPricing) return;
+            
+            const suggestionsContainer = document.getElementById('promo-suggestions');
+            if (!suggestionsContainer) return;
+            
+            const activePromotions = window.DAMPPricing.getActivePromotions();
+            
+            suggestionsContainer.innerHTML = '';
+            
+            // Show first 3 active promotions as suggestions
+            activePromotions.slice(0, 3).forEach(promo => {
+                const suggestion = document.createElement('div');
+                suggestion.className = 'promo-code-suggestion';
+                suggestion.textContent = promo.code;
+                suggestion.title = promo.description;
+                
+                suggestion.addEventListener('click', function() {
+                    document.getElementById('promo-code-input').value = promo.code;
+                    applyPromoCode(promo.code);
+                });
+                
+                suggestionsContainer.appendChild(suggestion);
+            });
+        }
+
+        // Apply promo code
+        function applyPromoCode(code) {
+            if (!window.DAMPPricing) {
+                showNotification('Pricing system not loaded', 'error');
+                return;
+            }
+            
+            const cartKeys = Object.keys(cart);
+            let subtotal = 0;
+            
+            // Calculate current subtotal
+            cartKeys.forEach(productId => {
+                const quantity = cart[productId];
+                const pricing = window.DAMPPricing.getProductPrice(productId, quantity);
+                subtotal += pricing.total_price;
+            });
+            
+            const promoResult = window.DAMPPricing.applyPromoCode(code, subtotal);
+            
+            if (promoResult) {
+                currentPromoCode = code;
+                
+                // Update UI
+                document.getElementById('promo-code-input').value = code;
+                document.getElementById('promo-code-apply').textContent = 'Applied ✓';
+                document.getElementById('promo-code-apply').disabled = true;
+                
+                // Show success notification
+                showNotification(`Promo code applied! You saved $${(promoResult.amount / 100).toFixed(2)}`, 'success');
+                
+                // Update summary
+                updateSummary();
+                
+                // Track event
+                trackEvent('promo_code_applied', {
+                    action: 'apply',
+                    category: 'cart',
+                    label: code,
+                    value: promoResult.amount / 100
+                });
+            } else {
+                showNotification('Invalid or expired promo code', 'error');
+                
+                // Track failed attempt
+                trackEvent('promo_code_failed', {
+                    action: 'apply_failed',
+                    category: 'cart',
+                    label: code
+                });
+            }
+        }
+
+        // Remove promo code
+        function removePromoCode() {
+            currentPromoCode = null;
+            
+            // Reset UI
+            const promoInput = document.getElementById('promo-code-input');
+            const promoButton = document.getElementById('promo-code-apply');
+            
+            if (promoInput) promoInput.value = '';
+            if (promoButton) {
+                promoButton.textContent = 'Apply';
+                promoButton.disabled = true;
+            }
+            
+            // Update summary
+            updateSummary();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            if (window.DAMPPricing) {
+                window.DAMPPricing.showNotification(message, type);
+            } else {
+                // Fallback notification
+                const notification = document.createElement('div');
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: ${type === 'success' ? '#00ff88' : type === 'error' ? '#ff4444' : '#00d4ff'};
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 10000;
+                    font-weight: bold;
+                `;
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        }
+
         // Initialize page
         initializeFromURL();
         updateCartDisplay();
         updateSummary();
+        
+        // Initialize promo code system after a short delay to ensure pricing system is loaded
+        setTimeout(() => {
+            initializePromoCodeSystem();
+        }, 100);
 
         // Track page view
         trackEvent('page_view', {

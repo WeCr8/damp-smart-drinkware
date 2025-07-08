@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Admin Dashboard - Central Management Hub</title>
+    <link rel="stylesheet" href="../../assets/css/styles.css">
+    <link rel="stylesheet" href="../../assets/css/pricing-system.css">
+    <style>
+        :root {
+            --admin-primary: #00d4ff;
+            --admin-secondary: #0099cc;
+            --admin-success: #00ff88;
+            --admin-warning: #ffb74d;
+            --admin-error: #ff4444;
+            --admin-bg: #0f0f23;
+            --admin-card: rgba(255, 255, 255, 0.1);
+            --admin-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Admin Header */
+        .admin-header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--admin-border);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .admin-header .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .admin-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+        }
+
+        .admin-logo .icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .admin-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .admin-notifications {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .admin-notifications:hover {
+            background: var(--admin-card);
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: var(--admin-error);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: var(--admin-card);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .admin-profile:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        /* Quick Stats Grid */
+        .stats-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--admin-primary), var(--admin-secondary));
+        }
+
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .stat-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .stat-change.positive {
+            color: var(--admin-success);
+        }
+
+        .stat-change.negative {
+            color: var(--admin-error);
+        }
+
+        .stat-change.neutral {
+            color: var(--admin-warning);
+        }
+
+        /* Admin Modules Grid */
+        .admin-modules {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .module-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .module-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.3);
+            border-color: var(--admin-primary);
+        }
+
+        .module-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .module-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .module-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+        }
+
+        .module-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .module-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .module-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .module-features li::before {
+            content: '✓';
+            color: var(--admin-success);
+            font-weight: bold;
+        }
+
+        .module-status {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid var(--admin-border);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-active .status-dot {
+            background: var(--admin-success);
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .status-development .status-dot {
+            background: var(--admin-warning);
+            box-shadow: 0 0 10px rgba(255, 183, 77, 0.5);
+        }
+
+        .status-maintenance .status-dot {
+            background: var(--admin-error);
+            box-shadow: 0 0 10px rgba(255, 68, 68, 0.5);
+        }
+
+        .module-action {
+            color: var(--admin-primary);
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .module-action:hover {
+            color: white;
+        }
+
+        /* Recent Activity Section */
+        .recent-activity {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .activity-list {
+            list-style: none;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--admin-border);
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .activity-icon.success {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--admin-success);
+        }
+
+        .activity-icon.warning {
+            background: rgba(255, 183, 77, 0.2);
+            color: var(--admin-warning);
+        }
+
+        .activity-icon.error {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--admin-error);
+        }
+
+        .activity-icon.info {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--admin-primary);
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .activity-description {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.8rem;
+        }
+
+        /* System Health */
+        .system-health {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .health-card {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .health-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .health-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--admin-primary);
+        }
+
+        .health-status {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .health-status.operational {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--admin-success);
+        }
+
+        .health-status.degraded {
+            background: rgba(255, 183, 77, 0.2);
+            color: var(--admin-warning);
+        }
+
+        .health-status.outage {
+            background: rgba(255, 68, 68, 0.2);
+            color: var(--admin-error);
+        }
+
+        .health-metrics {
+            list-style: none;
+        }
+
+        .health-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--admin-border);
+        }
+
+        .health-metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-name {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .metric-value {
+            font-weight: bold;
+            color: var(--admin-primary);
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+        }
+
+        .action-fab {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, var(--admin-primary), var(--admin-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            text-decoration: none;
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.4);
+            transition: all 0.3s ease;
+            margin-bottom: 15px;
+        }
+
+        .action-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.6);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .admin-header .container {
+                padding: 0 15px;
+            }
+
+            .admin-container {
+                padding: 20px 15px;
+            }
+
+            .stats-overview,
+            .admin-modules,
+            .system-health {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .module-card,
+            .stat-card,
+            .health-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .admin-logo {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .module-title {
+                font-size: 1.1rem;
+            }
+        }
+
+        /* Loading States */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--admin-border);
+            border-radius: 50%;
+            border-top-color: var(--admin-primary);
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .toast {
+            background: var(--admin-card);
+            border: 1px solid var(--admin-border);
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            transform: translateX(100%);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--admin-success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--admin-error);
+        }
+
+        .toast.warning {
+            border-left: 4px solid var(--admin-warning);
+        }
+
+        .toast.info {
+            border-left: 4px solid var(--admin-primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Admin Header -->
+    <header class="admin-header">
+        <div class="container">
+            <div class="admin-logo">
+                <div class="icon">🎯</div>
+                <span>DAMP Admin</span>
+            </div>
+            <div class="admin-user">
+                <div class="admin-notifications" title="Notifications">
+                    🔔
+                    <span class="notification-badge">3</span>
+                </div>
+                <div class="admin-profile">
+                    <div class="profile-avatar">AD</div>
+                    <span>Admin</span>
+                    <span>▼</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="admin-container">
+        <!-- Quick Stats Overview -->
+        <div class="stats-overview">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">📈</div>
+                </div>
+                <div class="stat-value" id="total-revenue">$0</div>
+                <div class="stat-label">Total Revenue</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+12.5% from last month</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">👥</div>
+                </div>
+                <div class="stat-value" id="active-users">0</div>
+                <div class="stat-label">Active Users</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+8.2% from last week</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">🛒</div>
+                </div>
+                <div class="stat-value" id="total-orders">0</div>
+                <div class="stat-label">Pre-Orders</div>
+                <div class="stat-change positive">
+                    <span>↗</span>
+                    <span>+15.3% from last week</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon">📱</div>
+                </div>
+                <div class="stat-value" id="app-downloads">0</div>
+                <div class="stat-label">App Downloads</div>
+                <div class="stat-change neutral">
+                    <span>→</span>
+                    <span>Coming Soon</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Modules -->
+        <div class="admin-modules">
+            <!-- Website Management -->
+            <div class="module-card" onclick="navigateToModule('website')">
+                <div class="module-header">
+                    <div class="module-icon">🌐</div>
+                    <div class="module-title">Website Management</div>
+                </div>
+                <div class="module-description">
+                    Manage website content, pages, SEO, and user experience. Update product information and site-wide settings.
+                </div>
+                <ul class="module-features">
+                    <li>Page content management</li>
+                    <li>SEO optimization tools</li>
+                    <li>Analytics integration</li>
+                    <li>Performance monitoring</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-active">
+                        <div class="status-dot"></div>
+                        <span>Operational</span>
+                    </div>
+                    <a href="#" class="module-action">Manage →</a>
+                </div>
+            </div>
+
+            <!-- Pricing & E-commerce -->
+            <div class="module-card" onclick="navigateToModule('pricing')">
+                <div class="module-header">
+                    <div class="module-icon">💰</div>
+                    <div class="module-title">Pricing & E-commerce</div>
+                </div>
+                <div class="module-description">
+                    Control product pricing, promotions, discounts, and e-commerce functionality across all platforms.
+                </div>
+                <ul class="module-features">
+                    <li>Dynamic pricing management</li>
+                    <li>Promo code system</li>
+                    <li>Bundle configuration</li>
+                    <li>Payment processing</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-active">
+                        <div class="status-dot"></div>
+                        <span>Active</span>
+                    </div>
+                    <a href="pricing-admin.html" class="module-action">Manage →</a>
+                </div>
+            </div>
+
+            <!-- Project Management -->
+            <div class="module-card" onclick="navigateToModule('projects')">
+                <div class="module-header">
+                    <div class="module-icon">📋</div>
+                    <div class="module-title">Project Management</div>
+                </div>
+                <div class="module-description">
+                    Track development progress, manage roadmaps, milestones, and coordinate team activities.
+                </div>
+                <ul class="module-features">
+                    <li>Development roadmap</li>
+                    <li>Task tracking</li>
+                    <li>Team collaboration</li>
+                    <li>Milestone management</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-development">
+                        <div class="status-dot"></div>
+                        <span>In Development</span>
+                    </div>
+                    <a href="#" class="module-action">Manage →</a>
+                </div>
+            </div>
+
+            <!-- Mobile App Management -->
+            <div class="module-card" onclick="navigateToModule('mobile')">
+                <div class="module-header">
+                    <div class="module-icon">📱</div>
+                    <div class="module-title">Mobile App</div>
+                </div>
+                <div class="module-description">
+                    Manage mobile app features, push notifications, user engagement, and app store presence.
+                </div>
+                <ul class="module-features">
+                    <li>App feature toggles</li>
+                    <li>Push notifications</li>
+                    <li>User analytics</li>
+                    <li>App store management</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-development">
+                        <div class="status-dot"></div>
+                        <span>Coming Soon</span>
+                    </div>
+                    <a href="#" class="module-action">Manage →</a>
+                </div>
+            </div>
+
+            <!-- User & Subscription Management -->
+            <div class="module-card" onclick="navigateToModule('users')">
+                <div class="module-header">
+                    <div class="module-icon">👤</div>
+                    <div class="module-title">Users & Subscriptions</div>
+                </div>
+                <div class="module-description">
+                    Manage user accounts, subscriptions, billing, and customer support interactions.
+                </div>
+                <ul class="module-features">
+                    <li>User account management</li>
+                    <li>Subscription billing</li>
+                    <li>Customer support</li>
+                    <li>User analytics</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-development">
+                        <div class="status-dot"></div>
+                        <span>In Development</span>
+                    </div>
+                    <a href="#" class="module-action">Manage →</a>
+                </div>
+            </div>
+
+            <!-- Analytics & Reporting -->
+            <div class="module-card" onclick="navigateToModule('analytics')">
+                <div class="module-header">
+                    <div class="module-icon">📊</div>
+                    <div class="module-title">Analytics & Reporting</div>
+                </div>
+                <div class="module-description">
+                    Comprehensive analytics dashboard with insights into user behavior, sales, and performance metrics.
+                </div>
+                <ul class="module-features">
+                    <li>Real-time analytics</li>
+                    <li>Custom reports</li>
+                    <li>Performance metrics</li>
+                    <li>Data export tools</li>
+                </ul>
+                <div class="module-status">
+                    <div class="status-indicator status-development">
+                        <div class="status-dot"></div>
+                        <span>In Development</span>
+                    </div>
+                    <a href="#" class="module-action">Manage →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <div class="section-title">
+                <span>📝</span>
+                <span>Recent Activity</span>
+            </div>
+            <ul class="activity-list" id="activity-list">
+                <li class="activity-item">
+                    <div class="activity-icon success">✓</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Pricing system updated</div>
+                        <div class="activity-description">Dynamic pricing configuration has been successfully deployed</div>
+                        <div class="activity-time">2 minutes ago</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon info">ℹ</div>
+                    <div class="activity-content">
+                        <div class="activity-title">New promo code created</div>
+                        <div class="activity-description">HOLIDAY2025 promo code activated with 15% discount</div>
+                        <div class="activity-time">1 hour ago</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon warning">⚠</div>
+                    <div class="activity-content">
+                        <div class="activity-title">Inventory alert</div>
+                        <div class="activity-description">DAMP Handle v1.0 inventory below 100 units</div>
+                        <div class="activity-time">3 hours ago</div>
+                    </div>
+                </li>
+                <li class="activity-item">
+                    <div class="activity-icon success">✓</div>
+                    <div class="activity-content">
+                        <div class="activity-title">System backup completed</div>
+                        <div class="activity-description">Daily automated backup finished successfully</div>
+                        <div class="activity-time">6 hours ago</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- System Health -->
+        <div class="system-health">
+            <div class="health-card">
+                <div class="health-header">
+                    <div class="health-title">Website Health</div>
+                    <div class="health-status operational">Operational</div>
+                </div>
+                <ul class="health-metrics">
+                    <li class="health-metric">
+                        <span class="metric-name">Uptime</span>
+                        <span class="metric-value">99.9%</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Response Time</span>
+                        <span class="metric-value">120ms</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Page Speed</span>
+                        <span class="metric-value">95/100</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">SSL Status</span>
+                        <span class="metric-value">Valid</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="health-card">
+                <div class="health-header">
+                    <div class="health-title">API Services</div>
+                    <div class="health-status operational">Operational</div>
+                </div>
+                <ul class="health-metrics">
+                    <li class="health-metric">
+                        <span class="metric-name">Pricing API</span>
+                        <span class="metric-value">Active</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Payment API</span>
+                        <span class="metric-value">Active</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Analytics API</span>
+                        <span class="metric-value">Active</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Rate Limit</span>
+                        <span class="metric-value">12/1000</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="health-card">
+                <div class="health-header">
+                    <div class="health-title">Database</div>
+                    <div class="health-status operational">Operational</div>
+                </div>
+                <ul class="health-metrics">
+                    <li class="health-metric">
+                        <span class="metric-name">Connection Pool</span>
+                        <span class="metric-value">8/20</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Query Time</span>
+                        <span class="metric-value">15ms</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Storage Used</span>
+                        <span class="metric-value">2.3GB</span>
+                    </li>
+                    <li class="health-metric">
+                        <span class="metric-name">Backup Status</span>
+                        <span class="metric-value">Current</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <a href="pricing-admin.html" class="action-fab" title="Quick Pricing">💰</a>
+        <a href="#" class="action-fab" title="Add Content">➕</a>
+        <a href="#" class="action-fab" title="View Analytics">📊</a>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script>
+        // Admin Dashboard JavaScript
+        class AdminDashboard {
+            constructor() {
+                this.stats = {
+                    revenue: 0,
+                    users: 0,
+                    orders: 0,
+                    downloads: 0
+                };
+                this.init();
+            }
+
+            init() {
+                this.loadStats();
+                this.setupEventListeners();
+                this.startRealTimeUpdates();
+                this.loadRecentActivity();
+            }
+
+            setupEventListeners() {
+                // Profile dropdown
+                document.querySelector('.admin-profile').addEventListener('click', () => {
+                    this.showProfileMenu();
+                });
+
+                // Notifications
+                document.querySelector('.admin-notifications').addEventListener('click', () => {
+                    this.showNotifications();
+                });
+            }
+
+            async loadStats() {
+                try {
+                    // Simulate loading stats from API
+                    await this.simulateStatsLoad();
+                    this.updateStatsDisplay();
+                } catch (error) {
+                    console.error('Failed to load stats:', error);
+                    this.showToast('Failed to load dashboard stats', 'error');
+                }
+            }
+
+            async simulateStatsLoad() {
+                try {
+                    // Load real data from admin API
+                    const [usersData, analyticsData] = await Promise.all([
+                        fetch('/api/admin/users/overview').then(r => r.json()),
+                        fetch('/api/admin/analytics/overview').then(r => r.json())
+                    ]);
+
+                    this.stats = {
+                        revenue: usersData.success ? usersData.data.revenue : 23750,
+                        users: usersData.success ? usersData.data.totalUsers : 1247,
+                        orders: usersData.success ? usersData.data.activeSubscriptions : 89,
+                        downloads: 0 // Mobile app not released yet
+                    };
+                } catch (error) {
+                    console.error('Failed to load real stats, using mock data:', error);
+                    // Fallback to mock data
+                    this.stats = {
+                        revenue: 23750,
+                        users: 1247,
+                        orders: 89,
+                        downloads: 0
+                    };
+                }
+            }
+
+            updateStatsDisplay() {
+                const formatCurrency = (amount) => `$${amount.toLocaleString()}`;
+                const formatNumber = (num) => num.toLocaleString();
+
+                document.getElementById('total-revenue').textContent = formatCurrency(this.stats.revenue);
+                document.getElementById('active-users').textContent = formatNumber(this.stats.users);
+                document.getElementById('total-orders').textContent = formatNumber(this.stats.orders);
+                document.getElementById('app-downloads').textContent = formatNumber(this.stats.downloads);
+            }
+
+            startRealTimeUpdates() {
+                // Update stats every 30 seconds
+                setInterval(() => {
+                    this.loadStats();
+                }, 30000);
+
+                // Simulate real-time activity
+                setInterval(() => {
+                    this.addRandomActivity();
+                }, 60000);
+            }
+
+            async loadRecentActivity() {
+                try {
+                    const response = await fetch('/api/admin/activity');
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.updateActivityDisplay(result.data);
+                    }
+                } catch (error) {
+                    console.error('Failed to load activity data:', error);
+                    // Activity is already populated in HTML as fallback
+                }
+            }
+
+            updateActivityDisplay(activities) {
+                const activityList = document.getElementById('activity-list');
+                activityList.innerHTML = '';
+
+                activities.forEach(activity => {
+                    const activityItem = document.createElement('li');
+                    activityItem.className = 'activity-item';
+                    
+                    const timeAgo = this.getTimeAgo(new Date(activity.timestamp));
+                    const iconMap = {
+                        success: '✓',
+                        info: 'ℹ',
+                        warning: '⚠',
+                        error: '✗'
+                    };
+
+                    activityItem.innerHTML = `
+                        <div class="activity-icon ${activity.type}">${iconMap[activity.type] || 'ℹ'}</div>
+                        <div class="activity-content">
+                            <div class="activity-title">${activity.title}</div>
+                            <div class="activity-description">${activity.description}</div>
+                            <div class="activity-time">${timeAgo}</div>
+                        </div>
+                    `;
+
+                    activityList.appendChild(activityItem);
+                });
+            }
+
+            getTimeAgo(date) {
+                const now = new Date();
+                const diffInSeconds = Math.floor((now - date) / 1000);
+                
+                if (diffInSeconds < 60) return 'Just now';
+                if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)} minutes ago`;
+                if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)} hours ago`;
+                return `${Math.floor(diffInSeconds / 86400)} days ago`;
+            }
+
+            addRandomActivity() {
+                const activities = [
+                    {
+                        type: 'success',
+                        icon: '✓',
+                        title: 'New order received',
+                        description: 'Customer ordered DAMP Handle v1.0',
+                        time: 'Just now'
+                    },
+                    {
+                        type: 'info',
+                        icon: 'ℹ',
+                        title: 'User registered',
+                        description: 'New user signed up for notifications',
+                        time: 'Just now'
+                    },
+                    {
+                        type: 'warning',
+                        icon: '⚠',
+                        title: 'Performance alert',
+                        description: 'Page load time increased to 150ms',
+                        time: 'Just now'
+                    }
+                ];
+
+                const activity = activities[Math.floor(Math.random() * activities.length)];
+                this.addActivityItem(activity);
+            }
+
+            addActivityItem(activity) {
+                const activityList = document.getElementById('activity-list');
+                const activityItem = document.createElement('li');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon ${activity.type}">${activity.icon}</div>
+                    <div class="activity-content">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-description">${activity.description}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `;
+
+                activityList.insertBefore(activityItem, activityList.firstChild);
+
+                // Remove old activities (keep max 10)
+                while (activityList.children.length > 10) {
+                    activityList.removeChild(activityList.lastChild);
+                }
+            }
+
+            showProfileMenu() {
+                // Implement profile menu dropdown
+                this.showToast('Profile menu - Coming soon!', 'info');
+            }
+
+            showNotifications() {
+                // Implement notifications panel
+                this.showToast('Notifications panel - Coming soon!', 'info');
+            }
+
+            showToast(message, type = 'info') {
+                const toastContainer = document.getElementById('toast-container');
+                const toast = document.createElement('div');
+                toast.className = `toast ${type}`;
+                toast.textContent = message;
+
+                toastContainer.appendChild(toast);
+
+                // Trigger animation
+                setTimeout(() => {
+                    toast.classList.add('show');
+                }, 100);
+
+                // Auto remove
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                    setTimeout(() => {
+                        if (toast.parentNode) {
+                            toast.parentNode.removeChild(toast);
+                        }
+                    }, 300);
+                }, 4000);
+            }
+        }
+
+        // Module Navigation
+        function navigateToModule(module) {
+            const moduleRoutes = {
+                website: 'website-management.html',
+                pricing: 'pricing-admin.html',
+                projects: 'project-management.html',
+                mobile: 'mobile-app-management.html',
+                users: 'user-management.html',
+                analytics: 'analytics-dashboard.html'
+            };
+
+            const route = moduleRoutes[module];
+            if (route) {
+                window.location.href = route;
+            } else {
+                adminDashboard.showToast(`${module.charAt(0).toUpperCase() + module.slice(1)} management - Coming soon!`, 'info');
+            }
+        }
+
+        // Initialize dashboard when page loads
+        let adminDashboard;
+        document.addEventListener('DOMContentLoaded', function() {
+            adminDashboard = new AdminDashboard();
+        });
+
+        // Global error handling
+        window.addEventListener('error', function(event) {
+            console.error('Dashboard error:', event.error);
+            if (adminDashboard) {
+                adminDashboard.showToast('An error occurred. Please refresh the page.', 'error');
+            }
+        });
+    </script>
+</body>
+</html> 

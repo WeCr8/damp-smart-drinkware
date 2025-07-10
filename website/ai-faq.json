@@ -1,0 +1,20 @@
+{
+  "faqs": [
+    {
+      "question": "What is WeCr8 Solutions LLC?",
+      "answer": "WeCr8 Solutions LLC is an innovation-driven technology platform that provides comprehensive solutions including small-scale manufacturing, software development, technology consulting, and product innovation services."
+    },
+    {
+      "question": "What services does WeCr8 Solutions offer?",
+      "answer": "WeCr8 Solutions offers four main service areas: 1) Small-scale manufacturing and rapid prototyping, 2) Full-stack software development, 3) Technology consulting and innovation strategy, 4) Product development and IoT solutions."
+    },
+    {
+      "question": "What makes WeCr8 Solutions unique?",
+      "answer": "WeCr8 Solutions combines manufacturing capabilities with software expertise and consulting services, offering end-to-end solutions from concept to market with a talented multidisciplinary team."
+    },
+    {
+      "question": "What is DAMP Smart Drinkware?",
+      "answer": "DAMP Smart Drinkware is WeCr8 Solutions' flagship product line demonstrating their integrated capabilities - combining hardware design, software development, and manufacturing to create innovative IoT drinkware products."
+    }
+  ]
+} 

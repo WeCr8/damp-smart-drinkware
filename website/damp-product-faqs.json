@@ -1,0 +1,78 @@
+{
+  "damp_handle": {
+    "product": "DAMP Handle v1.0",
+    "price": "$49.99",
+    "faqs": [
+      {
+        "question": "What is the DAMP Handle v1.0?",
+        "answer": "The DAMP Handle v1.0 is a universal BLE attachment that transforms any existing mug into smart drinkware. It clips onto your mug handle and monitors your beverage location using Bluetooth technology."
+      },
+      {
+        "question": "How does the DAMP Handle attach to my mug?",
+        "answer": "The DAMP Handle uses a simple snap-on design that clips securely to most standard mug handles. No tools or permanent modifications are required."
+      },
+      {
+        "question": "How long does the DAMP Handle battery last?",
+        "answer": "The DAMP Handle v1.0 battery lasts up to 6 months per charge with normal usage. It charges quickly via USB-C in about 2 hours."
+      },
+      {
+        "question": "Is the DAMP Handle waterproof?",
+        "answer": "Yes, the DAMP Handle has an IP67 water resistance rating, making it dishwasher safe and suitable for normal washing."
+      }
+    ]
+  },
+  "damp_silicone_bottom": {
+    "product": "DAMP Silicone Bottom",
+    "price": "$29.99",
+    "faqs": [
+      {
+        "question": "What is the DAMP Silicone Bottom?",
+        "answer": "The DAMP Silicone Bottom is a smart silicone base that you place under any cup or mug to add smart tracking capabilities. It's the most affordable way to make any drinkware smart."
+      },
+      {
+        "question": "Does the DAMP Silicone Bottom fit all cups?",
+        "answer": "Yes, the DAMP Silicone Bottom is designed to fit under virtually any cup, mug, or glass. Its universal design accommodates various sizes and shapes."
+      },
+      {
+        "question": "Is the DAMP Silicone Bottom wireless charging compatible?",
+        "answer": "Yes, the DAMP Silicone Bottom supports wireless charging, making it convenient to keep charged without cables."
+      }
+    ]
+  },
+  "damp_cup_sleeve": {
+    "product": "DAMP Cup Sleeve",
+    "price": "$34.99",
+    "faqs": [
+      {
+        "question": "What is the DAMP Cup Sleeve?",
+        "answer": "The DAMP Cup Sleeve is a flexible silicone sleeve with integrated sensors that wraps around cups and mugs to provide smart monitoring capabilities."
+      },
+      {
+        "question": "What cup sizes does the DAMP Cup Sleeve fit?",
+        "answer": "The DAMP Cup Sleeve is designed to stretch and fit multiple cup sizes and shapes, making it perfect for takeaway cups, travel mugs, and various beverage containers."
+      },
+      {
+        "question": "Can the DAMP Cup Sleeve handle hot beverages?",
+        "answer": "Yes, the DAMP Cup Sleeve is heat-resistant up to 200°F (93°C), making it safe for hot coffee, tea, and other hot beverages."
+      }
+    ]
+  },
+  "damp_baby_bottle": {
+    "product": "DAMP Baby Bottle",
+    "price": "$79.99",
+    "faqs": [
+      {
+        "question": "What is the DAMP Baby Bottle?",
+        "answer": "The DAMP Baby Bottle is a smart baby bottle with integrated temperature monitoring, feeding schedule reminders, and parent proximity alerts to ensure baby's safety and proper feeding."
+      },
+      {
+        "question": "Is the DAMP Baby Bottle safe for babies?",
+        "answer": "Yes, the DAMP Baby Bottle is made from BPA-free materials and follows all safety standards for baby products. It's designed with baby safety as the top priority."
+      },
+      {
+        "question": "How does the DAMP Baby Bottle monitor temperature?",
+        "answer": "The DAMP Baby Bottle has built-in temperature sensors that continuously monitor the liquid temperature and send alerts to parents if the temperature is too hot or too cold."
+      }
+    ]
+  }
+} 

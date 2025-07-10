@@ -1,0 +1,7 @@
+# WeCr8 Solutions LLC - AI-Optimized robots.txt
+
+User-agent: *
+Allow: /
+
+# AI/LLM Crawlers
+User-agent: Chat 

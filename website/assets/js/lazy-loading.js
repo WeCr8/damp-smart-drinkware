@@ -71,8 +71,8 @@ class DAMPLazyLoader {
         // Add loading="lazy" to all images that don't have it
         const images = document.querySelectorAll('img:not([loading])');
         images.forEach(img => {
-            // Don't add lazy loading to above-the-fold images
-            if (!this.isAboveTheFold(img)) {
+            // Don't add lazy loading to above-the-fold images or logo/icons
+            if (!this.isAboveTheFold(img) && !this.isLogoOrIcon(img)) {
                 img.setAttribute('loading', 'lazy');
             }
         });
@@ -317,30 +317,76 @@ class DAMPLazyLoader {
     }
 
     getFallbackImage() {
-        // Generate a simple gradient as fallback
+        // Check if we have DAMP icon generator for beautiful fallback
+        if (window.dampIconGenerator && typeof window.dampIconGenerator.generateSVGFallback === 'function') {
+            return window.dampIconGenerator.generateSVGFallback(400);
+        }
+        
+        // Generate DAMP-branded fallback with white droplet
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         canvas.width = 400;
         canvas.height = 300;
         
-        const gradient = ctx.createLinearGradient(0, 0, 400, 300);
-        gradient.addColorStop(0, '#1a1a2e');
-        gradient.addColorStop(1, '#16213e');
+        // Create gradient background
+        const gradient = ctx.createRadialGradient(200, 150, 0, 200, 150, 200);
+        gradient.addColorStop(0, '#667eea');
+        gradient.addColorStop(1, '#764ba2');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, 400, 300);
         
-        // Add error text
+        // Draw water droplet shape
+        this.drawDropletFallback(ctx, 200, 150, 60);
+        
+        // Add DAMP branding
         ctx.fillStyle = 'white';
-        ctx.font = '16px Arial';
+        ctx.font = 'bold 24px Arial';
         ctx.textAlign = 'center';
-        ctx.fillText('Image not available', 200, 150);
+        ctx.fillText('DAMP', 200, 240);
+        
+        ctx.font = '14px Arial';
+        ctx.fillText('Image not available', 200, 260);
         
         return canvas.toDataURL();
+    }
+    
+    drawDropletFallback(ctx, centerX, centerY, radius) {
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY - radius);
+        
+        // Create water droplet shape using bezier curves
+        ctx.bezierCurveTo(
+            centerX + radius, centerY - radius,
+            centerX + radius, centerY,
+            centerX, centerY + radius * 0.7
+        );
+        ctx.bezierCurveTo(
+            centerX - radius, centerY,
+            centerX - radius, centerY - radius,
+            centerX, centerY - radius
+        );
+        
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.fill();
+        
+        // Add inner highlight
+        ctx.beginPath();
+        ctx.arc(centerX - radius * 0.3, centerY - radius * 0.3, radius * 0.2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+        ctx.fill();
     }
 
     isAboveTheFold(element) {
         const rect = element.getBoundingClientRect();
         return rect.top < window.innerHeight && rect.bottom > 0;
+    }
+    
+    isLogoOrIcon(img) {
+        // Don't lazy load logos, icons, or favicons
+        return img.src.includes('/logo/') || 
+               img.src.includes('icon') || 
+               img.src.includes('favicon') ||
+               img.closest('nav') !== null;
     }
 
     observeNewElements() {

@@ -1,5 +1,33 @@
-<!-- Navigation Template -->
-<nav class="damp-nav" role="navigation" aria-label="Main navigation">
+<nav class="damp-navigation">
     <div class="nav-container">
-        <a href="{{BASE_PATH}}" class="logo" aria-label="DAMP Smart Drinkware Home">
-            <img src="{{LOGO_PATH}}" alt=" 
+        <a href="{{BASE_PATH}}index.html" class="logo">
+            <img src="{{LOGO_PATH}}" alt="DAMP Logo" width="32" height="32">
+            <span>DAMP</span>
+        </a>
+        <ul class="nav-links" role="menubar">
+            {{NAV_LINKS}}
+        </ul>
+        
+        <div class="hamburger" role="button" aria-label="Toggle navigation menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    
+    <div class="mobile-menu-overlay">
+        <div class="mobile-menu-backdrop"></div>
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <div class="mobile-menu-logo">
+                    <img src="{{LOGO_PATH}}" alt="DAMP Logo" width="24" height="24">
+                    <span>DAMP</span>
+                </div>
+                <button class="mobile-close-btn" aria-label="Close menu">×</button>
+            </div>
+            <div class="mobile-menu-content">
+                {{MOBILE_NAV_LINKS}}
+            </div>
+        </div>
+    </div>
+</nav> 

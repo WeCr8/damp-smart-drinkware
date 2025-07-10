@@ -47,7 +47,7 @@ class NavigationLoader {
         return template
             .replace(/\{\{BASE_PATH\}\}/g, basePath)
             .replace(/\{\{CURRENT_PAGE\}\}/g, variables.currentPage)
-            .replace(/\{\{LOGO_PATH\}\}/g, `${basePath}assets/images/logo/favicon.png`)
+            .replace(/\{\{LOGO_PATH\}\}/g, `${basePath}assets/images/logo/icon.png`) // ✅ FIXED: Use icon.png instead of favicon.png
             .replace(/\{\{NAV_LINKS\}\}/g, this.generateNavLinks(basePath, variables.currentPage))
             .replace(/\{\{MOBILE_NAV_LINKS\}\}/g, this.generateMobileNavLinks(basePath));
     }

@@ -1,0 +1,264 @@
+/* DAMP Smart Drinkware - Main CSS Entry Point */
+/* This file imports all CSS modules in the correct order */
+
+/* 1. CSS Reset and Base Styles */
+@import url('./base/reset.css');
+
+/* 2. Design Tokens (CSS Variables) */
+@import url('./utilities/design-tokens.css');
+
+/* 3. Base Typography and Global Styles */
+@import url('./base/typography.css');
+@import url('./base/global.css');
+
+/* 4. Component Styles */
+@import url('./components/skeleton.css');
+@import url('./components/buttons.css');
+@import url('./components/cards.css');
+
+/* 5. Layout Styles */
+@import url('./navigation.css');
+@import url('./pricing-system.css');
+
+/* 6. Utility Classes */
+@import url('./utilities/animations.css');
+
+/* 7. Legacy Styles (to be phased out) */
+@import url('./styles.css');
+
+/* Critical Above-the-Fold Styles */
+/* These styles are inlined in the HTML head for performance */
+
+/* Loading States */
+.page-loading {
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+}
+
+.page-loaded {
+    opacity: 1;
+}
+
+/* Critical Layout Styles */
+.hero-section {
+    min-height: calc(100vh - var(--nav-height) - var(--safe-area-top));
+    min-height: calc(100dvh - var(--nav-height) - var(--safe-area-top));
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: var(--space-10) 0;
+}
+
+.hero-content {
+    z-index: 2;
+    max-width: 600px;
+}
+
+.hero-title {
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+    font-weight: var(--font-weight-black);
+    margin-bottom: var(--space-4);
+    background: linear-gradient(45deg, var(--color-text-primary), var(--color-primary-500));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: var(--line-height-tight);
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.3rem);
+    margin-bottom: var(--space-8);
+    opacity: 0.9;
+    max-width: 600px;
+    color: var(--color-text-secondary);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+/* Floating Background Elements */
+.floating-elements {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, var(--color-primary-500), var(--color-primary-700));
+    opacity: 0.1;
+    animation: float 6s ease-in-out infinite;
+}
+
+.floating-circle:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-circle:nth-child(2) {
+    width: 60px;
+    height: 60px;
+    top: 60%;
+    right: 20%;
+    animation-delay: 2s;
+}
+
+.floating-circle:nth-child(3) {
+    width: 40px;
+    height: 40px;
+    bottom: 20%;
+    left: 70%;
+    animation-delay: 4s;
+}
+
+/* Section Styles */
+.section-title {
+    font-size: clamp(2rem, 6vw, 2.5rem);
+    font-weight: var(--font-weight-bold);
+    text-align: center;
+    margin-bottom: var(--space-12);
+    background: linear-gradient(45deg, var(--color-text-primary), var(--color-primary-500));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.section-subtitle {
+    font-size: var(--font-size-lg);
+    text-align: center;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+}
+
+/* Features Grid */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+/* App Section */
+.app-section {
+    padding: var(--space-16) 0;
+    background: var(--color-bg-surface);
+    text-align: center;
+}
+
+.app-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    flex-wrap: wrap;
+}
+
+/* Footer */
+.footer {
+    padding: var(--space-16) 0 var(--space-8);
+    background: rgba(0, 0, 0, 0.3);
+    text-align: center;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--space-8);
+    margin-bottom: var(--space-8);
+    text-align: left;
+}
+
+.footer-section h3 {
+    color: var(--color-primary-500);
+    margin-bottom: var(--space-4);
+    font-size: var(--font-size-lg);
+}
+
+.footer-section a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    display: block;
+    margin-bottom: var(--space-2);
+    transition: color var(--transition-normal);
+}
+
+.footer-section a:hover {
+    color: var(--color-primary-500);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .app-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .product-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-6);
+    }
+    
+    .features-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .floating-circle {
+        display: none;
+    }
+}
+
+/* Critical Performance Optimizations */
+.lazy-load {
+    opacity: 0;
+    transition: opacity var(--transition-slow);
+}
+
+.lazy-load.loaded {
+    opacity: 1;
+}
+
+/* Skeleton Loading for Critical Content */
+.skeleton-loading {
+    background: linear-gradient(90deg, var(--color-bg-surface) 25%, var(--color-bg-surface-elevated) 50%, var(--color-bg-surface) 75%);
+    background-size: 400% 100%;
+    animation: shimmer 2s infinite;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    :root {
+        --color-text-primary: #ffffff;
+        --color-text-secondary: #e0e0e0;
+        --color-border-primary: #ffffff;
+        --color-bg-surface: #000000;
+    }
+} 

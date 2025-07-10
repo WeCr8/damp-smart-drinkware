@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
+    <!-- Prevent PWA installation prompts -->
+    <meta name="mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    
     <!-- SEO Meta Tags -->
     <title>DAMP Smart Drinkware - Never Leave Your Drink Behind | Smart BLE Tracking</title>
     <meta name="description" content="Revolutionary smart drinkware with BLE technology that prevents you from leaving your beverages behind. Pre-order DAMP Handle, Silicone Bottom, Cup Sleeve & Baby Bottle with early bird pricing.">
@@ -297,12 +301,22 @@
     <!-- Page Load Animation -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hero animation
+            // Initialize hero animation with options
             if (window.DAMPHeroAnimation) {
+                // Option 1: Play on every page load (default)
                 new DAMPHeroAnimation();
+                
+                // Option 2: Play with custom settings
+                // new DAMPHeroAnimation({
+                //     duration: 4000,           // 4 seconds
+                //     playOnEveryLoad: true,    // Play every time
+                //     allowSkip: true,          // Allow skipping
+                //     playOnlyOnce: false,      // Don't limit to once
+                //     skipIfReturningUser: false // Play for everyone
+                // });
             }
             
-            // Set page as loaded
+            // Set page as loaded (fallback)
             document.body.classList.add('page-loaded');
             document.body.classList.remove('page-loading');
         });

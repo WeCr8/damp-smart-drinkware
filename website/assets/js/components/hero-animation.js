@@ -2,15 +2,20 @@
 /* Golden Ratio Bubble Animation with Logo Emergence */
 
 class DAMPHeroAnimation {
-    constructor() {
-        this.animationDuration = 5000; // 5 seconds
-        this.fadeOutDuration = 1000; // 1 second fade out
+    constructor(options = {}) {
+        this.animationDuration = options.duration || 5000; // 5 seconds default
+        this.fadeOutDuration = options.fadeOutDuration || 1000; // 1 second fade out
         this.goldenRatio = 1.618;
         this.bubbleCount = 25; // 25 bubbles for large burst
-        this.isFirstVisit = this.checkFirstVisit();
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
+        
+        // Animation control options
+        this.playOnEveryLoad = options.playOnEveryLoad ?? true; // Default: play on every load
+        this.allowSkip = options.allowSkip ?? true; // Default: allow skipping
+        this.playOnlyOnce = options.playOnlyOnce ?? false; // Default: play every time
+        this.skipIfReturningUser = options.skipIfReturningUser ?? false; // Default: play for everyone
         
         this.init();
     }
@@ -24,8 +29,8 @@ class DAMPHeroAnimation {
             this.faviconSetup = new window.DAMPFaviconSetup();
         }
 
-        // Only play animation on first visit or if explicitly requested
-        if (this.isFirstVisit && !this.hasPlayed) {
+        // Check if animation should play
+        if (this.shouldPlayAnimation() && !this.hasPlayed) {
             this.createAnimationElements();
             this.startAnimation();
             this.hasPlayed = true;
@@ -35,7 +40,41 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Check if this is the user's first visit
+     * Determine if animation should play based on configuration
+     */
+    shouldPlayAnimation() {
+        // Check URL parameters for override
+        const urlParams = new URLSearchParams(window.location.search);
+        const skipParam = urlParams.get('skip-animation');
+        const playParam = urlParams.get('play-animation');
+        
+        // URL parameter overrides
+        if (skipParam === 'true') return false;
+        if (playParam === 'true') return true;
+        
+        // Check if should play only once
+        if (this.playOnlyOnce) {
+            const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
+            if (hasPlayedBefore) return false;
+        }
+        
+        // Check if should skip for returning users
+        if (this.skipIfReturningUser) {
+            const hasVisitedBefore = localStorage.getItem('damp-hero-animation-played');
+            if (hasVisitedBefore) return false;
+        }
+        
+        // Check reduced motion preference
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            return false;
+        }
+        
+        // Default behavior based on playOnEveryLoad setting
+        return this.playOnEveryLoad;
+    }
+
+    /**
+     * Check if this is the user's first visit (for analytics/tracking)
      */
     checkFirstVisit() {
         const visited = localStorage.getItem('damp-hero-animation-played');
@@ -164,13 +203,18 @@ class DAMPHeroAnimation {
         // Ensure body is hidden during animation
         document.body.classList.add('page-loading');
         
+        // Mark as played for tracking
+        this.checkFirstVisit();
+        
         // Set up animation timing
         setTimeout(() => {
             this.fadeOut();
         }, this.animationDuration);
 
         // Add event listeners for skip functionality
-        this.addSkipListeners();
+        if (this.allowSkip) {
+            this.addSkipListeners();
+        }
     }
 
     /**
@@ -185,6 +229,50 @@ class DAMPHeroAnimation {
         document.addEventListener('click', skipAnimation, { once: true });
         document.addEventListener('keydown', skipAnimation, { once: true });
         document.addEventListener('touchstart', skipAnimation, { once: true });
+        
+        // Add skip button for accessibility
+        this.addSkipButton();
+    }
+
+    /**
+     * Add accessible skip button
+     */
+    addSkipButton() {
+        if (!this.animationContainer) return;
+        
+        const skipButton = document.createElement('button');
+        skipButton.className = 'hero-skip-button';
+        skipButton.textContent = 'Skip Animation';
+        skipButton.setAttribute('aria-label', 'Skip hero animation');
+        skipButton.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            cursor: pointer;
+            z-index: 10000;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        `;
+        
+        skipButton.addEventListener('click', () => {
+            this.fadeOut();
+        });
+        
+        skipButton.addEventListener('mouseenter', () => {
+            skipButton.style.background = 'rgba(255, 255, 255, 0.3)';
+        });
+        
+        skipButton.addEventListener('mouseleave', () => {
+            skipButton.style.background = 'rgba(255, 255, 255, 0.2)';
+        });
+        
+        this.animationContainer.appendChild(skipButton);
     }
 
     /**
@@ -268,26 +356,19 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Reset animation (for testing purposes)
+     * Static method to create animation with custom options
+     */
+    static create(options = {}) {
+        return new DAMPHeroAnimation(options);
+    }
+
+    /**
+     * Static method to reset animation state
      */
     static reset() {
         localStorage.removeItem('damp-hero-animation-played');
     }
 }
 
-// Initialize hero animation when DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-        new DAMPHeroAnimation();
-    });
-} else {
-    new DAMPHeroAnimation();
-}
-
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = DAMPHeroAnimation;
-}
-
-// Add to global namespace for debugging
+// Make available globally
 window.DAMPHeroAnimation = DAMPHeroAnimation; 

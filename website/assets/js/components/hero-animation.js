@@ -1,12 +1,11 @@
 /* DAMP Smart Drinkware - Hero Animation Component */
-/* Carbonation Bubble Explosion with Brand Colors */
+/* Water Droplet Logo with Ripple Effects and Carbonation */
 
 class DAMPHeroAnimation {
     constructor(options = {}) {
-        this.animationDuration = options.duration || 6000; // 6 seconds for full sequence
+        this.animationDuration = options.duration || 7000; // 7 seconds for full sequence
         this.fadeOutDuration = options.fadeOutDuration || 1500; // 1.5 second fade out
-        this.goldenRatio = 1.618;
-        this.bubbleCount = 150; // Massive carbonation effect - 150 bubbles!
+        this.bubbleCount = 200; // Massive carbonation effect - 200 bubbles!
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
@@ -19,11 +18,11 @@ class DAMPHeroAnimation {
         
         // Animation timing phases
         this.phases = {
-            bubbleExplosion: 0, // Start immediately
-            bubbleRising: 500, // 0.5s after start
-            logoReveal: 2000, // 2s - logo appears full screen
-            textReveal: 3500, // 3.5s - text appears
-            contentReveal: 5000 // 5s - main content reveals
+            dropletFall: 0,        // 0s - Logo starts falling like water droplet
+            dropletLanding: 2000,  // 2s - Logo lands with ripple effect
+            carbonationBurst: 2500, // 2.5s - Carbonation bubbles explode
+            rippleExpansion: 3000,  // 3s - Ripple expands outward
+            contentReveal: 5500     // 5.5s - Main content reveals
         };
         
         this.init();
@@ -95,7 +94,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Create carbonation bubble explosion animation elements
+     * Create water droplet animation elements
      */
     createAnimationElements() {
         // Create main overlay container
@@ -104,26 +103,56 @@ class DAMPHeroAnimation {
         this.animationContainer.setAttribute('role', 'presentation');
         this.animationContainer.setAttribute('aria-hidden', 'true');
 
-        // Create bubble container for carbonation effect
-        const bubbleContainer = document.createElement('div');
-        bubbleContainer.className = 'carbonation-container';
+        // Create water droplet logo container (starts off-screen)
+        const dropletContainer = document.createElement('div');
+        dropletContainer.className = 'water-droplet-container';
 
-        // Create massive carbonation bubble explosion - 150 bubbles!
+        const logo = document.createElement('img');
+        logo.className = 'water-droplet-logo';
+        logo.src = 'assets/images/logo/icon.png';
+        logo.alt = 'DAMP Smart Drinkware Logo';
+        logo.loading = 'eager';
+        logo.onerror = () => {
+            logo.src = 'assets/images/logo/favicon.png';
+        };
+        dropletContainer.appendChild(logo);
+
+        // Create ripple effect container
+        const rippleContainer = document.createElement('div');
+        rippleContainer.className = 'ripple-container';
+
+        // Create multiple ripple rings
+        for (let i = 0; i < 5; i++) {
+            const ripple = document.createElement('div');
+            ripple.className = `ripple-ring ripple-${i + 1}`;
+            ripple.style.cssText = `
+                --ripple-delay: ${i * 0.2}s;
+                --ripple-scale: ${1 + i * 0.3};
+            `;
+            rippleContainer.appendChild(ripple);
+        }
+
+        // Create enhanced carbonation container
+        const carbonationContainer = document.createElement('div');
+        carbonationContainer.className = 'enhanced-carbonation-container';
+
+        // Create massive carbonation effect - 200 bubbles!
         for (let i = 0; i < this.bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'carbonation-bubble';
             bubble.setAttribute('aria-hidden', 'true');
             
-            // Add variety to bubble types
-            const bubbleType = i % 4;
+            // Create 3 bubble types (no green!)
+            const bubbleType = i % 3;
             bubble.classList.add(`bubble-type-${bubbleType}`);
             
-            // Random positioning and sizing for natural carbonation effect
-            const size = Math.random() * 20 + 5; // 5-25px bubbles
-            const delay = Math.random() * 2000; // 0-2s delay
-            const duration = Math.random() * 3000 + 2000; // 2-5s duration
+            // Enhanced random positioning for better carbonation effect
+            const size = Math.random() * 30 + 10; // 10-40px bubbles
+            const delay = Math.random() * 3000 + 2500; // 2.5-5.5s delay (after landing)
+            const duration = Math.random() * 4000 + 3000; // 3-7s duration
             const xPos = Math.random() * 100; // 0-100% horizontal
-            const yStart = 100 + Math.random() * 20; // Start below screen
+            const yStart = 100 + Math.random() * 30; // Start well below screen
+            const xDrift = (Math.random() - 0.5) * 40; // -20% to +20% horizontal drift
             
             bubble.style.cssText = `
                 --bubble-size: ${size}px;
@@ -131,52 +160,24 @@ class DAMPHeroAnimation {
                 --bubble-duration: ${duration}ms;
                 --bubble-x: ${xPos}%;
                 --bubble-y-start: ${yStart}%;
+                --bubble-x-drift: ${xDrift}%;
                 --bubble-rotation: ${Math.random() * 360}deg;
             `;
             
-            bubbleContainer.appendChild(bubble);
+            carbonationContainer.appendChild(bubble);
         }
 
-        // Create full-screen logo container (hidden initially)
-        const logoContainer = document.createElement('div');
-        logoContainer.className = 'hero-logo-container fullscreen-logo';
-
-        const logo = document.createElement('img');
-        logo.className = 'hero-logo';
-        logo.src = 'assets/images/logo/icon.png';
-        logo.alt = 'DAMP Smart Drinkware Logo';
-        logo.loading = 'eager';
-        logo.onerror = () => {
-            logo.src = 'assets/images/logo/favicon.png';
-        };
-        logoContainer.appendChild(logo);
-
-        // Create animated text container (hidden initially)
-        const textContainer = document.createElement('div');
-        textContainer.className = 'hero-animated-text';
-
-        const title = document.createElement('h1');
-        title.className = 'hero-animated-title';
-        title.textContent = 'Never Leave Your Drink Behind';
-
-        const subtitle = document.createElement('p');
-        subtitle.className = 'hero-animated-subtitle';
-        subtitle.textContent = 'Smart Drinkware Technology';
-
-        textContainer.appendChild(title);
-        textContainer.appendChild(subtitle);
-
         // Assemble all elements
-        this.animationContainer.appendChild(bubbleContainer);
-        this.animationContainer.appendChild(logoContainer);
-        this.animationContainer.appendChild(textContainer);
+        this.animationContainer.appendChild(dropletContainer);
+        this.animationContainer.appendChild(rippleContainer);
+        this.animationContainer.appendChild(carbonationContainer);
 
         // Add to DOM
         document.body.appendChild(this.animationContainer);
     }
 
     /**
-     * Start the carbonation explosion animation sequence
+     * Start the water droplet animation sequence
      */
     startAnimation() {
         // Ensure body is hidden during animation
@@ -198,23 +199,23 @@ class DAMPHeroAnimation {
      * Run the animation phases in sequence
      */
     runAnimationPhases() {
-        // Phase 1: Bubble explosion starts immediately
-        this.animationContainer.classList.add('phase-explosion');
+        // Phase 1: Water droplet starts falling immediately
+        this.animationContainer.classList.add('phase-droplet-fall');
         
-        // Phase 2: Bubbles start rising
+        // Phase 2: Droplet lands with impact
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-rising');
-        }, this.phases.bubbleRising);
+            this.animationContainer.classList.add('phase-droplet-landing');
+        }, this.phases.dropletLanding);
         
-        // Phase 3: Logo reveals full screen
+        // Phase 3: Carbonation bubbles explode after landing
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-logo-reveal');
-        }, this.phases.logoReveal);
+            this.animationContainer.classList.add('phase-carbonation-burst');
+        }, this.phases.carbonationBurst);
         
-        // Phase 4: Text appears
+        // Phase 4: Ripple expands outward
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-text-reveal');
-        }, this.phases.textReveal);
+            this.animationContainer.classList.add('phase-ripple-expansion');
+        }, this.phases.rippleExpansion);
         
         // Phase 5: Content reveals
         setTimeout(() => {
@@ -254,7 +255,7 @@ class DAMPHeroAnimation {
             top: 20px;
             right: 20px;
             background: rgba(0, 212, 255, 0.2);
-            color: #00d4ff;
+            color: var(--color-primary-500);
             border: 2px solid rgba(0, 212, 255, 0.5);
             border-radius: 25px;
             padding: 8px 16px;
@@ -272,7 +273,7 @@ class DAMPHeroAnimation {
         
         skipButton.addEventListener('mouseenter', () => {
             skipButton.style.background = 'rgba(0, 212, 255, 0.3)';
-            skipButton.style.borderColor = '#00d4ff';
+            skipButton.style.borderColor = 'var(--color-primary-500)';
         });
         
         skipButton.addEventListener('mouseleave', () => {
@@ -344,7 +345,7 @@ class DAMPHeroAnimation {
             detail: { 
                 timestamp: Date.now(),
                 bubblesCount: this.bubbleCount,
-                animationType: 'carbonation-explosion'
+                animationType: 'water-droplet-carbonation'
             }
         });
         document.dispatchEvent(event);

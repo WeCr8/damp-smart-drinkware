@@ -301,24 +301,14 @@
     <!-- Page Load Animation -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hero animation with options
+            // Initialize carbonation bubble explosion animation
             if (window.DAMPHeroAnimation) {
-                // Option 1: Play on every page load (default)
-                new DAMPHeroAnimation();
-                
-                // Option 2: Play with custom settings
-                // new DAMPHeroAnimation({
-                //     duration: 4000,           // 4 seconds
-                //     playOnEveryLoad: true,    // Play every time
-                //     allowSkip: true,          // Allow skipping
-                //     playOnlyOnce: false,      // Don't limit to once
-                //     skipIfReturningUser: false // Play for everyone
-                // });
+                new DAMPHeroAnimation({
+                    duration: 6000,        // 6 seconds total
+                    playOnEveryLoad: true, // Play every time
+                    allowSkip: true        // Allow skipping
+                });
             }
-            
-            // Set page as loaded (fallback)
-            document.body.classList.add('page-loaded');
-            document.body.classList.remove('page-loading');
         });
     </script>
 </body>

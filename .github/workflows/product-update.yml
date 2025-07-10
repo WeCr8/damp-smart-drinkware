@@ -1,0 +1,12 @@
+name: Auto-Update Products
+on:
+  push:
+    paths: ['docs/product-specs/**/*.md']
+
+jobs:
+  update-products:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with: 

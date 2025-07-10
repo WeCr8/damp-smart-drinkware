@@ -1,6 +1,6 @@
 /**
- * DAMP Hero Animation Controller
- * Creates spectacular logo burst effect and smooth transitions
+ * DAMP Hero Animation Controller - Enhanced with Professional Tagline Fade-in
+ * Creates spectacular logo burst effect with smooth tagline transition
  */
 
 class HeroAnimationController {
@@ -8,6 +8,7 @@ class HeroAnimationController {
         this.animationContainer = null;
         this.bubbleBurstContainer = null;
         this.heroContent = null;
+        this.heroTagline = null;
         this.scrollIndicator = null;
         this.animationComplete = false;
         this.bubbleCount = 30;
@@ -27,6 +28,7 @@ class HeroAnimationController {
         this.animationContainer = document.getElementById('hero-animation');
         this.bubbleBurstContainer = document.getElementById('bubble-burst');
         this.heroContent = document.getElementById('hero-content');
+        this.heroTagline = document.getElementById('hero-tagline');
         this.scrollIndicator = document.getElementById('scroll-indicator');
 
         if (!this.animationContainer || !this.bubbleBurstContainer || !this.heroContent) {
@@ -42,10 +44,11 @@ class HeroAnimationController {
         // Start with bubble burst
         this.createBubbleBurst();
         
-        // After logo animation completes, transition to main content
+        // 🔥 NEW: Enhanced timing for professional tagline fade-in
+        // After tagline animation completes, transition to main content
         setTimeout(() => {
             this.transitionToMainContent();
-        }, 3500); // 3.5 seconds for logo animation
+        }, 5000); // 5 seconds total: bubbles (2s) + logo (1.5s) + tagline (1.5s)
     }
 
     createBubbleBurst() {
@@ -92,23 +95,31 @@ class HeroAnimationController {
     }
 
     transitionToMainContent() {
-        // Fade out logo animation
+        // 🔥 NEW: Fade out entire logo animation container (including tagline)
         this.animationContainer.classList.add('hidden');
         
-        // Fade in main content
+        // 🔥 NEW: Fade in main content with enhanced timing
         setTimeout(() => {
             this.heroContent.classList.add('visible');
             this.animationComplete = true;
             
             // Show scroll indicator
             if (this.scrollIndicator) {
-                this.scrollIndicator.style.opacity = '1';
+                this.scrollIndicator.classList.add('visible');
             }
             
-            // Dispatch custom event for other components
+            // 🔥 NEW: Dispatch custom event for other components
             this.dispatchEvent('heroAnimationComplete');
             
-        }, 500);
+            // 🔥 NEW: Track animation completion for analytics
+            if (typeof trackEvent === 'function') {
+                trackEvent('hero_animation_complete', {
+                    duration: 5000,
+                    user_waited: true
+                });
+            }
+            
+        }, 800); // Longer transition for smoother effect
     }
 
     setupViewportObserver() {
@@ -125,70 +136,4 @@ class HeroAnimationController {
             threshold: 0.5
         });
 
-        observer.observe(document.querySelector('.hero'));
-    }
-
-    handleViewportEnter() {
-        // Resume animations if paused
-        if (this.animationComplete) {
-            this.resumeParticleAnimations();
-        }
-    }
-
-    handleViewportExit() {
-        // Pause non-essential animations for performance
-        this.pauseParticleAnimations();
-    }
-
-    pauseParticleAnimations() {
-        const particles = document.querySelectorAll('.floating-particle');
-        particles.forEach(particle => {
-            particle.style.animationPlayState = 'paused';
-        });
-    }
-
-    resumeParticleAnimations() {
-        const particles = document.querySelectorAll('.floating-particle');
-        particles.forEach(particle => {
-            particle.style.animationPlayState = 'running';
-        });
-    }
-
-    dispatchEvent(eventName, data = null) {
-        const event = new CustomEvent(eventName, {
-            detail: data,
-            bubbles: true
-        });
-        document.dispatchEvent(event);
-    }
-
-    // Public methods
-    skipAnimation() {
-        this.transitionToMainContent();
-    }
-
-    restartAnimation() {
-        if (this.animationComplete) {
-            this.heroContent.classList.remove('visible');
-            this.animationContainer.classList.remove('hidden');
-            this.animationComplete = false;
-            this.startAnimation();
-        }
-    }
-}
-
-// Initialize the animation
-const heroAnimation = new HeroAnimationController();
-
-// Optional: Add skip button for users who want to skip the animation
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' || e.key === ' ') {
-        if (!heroAnimation.animationComplete) {
-            heroAnimation.skipAnimation();
-        }
-    }
-});
-
-// Export for potential use by other modules
-window.HeroAnimationController = HeroAnimationController;
-window.heroAnimation = heroAnimation; 
+        observer.observe(

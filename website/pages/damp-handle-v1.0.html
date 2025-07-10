@@ -726,23 +726,90 @@
             <h2 class="section-title">Pre-Order DAMP Handle v1.0</h2>
             <div class="preorder-form">
                 <div style="margin-bottom: 30px;">
-                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🚀 Early Bird Special</h3>
-                    <p style="font-size: 1.1rem;">Be among the first to own the DAMP Handle v1.0. Your pre-order helps fund development and manufacturing.</p>
+                    <h3 style="color: #00d4ff; margin-bottom: 15px;">🚀 Transform Your Favorite Cups</h3>
+                    <p style="font-size: 1.1rem;">Turn any mug into smart drinkware! Compatible with Stanley, Yeti, Hydro Flask, and more popular brands.</p>
                 </div>
-                <div style="text-align: center; margin: 30px 0;">
-                                <a href="cart.html?product=damp-handle&quantity=1" class="btn btn-primary" style="padding: 20px 40px; font-size: 1.2rem; width: 100%; display: inline-block; margin: 0;">
-                🚀 Add to Cart - $49.99
-                    </a>
-                </div>
-                <div style="display: flex; gap: 15px; margin-top: 20px;">
-                    <a href="waitlist.html" class="btn btn-secondary" style="flex: 1; margin: 0;">Join Waitlist</a>
-                    <a href="../index.html#products" class="btn btn-secondary" style="flex: 1; margin: 0;">View All Products</a>
-                </div>
+                <form onsubmit="submitPreOrder(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">Cup/Mug Brand & Model</label>
+                        <select id="model" name="model" required>
+                            <option value="">Select your cup/mug brand</option>
+                            <optgroup label="🔥 Popular Brands">
+                                <option value="stanley-40oz">Stanley 40oz Quencher</option>
+                                <option value="stanley-30oz">Stanley 30oz Tumbler</option>
+                                <option value="stanley-20oz">Stanley 20oz Travel Mug</option>
+                                <option value="yeti-30oz">Yeti 30oz Rambler</option>
+                                <option value="yeti-20oz">Yeti 20oz Tumbler</option>
+                                <option value="yeti-14oz">Yeti 14oz Mug</option>
+                                <option value="hydro-32oz">Hydro Flask 32oz Wide Mouth</option>
+                                <option value="hydro-24oz">Hydro Flask 24oz Standard</option>
+                                <option value="hydro-16oz">Hydro Flask 16oz Coffee Mug</option>
+                            </optgroup>
+                            <optgroup label="☕ Coffee Shop Cups">
+                                <option value="starbucks-venti">Starbucks Venti (20oz)</option>
+                                <option value="starbucks-grande">Starbucks Grande (16oz)</option>
+                                <option value="dunkin-large">Dunkin' Large (20oz)</option>
+                                <option value="dunkin-medium">Dunkin' Medium (14oz)</option>
+                            </optgroup>
+                            <optgroup label="🏠 Home Mugs">
+                                <option value="standard-12oz">Standard Coffee Mug (12oz)</option>
+                                <option value="standard-16oz">Large Coffee Mug (16oz)</option>
+                                <option value="travel-mug">Generic Travel Mug</option>
+                                <option value="ceramic-mug">Ceramic Mug</option>
+                            </optgroup>
+                            <optgroup label="🆕 Other Brands">
+                                <option value="contigo">Contigo Travel Mug</option>
+                                <option value="klean-kanteen">Klean Kanteen</option>
+                                <option value="ozark-trail">Ozark Trail</option>
+                                <option value="simple-modern">Simple Modern</option>
+                                <option value="takeya">Takeya</option>
+                                <option value="other">Other (specify in notes)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="color">DAMP Handle Color</label>
+                        <select id="color" name="color" required>
+                            <option value="">Select handle color</option>
+                            <option value="stealth-black">Stealth Black</option>
+                            <option value="arctic-white">Arctic White</option>
+                            <option value="ocean-blue">Ocean Blue</option>
+                            <option value="forest-green">Forest Green</option>
+                            <option value="sunset-orange">Sunset Orange</option>
+                            <option value="metallic-silver">Metallic Silver</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <select id="quantity" name="quantity" required>
+                            <option value="1">1 Handle - $49.99</option>
+                            <option value="2">2 Handles - $89.99 (Save $10!)</option>
+                            <option value="4">4 Handles - $169.99 (Save $30!)</option>
+                            <option value="6">6 Handles - $239.99 (Save $60!)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notes">Special Notes (Optional)</label>
+                        <textarea id="notes" name="notes" placeholder="Any special requests or cup details..." style="width: 100%; padding: 15px; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 10px; background: rgba(255, 255, 255, 0.1); color: white; font-size: 1rem; resize: vertical; min-height: 80px;"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%; margin: 0;">
+                        Pre-Order Now - Reserve Your DAMP Handle
+                    </button>
+                </form>
                 <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.9rem; opacity: 0.8;">
                     <p>✅ 100% secure checkout<br>
                     ✅ Full refund if we can't deliver<br>
                     ✅ Estimated delivery: Q3 2025<br>
-                    ✅ Monthly development updates</p>
+                    ✅ Monthly development updates<br>
+                    ✅ Compatible with 95% of popular cup brands</p>
                 </div>
             </div>
         </div>

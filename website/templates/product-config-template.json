@@ -1,0 +1,61 @@
+{
+  "product": {
+    "name": "DAMP Product Name",
+    "slug": "product-slug",
+    "shortName": "Product",
+    "category": "product-category",
+    "folder": "product-folder",
+    "image": "product-image.png",
+    "status": "In Development",
+    "tagline": "Product tagline",
+    "subtitle": "Detailed product description with key benefits and features.",
+    "description": "SEO-optimized product description for meta tags",
+    "keywords": "product, keywords, for, seo",
+    "altText": "Product image alt text",
+    "price": "$XX.XX",
+    "originalPrice": "$XX.XX",
+    "savingsText": "Save $XX with Early Bird Pre-Order!",
+    "deliveryDate": "Q4 2025"
+  },
+  "features": [
+    {
+      "icon": "🔧",
+      "title": "Feature Title",
+      "description": "Feature description explaining the benefit."
+    },
+    {
+      "icon": "⚡",
+      "title": "Another Feature",
+      "description": "Another feature description."
+    }
+  ],
+  "specifications": [
+    {
+      "label": "Connectivity",
+      "value": "Bluetooth 5.0 Low Energy"
+    },
+    {
+      "label": "Battery Life",
+      "value": "Up to X weeks"
+    }
+  ],
+  "preorder": {
+    "headline": "🚀 Early Bird Special",
+    "description": "Pre-order description with compelling benefits.",
+    "customFields": [
+      {
+        "type": "select",
+        "id": "color",
+        "label": "Preferred Color",
+        "options": [
+          {"value": "black", "text": "Midnight Black"},
+          {"value": "white", "text": "Arctic White"}
+        ]
+      }
+    ],
+    "quantityOptions": [
+      {"value": "1", "text": "1 Unit - $XX.XX"},
+      {"value": "2", "text": "2 Units - $XX.XX (Save $X!)"}
+    ]
+  }
+} 

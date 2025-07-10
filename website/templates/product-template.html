@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- SEO Meta Tags - REPLACE THESE -->
+    <title>{{PRODUCT_NAME}} - {{PRODUCT_TAGLINE}} | DAMP Smart Drinkware</title>
+    <meta name="description" content="{{PRODUCT_DESCRIPTION}}">
+    <meta name="keywords" content="{{PRODUCT_KEYWORDS}}">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/{{PRODUCT_SLUG}}.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://dampdrink.com/pages/{{PRODUCT_SLUG}}.html">
+    <meta property="og:title" content="{{PRODUCT_NAME}} - {{PRODUCT_TAGLINE}}">
+    <meta property="og:description" content="{{PRODUCT_DESCRIPTION}}">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/products/{{PRODUCT_FOLDER}}/{{PRODUCT_IMAGE}}">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/favicon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/logo/icon.png">
+    <link rel="manifest" href="../manifest.json">
+    
+    <link rel="stylesheet" href="../assets/css/navigation.css">
+    <link rel="stylesheet" href="../assets/css/product-page.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <button class="mobile-close" onclick="toggleMobileMenu()">×</button>
+            <a href="../index.html">Home</a>
+            <a href="../index.html#products">Products</a>
+            <a href="../index.html#app">App</a>
+            <a href="support.html">Support</a>
+            <a href="about.html">About</a>
+            <a href="cart.html">Cart</a>
+        </div>
+    </nav>
+
+    <!-- Product Hero -->
+    <section class="product-hero">
+        <div class="container">
+            <div class="product-info">
+                <div class="product-badge">{{PRODUCT_STATUS}}</div>
+                <h1>{{PRODUCT_NAME}}</h1>
+                <p class="product-subtitle">{{PRODUCT_SUBTITLE}}</p>
+                <div class="product-price">{{PRODUCT_PRICE}} <span class="original-price">{{PRODUCT_ORIGINAL_PRICE}}</span></div>
+                <div class="savings">{{PRODUCT_SAVINGS_TEXT}}</div>
+                <div class="product-buttons">
+                    <a href="cart.html?product={{PRODUCT_SLUG}}&quantity=1" class="btn btn-primary">Add to Cart</a>
+                    <a href="#features" class="btn btn-secondary">Learn More</a>
+                </div>
+            </div>
+            <div class="product-image">
+                <img src="../assets/images/products/{{PRODUCT_FOLDER}}/{{PRODUCT_IMAGE}}" alt="{{PRODUCT_NAME}} - {{PRODUCT_ALT_TEXT}}">
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose {{PRODUCT_NAME}}?</h2>
+            <div class="features-grid">
+                <!-- FEATURES_PLACEHOLDER -->
+                {{FEATURES_CARDS}}
+                <!-- /FEATURES_PLACEHOLDER -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Specifications -->
+    <section id="specifications" class="specs-section">
+        <div class="container">
+            <h2 class="section-title">Technical Specifications</h2>
+            <div class="specs-grid">
+                <!-- SPECS_PLACEHOLDER -->
+                {{SPECS_ITEMS}}
+                <!-- /SPECS_PLACEHOLDER -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-order Form -->
+    <section id="preorder" class="preorder-section">
+        <div class="container">
+            <h2 class="section-title">Pre-Order {{PRODUCT_NAME}}</h2>
+            <div class="preorder-form">
+                <div class="preorder-intro">
+                    <h3>{{PREORDER_HEADLINE}}</h3>
+                    <p>{{PREORDER_DESCRIPTION}}</p>
+                </div>
+                <form onsubmit="submitPreOrder(event)">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                    </div>
+                    <!-- CUSTOM_FIELDS_PLACEHOLDER -->
+                    {{CUSTOM_FORM_FIELDS}}
+                    <!-- /CUSTOM_FIELDS_PLACEHOLDER -->
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <select id="quantity" name="quantity" required>
+                            <!-- QUANTITY_OPTIONS_PLACEHOLDER -->
+                            {{QUANTITY_OPTIONS}}
+                            <!-- /QUANTITY_OPTIONS_PLACEHOLDER -->
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary preorder-btn">
+                        Pre-Order Now - Reserve Your {{PRODUCT_SHORT_NAME}}
+                    </button>
+                </form>
+                <div class="preorder-guarantees">
+                    <p>✅ 100% secure checkout<br>
+                    ✅ Full refund if we can't deliver<br>
+                    ✅ Estimated delivery: {{DELIVERY_DATE}}<br>
+                    ✅ Monthly development updates</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p class="trademark">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/navigation.js"></script>
+    <script src="../assets/js/product-page.js"></script>
+    <script>
+        // Product-specific configuration
+        const productConfig = {
+            name: '{{PRODUCT_NAME}}',
+            slug: '{{PRODUCT_SLUG}}',
+            category: '{{PRODUCT_CATEGORY}}'
+        };
+
+        // Initialize product page
+        initializeProductPage(productConfig);
+    </script>
+</body>
+</html> 

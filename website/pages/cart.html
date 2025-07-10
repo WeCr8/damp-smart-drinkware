@@ -1265,6 +1265,18 @@
         }
 
         // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure all elements are loaded before initializing
+            setTimeout(() => {
+                initializeFromURL();
+                updateCartDisplay();
+                updateSummary();
+                initializePromoCodeSystem();
+                
+                // Track page view
+                trackEvent('page_view', {
+                    action: 'cart_page_viewed',
+                    category: 'ecommerce'
         initializeFromURL();
         updateCartDisplay();
         updateSummary();

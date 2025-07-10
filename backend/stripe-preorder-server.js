@@ -6,6 +6,18 @@ const stripe = require('stripe')('sk_test_your_stripe_secret_key_here'); // Repl
 const cors = require('cors');
 const app = express();
 
+// Add this at the top of your server file to suppress the warning
+process.env.NODE_NO_WARNINGS = '1';
+
+// Or add this specific suppression
+process.removeAllListeners('warning');
+process.on('warning', (warning) => {
+    if (warning.name === 'DeprecationWarning' && warning.message.includes('_headers')) {
+        return; // Suppress the _headers deprecation warning
+    }
+    console.warn(warning.stack);
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());

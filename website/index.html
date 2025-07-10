@@ -310,26 +310,27 @@
 
 <body>
     <!-- Navigation -->
-    <nav role="navigation" aria-label="Main navigation">
+    <nav role="navigation" aria-label="Main navigation" id="main-nav">
         <div class="nav-container">
             <a href="#" class="logo" aria-label="DAMP Smart Drinkware Home">
-                <responsive-image 
-                    src="assets/images/logo/icon.png"
-                    alt="DAMP Logo"
-                    sizes="32px"
-                    loading="eager">
-                </responsive-image>
-                DAMP
+                <img src="assets/images/logo/favicon.png" alt="DAMP Logo" width="32" height="32">
+                <span>DAMP</span>
             </a>
-            <ul class="nav-links" role="menubar">
+            
+            <ul class="nav-links" role="menubar" id="nav-links">
                 <li role="none"><a href="#features" role="menuitem">Features</a></li>
                 <li role="none"><a href="#products" role="menuitem">Products</a></li>
                 <li role="none"><a href="#app" role="menuitem">App</a></li>
                 <li role="none"><a href="pages/support.html" role="menuitem">Support</a></li>
                 <li role="none"><a href="pages/about.html" role="menuitem">About</a></li>
-                <li role="none"><a href="pages/cart.html" role="menuitem">Cart</a></li>
+                <li role="none"><a href="pages/cart.html" role="menuitem" class="cart-link">Cart</a></li>
             </ul>
-            <button class="hamburger" onclick="toggleMobileMenu()" aria-label="Toggle mobile menu" aria-expanded="false">
+            
+            <button class="hamburger" 
+                    id="hamburger-btn" 
+                    aria-label="Toggle mobile menu" 
+                    aria-expanded="false"
+                    aria-controls="mobile-menu">
                 <span></span>
                 <span></span>
                 <span></span>
@@ -337,18 +338,62 @@
         </div>
     </nav>
 
-    <!-- Mobile Menu -->
-    <div class="mobile-menu" id="mobileMenu" role="dialog" aria-modal="true" aria-hidden="true">
-        <button class="close-btn" onclick="toggleMobileMenu()" aria-label="Close menu">×</button>
-        <nav role="navigation" aria-label="Mobile navigation">
-        <a href="#features" onclick="toggleMobileMenu()">Features</a>
-        <a href="#products" onclick="toggleMobileMenu()">Products</a>
-        <a href="#app" onclick="toggleMobileMenu()">App</a>
-        <a href="pages/support.html" onclick="toggleMobileMenu()">Support</a>
-        <a href="pages/about.html" onclick="toggleMobileMenu()">About</a>
-        <a href="pages/cart.html" onclick="toggleMobileMenu()">Cart</a>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu" 
+         id="mobile-menu" 
+         role="dialog" 
+         aria-modal="true" 
+         aria-hidden="true"
+         aria-labelledby="mobile-menu-title">
+        
+        <div class="mobile-menu-header">
+            <h2 id="mobile-menu-title" class="sr-only">Mobile Navigation Menu</h2>
+            <button class="mobile-close" 
+                    id="mobile-close-btn"
+                    aria-label="Close mobile menu">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+        <nav class="mobile-nav" role="navigation" aria-label="Mobile navigation">
+            <a href="#features" class="mobile-nav-link">
+                <span class="mobile-nav-icon">⚡</span>
+                <span class="mobile-nav-text">Features</span>
+            </a>
+            <a href="#products" class="mobile-nav-link">
+                <span class="mobile-nav-icon">🥤</span>
+                <span class="mobile-nav-text">Products</span>
+            </a>
+            <a href="#app" class="mobile-nav-link">
+                <span class="mobile-nav-icon">📱</span>
+                <span class="mobile-nav-text">Mobile App</span>
+            </a>
+            <a href="pages/support.html" class="mobile-nav-link">
+                <span class="mobile-nav-icon">🛠️</span>
+                <span class="mobile-nav-text">Support</span>
+            </a>
+            <a href="pages/about.html" class="mobile-nav-link">
+                <span class="mobile-nav-icon">ℹ️</span>
+                <span class="mobile-nav-text">About</span>
+            </a>
+            <a href="pages/cart.html" class="mobile-nav-link cart-link">
+                <span class="mobile-nav-icon">🛒</span>
+                <span class="mobile-nav-text">Cart</span>
+            </a>
         </nav>
+        
+        <div class="mobile-menu-footer">
+            <div class="mobile-social">
+                <a href="#" aria-label="Instagram">📱</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="Facebook">📘</a>
+            </div>
+            <p class="mobile-menu-tagline">Never leave your drink behind</p>
+        </div>
     </div>
+
+    <!-- Mobile Menu Backdrop -->
+    <div class="mobile-menu-backdrop" id="mobile-menu-backdrop"></div>
 
     <!-- Main Content -->
     <main>
@@ -690,5 +735,7 @@
             });
         }
     </script>
+    <script src="assets/js/navigation-fixed.js" defer></script>
+    <link rel="stylesheet" href="assets/css/navigation-fixed.css">
 </body>
 </html>

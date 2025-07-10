@@ -15,6 +15,7 @@
 @import url('./components/skeleton.css');
 @import url('./components/buttons.css');
 @import url('./components/cards.css');
+@import url('./components/hero-animation.css');
 
 /* 5. Layout Styles */
 @import url('./navigation.css');
@@ -31,12 +32,24 @@
 
 /* Loading States */
 .page-loading {
+    overflow: hidden;
+}
+
+.page-loading .hero-section,
+.page-loading section:not(.hero-animation-overlay) {
     opacity: 0;
-    transition: opacity var(--transition-slow);
+    visibility: hidden;
 }
 
 .page-loaded {
+    overflow: auto;
+}
+
+.page-loaded .hero-section,
+.page-loaded section {
     opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease-in-out;
 }
 
 /* Critical Layout Styles */

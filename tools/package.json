@@ -1,0 +1,22 @@
+{
+  "name": "damp-product-tools",
+  "version": "1.0.0",
+  "description": "Tools for managing DAMP product specifications",
+  "main": "parse-product-specs.js",
+  "scripts": {
+    "parse": "node parse-product-specs.js",
+    "validate": "node validate-products.js",
+    "build": "npm run parse && npm run validate"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "js-yaml": "^4.1.0"
+  },
+  "keywords": [
+    "damp",
+    "product-specs",
+    "automation"
+  ],
+  "author": "DAMP Team",
+  "license": "MIT"
+} 

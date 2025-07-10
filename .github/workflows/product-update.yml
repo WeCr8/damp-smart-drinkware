@@ -2,11 +2,70 @@ name: Auto-Update Products
 on:
   push:
     paths: ['docs/product-specs/**/*.md']
+  pull_request:
+    paths: ['docs/product-specs/**/*.md']
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   update-products:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with: 
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install js-yaml gray-matter
+        working-directory: ./tools
+
+      - name: Parse product specifications
+        run: |
+          node parse-product-specs.js
+        working-directory: ./tools
+
+      - name: Validate products.json
+        run: |
+          node validate-products.js
+        working-directory: ./tools
+
+      - name: Check for changes
+        id: verify-changed-files
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.verify-changed-files.outputs.changed == 'true'
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add website/assets/data/products.json
+          git commit -m "🤖 Auto-update products.json from product specifications"
+          git push
+
+      - name: Create summary
+        if: always()
+        run: |
+          echo "## Product Update Summary" >> $GITHUB_STEP_SUMMARY
+          echo "### Changed Files:" >> $GITHUB_STEP_SUMMARY
+          if [ -n "$(git status --porcelain)" ]; then
+            git status --porcelain >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No changes detected" >> $GITHUB_STEP_SUMMARY
+          fi
+          echo "### Product Count:" >> $GITHUB_STEP_SUMMARY
+          echo "$(cat website/assets/data/products.json | jq '. | length') products processed" >> $GITHUB_STEP_SUMMARY 

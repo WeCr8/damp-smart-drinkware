@@ -1,11 +1,11 @@
 /* DAMP Smart Drinkware - Hero Animation Component */
-/* Brand Messaging Sequence with Carbonation Screen */
+/* Dramatic Bubble Curtain Reveal with Massive Logo */
 
 class DAMPHeroAnimation {
     constructor(options = {}) {
-        this.animationDuration = options.duration || 8000; // 8 seconds for full sequence
-        this.fadeOutDuration = options.fadeOutDuration || 1500; // 1.5 second fade out
-        this.bubbleCount = 300; // Massive carbonation screen - 300 bubbles!
+        this.animationDuration = options.duration || 9000; // 9 seconds for dramatic sequence
+        this.fadeOutDuration = options.fadeOutDuration || 2000; // 2 second fade out
+        this.bubbleCount = 500; // Dense curtain of bubbles - 500 bubbles!
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
@@ -18,11 +18,11 @@ class DAMPHeroAnimation {
         
         // Animation timing phases
         this.phases = {
-            carbonationScreen: 0,        // 0s - Full screen of bubbles starts
-            logoEmergence: 2000,         // 2s - Logo emerges from bubbles with large aura
-            firstText: 4000,             // 4s - "Never Leave a Drink Behind"
-            secondText: 6000,            // 6s - "DAMP Drink Abandonment Monitoring Protocol"
-            contentReveal: 7500          // 7.5s - Main content reveals
+            curtainFormation: 0,        // 0s - Dense bubble curtain forms
+            logoReveal: 3000,           // 3s - Curtain parts dramatically for massive logo
+            dampText: 4500,             // 4.5s - "DAMP" text appears with logo
+            mainText: 6000,             // 6s - "Never Leave Your Cup Behind" appears
+            contentReveal: 8500         // 8.5s - Main content reveals
         };
         
         this.init();
@@ -94,7 +94,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Create brand messaging animation elements
+     * Create dramatic bubble curtain animation elements
      */
     createAnimationElements() {
         // Create main overlay container
@@ -103,96 +103,84 @@ class DAMPHeroAnimation {
         this.animationContainer.setAttribute('role', 'presentation');
         this.animationContainer.setAttribute('aria-hidden', 'true');
 
-        // Create full-screen carbonation background
-        const carbonationScreen = document.createElement('div');
-        carbonationScreen.className = 'carbonation-screen';
+        // Create the massive logo behind the curtain
+        const logoBackground = document.createElement('div');
+        logoBackground.className = 'massive-logo-background';
 
-        // Create massive carbonation effect - 300 bubbles filling the screen!
+        const massiveLogo = document.createElement('img');
+        massiveLogo.className = 'massive-reveal-logo';
+        massiveLogo.src = 'assets/images/logo/icon.png';
+        massiveLogo.alt = 'DAMP Smart Drinkware Logo';
+        massiveLogo.loading = 'eager';
+        massiveLogo.onerror = () => {
+            massiveLogo.src = 'assets/images/logo/favicon.png';
+        };
+        logoBackground.appendChild(massiveLogo);
+
+        // Create DAMP text that appears with logo
+        const dampTextElement = document.createElement('h1');
+        dampTextElement.className = 'damp-brand-text';
+        dampTextElement.textContent = 'DAMP';
+        logoBackground.appendChild(dampTextElement);
+
+        // Create dense bubble curtain container
+        const bubbleCurtain = document.createElement('div');
+        bubbleCurtain.className = 'artistic-bubble-curtain';
+
+        // Create dense curtain of bubbles - 500 bubbles for full coverage!
         for (let i = 0; i < this.bubbleCount; i++) {
             const bubble = document.createElement('div');
-            bubble.className = 'screen-bubble';
+            bubble.className = 'artistic-curtain-bubble';
             bubble.setAttribute('aria-hidden', 'true');
             
-            // Create 3 bubble types with brand colors (no green!)
-            const bubbleType = i % 3;
-            bubble.classList.add(`bubble-type-${bubbleType}`);
+            // Create artistic bubble types with only blues/whites/grays
+            const bubbleType = i % 5; // 5 types for more artistic variety
+            bubble.classList.add(`artistic-bubble-type-${bubbleType}`);
             
-            // Enhanced random positioning for full screen coverage
-            const size = Math.random() * 40 + 15; // 15-55px bubbles
-            const delay = Math.random() * 2000; // 0-2s delay (immediate burst)
-            const duration = Math.random() * 6000 + 4000; // 4-10s duration
+            // Position bubbles to form a dense artistic curtain
+            const size = Math.random() * 80 + 30; // 30-110px bubbles for dense coverage
             const xPos = Math.random() * 100; // 0-100% horizontal
             const yPos = Math.random() * 100; // 0-100% vertical
-            const xDrift = (Math.random() - 0.5) * 60; // -30% to +30% horizontal drift
-            const yDrift = (Math.random() - 0.5) * 60; // -30% to +30% vertical drift
+            
+            // Determine which side of curtain the bubble belongs to for dramatic parting
+            const isLeftSide = xPos < 50;
+            const curtainSide = isLeftSide ? 'left' : 'right';
+            bubble.classList.add(`curtain-${curtainSide}`);
+            
+            // Calculate dramatic reveal movement - bubbles move far outward
+            const revealDistance = isLeftSide ? -Math.random() * 300 - 150 : Math.random() * 300 + 150;
+            const verticalDrift = (Math.random() - 0.5) * 150; // Up/down movement
+            const rotationDrift = (Math.random() - 0.5) * 720; // Full rotation effects
             
             bubble.style.cssText = `
                 --bubble-size: ${size}px;
-                --bubble-delay: ${delay}ms;
-                --bubble-duration: ${duration}ms;
                 --bubble-x: ${xPos}%;
                 --bubble-y: ${yPos}%;
-                --bubble-x-drift: ${xDrift}%;
-                --bubble-y-drift: ${yDrift}%;
-                --bubble-rotation: ${Math.random() * 360}deg;
-                --bubble-opacity: ${Math.random() * 0.4 + 0.3}; // 0.3-0.7 opacity
+                --reveal-distance: ${revealDistance}px;
+                --vertical-drift: ${verticalDrift}px;
+                --rotation-drift: ${rotationDrift}deg;
+                --bubble-delay: ${Math.random() * 1000}ms; // Formation timing
+                --reveal-delay: ${Math.random() * 1500 + 3000}ms; // Dramatic staggered reveal
+                --bubble-opacity: ${Math.random() * 0.3 + 0.7}; // 0.7-1.0 opacity for density
             `;
             
-            carbonationScreen.appendChild(bubble);
+            bubbleCurtain.appendChild(bubble);
         }
 
-        // Create logo container with large aura
-        const logoContainer = document.createElement('div');
-        logoContainer.className = 'logo-emergence-container';
-
-        // Create multiple aura layers for impressive effect
-        const auraLayers = document.createElement('div');
-        auraLayers.className = 'logo-aura-layers';
-
-        // Create 5 aura layers with increasing size
-        for (let i = 0; i < 5; i++) {
-            const aura = document.createElement('div');
-            aura.className = `logo-aura aura-layer-${i + 1}`;
-            aura.style.cssText = `
-                --aura-scale: ${1 + i * 0.4}; // 1x to 2.6x scale
-                --aura-delay: ${i * 0.1}s;
-                --aura-opacity: ${0.8 - i * 0.15}; // Decreasing opacity
-            `;
-            auraLayers.appendChild(aura);
-        }
-
-        const logo = document.createElement('img');
-        logo.className = 'emergence-logo';
-        logo.src = 'assets/images/logo/icon.png';
-        logo.alt = 'DAMP Smart Drinkware Logo';
-        logo.loading = 'eager';
-        logo.onerror = () => {
-            logo.src = 'assets/images/logo/favicon.png';
-        };
-
-        logoContainer.appendChild(auraLayers);
-        logoContainer.appendChild(logo);
-
-        // Create text messaging container
+        // Create main messaging text container
         const textContainer = document.createElement('div');
-        textContainer.className = 'brand-text-container';
+        textContainer.className = 'main-text-container';
 
-        // Create first text: "Never Leave a Drink Behind"
-        const firstText = document.createElement('h1');
-        firstText.className = 'brand-text brand-text-primary';
-        firstText.textContent = 'Never Leave a Drink Behind';
+        // Create main text: "Never Leave Your Drink Behind"
+        const mainText = document.createElement('h2');
+        mainText.className = 'main-brand-text';
+        mainText.textContent = 'Never Leave Your Drink Behind';
 
-        // Create second text: "DAMP Drink Abandonment Monitoring Protocol"
-        const secondText = document.createElement('h2');
-        secondText.className = 'brand-text brand-text-secondary';
-        secondText.textContent = 'DAMP Drink Abandonment Monitoring Protocol';
+        textContainer.appendChild(mainText);
 
-        textContainer.appendChild(firstText);
-        textContainer.appendChild(secondText);
-
-        // Assemble all elements
-        this.animationContainer.appendChild(carbonationScreen);
-        this.animationContainer.appendChild(logoContainer);
+        // Assemble all elements (massive logo behind curtain)
+        this.animationContainer.appendChild(logoBackground);
+        this.animationContainer.appendChild(bubbleCurtain);
         this.animationContainer.appendChild(textContainer);
 
         // Add to DOM
@@ -200,7 +188,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Start the brand messaging animation sequence
+     * Start the dramatic bubble curtain animation sequence
      */
     startAnimation() {
         // Ensure body is hidden during animation
@@ -219,26 +207,26 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Run the animation phases in sequence
+     * Run the dramatic animation phases in sequence
      */
     runAnimationPhases() {
-        // Phase 1: Carbonation screen starts immediately
-        this.animationContainer.classList.add('phase-carbonation-screen');
+        // Phase 1: Dense bubble curtain forms
+        this.animationContainer.classList.add('phase-curtain-formation');
         
-        // Phase 2: Logo emerges from bubbles with large aura
+        // Phase 2: Curtain parts dramatically to reveal massive logo
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-logo-emergence');
-        }, this.phases.logoEmergence);
+            this.animationContainer.classList.add('phase-logo-reveal');
+        }, this.phases.logoReveal);
         
-        // Phase 3: First text appears - "Never Leave a Drink Behind"
+        // Phase 3: "DAMP" text appears with logo
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-first-text');
-        }, this.phases.firstText);
+            this.animationContainer.classList.add('phase-damp-text');
+        }, this.phases.dampText);
         
-        // Phase 4: Second text appears - "DAMP Drink Abandonment Monitoring Protocol"
+        // Phase 4: Main text appears - "Never Leave Your Cup"
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-second-text');
-        }, this.phases.secondText);
+            this.animationContainer.classList.add('phase-main-text');
+        }, this.phases.mainText);
         
         // Phase 5: Content reveals
         setTimeout(() => {
@@ -277,17 +265,18 @@ class DAMPHeroAnimation {
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(0, 212, 255, 0.2);
-            color: var(--color-primary-500);
-            border: 2px solid rgba(0, 212, 255, 0.5);
-            border-radius: 25px;
-            padding: 8px 16px;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            border-radius: 30px;
+            padding: 10px 18px;
             cursor: pointer;
             z-index: 10000;
             font-size: 14px;
             font-weight: 600;
             transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
+            letter-spacing: 0.05em;
         `;
         
         skipButton.addEventListener('click', () => {
@@ -295,13 +284,15 @@ class DAMPHeroAnimation {
         });
         
         skipButton.addEventListener('mouseenter', () => {
-            skipButton.style.background = 'rgba(0, 212, 255, 0.3)';
-            skipButton.style.borderColor = 'var(--color-primary-500)';
+            skipButton.style.background = 'rgba(255, 255, 255, 0.25)';
+            skipButton.style.borderColor = 'rgba(255, 255, 255, 0.4)';
+            skipButton.style.transform = 'scale(1.05)';
         });
         
         skipButton.addEventListener('mouseleave', () => {
-            skipButton.style.background = 'rgba(0, 212, 255, 0.2)';
-            skipButton.style.borderColor = 'rgba(0, 212, 255, 0.5)';
+            skipButton.style.background = 'rgba(255, 255, 255, 0.15)';
+            skipButton.style.borderColor = 'rgba(255, 255, 255, 0.25)';
+            skipButton.style.transform = 'scale(1)';
         });
         
         this.animationContainer.appendChild(skipButton);
@@ -368,7 +359,7 @@ class DAMPHeroAnimation {
             detail: { 
                 timestamp: Date.now(),
                 bubblesCount: this.bubbleCount,
-                animationType: 'brand-messaging-carbonation'
+                animationType: 'dramatic-curtain-reveal'
             }
         });
         document.dispatchEvent(event);

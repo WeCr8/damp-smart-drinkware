@@ -22,6 +22,24 @@
     --damp-dark-bg: var(--color-background-dark, #0f0f23);
 }
 
+/* FIXED: Ensure loading state works properly */
+.page-loading .hero-section,
+.page-loading main,
+.page-loading section:not(.hero-animation-overlay) {
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+}
+
+.page-loaded .hero-section,
+.page-loaded main,
+.page-loaded section {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out !important;
+}
+
 /* Base Animation Overlay */
 .hero-animation-overlay {
     position: fixed;

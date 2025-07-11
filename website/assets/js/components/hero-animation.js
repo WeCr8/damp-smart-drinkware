@@ -10,7 +10,7 @@ class DAMPHeroAnimation {
         this.hasPlayed = false;
         this.faviconSetup = null;
         
-        // Animation control options
+        // Animation control options - FIXED: Make animation play more reliably
         this.playOnEveryLoad = options.playOnEveryLoad ?? true;
         this.allowSkip = options.allowSkip ?? true;
         this.playOnlyOnce = options.playOnlyOnce ?? false;
@@ -25,7 +25,8 @@ class DAMPHeroAnimation {
             contentReveal: 8500         // 8.5s - Main content reveals
         };
         
-        this.init();
+        // FIXED: Initialize immediately instead of waiting
+        this.initializeAnimation();
     }
 
     /**
@@ -62,26 +63,28 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Initialize the hero animation
+     * Initialize the hero animation - FIXED: Simplified initialization
      */
-    init() {
+    initializeAnimation() {
         // Wait for favicon setup to be available
         if (window.DAMPFaviconSetup) {
             this.faviconSetup = new window.DAMPFaviconSetup();
         }
 
-        // Check if animation should play
+        // FIXED: Simplified animation check - make it more reliable
         if (this.shouldPlayAnimation() && !this.hasPlayed) {
+            console.log('DAMP: Starting hero animation');
             this.createAnimationElements();
             this.startAnimation();
             this.hasPlayed = true;
         } else {
+            console.log('DAMP: Skipping hero animation');
             this.skipAnimation();
         }
     }
 
     /**
-     * Determine if animation should play based on configuration
+     * Determine if animation should play based on configuration - FIXED: Simplified logic
      */
     shouldPlayAnimation() {
         // Check URL parameters for override
@@ -90,63 +93,45 @@ class DAMPHeroAnimation {
         const playParam = urlParams.get('play-animation');
         
         // URL parameter overrides
-        if (skipParam === 'true') return false;
-        if (playParam === 'true') return true;
+        if (skipParam === 'true') {
+            console.log('DAMP: Animation skipped by URL parameter');
+            return false;
+        }
+        if (playParam === 'true') {
+            console.log('DAMP: Animation forced by URL parameter');
+            return true;
+        }
         
-        // Performance check for very low-end devices
-        if (this.isLowEndDevice()) {
-            console.log('DAMP: Skipping animation on low-end device for better performance');
+        // FIXED: Simplified device check - only skip on extremely low-end devices
+        if (this.isVeryLowEndDevice()) {
+            console.log('DAMP: Skipping animation on very low-end device');
             return false;
         }
         
-        // Check if should play only once
-        if (this.playOnlyOnce) {
-            const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
-            if (hasPlayedBefore) return false;
-        }
-        
-        // Check if should skip for returning users
-        if (this.skipIfReturningUser) {
-            const hasVisitedBefore = localStorage.getItem('damp-hero-animation-played');
-            if (hasVisitedBefore) return false;
-        }
-        
-        // Check reduced motion preference
+        // FIXED: Only check reduced motion preference, remove other restrictive checks
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            console.log('DAMP: Skipping animation due to reduced motion preference');
             return false;
         }
         
-        // Default behavior based on playOnEveryLoad setting
-        return this.playOnEveryLoad;
+        // FIXED: Always play animation by default (removed restrictive checks)
+        console.log('DAMP: Animation will play');
+        return true;
     }
 
     /**
-     * Detect low-end devices that might struggle with the animation
+     * Detect very low-end devices - FIXED: More lenient detection
      */
-    isLowEndDevice() {
-        // Check hardware concurrency (CPU cores)
+    isVeryLowEndDevice() {
+        // FIXED: Only block on extremely low-end devices
         const hardwareConcurrency = navigator.hardwareConcurrency || 4;
-        
-        // Check device memory if available
         const deviceMemory = navigator.deviceMemory || 4;
-        
-        // Check for very small screens (likely low-end mobile)
-        const isVerySmallScreen = window.innerWidth < 400 && window.innerHeight < 700;
-        
-        // Check for slow connection
-        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
-        
-        // Check for battery level (if available)
-        const isBatteryLow = navigator.getBattery && navigator.getBattery().then && 
-                           navigator.getBattery().then(battery => battery.level < 0.2);
+        const isVerySmallScreen = window.innerWidth < 320 && window.innerHeight < 568; // iPhone 5 and below
         
         return (
-            hardwareConcurrency <= 2 ||
-            deviceMemory <= 2 ||
-            isVerySmallScreen ||
-            isSlowConnection ||
-            isBatteryLow
+            hardwareConcurrency <= 1 ||
+            deviceMemory <= 1 ||
+            isVerySmallScreen
         );
     }
 

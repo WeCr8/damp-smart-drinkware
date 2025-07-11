@@ -351,18 +351,41 @@
     <script src="assets/js/navigation.js"></script>
     <script src="assets/js/scripts.js"></script>
     
-    <!-- Hero Animation -->
+    <!-- Hero Animation - FIXED: Improved initialization -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hero animation
+        // Initialize hero animation immediately when script loads
+        function initializeHeroAnimation() {
+            console.log('DAMP: Initializing hero animation...');
             if (window.DAMPHeroAnimation) {
-                new DAMPHeroAnimation({
-                    duration: 8000,        // 8 seconds for full sequence
-                    playOnEveryLoad: true, // Play every time page loads
-                    allowSkip: true        // Allow skipping with click/key/touch
-                });
+                try {
+                    new DAMPHeroAnimation({
+                        duration: 8000,        // 8 seconds for full sequence
+                        playOnEveryLoad: true, // Always play on page load
+                        allowSkip: true,       // Allow skipping with click/key/touch
+                        playOnlyOnce: false,   // Play every time (not just first visit)
+                        skipIfReturningUser: false  // Don't skip for returning users
+                    });
+                } catch (error) {
+                    console.error('DAMP: Error initializing hero animation:', error);
+                    // Fallback: show main content immediately
+                    document.body.classList.add('page-loaded');
+                    document.body.classList.remove('page-loading');
+                }
+            } else {
+                console.warn('DAMP: Hero animation class not found, showing content immediately');
+                // Fallback: show main content immediately
+                document.body.classList.add('page-loaded');
+                document.body.classList.remove('page-loading');
             }
-        });
+        }
+
+        // Try to initialize immediately if DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeHeroAnimation);
+        } else {
+            // DOM is already ready
+            initializeHeroAnimation();
+        }
     </script>
 </body>
 </html>

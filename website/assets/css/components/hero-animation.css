@@ -1,11 +1,11 @@
 /* DAMP Smart Drinkware - Hero Animation Component */
-/* Water Droplet Logo with Ripple Effects and Carbonation */
+/* Brand Messaging Sequence with Carbonation Screen */
 
 :root {
-    --hero-animation-duration: 7s;
-    --droplet-fall-duration: 2s;
-    --ripple-duration: 2s;
-    --carbonation-duration: 4s;
+    --hero-animation-duration: 8s;
+    --carbonation-duration: 2s;
+    --logo-emergence-duration: 2s;
+    --text-sequence-duration: 4s;
     
     /* Use Global Brand Colors - No Green! */
     --damp-primary-50: var(--color-primary-50, #e0f7ff);
@@ -15,376 +15,410 @@
     --damp-primary-400: var(--color-primary-400, #26c6f9);
     --damp-primary-500: var(--color-primary-500, #00d4ff);
     --damp-primary-600: var(--color-primary-600, #00bce6);
-    --damp-primary-700: var(--color-primary-700, #00a4cc);
-    --damp-accent-500: var(--color-accent-500, #ff6b35);
-    --damp-warning-500: var(--color-warning-500, #ff9800);
-    --damp-bg-primary: var(--color-bg-primary, #0f0f23);
-    --damp-bg-secondary: var(--color-bg-secondary, #1a1a2e);
-    --damp-bg-tertiary: var(--color-bg-tertiary, #16213e);
+    --damp-primary-700: var(--color-primary-700, #0099cc);
+    --damp-primary-800: var(--color-primary-800, #0077b3);
+    --damp-primary-900: var(--color-primary-900, #005599);
+    
+    --damp-accent-400: var(--color-accent-400, #ffa726);
+    --damp-accent-500: var(--color-accent-500, #ff9800);
+    --damp-accent-600: var(--color-accent-600, #f57c00);
+    
+    --damp-dark-bg: var(--color-background-dark, #0f0f23);
+    --damp-surface: var(--color-surface, #1a1a2e);
 }
 
-/* Hero Animation Overlay */
+/* Base Animation Overlay */
 .hero-animation-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: linear-gradient(135deg, 
-        var(--damp-bg-primary) 0%, 
-        var(--damp-bg-secondary) 50%, 
-        var(--damp-bg-tertiary) 100%);
+    background: linear-gradient(135deg, var(--damp-dark-bg) 0%, var(--damp-surface) 50%, var(--damp-dark-bg) 100%);
     z-index: 9999;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    opacity: 1;
-    transition: opacity 1.5s ease-out;
     overflow: hidden;
+    pointer-events: auto;
+    opacity: 1;
+    transition: opacity var(--hero-animation-duration) ease-out;
 }
 
 .hero-animation-overlay.fade-out {
     opacity: 0;
+    pointer-events: none;
 }
 
 .hero-animation-overlay.hidden {
     display: none;
 }
 
-/* Water Droplet Container */
-.water-droplet-container {
-    position: absolute;
-    top: -200px; /* Start way off-screen */
-    left: 50%;
-    transform: translateX(-50%);
-    width: 200px;
-    height: 200px;
-    z-index: 200;
-    opacity: 0;
-    transition: all 0.5s ease;
-}
+/* ==================== PHASE 1: Full Screen Carbonation ==================== */
 
-.water-droplet-logo {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 30px var(--damp-primary-500))
-            drop-shadow(0 0 60px var(--damp-primary-300));
-    animation: dropletGlow 2s ease-in-out infinite alternate;
-}
-
-/* Ripple Container */
-.ripple-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 400px;
-    height: 400px;
-    pointer-events: none;
-    z-index: 150;
-}
-
-.ripple-ring {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    border: 3px solid var(--damp-primary-500);
-    opacity: 0;
-    scale: 0;
-    animation-fill-mode: forwards;
-}
-
-.ripple-ring.ripple-1 {
-    border-color: var(--damp-primary-500);
-    box-shadow: 0 0 20px var(--damp-primary-500);
-}
-
-.ripple-ring.ripple-2 {
-    border-color: var(--damp-primary-400);
-    box-shadow: 0 0 30px var(--damp-primary-400);
-}
-
-.ripple-ring.ripple-3 {
-    border-color: var(--damp-primary-300);
-    box-shadow: 0 0 40px var(--damp-primary-300);
-}
-
-.ripple-ring.ripple-4 {
-    border-color: var(--damp-primary-200);
-    box-shadow: 0 0 50px var(--damp-primary-200);
-}
-
-.ripple-ring.ripple-5 {
-    border-color: var(--damp-primary-100);
-    box-shadow: 0 0 60px var(--damp-primary-100);
-}
-
-/* Enhanced Carbonation Container */
-.enhanced-carbonation-container {
+.carbonation-screen {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    pointer-events: none;
     overflow: hidden;
-    z-index: 100;
+    z-index: 1;
 }
 
-/* Carbonation Bubbles - Enhanced Effect */
-.carbonation-bubble {
+.screen-bubble {
     position: absolute;
-    width: var(--bubble-size);
-    height: var(--bubble-size);
     border-radius: 50%;
-    bottom: var(--bubble-y-start);
-    left: var(--bubble-x);
-    pointer-events: none;
     opacity: 0;
-    transform: scale(0) rotate(var(--bubble-rotation));
-    animation: 
-        enhancedCarbonationRise var(--bubble-duration) ease-out var(--bubble-delay) forwards,
-        bubbleRotation var(--bubble-duration) linear var(--bubble-delay) forwards;
+    transform: scale(0) rotate(0deg);
+    pointer-events: none;
+    z-index: 2;
+    
+    /* Immediate animation when phase starts */
+    animation: screenBubbleFloat var(--bubble-duration) ease-out var(--bubble-delay) forwards;
 }
 
-/* Bubble Types - Only Brand Colors (No Green!) */
-.carbonation-bubble.bubble-type-0 {
-    background: radial-gradient(circle at 30% 30%, 
-        var(--damp-primary-500) 0%, 
-        var(--damp-primary-400) 50%, 
-        var(--damp-primary-300) 100%);
-    box-shadow: 
-        0 0 30px var(--damp-primary-500),
-        inset 0 0 15px rgba(255, 255, 255, 0.4);
+/* Bubble Type Colors - Using Brand Colors Only */
+.bubble-type-0 {
+    background: radial-gradient(circle at 30% 30%, var(--damp-primary-200), var(--damp-primary-500));
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.2);
 }
 
-.carbonation-bubble.bubble-type-1 {
-    background: radial-gradient(circle at 30% 30%, 
-        var(--damp-accent-500) 0%, 
-        var(--damp-warning-500) 50%, 
-        var(--damp-primary-400) 100%);
-    box-shadow: 
-        0 0 25px var(--damp-accent-500),
-        inset 0 0 12px rgba(255, 255, 255, 0.3);
+.bubble-type-1 {
+    background: radial-gradient(circle at 30% 30%, var(--damp-primary-300), var(--damp-primary-700));
+    box-shadow: 0 0 25px rgba(0, 188, 230, 0.5), inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-.carbonation-bubble.bubble-type-2 {
-    background: radial-gradient(circle at 30% 30%, 
-        rgba(255, 255, 255, 0.9) 0%, 
-        var(--damp-primary-200) 50%, 
-        var(--damp-primary-500) 100%);
-    box-shadow: 
-        0 0 20px rgba(255, 255, 255, 0.6),
-        inset 0 0 10px rgba(255, 255, 255, 0.5);
+.bubble-type-2 {
+    background: radial-gradient(circle at 30% 30%, var(--damp-accent-400), var(--damp-accent-600));
+    box-shadow: 0 0 30px rgba(255, 152, 0, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.25);
 }
 
-/* Animation Phases */
-.hero-animation-overlay.phase-droplet-fall .water-droplet-container {
-    opacity: 1;
-    animation: waterDropletFall var(--droplet-fall-duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
-}
-
-.hero-animation-overlay.phase-droplet-landing .water-droplet-logo {
-    animation: dropletLanding 0.5s ease-out forwards;
-}
-
-.hero-animation-overlay.phase-ripple-expansion .ripple-ring {
-    animation: rippleExpansion var(--ripple-duration) ease-out var(--ripple-delay) forwards;
-}
-
-.hero-animation-overlay.phase-carbonation-burst .carbonation-bubble {
-    animation-play-state: running;
-}
-
-/* Water Droplet Fall Animation */
-@keyframes waterDropletFall {
-    0% {
-        top: -200px;
-        transform: translateX(-50%) scale(0.8);
-    }
-    50% {
-        transform: translateX(-50%) scale(1.1);
-    }
-    100% {
-        top: calc(50% - 100px);
-        transform: translateX(-50%) scale(1);
-    }
-}
-
-/* Droplet Landing Animation */
-@keyframes dropletLanding {
-    0% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 30px var(--damp-primary-500));
-    }
-    50% {
-        transform: scale(1.2);
-        filter: drop-shadow(0 0 60px var(--damp-primary-500))
-                drop-shadow(0 0 100px var(--damp-primary-300));
-    }
-    100% {
-        transform: scale(1);
-        filter: drop-shadow(0 0 40px var(--damp-primary-500))
-                drop-shadow(0 0 80px var(--damp-primary-300));
-    }
-}
-
-/* Ripple Expansion Animation */
-@keyframes rippleExpansion {
+@keyframes screenBubbleFloat {
     0% {
         opacity: 0;
-        scale: 0;
-    }
-    20% {
-        opacity: 1;
-        scale: 0.2;
-    }
-    100% {
-        opacity: 0;
-        scale: var(--ripple-scale, 3);
-    }
-}
-
-/* Enhanced Carbonation Rise Animation */
-@keyframes enhancedCarbonationRise {
-    0% {
-        opacity: 0;
-        transform: scale(0) rotate(var(--bubble-rotation));
-        bottom: var(--bubble-y-start);
-        left: var(--bubble-x);
+        transform: scale(0) rotate(0deg) translate(0, 0);
     }
     10% {
-        opacity: 1;
-        transform: scale(1.5) rotate(calc(var(--bubble-rotation) + 45deg));
+        opacity: var(--bubble-opacity, 0.6);
+        transform: scale(0.3) rotate(45deg) translate(0, 0);
     }
-    20% {
-        transform: scale(1) rotate(calc(var(--bubble-rotation) + 90deg));
+    50% {
+        opacity: var(--bubble-opacity, 0.6);
+        transform: scale(1) rotate(180deg) translate(var(--bubble-x-drift), var(--bubble-y-drift));
     }
     100% {
         opacity: 0;
-        transform: scale(0.8) rotate(calc(var(--bubble-rotation) + 360deg));
-        bottom: 120vh;
-        left: calc(var(--bubble-x) + var(--bubble-x-drift));
+        transform: scale(1.2) rotate(var(--bubble-rotation)) translate(var(--bubble-x-drift), var(--bubble-y-drift));
     }
 }
 
-/* Bubble Rotation Animation */
-@keyframes bubbleRotation {
+/* Position bubbles */
+.screen-bubble {
+    left: var(--bubble-x);
+    top: var(--bubble-y);
+    width: var(--bubble-size);
+    height: var(--bubble-size);
+}
+
+/* ==================== PHASE 2: Logo Emergence with Large Aura ==================== */
+
+.logo-emergence-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    opacity: 0;
+    scale: 0.5;
+    transition: all 1s ease-out;
+}
+
+.phase-logo-emergence .logo-emergence-container {
+    opacity: 1;
+    scale: 1;
+    animation: logoEmergence 2s ease-out forwards;
+}
+
+.logo-aura-layers {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+.logo-aura {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px; /* Much larger base size */
+    height: 200px;
+    border-radius: 50%;
+    opacity: 0;
+    scale: var(--aura-scale, 1);
+    background: radial-gradient(circle, 
+        rgba(0, 212, 255, 0.6) 0%, 
+        rgba(0, 212, 255, 0.4) 30%, 
+        rgba(0, 212, 255, 0.2) 60%,
+        transparent 100%);
+    filter: blur(3px);
+    animation: logoAuraPulse 3s ease-in-out infinite var(--aura-delay);
+}
+
+.aura-layer-1 { 
+    width: 200px; 
+    height: 200px; 
+    filter: blur(2px);
+}
+.aura-layer-2 { 
+    width: 280px; 
+    height: 280px; 
+    filter: blur(4px);
+}
+.aura-layer-3 { 
+    width: 360px; 
+    height: 360px; 
+    filter: blur(6px);
+}
+.aura-layer-4 { 
+    width: 440px; 
+    height: 440px; 
+    filter: blur(8px);
+}
+.aura-layer-5 { 
+    width: 520px; 
+    height: 520px; 
+    filter: blur(10px);
+}
+
+.emergence-logo {
+    position: relative;
+    z-index: 15;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    opacity: 0;
+    scale: 0.3;
+    filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.8));
+    animation: logoEmergenceGlow 2s ease-out 0.5s forwards;
+}
+
+@keyframes logoEmergence {
     0% {
-        transform: rotate(0deg);
+        opacity: 0;
+        scale: 0.5;
+        filter: blur(10px);
+    }
+    50% {
+        opacity: 0.8;
+        scale: 1.1;
+        filter: blur(2px);
     }
     100% {
-        transform: rotate(360deg);
+        opacity: 1;
+        scale: 1;
+        filter: blur(0px);
     }
 }
 
-/* Droplet Glow Animation */
-@keyframes dropletGlow {
+@keyframes logoEmergenceGlow {
     0% {
-        filter: drop-shadow(0 0 30px var(--damp-primary-500))
-                drop-shadow(0 0 60px var(--damp-primary-300));
+        opacity: 0;
+        scale: 0.3;
+        filter: drop-shadow(0 0 30px rgba(0, 212, 255, 0.8)) blur(5px);
+    }
+    50% {
+        opacity: 0.9;
+        scale: 1.2;
+        filter: drop-shadow(0 0 50px rgba(0, 212, 255, 1)) blur(1px);
     }
     100% {
-        filter: drop-shadow(0 0 50px var(--damp-primary-500))
-                drop-shadow(0 0 100px var(--damp-primary-300))
-                drop-shadow(0 0 20px var(--damp-accent-500));
+        opacity: 1;
+        scale: 1;
+        filter: drop-shadow(0 0 40px rgba(0, 212, 255, 0.9)) blur(0px);
     }
 }
 
-/* Responsive Design */
+@keyframes logoAuraPulse {
+    0%, 100% {
+        opacity: var(--aura-opacity, 0.6);
+        scale: var(--aura-scale, 1);
+        filter: blur(3px);
+    }
+    50% {
+        opacity: calc(var(--aura-opacity, 0.6) * 1.5);
+        scale: calc(var(--aura-scale, 1) * 1.1);
+        filter: blur(2px);
+    }
+}
+
+/* ==================== PHASE 3 & 4: Brand Text Sequence ==================== */
+
+.brand-text-container {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    text-align: center;
+    width: 90%;
+    max-width: 800px;
+}
+
+.brand-text {
+    opacity: 0;
+    transform: translateY(30px);
+    margin: 0;
+    letter-spacing: 0.05em;
+    text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    transition: all 1s ease-out;
+}
+
+.brand-text-primary {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    color: var(--damp-primary-500);
+    background: linear-gradient(135deg, var(--damp-primary-400), var(--damp-primary-600));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1rem;
+}
+
+.brand-text-secondary {
+    font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+    font-weight: 500;
+    color: var(--damp-accent-500);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.phase-first-text .brand-text-primary {
+    opacity: 1;
+    transform: translateY(0);
+    animation: textGlow 2s ease-out forwards;
+}
+
+.phase-second-text .brand-text-secondary {
+    opacity: 1;
+    transform: translateY(0);
+    animation: textGlow 2s ease-out 0.3s forwards;
+}
+
+@keyframes textGlow {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+    }
+    50% {
+        opacity: 0.9;
+        transform: translateY(-5px);
+        text-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+        text-shadow: 0 0 30px rgba(0, 212, 255, 0.6);
+    }
+}
+
+/* ==================== Responsive Design ==================== */
+
 @media (max-width: 768px) {
-    .water-droplet-container {
+    .logo-aura {
         width: 150px;
         height: 150px;
     }
     
-    .ripple-container {
-        width: 300px;
-        height: 300px;
+    .aura-layer-1 { width: 150px; height: 150px; }
+    .aura-layer-2 { width: 210px; height: 210px; }
+    .aura-layer-3 { width: 270px; height: 270px; }
+    .aura-layer-4 { width: 330px; height: 330px; }
+    .aura-layer-5 { width: 390px; height: 390px; }
+    
+    .emergence-logo {
+        width: 80px;
+        height: 80px;
     }
     
-    .carbonation-bubble {
-        --bubble-size: calc(var(--bubble-size) * 0.8);
+    .brand-text-container {
+        width: 95%;
+        top: 70%;
+    }
+    
+    .screen-bubble {
+        /* Smaller bubbles on mobile */
+        --bubble-size: calc(var(--bubble-size) * 0.7);
     }
 }
 
 @media (max-width: 480px) {
-    .water-droplet-container {
+    .logo-aura {
         width: 120px;
         height: 120px;
     }
     
-    .ripple-container {
-        width: 250px;
-        height: 250px;
+    .aura-layer-1 { width: 120px; height: 120px; }
+    .aura-layer-2 { width: 168px; height: 168px; }
+    .aura-layer-3 { width: 216px; height: 216px; }
+    .aura-layer-4 { width: 264px; height: 264px; }
+    .aura-layer-5 { width: 312px; height: 312px; }
+    
+    .emergence-logo {
+        width: 60px;
+        height: 60px;
     }
     
-    .carbonation-bubble {
-        --bubble-size: calc(var(--bubble-size) * 0.6);
+    .brand-text-container {
+        top: 72%;
+    }
+    
+    .screen-bubble {
+        /* Even smaller bubbles on small mobile */
+        --bubble-size: calc(var(--bubble-size) * 0.5);
     }
 }
 
-/* Accessibility */
+/* ==================== Accessibility & Performance ==================== */
+
+/* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
-    .carbonation-bubble,
-    .water-droplet-logo,
-    .ripple-ring {
-        animation: none !important;
+    .screen-bubble,
+    .logo-emergence-container,
+    .brand-text,
+    .logo-aura {
+        animation-duration: 0.5s !important;
+        animation-iteration-count: 1 !important;
     }
     
     .hero-animation-overlay {
-        transition: opacity 0.3s ease;
-    }
-    
-    .water-droplet-container {
-        top: calc(50% - 100px);
-        opacity: 1;
+        transition-duration: 0.5s !important;
     }
 }
 
-/* High Contrast Mode */
+/* High contrast mode support */
 @media (prefers-contrast: high) {
-    .carbonation-bubble.bubble-type-0 {
-        background: radial-gradient(circle, var(--damp-primary-500), #ffffff);
-        box-shadow: 0 0 30px var(--damp-primary-500);
+    .brand-text-primary {
+        color: var(--damp-primary-500) !important;
+        -webkit-text-fill-color: var(--damp-primary-500) !important;
     }
     
-    .carbonation-bubble.bubble-type-1 {
-        background: radial-gradient(circle, var(--damp-accent-500), #ffffff);
-        box-shadow: 0 0 25px var(--damp-accent-500);
+    .brand-text-secondary {
+        color: var(--damp-accent-500) !important;
     }
     
-    .carbonation-bubble.bubble-type-2 {
-        background: radial-gradient(circle, #ffffff, var(--damp-primary-500));
-        box-shadow: 0 0 20px #ffffff;
-    }
-    
-    .ripple-ring {
-        border-width: 4px;
-        box-shadow: 0 0 40px currentColor;
+    .screen-bubble {
+        border: 2px solid var(--damp-primary-500);
     }
 }
 
-/* Loading States */
-.water-droplet-logo.loading {
-    animation: logoLoading 1s ease-in-out infinite;
+/* Skip button styling */
+.hero-skip-button {
+    font-family: inherit;
+    outline: none;
 }
 
-.water-droplet-logo.error {
-    filter: grayscale(100%) brightness(0.5);
-}
-
-@keyframes logoLoading {
-    0%, 100% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0.5;
-    }
+.hero-skip-button:focus {
+    outline: 2px solid var(--damp-primary-500);
+    outline-offset: 2px;
 }

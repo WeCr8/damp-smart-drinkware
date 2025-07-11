@@ -1,11 +1,11 @@
 /* DAMP Smart Drinkware - Hero Animation Component */
-/* Water Droplet Logo with Ripple Effects and Carbonation */
+/* Brand Messaging Sequence with Carbonation Screen */
 
 class DAMPHeroAnimation {
     constructor(options = {}) {
-        this.animationDuration = options.duration || 7000; // 7 seconds for full sequence
+        this.animationDuration = options.duration || 8000; // 8 seconds for full sequence
         this.fadeOutDuration = options.fadeOutDuration || 1500; // 1.5 second fade out
-        this.bubbleCount = 200; // Massive carbonation effect - 200 bubbles!
+        this.bubbleCount = 300; // Massive carbonation screen - 300 bubbles!
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
@@ -18,11 +18,11 @@ class DAMPHeroAnimation {
         
         // Animation timing phases
         this.phases = {
-            dropletFall: 0,        // 0s - Logo starts falling like water droplet
-            dropletLanding: 2000,  // 2s - Logo lands with ripple effect
-            carbonationBurst: 2500, // 2.5s - Carbonation bubbles explode
-            rippleExpansion: 3000,  // 3s - Ripple expands outward
-            contentReveal: 5500     // 5.5s - Main content reveals
+            carbonationScreen: 0,        // 0s - Full screen of bubbles starts
+            logoEmergence: 2000,         // 2s - Logo emerges from bubbles with large aura
+            firstText: 4000,             // 4s - "Never Leave a Drink Behind"
+            secondText: 6000,            // 6s - "DAMP Drink Abandonment Monitoring Protocol"
+            contentReveal: 7500          // 7.5s - Main content reveals
         };
         
         this.init();
@@ -94,7 +94,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Create water droplet animation elements
+     * Create brand messaging animation elements
      */
     createAnimationElements() {
         // Create main overlay container
@@ -103,81 +103,104 @@ class DAMPHeroAnimation {
         this.animationContainer.setAttribute('role', 'presentation');
         this.animationContainer.setAttribute('aria-hidden', 'true');
 
-        // Create water droplet logo container (starts off-screen)
-        const dropletContainer = document.createElement('div');
-        dropletContainer.className = 'water-droplet-container';
+        // Create full-screen carbonation background
+        const carbonationScreen = document.createElement('div');
+        carbonationScreen.className = 'carbonation-screen';
 
-        const logo = document.createElement('img');
-        logo.className = 'water-droplet-logo';
-        logo.src = 'assets/images/logo/icon.png';
-        logo.alt = 'DAMP Smart Drinkware Logo';
-        logo.loading = 'eager';
-        logo.onerror = () => {
-            logo.src = 'assets/images/logo/favicon.png';
-        };
-        dropletContainer.appendChild(logo);
-
-        // Create ripple effect container
-        const rippleContainer = document.createElement('div');
-        rippleContainer.className = 'ripple-container';
-
-        // Create multiple ripple rings
-        for (let i = 0; i < 5; i++) {
-            const ripple = document.createElement('div');
-            ripple.className = `ripple-ring ripple-${i + 1}`;
-            ripple.style.cssText = `
-                --ripple-delay: ${i * 0.2}s;
-                --ripple-scale: ${1 + i * 0.3};
-            `;
-            rippleContainer.appendChild(ripple);
-        }
-
-        // Create enhanced carbonation container
-        const carbonationContainer = document.createElement('div');
-        carbonationContainer.className = 'enhanced-carbonation-container';
-
-        // Create massive carbonation effect - 200 bubbles!
+        // Create massive carbonation effect - 300 bubbles filling the screen!
         for (let i = 0; i < this.bubbleCount; i++) {
             const bubble = document.createElement('div');
-            bubble.className = 'carbonation-bubble';
+            bubble.className = 'screen-bubble';
             bubble.setAttribute('aria-hidden', 'true');
             
-            // Create 3 bubble types (no green!)
+            // Create 3 bubble types with brand colors (no green!)
             const bubbleType = i % 3;
             bubble.classList.add(`bubble-type-${bubbleType}`);
             
-            // Enhanced random positioning for better carbonation effect
-            const size = Math.random() * 30 + 10; // 10-40px bubbles
-            const delay = Math.random() * 3000 + 2500; // 2.5-5.5s delay (after landing)
-            const duration = Math.random() * 4000 + 3000; // 3-7s duration
+            // Enhanced random positioning for full screen coverage
+            const size = Math.random() * 40 + 15; // 15-55px bubbles
+            const delay = Math.random() * 2000; // 0-2s delay (immediate burst)
+            const duration = Math.random() * 6000 + 4000; // 4-10s duration
             const xPos = Math.random() * 100; // 0-100% horizontal
-            const yStart = 100 + Math.random() * 30; // Start well below screen
-            const xDrift = (Math.random() - 0.5) * 40; // -20% to +20% horizontal drift
+            const yPos = Math.random() * 100; // 0-100% vertical
+            const xDrift = (Math.random() - 0.5) * 60; // -30% to +30% horizontal drift
+            const yDrift = (Math.random() - 0.5) * 60; // -30% to +30% vertical drift
             
             bubble.style.cssText = `
                 --bubble-size: ${size}px;
                 --bubble-delay: ${delay}ms;
                 --bubble-duration: ${duration}ms;
                 --bubble-x: ${xPos}%;
-                --bubble-y-start: ${yStart}%;
+                --bubble-y: ${yPos}%;
                 --bubble-x-drift: ${xDrift}%;
+                --bubble-y-drift: ${yDrift}%;
                 --bubble-rotation: ${Math.random() * 360}deg;
+                --bubble-opacity: ${Math.random() * 0.4 + 0.3}; // 0.3-0.7 opacity
             `;
             
-            carbonationContainer.appendChild(bubble);
+            carbonationScreen.appendChild(bubble);
         }
 
+        // Create logo container with large aura
+        const logoContainer = document.createElement('div');
+        logoContainer.className = 'logo-emergence-container';
+
+        // Create multiple aura layers for impressive effect
+        const auraLayers = document.createElement('div');
+        auraLayers.className = 'logo-aura-layers';
+
+        // Create 5 aura layers with increasing size
+        for (let i = 0; i < 5; i++) {
+            const aura = document.createElement('div');
+            aura.className = `logo-aura aura-layer-${i + 1}`;
+            aura.style.cssText = `
+                --aura-scale: ${1 + i * 0.4}; // 1x to 2.6x scale
+                --aura-delay: ${i * 0.1}s;
+                --aura-opacity: ${0.8 - i * 0.15}; // Decreasing opacity
+            `;
+            auraLayers.appendChild(aura);
+        }
+
+        const logo = document.createElement('img');
+        logo.className = 'emergence-logo';
+        logo.src = 'assets/images/logo/icon.png';
+        logo.alt = 'DAMP Smart Drinkware Logo';
+        logo.loading = 'eager';
+        logo.onerror = () => {
+            logo.src = 'assets/images/logo/favicon.png';
+        };
+
+        logoContainer.appendChild(auraLayers);
+        logoContainer.appendChild(logo);
+
+        // Create text messaging container
+        const textContainer = document.createElement('div');
+        textContainer.className = 'brand-text-container';
+
+        // Create first text: "Never Leave a Drink Behind"
+        const firstText = document.createElement('h1');
+        firstText.className = 'brand-text brand-text-primary';
+        firstText.textContent = 'Never Leave a Drink Behind';
+
+        // Create second text: "DAMP Drink Abandonment Monitoring Protocol"
+        const secondText = document.createElement('h2');
+        secondText.className = 'brand-text brand-text-secondary';
+        secondText.textContent = 'DAMP Drink Abandonment Monitoring Protocol';
+
+        textContainer.appendChild(firstText);
+        textContainer.appendChild(secondText);
+
         // Assemble all elements
-        this.animationContainer.appendChild(dropletContainer);
-        this.animationContainer.appendChild(rippleContainer);
-        this.animationContainer.appendChild(carbonationContainer);
+        this.animationContainer.appendChild(carbonationScreen);
+        this.animationContainer.appendChild(logoContainer);
+        this.animationContainer.appendChild(textContainer);
 
         // Add to DOM
         document.body.appendChild(this.animationContainer);
     }
 
     /**
-     * Start the water droplet animation sequence
+     * Start the brand messaging animation sequence
      */
     startAnimation() {
         // Ensure body is hidden during animation
@@ -199,23 +222,23 @@ class DAMPHeroAnimation {
      * Run the animation phases in sequence
      */
     runAnimationPhases() {
-        // Phase 1: Water droplet starts falling immediately
-        this.animationContainer.classList.add('phase-droplet-fall');
+        // Phase 1: Carbonation screen starts immediately
+        this.animationContainer.classList.add('phase-carbonation-screen');
         
-        // Phase 2: Droplet lands with impact
+        // Phase 2: Logo emerges from bubbles with large aura
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-droplet-landing');
-        }, this.phases.dropletLanding);
+            this.animationContainer.classList.add('phase-logo-emergence');
+        }, this.phases.logoEmergence);
         
-        // Phase 3: Carbonation bubbles explode after landing
+        // Phase 3: First text appears - "Never Leave a Drink Behind"
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-carbonation-burst');
-        }, this.phases.carbonationBurst);
+            this.animationContainer.classList.add('phase-first-text');
+        }, this.phases.firstText);
         
-        // Phase 4: Ripple expands outward
+        // Phase 4: Second text appears - "DAMP Drink Abandonment Monitoring Protocol"
         setTimeout(() => {
-            this.animationContainer.classList.add('phase-ripple-expansion');
-        }, this.phases.rippleExpansion);
+            this.animationContainer.classList.add('phase-second-text');
+        }, this.phases.secondText);
         
         // Phase 5: Content reveals
         setTimeout(() => {
@@ -345,7 +368,7 @@ class DAMPHeroAnimation {
             detail: { 
                 timestamp: Date.now(),
                 bubblesCount: this.bubbleCount,
-                animationType: 'water-droplet-carbonation'
+                animationType: 'brand-messaging-carbonation'
             }
         });
         document.dispatchEvent(event);

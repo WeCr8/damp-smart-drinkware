@@ -1,11 +1,11 @@
 /* DAMP Smart Drinkware - Hero Animation Component */
-/* Dramatic Bubble Curtain Reveal with Massive Logo */
+/* Performance-Optimized Bubble Curtain Reveal with Massive Logo */
 
 class DAMPHeroAnimation {
     constructor(options = {}) {
         this.animationDuration = options.duration || 9000; // 9 seconds for dramatic sequence
         this.fadeOutDuration = options.fadeOutDuration || 2000; // 2 second fade out
-        this.bubbleCount = 500; // Dense curtain of bubbles - 500 bubbles!
+        this.bubbleCount = this.getOptimalBubbleCount(); // Optimized bubble count based on device
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
@@ -26,6 +26,39 @@ class DAMPHeroAnimation {
         };
         
         this.init();
+    }
+
+    /**
+     * Get optimal bubble count based on device capabilities
+     */
+    getOptimalBubbleCount() {
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const screenArea = screenWidth * screenHeight;
+        
+        // Check if it's a mobile device
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isSmallScreen = screenWidth < 768;
+        
+        // Performance-based bubble count calculation
+        if (isMobile || isSmallScreen) {
+            if (screenWidth < 480) {
+                return 150; // Small mobile: 150 bubbles
+            } else if (screenWidth < 768) {
+                return 200; // Large mobile/tablet: 200 bubbles
+            } else {
+                return 250; // Tablet landscape: 250 bubbles
+            }
+        } else {
+            // Desktop: Base on screen area
+            if (screenArea < 1000000) { // Small desktop/laptop
+                return 300;
+            } else if (screenArea < 2000000) { // Standard desktop
+                return 350;
+            } else {
+                return 400; // Large desktop: Maximum 400 bubbles
+            }
+        }
     }
 
     /**
@@ -60,6 +93,12 @@ class DAMPHeroAnimation {
         if (skipParam === 'true') return false;
         if (playParam === 'true') return true;
         
+        // Performance check for very low-end devices
+        if (this.isLowEndDevice()) {
+            console.log('DAMP: Skipping animation on low-end device for better performance');
+            return false;
+        }
+        
         // Check if should play only once
         if (this.playOnlyOnce) {
             const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
@@ -79,6 +118,36 @@ class DAMPHeroAnimation {
         
         // Default behavior based on playOnEveryLoad setting
         return this.playOnEveryLoad;
+    }
+
+    /**
+     * Detect low-end devices that might struggle with the animation
+     */
+    isLowEndDevice() {
+        // Check hardware concurrency (CPU cores)
+        const hardwareConcurrency = navigator.hardwareConcurrency || 4;
+        
+        // Check device memory if available
+        const deviceMemory = navigator.deviceMemory || 4;
+        
+        // Check for very small screens (likely low-end mobile)
+        const isVerySmallScreen = window.innerWidth < 400 && window.innerHeight < 700;
+        
+        // Check for slow connection
+        const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+        const isSlowConnection = connection && (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g');
+        
+        // Check for battery level (if available)
+        const isBatteryLow = navigator.getBattery && navigator.getBattery().then && 
+                           navigator.getBattery().then(battery => battery.level < 0.2);
+        
+        return (
+            hardwareConcurrency <= 2 ||
+            deviceMemory <= 2 ||
+            isVerySmallScreen ||
+            isSlowConnection ||
+            isBatteryLow
+        );
     }
 
     /**
@@ -127,18 +196,22 @@ class DAMPHeroAnimation {
         const bubbleCurtain = document.createElement('div');
         bubbleCurtain.className = 'artistic-bubble-curtain';
 
-        // Create dense curtain of bubbles - 500 bubbles for full coverage!
+        // Create optimized curtain of bubbles - performance-friendly!
         for (let i = 0; i < this.bubbleCount; i++) {
             const bubble = document.createElement('div');
             bubble.className = 'artistic-curtain-bubble';
             bubble.setAttribute('aria-hidden', 'true');
             
-            // Create artistic bubble types with only blues/whites/grays
-            const bubbleType = i % 5; // 5 types for more artistic variety
+            // Create cleaner bubble types with only blues/whites/grays
+            const bubbleType = i % 3; // Reduced to 3 types for better performance
             bubble.classList.add(`artistic-bubble-type-${bubbleType}`);
             
-            // Position bubbles to form a dense artistic curtain
-            const size = Math.random() * 80 + 30; // 30-110px bubbles for dense coverage
+            // Position bubbles to form a clean artistic curtain
+            const isMobile = window.innerWidth < 768;
+            const baseSize = isMobile ? 25 : 40; // Smaller base size for mobile
+            const sizeVariation = isMobile ? 15 : 25; // Less variation for mobile
+            const size = Math.random() * sizeVariation + baseSize; // Smaller, cleaner bubbles
+            
             const xPos = Math.random() * 100; // 0-100% horizontal
             const yPos = Math.random() * 100; // 0-100% vertical
             
@@ -147,10 +220,15 @@ class DAMPHeroAnimation {
             const curtainSide = isLeftSide ? 'left' : 'right';
             bubble.classList.add(`curtain-${curtainSide}`);
             
-            // Calculate dramatic reveal movement - bubbles move far outward
-            const revealDistance = isLeftSide ? -Math.random() * 300 - 150 : Math.random() * 300 + 150;
-            const verticalDrift = (Math.random() - 0.5) * 150; // Up/down movement
-            const rotationDrift = (Math.random() - 0.5) * 720; // Full rotation effects
+            // Calculate optimized reveal movement - smaller distances for better performance
+            const maxDistance = isMobile ? 200 : 250; // Reduced movement distance
+            const minDistance = isMobile ? 80 : 100;
+            const revealDistance = isLeftSide ? 
+                -Math.random() * maxDistance - minDistance : 
+                Math.random() * maxDistance + minDistance;
+            
+            const verticalDrift = (Math.random() - 0.5) * (isMobile ? 80 : 120); // Reduced vertical movement
+            const rotationDrift = (Math.random() - 0.5) * (isMobile ? 360 : 540); // Reduced rotation
             
             bubble.style.cssText = `
                 --bubble-size: ${size}px;
@@ -159,9 +237,9 @@ class DAMPHeroAnimation {
                 --reveal-distance: ${revealDistance}px;
                 --vertical-drift: ${verticalDrift}px;
                 --rotation-drift: ${rotationDrift}deg;
-                --bubble-delay: ${Math.random() * 1000}ms; // Formation timing
-                --reveal-delay: ${Math.random() * 1500 + 3000}ms; // Dramatic staggered reveal
-                --bubble-opacity: ${Math.random() * 0.3 + 0.7}; // 0.7-1.0 opacity for density
+                --bubble-delay: ${Math.random() * 800}ms; // Faster formation
+                --reveal-delay: ${Math.random() * 1200 + 2500}ms; // Optimized staggered reveal
+                --bubble-opacity: ${Math.random() * 0.25 + 0.75}; // 0.75-1.0 opacity for cleaner look
             `;
             
             bubbleCurtain.appendChild(bubble);
@@ -359,7 +437,9 @@ class DAMPHeroAnimation {
             detail: { 
                 timestamp: Date.now(),
                 bubblesCount: this.bubbleCount,
-                animationType: 'dramatic-curtain-reveal'
+                animationType: 'optimized-curtain-reveal',
+                deviceType: window.innerWidth < 768 ? 'mobile' : 'desktop',
+                performanceOptimized: true
             }
         });
         document.dispatchEvent(event);

@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
+    <!-- Favicon Links - Prevents 404 errors -->
+    <link rel="icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/logo/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/logo/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo/icon.png">
+    
     <!-- Prevent PWA installation prompts -->
     <meta name="mobile-web-app-capable" content="no">
     <meta name="apple-mobile-web-app-capable" content="no">
@@ -364,7 +371,7 @@
                         allowSkip: true,             // Allow skipping with click/key/touch
                         playOnlyOnce: false,         // CRITICAL: Don't limit to once
                         skipIfReturningUser: false,  // CRITICAL: Don't skip for returning users
-                        fadeOutDuration: 1000        // Faster fade out for better UX
+                        fadeOutDuration: 1000        // Professional fade out timing
                     });
                 } catch (error) {
                     console.error('DAMP: Error initializing hero animation:', error);
@@ -381,16 +388,16 @@
         }
 
         // FIXED: Force animation on every page load
-        // Clear any existing animation state
+        // Clear any existing animation state to ensure fresh start
         if (typeof window.DAMPHeroAnimation !== 'undefined' && window.DAMPHeroAnimation.reset) {
             window.DAMPHeroAnimation.reset();
         }
 
-        // Try to initialize immediately if DOM is ready
+        // Initialize based on DOM readiness
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeHeroAnimation);
         } else {
-            // DOM is already ready
+            // DOM is already ready - initialize immediately
             initializeHeroAnimation();
         }
     </script>

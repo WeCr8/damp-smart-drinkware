@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Hero Animation Test</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        }
+        .test-content {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 16px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .test-content h1 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+        .test-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1rem;
+        }
+        .test-button {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 8px;
+            transition: all 0.3s ease;
+        }
+        .test-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="page-loading">
+    <div class="test-content">
+        <h1>DAMP Hero Animation Test</h1>
+        <p>This page will test the hero animation on load.</p>
+        <p>The animation should start automatically when the page loads.</p>
+        <button class="test-button" onclick="testAnimation()">Test Animation</button>
+        <button class="test-button" onclick="resetAnimation()">Reset Animation</button>
+    </div>
+    
+    <script src="assets/js/components/favicon-setup.js"></script>
+    <script src="assets/js/components/hero-animation.js"></script>
+    
+    <script>
+        // Test the hero animation
+        function testAnimation() {
+            console.log('Testing hero animation...');
+            console.log('DAMPHeroAnimation available:', typeof window.DAMPHeroAnimation);
+            
+            if (window.DAMPHeroAnimation) {
+                new DAMPHeroAnimation({
+                    duration: 6000,
+                    playOnEveryLoad: true,
+                    allowSkip: true
+                });
+                console.log('Hero animation initialized');
+            } else {
+                console.error('DAMPHeroAnimation not found');
+            }
+        }
+        
+        function resetAnimation() {
+            console.log('Resetting animation...');
+            if (window.DAMPHeroAnimation) {
+                window.DAMPHeroAnimation.reset();
+                console.log('Animation reset');
+            }
+        }
+        
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded, initializing hero animation...');
+            testAnimation();
+        });
+    </script>
+</body>
+</html> 

@@ -359,11 +359,12 @@
             if (window.DAMPHeroAnimation) {
                 try {
                     new DAMPHeroAnimation({
-                        duration: 8000,        // 8 seconds for full sequence
-                        playOnEveryLoad: true, // Always play on page load
-                        allowSkip: true,       // Allow skipping with click/key/touch
-                        playOnlyOnce: false,   // Play every time (not just first visit)
-                        skipIfReturningUser: false  // Don't skip for returning users
+                        duration: 8000,              // 8 seconds for full sequence
+                        playOnEveryLoad: true,       // CRITICAL: Always play on page load/reload
+                        allowSkip: true,             // Allow skipping with click/key/touch
+                        playOnlyOnce: false,         // CRITICAL: Don't limit to once
+                        skipIfReturningUser: false,  // CRITICAL: Don't skip for returning users
+                        fadeOutDuration: 1000        // Faster fade out for better UX
                     });
                 } catch (error) {
                     console.error('DAMP: Error initializing hero animation:', error);
@@ -377,6 +378,12 @@
                 document.body.classList.add('page-loaded');
                 document.body.classList.remove('page-loading');
             }
+        }
+
+        // FIXED: Force animation on every page load
+        // Clear any existing animation state
+        if (typeof window.DAMPHeroAnimation !== 'undefined' && window.DAMPHeroAnimation.reset) {
+            window.DAMPHeroAnimation.reset();
         }
 
         // Try to initialize immediately if DOM is ready

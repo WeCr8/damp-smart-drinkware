@@ -63,7 +63,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Initialize the hero animation - FIXED: Simplified initialization
+     * Initialize the hero animation - FIXED: Properly handle playOnEveryLoad option
      */
     initializeAnimation() {
         // Wait for favicon setup to be available
@@ -71,16 +71,51 @@ class DAMPHeroAnimation {
             this.faviconSetup = new window.DAMPFaviconSetup();
         }
 
-        // FIXED: Simplified animation check - make it more reliable
-        if (this.shouldPlayAnimation() && !this.hasPlayed) {
+        // FIXED: Properly respect playOnEveryLoad and playOnlyOnce options
+        const shouldPlay = this.shouldPlayAnimation();
+        const canPlay = this.canPlayAnimation();
+        
+        if (shouldPlay && canPlay) {
             console.log('DAMP: Starting hero animation');
             this.createAnimationElements();
             this.startAnimation();
             this.hasPlayed = true;
         } else {
-            console.log('DAMP: Skipping hero animation');
+            console.log('DAMP: Skipping hero animation', { shouldPlay, canPlay });
             this.skipAnimation();
         }
+    }
+
+    /**
+     * Determine if animation can play based on play frequency settings
+     */
+    canPlayAnimation() {
+        // If playOnEveryLoad is true, always allow animation
+        if (this.playOnEveryLoad) {
+            console.log('DAMP: Animation allowed - playOnEveryLoad is true');
+            return true;
+        }
+        
+        // If playOnlyOnce is true, check if it has been played before
+        if (this.playOnlyOnce) {
+            const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
+            if (hasPlayedBefore) {
+                console.log('DAMP: Animation blocked - playOnlyOnce is true and already played');
+                return false;
+            }
+        }
+        
+        // If skipIfReturningUser is true, check if user has visited before
+        if (this.skipIfReturningUser) {
+            const hasVisitedBefore = localStorage.getItem('damp-hero-animation-played');
+            if (hasVisitedBefore) {
+                console.log('DAMP: Animation blocked - skipIfReturningUser is true and user has visited before');
+                return false;
+            }
+        }
+        
+        // Default to allowing animation
+        return true;
     }
 
     /**

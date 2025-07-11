@@ -455,5 +455,27 @@
             }, 1000);
         });
     </script>
+
+    <!-- Simple Cookie Notice -->
+    <div class="cookie-notice" id="cookieNotice">
+        🍪 We use cookies to improve your experience
+        <a href="pages/privacy.html">Learn more</a>
+        <button onclick="document.getElementById('cookieNotice').style.display='none'">OK</button>
+    </div>
+
+    <!-- Simple Cookie Notice Script -->
+    <script>
+        // Show cookie notice after 3 seconds if not previously dismissed
+        setTimeout(function() {
+            if (!localStorage.getItem('cookieNoticeShown')) {
+                document.getElementById('cookieNotice').classList.add('show');
+            }
+        }, 3000);
+        
+        // Remember dismissal
+        document.querySelector('.cookie-notice button').addEventListener('click', function() {
+            localStorage.setItem('cookieNoticeShown', 'true');
+        });
+    </script>
 </body>
 </html>

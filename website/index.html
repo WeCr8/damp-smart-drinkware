@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
+    <!-- Enhanced Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- HTTPS Enforcement -->
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    
     <!-- Favicon Links - Prevents 404 errors -->
     <link rel="icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
     <link rel="shortcut icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
@@ -67,6 +77,9 @@
         }
     }
     </script>
+
+    <!-- Security Scripts - Load First -->
+    <script src="assets/js/security-utils.js"></script>
 </head>
 <body class="page-loading">
     <!-- Navigation Header -->
@@ -351,20 +364,26 @@
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Scripts - Enhanced Security -->
     <script src="assets/js/components/favicon-setup.js"></script>
     <script src="assets/js/components/hero-animation.js"></script>
     <script src="assets/js/components/header.js"></script>
     <script src="assets/js/navigation.js"></script>
     <script src="assets/js/scripts.js"></script>
     
-    <!-- Hero Animation - FIXED: Improved initialization -->
+    <!-- Hero Animation - FIXED with Security -->
     <script>
-        // Initialize hero animation immediately when script loads
+        // Secure initialization with error handling
         function initializeHeroAnimation() {
             console.log('DAMP: Initializing hero animation...');
+            
             if (window.DAMPHeroAnimation) {
                 try {
+                    // Clear any existing animation state securely
+                    if (window.DAMPHeroAnimation.reset) {
+                        window.DAMPHeroAnimation.reset();
+                    }
+                    
                     new DAMPHeroAnimation({
                         duration: 8000,              // 8 seconds for full sequence
                         playOnEveryLoad: true,       // CRITICAL: Always play on page load/reload

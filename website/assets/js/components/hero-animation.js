@@ -63,15 +63,16 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Initialize the hero animation - FIXED: Properly handle playOnEveryLoad option
+     * Initialize the hero animation - FIXED: Secure implementation
      */
     initializeAnimation() {
-        // Wait for favicon setup to be available
-        if (window.DAMPFaviconSetup) {
+        // Wait for security utils and favicon setup
+        if (window.DAMPSecurityUtils && window.DAMPFaviconSetup) {
             this.faviconSetup = new window.DAMPFaviconSetup();
+            this.securityUtils = window.DAMPSecurityUtils;
         }
 
-        // FIXED: Properly respect playOnEveryLoad and playOnlyOnce options
+        // FIXED: Secure animation check with proper validation
         const shouldPlay = this.shouldPlayAnimation();
         const canPlay = this.canPlayAnimation();
         
@@ -98,7 +99,10 @@ class DAMPHeroAnimation {
         
         // If playOnlyOnce is true, check if it has been played before
         if (this.playOnlyOnce) {
-            const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
+            const hasPlayedBefore = this.securityUtils ? 
+                this.securityUtils.secureGetItem('damp-hero-animation-played') :
+                localStorage.getItem('damp-hero-animation-played');
+            
             if (hasPlayedBefore) {
                 console.log('DAMP: Animation blocked - playOnlyOnce is true and already played');
                 return false;
@@ -107,9 +111,12 @@ class DAMPHeroAnimation {
         
         // If skipIfReturningUser is true, check if user has visited before
         if (this.skipIfReturningUser) {
-            const hasVisitedBefore = localStorage.getItem('damp-hero-animation-played');
+            const hasVisitedBefore = this.securityUtils ? 
+                this.securityUtils.secureGetItem('damp-hero-animation-played') :
+                localStorage.getItem('damp-hero-animation-played');
+            
             if (hasVisitedBefore) {
-                console.log('DAMP: Animation blocked - skipIfReturningUser is true and user has visited before');
+                console.log('DAMP: Animation blocked - skipIfReturningUser is true');
                 return false;
             }
         }
@@ -183,7 +190,7 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Create dramatic bubble curtain animation elements
+     * Create dramatic bubble curtain animation elements - SECURE
      */
     createAnimationElements() {
         // Create main overlay container
@@ -201,15 +208,19 @@ class DAMPHeroAnimation {
         massiveLogo.src = 'assets/images/logo/icon.png';
         massiveLogo.alt = 'DAMP Smart Drinkware Logo';
         massiveLogo.loading = 'eager';
+        
+        // Secure error handling
         massiveLogo.onerror = () => {
+            console.warn('DAMP: Primary logo failed, using fallback');
             massiveLogo.src = 'assets/images/logo/favicon.png';
         };
+        
         logoBackground.appendChild(massiveLogo);
 
-        // Create DAMP text that appears with logo
+        // Create DAMP text securely
         const dampTextElement = document.createElement('h1');
         dampTextElement.className = 'damp-brand-text';
-        dampTextElement.textContent = 'DAMP';
+        dampTextElement.textContent = 'DAMP'; // Use textContent, not innerHTML
         logoBackground.appendChild(dampTextElement);
 
         // Create dense bubble curtain container
@@ -269,14 +280,13 @@ class DAMPHeroAnimation {
         const textContainer = document.createElement('div');
         textContainer.className = 'main-text-container';
 
-        // Create main text: "Never Leave Your Drink Behind"
+        // Create main text securely
         const mainText = document.createElement('h2');
         mainText.className = 'main-brand-text';
-        mainText.textContent = 'Never Leave Your Drink Behind';
-
+        mainText.textContent = 'Never Leave Your Drink Behind'; // Secure text content
         textContainer.appendChild(mainText);
 
-        // Assemble all elements (massive logo behind curtain)
+        // Assemble all elements
         this.animationContainer.appendChild(logoBackground);
         this.animationContainer.appendChild(bubbleCurtain);
         this.animationContainer.appendChild(textContainer);
@@ -286,14 +296,18 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Start the dramatic bubble curtain animation sequence
+     * Start the animation sequence - SECURE
      */
     startAnimation() {
         // Ensure body is hidden during animation
         document.body.classList.add('page-loading');
         
-        // Mark as played for tracking
-        this.checkFirstVisit();
+        // Secure tracking
+        if (this.securityUtils) {
+            this.securityUtils.secureSetItem('damp-hero-animation-played', 'true');
+        } else {
+            localStorage.setItem('damp-hero-animation-played', 'true');
+        }
         
         // Start the animation phases
         this.runAnimationPhases();

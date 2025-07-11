@@ -49,17 +49,36 @@
     <!-- CSS Architecture - Single Main CSS Import -->
     <link rel="stylesheet" href="assets/css/main.css">
 
-    <!-- Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <!-- Cookie Consent Styles -->
+    <link rel="stylesheet" href="assets/css/components/cookie-consent.css">
+    
+    <!-- Security Scripts - Load First -->
+    <script src="assets/js/security-utils.js"></script>
+    <script src="assets/js/cookie-consent.js"></script>
+    
+    <!-- Conditional Analytics - Only load if consent given -->
     <script>
+        // Initialize Google Analytics with consent mode
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
+        
+        // Set default consent state
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'functionality_storage': 'denied',
+            'personalization_storage': 'denied',
+            'security_storage': 'granted'
+        });
+        
+        // Load Google Analytics
         gtag('js', new Date());
         gtag('config', 'GA_MEASUREMENT_ID', {
             page_title: 'DAMP Smart Drinkware - Home',
-            send_page_view: true
+            send_page_view: false // Don't send until consent given
         });
     </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -78,8 +97,55 @@
     }
     </script>
 
-    <!-- Security Scripts - Load First -->
-    <script src="assets/js/security-utils.js"></script>
+    <!-- Hero Animation - FIXED with Security -->
+    <script>
+        // Secure initialization with error handling
+        function initializeHeroAnimation() {
+            console.log('DAMP: Initializing hero animation...');
+            
+            if (window.DAMPHeroAnimation) {
+                try {
+                    // Clear any existing animation state securely
+                    if (window.DAMPHeroAnimation.reset) {
+                        window.DAMPHeroAnimation.reset();
+                    }
+                    
+                    new DAMPHeroAnimation({
+                        duration: 8000,              // 8 seconds for full sequence
+                        playOnEveryLoad: true,       // CRITICAL: Always play on page load/reload
+                        allowSkip: true,             // Allow skipping with click/key/touch
+                        playOnlyOnce: false,         // CRITICAL: Don't limit to once
+                        skipIfReturningUser: false,  // CRITICAL: Don't skip for returning users
+                        fadeOutDuration: 1000        // Professional fade out timing
+                    });
+                } catch (error) {
+                    console.error('DAMP: Error initializing hero animation:', error);
+                    // Fallback: show main content immediately
+                    document.body.classList.add('page-loaded');
+                    document.body.classList.remove('page-loading');
+                }
+            } else {
+                console.warn('DAMP: Hero animation class not found, showing content immediately');
+                // Fallback: show main content immediately
+                document.body.classList.add('page-loaded');
+                document.body.classList.remove('page-loading');
+            }
+        }
+
+        // FIXED: Force animation on every page load
+        // Clear any existing animation state to ensure fresh start
+        if (typeof window.DAMPHeroAnimation !== 'undefined' && window.DAMPHeroAnimation.reset) {
+            window.DAMPHeroAnimation.reset();
+        }
+
+        // Initialize based on DOM readiness
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeHeroAnimation);
+        } else {
+            // DOM is already ready - initialize immediately
+            initializeHeroAnimation();
+        }
+    </script>
 </head>
 <body class="page-loading">
     <!-- Navigation Header -->
@@ -371,54 +437,23 @@
     <script src="assets/js/navigation.js"></script>
     <script src="assets/js/scripts.js"></script>
     
-    <!-- Hero Animation - FIXED with Security -->
+    <!-- Enhanced Analytics with Consent -->
     <script>
-        // Secure initialization with error handling
-        function initializeHeroAnimation() {
-            console.log('DAMP: Initializing hero animation...');
-            
-            if (window.DAMPHeroAnimation) {
-                try {
-                    // Clear any existing animation state securely
-                    if (window.DAMPHeroAnimation.reset) {
-                        window.DAMPHeroAnimation.reset();
+        // Track page view only if analytics consent given
+        document.addEventListener('DOMContentLoaded', () => {
+            // Wait for cookie consent to initialize
+            setTimeout(() => {
+                if (window.dampCookieConsent) {
+                    const consent = window.dampCookieConsent.getConsentStatus();
+                    if (consent.canUseAnalytics && window.gtag) {
+                        gtag('event', 'page_view', {
+                            page_title: document.title,
+                            page_location: window.location.href
+                        });
                     }
-                    
-                    new DAMPHeroAnimation({
-                        duration: 8000,              // 8 seconds for full sequence
-                        playOnEveryLoad: true,       // CRITICAL: Always play on page load/reload
-                        allowSkip: true,             // Allow skipping with click/key/touch
-                        playOnlyOnce: false,         // CRITICAL: Don't limit to once
-                        skipIfReturningUser: false,  // CRITICAL: Don't skip for returning users
-                        fadeOutDuration: 1000        // Professional fade out timing
-                    });
-                } catch (error) {
-                    console.error('DAMP: Error initializing hero animation:', error);
-                    // Fallback: show main content immediately
-                    document.body.classList.add('page-loaded');
-                    document.body.classList.remove('page-loading');
                 }
-            } else {
-                console.warn('DAMP: Hero animation class not found, showing content immediately');
-                // Fallback: show main content immediately
-                document.body.classList.add('page-loaded');
-                document.body.classList.remove('page-loading');
-            }
-        }
-
-        // FIXED: Force animation on every page load
-        // Clear any existing animation state to ensure fresh start
-        if (typeof window.DAMPHeroAnimation !== 'undefined' && window.DAMPHeroAnimation.reset) {
-            window.DAMPHeroAnimation.reset();
-        }
-
-        // Initialize based on DOM readiness
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializeHeroAnimation);
-        } else {
-            // DOM is already ready - initialize immediately
-            initializeHeroAnimation();
-        }
+            }, 1000);
+        });
     </script>
 </body>
 </html>

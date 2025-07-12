@@ -1270,6 +1270,83 @@ img {
     display: block;
 } 
 
+/* FIXED: Consistent product image sizing for all devices */
+.product-image,
+.product-card img,
+.product-option img {
+    width: 100%;
+    height: 200px;
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* FIXED: Desktop image sizing - consistent and professional */
+@media (min-width: 1024px) {
+    .product-image,
+    .product-card img,
+    .product-option img {
+        height: 250px;
+        padding: 25px;
+    }
+    
+    /* FIXED: Handle image specifically - not overwhelming */
+    .product-image img[src*="damp-handle"],
+    .product-card img[src*="damp-handle"],
+    .product-option img[src*="damp-handle"] {
+        max-height: 180px;
+        width: auto;
+        object-fit: contain;
+    }
+}
+
+/* FIXED: Grid consistency */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+@media (min-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 3rem;
+    }
+}
+
+/* FIXED: Card consistency */
+.product-card,
+.product-option {
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 2rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.product-card:hover,
+.product-option:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+}
+
+@media (min-width: 1024px) {
+    .product-card,
+    .product-option {
+        min-height: 450px;
+        padding: 2.5rem;
+    }
+}
+
 /* ==================== ENHANCED DESKTOP EXPERIENCE ==================== */
 
 /* Premium Desktop Layout */

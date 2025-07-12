@@ -653,3 +653,189 @@
         margin-top: 4rem;
     }
 }
+
+/* FIXED: Animation phases with proper timing and no overlaps */
+
+/* Phase 1: Bubble curtain formation (0s) */
+.phase-curtain-formation .artistic-curtain-bubble {
+    opacity: 0.8;
+    animation: bubbleFormation 2s ease-in-out forwards;
+}
+
+@keyframes bubbleFormation {
+    0% {
+        opacity: 0;
+        transform: translateY(100px) scale(0.5);
+    }
+    100% {
+        opacity: 0.8;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Phase 2: Bubbles rise up screen (2s) */
+.phase-curtain-rise .artistic-curtain-bubble {
+    animation: bubbleRise 1.5s ease-in-out forwards;
+}
+
+@keyframes bubbleRise {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-50vh) scale(1.2);
+        opacity: 0.9;
+    }
+}
+
+/* Phase 3: Bubbles completely disappear (3.5s) */
+.phase-curtain-disappear .artistic-curtain-bubble {
+    animation: bubbleDisappear 0.5s ease-in-out forwards;
+}
+
+@keyframes bubbleDisappear {
+    0% {
+        transform: translateY(-50vh) scale(1.2);
+        opacity: 0.9;
+    }
+    100% {
+        transform: translateY(-100vh) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Phase 4: Logo appears (4s) */
+.phase-logo-reveal .massive-logo-background {
+    opacity: 1;
+    animation: logoAppear 2s ease-out forwards;
+}
+
+.phase-logo-reveal .massive-reveal-logo {
+    animation: logoReveal 2s ease-out forwards;
+}
+
+@keyframes logoAppear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.3);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes logoReveal {
+    0% {
+        opacity: 0;
+        scale: 0.3;
+        filter: blur(20px);
+    }
+    100% {
+        opacity: 1;
+        scale: 1;
+        filter: blur(0px);
+    }
+}
+
+/* Phase 5: Logo fully visible (6s) */
+.phase-logo-display .massive-reveal-logo {
+    opacity: 1;
+    scale: 1;
+    filter: drop-shadow(0 0 100px rgba(0, 212, 255, 0.8));
+}
+
+/* Phase 6: Logo starts fading (7.5s) */
+.phase-logo-fade .massive-reveal-logo {
+    animation: logoFadeOut 1s ease-in-out forwards;
+}
+
+@keyframes logoFadeOut {
+    0% {
+        opacity: 1;
+        scale: 1;
+        filter: drop-shadow(0 0 100px rgba(0, 212, 255, 0.8));
+    }
+    100% {
+        opacity: 0;
+        scale: 0.8;
+        filter: drop-shadow(0 0 0px rgba(0, 212, 255, 0));
+    }
+}
+
+/* Phase 7: Logo completely gone (8.5s) */
+.phase-logo-gone .massive-logo-background {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+}
+
+/* Phase 8: DAMP text appears (9s) */
+.phase-damp-text .damp-brand-text {
+    opacity: 1;
+    animation: dampTextAppear 1s ease-out forwards;
+}
+
+@keyframes dampTextAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(30px) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Phase 9: Main text appears (10s) */
+.phase-main-text .main-brand-text {
+    opacity: 1;
+    animation: mainTextAppear 1.5s ease-out forwards;
+}
+
+@keyframes mainTextAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* FIXED: Ensure all elements start hidden */
+.massive-logo-background,
+.damp-brand-text,
+.main-brand-text {
+    opacity: 0;
+}
+
+.artistic-curtain-bubble {
+    opacity: 0;
+}
+
+/* FIXED: Mobile responsive timing */
+@media (max-width: 768px) {
+    @keyframes bubbleFormation {
+        0% {
+            opacity: 0;
+            transform: translateY(50px) scale(0.5);
+        }
+        100% {
+            opacity: 0.7;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    @keyframes bubbleRise {
+        0% {
+            transform: translateY(0) scale(1);
+            opacity: 0.7;
+        }
+        100% {
+            transform: translateY(-40vh) scale(1.1);
+            opacity: 0.8;
+        }
+    }
+}

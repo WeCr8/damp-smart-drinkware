@@ -3,29 +3,33 @@
 
 class DAMPHeroAnimation {
     constructor(options = {}) {
-        this.animationDuration = options.duration || 9000; // 9 seconds for dramatic sequence
-        this.fadeOutDuration = options.fadeOutDuration || 2000; // 2 second fade out
-        this.bubbleCount = this.getOptimalBubbleCount(); // Optimized bubble count based on device
+        this.animationDuration = options.duration || 12000; // 12 seconds for proper sequence
+        this.fadeOutDuration = options.fadeOutDuration || 1500; // 1.5 second fade out
+        this.bubbleCount = this.getOptimalBubbleCount();
         this.animationContainer = null;
         this.hasPlayed = false;
         this.faviconSetup = null;
         
-        // Animation control options - FIXED: Make animation play more reliably
+        // Animation control options
         this.playOnEveryLoad = options.playOnEveryLoad ?? true;
         this.allowSkip = options.allowSkip ?? true;
         this.playOnlyOnce = options.playOnlyOnce ?? false;
         this.skipIfReturningUser = options.skipIfReturningUser ?? false;
         
-        // Animation timing phases
+        // FIXED: Proper timing sequence with no overlaps
         this.phases = {
-            curtainFormation: 0,        // 0s - Dense bubble curtain forms
-            logoReveal: 3000,           // 3s - Curtain parts dramatically for massive logo
-            dampText: 4500,             // 4.5s - "DAMP" text appears with logo
-            mainText: 6000,             // 6s - "Never Leave Your Cup Behind" appears
-            contentReveal: 8500         // 8.5s - Main content reveals
+            curtainFormation: 0,        // 0s - Bubbles start forming
+            curtainRise: 2000,          // 2s - Bubbles rise up screen
+            curtainDisappear: 3500,     // 3.5s - Bubbles completely disappear
+            logoReveal: 4000,           // 4s - Logo appears where bubbles were
+            logoDisplay: 6000,          // 6s - Logo fully visible
+            logoFade: 7500,             // 7.5s - Logo starts fading out
+            logoGone: 8500,             // 8.5s - Logo completely gone
+            dampText: 9000,             // 9s - "DAMP" text appears
+            mainText: 10000,            // 10s - Main text appears
+            contentReveal: 11500        // 11.5s - Main content reveals
         };
         
-        // FIXED: Initialize immediately instead of waiting
         this.initializeAnimation();
     }
 
@@ -34,141 +38,101 @@ class DAMPHeroAnimation {
      */
     getOptimalBubbleCount() {
         const screenWidth = window.innerWidth;
-        const screenHeight = window.innerHeight;
-        const screenArea = screenWidth * screenHeight;
-        
-        // Check if it's a mobile device
         const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
         const isSmallScreen = screenWidth < 768;
         
-        // Performance-based bubble count calculation
         if (isMobile || isSmallScreen) {
             if (screenWidth < 480) {
-                return 150; // Small mobile: 150 bubbles
+                return 120; // Fewer bubbles for better performance
             } else if (screenWidth < 768) {
-                return 200; // Large mobile/tablet: 200 bubbles
+                return 180;
             } else {
-                return 250; // Tablet landscape: 250 bubbles
+                return 220;
             }
         } else {
-            // Desktop: Base on screen area
-            if (screenArea < 1000000) { // Small desktop/laptop
-                return 300;
-            } else if (screenArea < 2000000) { // Standard desktop
-                return 350;
+            if (screenWidth < 1200) {
+                return 280;
+            } else if (screenWidth < 1920) {
+                return 320;
             } else {
-                return 400; // Large desktop: Maximum 400 bubbles
+                return 360; // 4K displays
             }
         }
     }
 
     /**
-     * Initialize the hero animation - FIXED: Secure implementation
+     * Initialize the hero animation
      */
     initializeAnimation() {
-        // Wait for security utils and favicon setup
-        if (window.DAMPSecurityUtils && window.DAMPFaviconSetup) {
+        if (window.DAMPFaviconSetup) {
             this.faviconSetup = new window.DAMPFaviconSetup();
-            this.securityUtils = window.DAMPSecurityUtils;
         }
 
-        // FIXED: Secure animation check with proper validation
         const shouldPlay = this.shouldPlayAnimation();
         const canPlay = this.canPlayAnimation();
         
         if (shouldPlay && canPlay) {
-            console.log('DAMP: Starting hero animation');
+            console.log('DAMP: Starting hero animation with proper sequence');
             this.createAnimationElements();
             this.startAnimation();
             this.hasPlayed = true;
         } else {
-            console.log('DAMP: Skipping hero animation', { shouldPlay, canPlay });
+            console.log('DAMP: Skipping hero animation');
             this.skipAnimation();
         }
     }
 
     /**
-     * Determine if animation can play based on play frequency settings
+     * Check if animation can play
      */
     canPlayAnimation() {
-        // If playOnEveryLoad is true, always allow animation
         if (this.playOnEveryLoad) {
-            console.log('DAMP: Animation allowed - playOnEveryLoad is true');
             return true;
         }
         
-        // If playOnlyOnce is true, check if it has been played before
         if (this.playOnlyOnce) {
-            const hasPlayedBefore = this.securityUtils ? 
-                this.securityUtils.secureGetItem('damp-hero-animation-played') :
-                localStorage.getItem('damp-hero-animation-played');
-            
+            const hasPlayedBefore = localStorage.getItem('damp-hero-animation-played');
             if (hasPlayedBefore) {
-                console.log('DAMP: Animation blocked - playOnlyOnce is true and already played');
                 return false;
             }
         }
         
-        // If skipIfReturningUser is true, check if user has visited before
-        if (this.skipIfReturningUser) {
-            const hasVisitedBefore = this.securityUtils ? 
-                this.securityUtils.secureGetItem('damp-hero-animation-played') :
-                localStorage.getItem('damp-hero-animation-played');
-            
-            if (hasVisitedBefore) {
-                console.log('DAMP: Animation blocked - skipIfReturningUser is true');
-                return false;
-            }
-        }
-        
-        // Default to allowing animation
         return true;
     }
 
     /**
-     * Determine if animation should play based on configuration - FIXED: Simplified logic
+     * Check if animation should play
      */
     shouldPlayAnimation() {
-        // Check URL parameters for override
         const urlParams = new URLSearchParams(window.location.search);
         const skipParam = urlParams.get('skip-animation');
         const playParam = urlParams.get('play-animation');
         
-        // URL parameter overrides
         if (skipParam === 'true') {
-            console.log('DAMP: Animation skipped by URL parameter');
             return false;
         }
         if (playParam === 'true') {
-            console.log('DAMP: Animation forced by URL parameter');
             return true;
         }
         
-        // FIXED: Simplified device check - only skip on extremely low-end devices
         if (this.isVeryLowEndDevice()) {
-            console.log('DAMP: Skipping animation on very low-end device');
             return false;
         }
         
-        // FIXED: Only check reduced motion preference, remove other restrictive checks
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            console.log('DAMP: Skipping animation due to reduced motion preference');
             return false;
         }
         
-        // FIXED: Always play animation by default (removed restrictive checks)
-        console.log('DAMP: Animation will play');
         return true;
     }
 
     /**
-     * Detect very low-end devices - FIXED: More lenient detection
+     * Detect very low-end devices
      */
     isVeryLowEndDevice() {
-        // FIXED: Only block on extremely low-end devices
         const hardwareConcurrency = navigator.hardwareConcurrency || 4;
         const deviceMemory = navigator.deviceMemory || 4;
-        const isVerySmallScreen = window.innerWidth < 320 && window.innerHeight < 568; // iPhone 5 and below
+        const isVerySmallScreen = window.innerWidth < 320 && window.innerHeight < 568;
         
         return (
             hardwareConcurrency <= 1 ||
@@ -178,193 +142,154 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Check if this is the user's first visit (for analytics/tracking)
-     */
-    checkFirstVisit() {
-        const visited = localStorage.getItem('damp-hero-animation-played');
-        if (!visited) {
-            localStorage.setItem('damp-hero-animation-played', 'true');
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Create dramatic bubble curtain animation elements - SECURE
+     * Create animation elements
      */
     createAnimationElements() {
-        // Create main overlay container
         this.animationContainer = document.createElement('div');
         this.animationContainer.className = 'hero-animation-overlay';
         this.animationContainer.setAttribute('role', 'presentation');
         this.animationContainer.setAttribute('aria-hidden', 'true');
 
-        // Create the massive logo behind the curtain
-        const logoBackground = document.createElement('div');
-        logoBackground.className = 'massive-logo-background';
-
-        const massiveLogo = document.createElement('img');
-        massiveLogo.className = 'massive-reveal-logo';
-        massiveLogo.src = 'assets/images/logo/icon.png';
-        massiveLogo.alt = 'DAMP Smart Drinkware Logo';
-        massiveLogo.loading = 'eager';
-        
-        // Secure error handling
-        massiveLogo.onerror = () => {
-            console.warn('DAMP: Primary logo failed, using fallback');
-            massiveLogo.src = 'assets/images/logo/favicon.png';
-        };
-        
-        logoBackground.appendChild(massiveLogo);
-
-        // Create DAMP text securely
-        const dampTextElement = document.createElement('h1');
-        dampTextElement.className = 'damp-brand-text';
-        dampTextElement.textContent = 'DAMP'; // Use textContent, not innerHTML
-        logoBackground.appendChild(dampTextElement);
-
-        // Create dense bubble curtain container
+        // Create bubble curtain
         const bubbleCurtain = document.createElement('div');
         bubbleCurtain.className = 'artistic-bubble-curtain';
-
-        // Create optimized curtain of bubbles - performance-friendly!
+        
+        // Generate bubbles
         for (let i = 0; i < this.bubbleCount; i++) {
             const bubble = document.createElement('div');
-            bubble.className = 'artistic-curtain-bubble';
-            bubble.setAttribute('aria-hidden', 'true');
+            bubble.className = `artistic-curtain-bubble artistic-bubble-type-${i % 3}`;
             
-            // Create cleaner bubble types with only blues/whites/grays
-            const bubbleType = i % 3; // Reduced to 3 types for better performance
-            bubble.classList.add(`artistic-bubble-type-${bubbleType}`);
-            
-            // Position bubbles to form a clean artistic curtain
-            const isMobile = window.innerWidth < 768;
-            const baseSize = isMobile ? 25 : 40; // Smaller base size for mobile
-            const sizeVariation = isMobile ? 15 : 25; // Less variation for mobile
-            const size = Math.random() * sizeVariation + baseSize; // Smaller, cleaner bubbles
-            
-            const xPos = Math.random() * 100; // 0-100% horizontal
-            const yPos = Math.random() * 100; // 0-100% vertical
-            
-            // Determine which side of curtain the bubble belongs to for dramatic parting
-            const isLeftSide = xPos < 50;
-            const curtainSide = isLeftSide ? 'left' : 'right';
-            bubble.classList.add(`curtain-${curtainSide}`);
-            
-            // Calculate optimized reveal movement - smaller distances for better performance
-            const maxDistance = isMobile ? 200 : 250; // Reduced movement distance
-            const minDistance = isMobile ? 80 : 100;
-            const revealDistance = isLeftSide ? 
-                -Math.random() * maxDistance - minDistance : 
-                Math.random() * maxDistance + minDistance;
-            
-            const verticalDrift = (Math.random() - 0.5) * (isMobile ? 80 : 120); // Reduced vertical movement
-            const rotationDrift = (Math.random() - 0.5) * (isMobile ? 360 : 540); // Reduced rotation
+            // Random positioning
+            const x = Math.random() * 100;
+            const y = Math.random() * 120 + 100; // Start below screen
+            const size = Math.random() * 60 + 20;
+            const delay = Math.random() * 2000;
             
             bubble.style.cssText = `
-                --bubble-size: ${size}px;
-                --bubble-x: ${xPos}%;
-                --bubble-y: ${yPos}%;
-                --reveal-distance: ${revealDistance}px;
-                --vertical-drift: ${verticalDrift}px;
-                --rotation-drift: ${rotationDrift}deg;
-                --bubble-delay: ${Math.random() * 800}ms; // Faster formation
-                --reveal-delay: ${Math.random() * 1200 + 2500}ms; // Optimized staggered reveal
-                --bubble-opacity: ${Math.random() * 0.25 + 0.75}; // 0.75-1.0 opacity for cleaner look
+                left: ${x}%;
+                top: ${y}%;
+                width: ${size}px;
+                height: ${size}px;
+                animation-delay: ${delay}ms;
             `;
             
             bubbleCurtain.appendChild(bubble);
         }
 
-        // Create main messaging text container
+        // Create logo container
+        const logoContainer = document.createElement('div');
+        logoContainer.className = 'massive-logo-background';
+        logoContainer.innerHTML = `
+            <img src="assets/images/logo/icon.png" alt="DAMP Logo" class="massive-reveal-logo">
+            <h1 class="damp-brand-text">DAMP</h1>
+        `;
+
+        // Create text container
         const textContainer = document.createElement('div');
         textContainer.className = 'main-text-container';
+        textContainer.innerHTML = `
+            <h2 class="main-brand-text">Never Leave Your Drink Behind</h2>
+        `;
 
-        // Create main text securely
-        const mainText = document.createElement('h2');
-        mainText.className = 'main-brand-text';
-        mainText.textContent = 'Never Leave Your Drink Behind'; // Secure text content
-        textContainer.appendChild(mainText);
-
-        // Assemble all elements
-        this.animationContainer.appendChild(logoBackground);
         this.animationContainer.appendChild(bubbleCurtain);
+        this.animationContainer.appendChild(logoContainer);
         this.animationContainer.appendChild(textContainer);
-
-        // Add to DOM
+        
         document.body.appendChild(this.animationContainer);
     }
 
     /**
-     * Start the animation sequence - SECURE
+     * Start the animation sequence
      */
     startAnimation() {
-        // Ensure body is hidden during animation
-        document.body.classList.add('page-loading');
-        
-        // Secure tracking
-        if (this.securityUtils) {
-            this.securityUtils.secureSetItem('damp-hero-animation-played', 'true');
-        } else {
-            localStorage.setItem('damp-hero-animation-played', 'true');
-        }
-        
-        // Start the animation phases
         this.runAnimationPhases();
 
-        // Add event listeners for skip functionality
         if (this.allowSkip) {
             this.addSkipListeners();
         }
     }
 
     /**
-     * Run the dramatic animation phases in sequence
+     * FIXED: Run animation phases in proper sequence with no overlaps
      */
     runAnimationPhases() {
-        // Phase 1: Dense bubble curtain forms
+        // Phase 1: Bubbles start forming and rising (0s)
         this.animationContainer.classList.add('phase-curtain-formation');
+        console.log('DAMP Animation: Bubbles forming');
         
-        // Phase 2: Curtain parts dramatically to reveal massive logo
+        // Phase 2: Bubbles rise up screen (2s)
+        setTimeout(() => {
+            this.animationContainer.classList.add('phase-curtain-rise');
+            console.log('DAMP Animation: Bubbles rising');
+        }, this.phases.curtainRise);
+        
+        // Phase 3: Bubbles completely disappear (3.5s)
+        setTimeout(() => {
+            this.animationContainer.classList.add('phase-curtain-disappear');
+            console.log('DAMP Animation: Bubbles disappearing');
+        }, this.phases.curtainDisappear);
+        
+        // Phase 4: Logo appears where bubbles were (4s)
         setTimeout(() => {
             this.animationContainer.classList.add('phase-logo-reveal');
+            console.log('DAMP Animation: Logo appearing');
         }, this.phases.logoReveal);
         
-        // Phase 3: "DAMP" text appears with logo
+        // Phase 5: Logo fully visible (6s)
+        setTimeout(() => {
+            this.animationContainer.classList.add('phase-logo-display');
+            console.log('DAMP Animation: Logo fully visible');
+        }, this.phases.logoDisplay);
+        
+        // Phase 6: Logo starts fading out (7.5s)
+        setTimeout(() => {
+            this.animationContainer.classList.add('phase-logo-fade');
+            console.log('DAMP Animation: Logo fading');
+        }, this.phases.logoFade);
+        
+        // Phase 7: Logo completely gone (8.5s)
+        setTimeout(() => {
+            this.animationContainer.classList.add('phase-logo-gone');
+            console.log('DAMP Animation: Logo gone');
+        }, this.phases.logoGone);
+        
+        // Phase 8: DAMP text appears (9s)
         setTimeout(() => {
             this.animationContainer.classList.add('phase-damp-text');
+            console.log('DAMP Animation: DAMP text appearing');
         }, this.phases.dampText);
         
-        // Phase 4: Main text appears - "Never Leave Your Cup"
+        // Phase 9: Main text appears (10s)
         setTimeout(() => {
             this.animationContainer.classList.add('phase-main-text');
+            console.log('DAMP Animation: Main text appearing');
         }, this.phases.mainText);
         
-        // Phase 5: Content reveals
+        // Phase 10: Content reveals (11.5s)
         setTimeout(() => {
+            console.log('DAMP Animation: Revealing main content');
             this.fadeOut();
         }, this.phases.contentReveal);
     }
 
     /**
-     * Add event listeners to allow skipping animation
+     * Add skip functionality
      */
     addSkipListeners() {
         const skipAnimation = () => {
+            console.log('DAMP Animation: Skipped by user');
             this.fadeOut();
         };
 
-        // Allow clicking or pressing any key to skip
         document.addEventListener('click', skipAnimation, { once: true });
         document.addEventListener('keydown', skipAnimation, { once: true });
         document.addEventListener('touchstart', skipAnimation, { once: true });
         
-        // Add skip button for accessibility
         this.addSkipButton();
     }
 
     /**
-     * Add accessible skip button
+     * Add skip button
      */
     addSkipButton() {
         if (!this.animationContainer) return;
@@ -388,23 +313,10 @@ class DAMPHeroAnimation {
             font-weight: 600;
             transition: all 0.3s ease;
             backdrop-filter: blur(15px);
-            letter-spacing: 0.05em;
         `;
         
         skipButton.addEventListener('click', () => {
             this.fadeOut();
-        });
-        
-        skipButton.addEventListener('mouseenter', () => {
-            skipButton.style.background = 'rgba(255, 255, 255, 0.25)';
-            skipButton.style.borderColor = 'rgba(255, 255, 255, 0.4)';
-            skipButton.style.transform = 'scale(1.05)';
-        });
-        
-        skipButton.addEventListener('mouseleave', () => {
-            skipButton.style.background = 'rgba(255, 255, 255, 0.15)';
-            skipButton.style.borderColor = 'rgba(255, 255, 255, 0.25)';
-            skipButton.style.transform = 'scale(1)';
         });
         
         this.animationContainer.appendChild(skipButton);
@@ -439,15 +351,14 @@ class DAMPHeroAnimation {
         document.body.classList.add('page-loaded');
         document.body.classList.remove('page-loading');
         
-        // Trigger any other initialization functions
         this.initializeMainContent();
     }
 
     /**
-     * Initialize main content after animation
+     * Initialize main content
      */
     initializeMainContent() {
-        // Trigger intersection observer for animations
+        // Trigger animations for main content
         if (window.IntersectionObserver) {
             const animateElements = document.querySelectorAll('.animate-fade-in-up');
             const observer = new IntersectionObserver((entries) => {
@@ -456,27 +367,12 @@ class DAMPHeroAnimation {
                         entry.target.classList.add('animated');
                     }
                 });
-            }, {
-                threshold: 0.1,
-                rootMargin: '50px'
             });
 
             animateElements.forEach(element => {
                 observer.observe(element);
             });
         }
-
-        // Dispatch custom event for other components
-        const event = new CustomEvent('damp:heroAnimationComplete', {
-            detail: { 
-                timestamp: Date.now(),
-                bubblesCount: this.bubbleCount,
-                animationType: 'optimized-curtain-reveal',
-                deviceType: window.innerWidth < 768 ? 'mobile' : 'desktop',
-                performanceOptimized: true
-            }
-        });
-        document.dispatchEvent(event);
     }
 
     /**
@@ -494,15 +390,12 @@ class DAMPHeroAnimation {
     }
 
     /**
-     * Static method to create animation with custom options
+     * Static methods
      */
     static create(options = {}) {
         return new DAMPHeroAnimation(options);
     }
 
-    /**
-     * Static method to reset animation state
-     */
     static reset() {
         localStorage.removeItem('damp-hero-animation-played');
     }

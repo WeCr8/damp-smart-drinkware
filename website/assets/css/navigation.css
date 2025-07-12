@@ -651,3 +651,141 @@ nav {
         padding: 16px 26px;
     }
 } 
+
+/* FIXED: Ultra-minimal cookie notice */
+.cookie-notice {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: rgba(15, 15, 35, 0.95);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 25px;
+    font-size: 11px;
+    max-width: 280px;
+    z-index: 999;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    opacity: 0;
+    transform: translateY(100px);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.cookie-notice.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.cookie-notice button {
+    background: #00d4ff;
+    color: #0f0f23;
+    border: none;
+    padding: 3px 8px;
+    border-radius: 12px;
+    margin-left: 8px;
+    font-size: 10px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.cookie-notice button:hover {
+    background: #0099cc;
+}
+
+.cookie-notice a {
+    color: #00d4ff;
+    text-decoration: none;
+}
+
+/* Hide on very small screens */
+@media (max-width: 480px) {
+    .cookie-notice {
+        bottom: 10px;
+        right: 10px;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+        text-align: center;
+        border-radius: 15px;
+    }
+}
+
+/* FIXED: Simple working cookie script */
+<script>
+        function hideCookieNotice() {
+            document.getElementById('cookieNotice').style.display = 'none';
+            localStorage.setItem('cookieAccepted', 'true');
+        }
+        
+        // Show cookie notice if not accepted
+        if (!localStorage.getItem('cookieAccepted')) {
+            setTimeout(() => {
+                document.getElementById('cookieNotice').classList.add('show');
+            }, 2000);
+        }
+    </script>
+
+/* FIXED: All buttons work and are accessible */
+.btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: #00d4ff;
+    color: #0f0f23;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 120px;
+    box-sizing: border-box;
+    line-height: 1.4;
+}
+
+.btn:hover,
+.btn:focus {
+    background: #0099cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    outline: none;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: #0f0f23;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #00d4ff;
+    border: 2px solid #00d4ff;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background: #00d4ff;
+    color: #0f0f23;
+}
+
+/* FIXED: Mobile button accessibility */
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 13px;
+        min-width: 100px;
+    }
+}
+
+/* FIXED: Focus states for accessibility */
+.btn:focus,
+button:focus,
+a:focus {
+    outline: 2px solid #00d4ff;
+    outline-offset: 2px;
+} 

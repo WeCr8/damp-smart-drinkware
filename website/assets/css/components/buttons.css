@@ -1,16 +1,67 @@
 /* DAMP Smart Drinkware - Button Components */
 /* Following Google Material Design Button Principles */
 
+/* FIXED: All buttons work and are accessible */
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-3) var(--space-6);
-    border: none;
-    border-radius: var(--border-radius-lg);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+    display: inline-block;
+    padding: 12px 24px;
+    background: #00d4ff;
+    color: #0f0f23;
     text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
     cursor: pointer;
-    transition: all var(--transition-normal); 
+    transition: all 0.2s ease;
+    text-align: center;
+    min-width: 120px;
+    box-sizing: border-box;
+    line-height: 1.4;
+}
+
+.btn:hover,
+.btn:focus {
+    background: #0099cc;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+    outline: none;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%);
+    color: #0f0f23;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #00d4ff;
+    border: 2px solid #00d4ff;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+    background: #00d4ff;
+    color: #0f0f23;
+}
+
+/* FIXED: Mobile button accessibility */
+@media (max-width: 768px) {
+    .btn {
+        padding: 10px 20px;
+        font-size: 13px;
+        min-width: 100px;
+    }
+}
+
+/* FIXED: Focus states for accessibility */
+.btn:focus,
+button:focus,
+a:focus {
+    outline: 2px solid #00d4ff;
+    outline-offset: 2px;
+} 

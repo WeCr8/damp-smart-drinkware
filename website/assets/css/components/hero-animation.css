@@ -839,3 +839,159 @@
         }
     }
 }
+
+/* ==================== SEQUENTIAL ANIMATION STYLES ==================== */
+
+/* Animation overlay for sequential system */
+.hero-animation-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, 
+        var(--damp-dark-bg) 0%, 
+        #1a1a2e 30%,
+        #16213e 70%,
+        var(--damp-dark-bg) 100%);
+    z-index: 9999;
+    overflow: hidden;
+    pointer-events: auto;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Bubbles container */
+.bubbles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Animation elements positioning */
+.animation-logo,
+.animation-damp-text,
+.animation-main-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    text-align: center;
+    z-index: 10;
+}
+
+/* Skip button */
+.animation-skip-button {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+}
+
+.animation-skip-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+/* ==================== SEQUENTIAL ANIMATION KEYFRAMES ==================== */
+
+/* Bubble rise animation */
+@keyframes bubbleRise {
+    0% {
+        opacity: 0;
+        transform: translateY(100vh) scale(0.5);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(50vh) scale(1);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-20vh) scale(0.8);
+    }
+}
+
+/* Bubble disappear animation */
+@keyframes bubbleDisappear {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+/* Fade out animation */
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.8);
+    }
+}
+
+/* ==================== MOBILE OPTIMIZATIONS ==================== */
+
+/* Mobile-specific bubble sizing */
+@media (max-width: 768px) {
+    .animation-bubble {
+        width: 15px !important;
+        height: 15px !important;
+    }
+    
+    .animation-logo img {
+        width: min(60vw, 250px) !important;
+        height: min(60vw, 250px) !important;
+    }
+    
+    .animation-damp-text h1 {
+        font-size: clamp(2rem, 12vw, 4rem) !important;
+    }
+    
+    .animation-main-text h2 {
+        font-size: clamp(1.2rem, 6vw, 2rem) !important;
+    }
+}
+
+/* Performance optimizations */
+@media (prefers-reduced-motion: reduce) {
+    .animation-bubble,
+    .animation-logo,
+    .animation-damp-text,
+    .animation-main-text {
+        animation-duration: 0.1s !important;
+    }
+}

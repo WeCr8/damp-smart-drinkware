@@ -224,3 +224,4 @@ For technical questions about the website:
 
 Website code is part of the DAMP Smart Drinkware project.
 Copyright © 2025 WeCr8 Solutions LLC. All rights reserved.
+![CodeRabbit Pull Request Reviews](https://img.shields.io/coderabbit/prs/github/WeCr8/damp-smart-drinkware?utm_source=oss&utm_medium=github&utm_campaign=WeCr8%2Fdamp-smart-drinkware&labelColor=171717&color=FF570A&link=https%3A%2F%2Fcoderabbit.ai&label=CodeRabbit+Reviews)

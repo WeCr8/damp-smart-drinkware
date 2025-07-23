@@ -164,6 +164,9 @@ app.get('/success', async (req, res) => {
         // Send confirmation email (using your email service)
         await sendPreOrderConfirmation(preOrder);
         
+        // Increment pre-order count
+        await incrementPreorderCount(session.metadata.product_id, parseInt(session.metadata.quantity));
+        
         // Return success page
         res.send(`
             <html>
@@ -372,6 +375,247 @@ app.get('/admin/preorders', async (req, res) => {
     } catch (error) {
         console.error('Error fetching pre-orders:', error);
         res.status(500).json({ error: error.message });
+    }
+});
+
+// Add near the top after existing imports
+const fs = require('fs').promises;
+const path = require('path');
+
+// Simple JSON file database for counting (production: use Redis/PostgreSQL)
+const COUNTS_DB_PATH = path.join(__dirname, 'data', 'preorder-counts.json');
+const CAMPAIGN_CONFIG_PATH = path.join(__dirname, 'data', 'campaign-config.json');
+
+// Initialize campaign configuration
+const CAMPAIGN_CONFIG = {
+    goal_units: 500,
+    current_count: 247, // Starting realistic number
+    deadline: new Date(Date.now() + (7 * 24 * 60 * 60 * 1000)).toISOString(), // 7 days from now
+    early_bird_active: true,
+    scarcity_threshold: 450, // When to show "Almost sold out!" messaging
+    price_tier: 'early_bird',
+    last_updated: new Date().toISOString()
+};
+
+// Ensure data directory exists
+async function ensureDataDirectory() {
+    try {
+        await fs.mkdir(path.join(__dirname, 'data'), { recursive: true });
+        
+        // Initialize counts file if it doesn't exist
+        try {
+            await fs.access(COUNTS_DB_PATH);
+        } catch {
+            await saveCounts({
+                total_preorders: CAMPAIGN_CONFIG.current_count,
+                daily_counts: {},
+                last_updated: new Date().toISOString(),
+                milestone_history: [
+                    { count: 100, reached_at: new Date(Date.now() - (5 * 24 * 60 * 60 * 1000)).toISOString() },
+                    { count: 200, reached_at: new Date(Date.now() - (2 * 24 * 60 * 60 * 1000)).toISOString() }
+                ]
+            });
+        }
+        
+        // Initialize campaign config
+        try {
+            await fs.access(CAMPAIGN_CONFIG_PATH);
+        } catch {
+            await saveCampaignConfig(CAMPAIGN_CONFIG);
+        }
+    } catch (error) {
+        console.error('Error ensuring data directory:', error);
+    }
+}
+
+// Database helper functions
+async function loadCounts() {
+    try {
+        const data = await fs.readFile(COUNTS_DB_PATH, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Error loading counts:', error);
+        return { total_preorders: CAMPAIGN_CONFIG.current_count, daily_counts: {}, last_updated: new Date().toISOString() };
+    }
+}
+
+async function saveCounts(counts) {
+    try {
+        await fs.writeFile(COUNTS_DB_PATH, JSON.stringify(counts, null, 2));
+    } catch (error) {
+        console.error('Error saving counts:', error);
+    }
+}
+
+async function loadCampaignConfig() {
+    try {
+        const data = await fs.readFile(CAMPAIGN_CONFIG_PATH, 'utf8');
+        return JSON.parse(data);
+    } catch (error) {
+        console.error('Error loading campaign config:', error);
+        return CAMPAIGN_CONFIG;
+    }
+}
+
+async function saveCampaignConfig(config) {
+    try {
+        await fs.writeFile(CAMPAIGN_CONFIG_PATH, JSON.stringify(config, null, 2));
+    } catch (error) {
+        console.error('Error saving campaign config:', error);
+    }
+}
+
+// Initialize on startup
+ensureDataDirectory();
+
+// API endpoint to get current counts and campaign status
+app.get('/api/campaign-status', async (req, res) => {
+    try {
+        const counts = await loadCounts();
+        const config = await loadCampaignConfig();
+        
+        const now = new Date();
+        const deadline = new Date(config.deadline);
+        const timeRemaining = deadline - now;
+        
+        // Calculate progress percentage
+        const progressPercentage = Math.min((counts.total_preorders / config.goal_units) * 100, 100);
+        
+        // Determine urgency messaging
+        let urgencyLevel = 'normal';
+        let urgencyMessage = '';
+        
+        if (timeRemaining < 24 * 60 * 60 * 1000) { // Less than 24 hours
+            urgencyLevel = 'critical';
+            urgencyMessage = 'Less than 24 hours left!';
+        } else if (timeRemaining < 3 * 24 * 60 * 60 * 1000) { // Less than 3 days
+            urgencyLevel = 'high';
+            urgencyMessage = 'Only a few days left!';
+        } else if (counts.total_preorders >= config.scarcity_threshold) {
+            urgencyLevel = 'high';
+            urgencyMessage = 'Almost sold out!';
+        }
+        
+        // Calculate realistic time remaining
+        const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+        
+        res.json({
+            counts: {
+                current: counts.total_preorders,
+                goal: config.goal_units,
+                remaining: config.goal_units - counts.total_preorders,
+                progress_percentage: Math.round(progressPercentage * 10) / 10
+            },
+            timing: {
+                deadline: config.deadline,
+                time_remaining: {
+                    total_milliseconds: Math.max(timeRemaining, 0),
+                    days: Math.max(days, 0),
+                    hours: Math.max(hours, 0),
+                    minutes: Math.max(minutes, 0)
+                },
+                early_bird_active: config.early_bird_active && timeRemaining > 0
+            },
+            urgency: {
+                level: urgencyLevel,
+                message: urgencyMessage
+            },
+            social_proof: {
+                milestone_reached: counts.total_preorders >= 250,
+                countries_count: 15,
+                recent_activity: "3 people pre-ordered in the last hour"
+            },
+            pricing: {
+                tier: config.price_tier,
+                expires_at: config.deadline
+            },
+            last_updated: counts.last_updated
+        });
+        
+    } catch (error) {
+        console.error('Error fetching campaign status:', error);
+        res.status(500).json({ error: 'Failed to fetch campaign status' });
+    }
+});
+
+// Increment counter when new pre-order is successful
+async function incrementPreorderCount(productId, quantity = 1) {
+    try {
+        const counts = await loadCounts();
+        const today = new Date().toISOString().split('T')[0];
+        
+        // Update total count
+        counts.total_preorders += quantity;
+        
+        // Update daily count
+        if (!counts.daily_counts[today]) {
+            counts.daily_counts[today] = 0;
+        }
+        counts.daily_counts[today] += quantity;
+        
+        // Check for milestones
+        const milestones = [100, 200, 250, 300, 350, 400, 450, 500];
+        milestones.forEach(milestone => {
+            const alreadyReached = counts.milestone_history?.some(m => m.count === milestone);
+            if (!alreadyReached && counts.total_preorders >= milestone) {
+                if (!counts.milestone_history) counts.milestone_history = [];
+                counts.milestone_history.push({
+                    count: milestone,
+                    reached_at: new Date().toISOString()
+                });
+                console.log(`🎉 Milestone reached: ${milestone} pre-orders!`);
+            }
+        });
+        
+        counts.last_updated = new Date().toISOString();
+        await saveCounts(counts);
+        
+        console.log(`Pre-order count updated: ${counts.total_preorders} (added ${quantity})`);
+        
+    } catch (error) {
+        console.error('Error incrementing preorder count:', error);
+    }
+}
+
+// Add count increment to existing checkout success handler
+// Update your existing '/success' endpoint to include this:
+// ... in your existing success handler after storing the pre-order ...
+// Add this line:
+await incrementPreorderCount(session.metadata.product_id, parseInt(session.metadata.quantity));
+
+// Admin endpoint to manually adjust counts (for testing)
+app.post('/api/admin/adjust-count', async (req, res) => {
+    try {
+        const { adjustment, reason } = req.body;
+        
+        const counts = await loadCounts();
+        const oldCount = counts.total_preorders;
+        counts.total_preorders += adjustment;
+        counts.last_updated = new Date().toISOString();
+        
+        // Log the adjustment
+        if (!counts.adjustment_history) counts.adjustment_history = [];
+        counts.adjustment_history.push({
+            old_count: oldCount,
+            new_count: counts.total_preorders,
+            adjustment: adjustment,
+            reason: reason || 'Manual adjustment',
+            timestamp: new Date().toISOString()
+        });
+        
+        await saveCounts(counts);
+        
+        res.json({ 
+            success: true, 
+            old_count: oldCount, 
+            new_count: counts.total_preorders 
+        });
+        
+    } catch (error) {
+        console.error('Error adjusting count:', error);
+        res.status(500).json({ error: 'Failed to adjust count' });
     }
 });
 

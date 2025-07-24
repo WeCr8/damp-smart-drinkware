@@ -1,9 +1,29 @@
 {
-  "currentCount": 349,
+  "currentCount": 355,
   "goalCount": 500,
   "startDate": "2025-01-01T00:00:00.000Z",
   "endDate": "2025-07-31T05:49:37.826Z",
   "recentOrders": [
+    {
+      "timestamp": "2025-07-24T07:39:53.977Z",
+      "location": "Austin, TX",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T07:34:38.916Z",
+      "location": "Miami, FL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T07:24:53.821Z",
+      "location": "Chicago, IL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T07:09:53.681Z",
+      "location": "Austin, TX",
+      "count": 3
+    },
     {
       "timestamp": "2025-07-24T07:03:53.617Z",
       "location": "New York, NY",
@@ -33,26 +53,6 @@
       "timestamp": "2025-07-24T06:28:38.215Z",
       "location": "New York, NY",
       "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T06:17:23.085Z",
-      "location": "Miami, FL",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T06:16:38.081Z",
-      "location": "Portland, OR",
-      "count": 3
-    },
-    {
-      "timestamp": "2025-07-24T06:12:08.052Z",
-      "location": "Miami, FL",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T06:10:38.032Z",
-      "location": "Denver, CO",
-      "count": 2
     }
   ],
   "analytics": {

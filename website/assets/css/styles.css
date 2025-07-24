@@ -313,13 +313,14 @@ section {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
+    background: linear-gradient(45deg, #00ff88, #00cc6a);
+    color: #0f0f23;
     padding: 8px 15px;
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: bold;
     text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
     letter-spacing: 0.5px;
 }
 

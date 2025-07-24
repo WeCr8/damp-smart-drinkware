@@ -982,6 +982,7 @@
     <script src="assets/js/components/favicon-setup.js"></script>
     <script src="assets/js/components/hero-animation.js"></script>
     <script src="assets/js/components/header.js"></script>
+    <script src="assets/js/cookie-consent.js"></script>
     <script src="assets/js/scripts.js"></script>
     
     <!-- Enhanced Landing Page Scripts -->
@@ -1129,35 +1130,28 @@
         });
     </script>
 
-    <!-- Cookie Notice -->
-    <div class="cookie-notice" id="cookieNotice" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(15, 15, 35, 0.95); backdrop-filter: blur(20px); border-radius: 10px; padding: 15px; color: white; font-size: 0.9rem; z-index: 1000; display: none;">
-        🍪 We use cookies to improve your experience. 
-        <a href="pages/privacy.html" style="color: var(--primary-color);">Privacy Policy</a>
-        <button onclick="acceptCookies()" style="background: var(--primary-color); color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-left: 10px; cursor: pointer;">Accept</button>
-    </div>
-
+    <!-- Professional Cookie Consent System -->
     <script>
-        function acceptCookies() {
-            document.getElementById('cookieNotice').style.display = 'none';
-            localStorage.setItem('cookieAccepted', 'true');
+        // Initialize professional cookie consent when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Legacy compatibility function
+            window.acceptCookies = function() {
+                if (window.dampCookieConsent) {
+                    window.dampCookieConsent.acceptAll();
+                }
+            };
             
-            if (window.gtag) {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted'
-                });
-                gtag('event', 'page_view', {
-                    page_title: document.title,
-                    page_location: window.location.href
+            // Initialize with your preferred settings
+            if (window.DAMPCookieConsent) {
+                window.dampCookieConsent = new DAMPCookieConsent({
+                    enableAnalytics: true,
+                    enableMarketing: true,
+                    enableFunctional: true,
+                    autoShow: true,
+                    theme: 'professional'
                 });
             }
-        }
-        
-        // Show cookie notice if not accepted
-        if (!localStorage.getItem('cookieAccepted')) {
-            setTimeout(() => {
-                document.getElementById('cookieNotice').style.display = 'block';
-            }, 3000);
-        }
+        });
     </script>
 </body>
 </html>

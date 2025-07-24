@@ -88,14 +88,15 @@
     position: absolute;
     top: 1rem;
     right: 1rem;
-    background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
-    color: white;
+    background: linear-gradient(45deg, #00ff88, #00cc6a);
+    color: #0f0f23;
     padding: 0.5rem 1rem;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: bold;
     text-transform: uppercase;
     z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
 }
 
 .product-name {

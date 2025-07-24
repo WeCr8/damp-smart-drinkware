@@ -1,10 +1,24 @@
 name: DAMP CI/CD Pipeline - Enterprise Quality Gates
 
-# NOTE: To enable environment protection rules:
+# SETUP INSTRUCTIONS:
+# 
+# === Environment Protection (Optional) ===
 # 1. Go to Settings > Environments in your GitHub repository
 # 2. Create 'staging' and 'production' environments
 # 3. Configure protection rules, required reviewers, and secrets
 # 4. Uncomment the 'environment:' lines in deploy-staging and deploy-production jobs
+#
+# === External Service Integration (Optional) ===
+# To enable optional security and performance tools:
+# 
+# 1. Repository Variables (Settings > Secrets and variables > Actions > Variables):
+#    - ENABLE_SNYK: Set to 'true' to enable Snyk security scanning
+#    - ENABLE_WEBPAGETEST: Set to 'true' to enable WebPageTest performance audits
+#
+# 2. Repository Secrets (Settings > Secrets and variables > Actions > Secrets):
+#    - SNYK_TOKEN: Your Snyk API token (for vulnerability scanning)
+#    - LHCI_GITHUB_APP_TOKEN: Lighthouse CI GitHub App token (for PR comments)
+#    - WPT_API_KEY: WebPageTest API key (for performance audits)
 
 on:
   push:
@@ -118,12 +132,19 @@ jobs:
           cd ../backend && npm audit --audit-level=high --json > npm-audit-backend.json || true
 
       - name: Snyk security scan
+        if: vars.ENABLE_SNYK == 'true'  # Only run if explicitly enabled
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=medium --json > snyk-report.json
         continue-on-error: true
+
+      - name: Snyk scan placeholder
+        if: vars.ENABLE_SNYK != 'true'  # Run when Snyk is not enabled
+        run: |
+          echo "Snyk scan skipped - set ENABLE_SNYK repository variable to 'true' to enable"
+          echo '{"vulnerabilities": [], "summary": {"total": 0}, "skipped": true}' > snyk-report.json
 
       - name: OWASP Dependency Check
         uses: dependency-check/Dependency-Check_Action@main
@@ -292,7 +313,14 @@ jobs:
       - name: Run Lighthouse CI
         run: |
           npm install -g @lhci/cli
-          lhci autorun
+          if [ -n "$LHCI_GITHUB_APP_TOKEN" ]; then
+            echo "Running Lighthouse CI with GitHub integration"
+            lhci autorun
+          else
+            echo "Running Lighthouse CI without GitHub integration (LHCI_GITHUB_APP_TOKEN not configured)"
+            lhci collect --url=http://localhost:3000
+            lhci assert
+          fi
         env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
@@ -301,9 +329,21 @@ jobs:
           cd website && npm run lighthouse:budget
 
       - name: WebPageTest performance audit
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_WEBPAGETEST == 'true'
         run: |
-          npx webpagetest test http://localhost:3000 --key ${{ secrets.WPT_API_KEY }} --budget budget.json
+          if [ -n "$WPT_API_KEY" ]; then
+            echo "Running WebPageTest with API key"
+            npx webpagetest test http://localhost:3000 --key ${{ secrets.WPT_API_KEY }} --budget budget.json
+          else
+            echo "WebPageTest skipped - WPT_API_KEY not configured"
+          fi
+        env:
+          WPT_API_KEY: ${{ secrets.WPT_API_KEY }}
+
+      - name: WebPageTest placeholder
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_WEBPAGETEST != 'true'
+        run: |
+          echo "WebPageTest skipped - set ENABLE_WEBPAGETEST repository variable to 'true' to enable"
 
       - name: Upload performance results
         uses: actions/upload-artifact@v4

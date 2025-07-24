@@ -12,9 +12,29 @@
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
     <!-- Favicon Links -->
     <link rel="icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo/icon.png">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DAMP">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#1a1a2e">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- PWA Icons -->
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/logo/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/images/logo/icon-512.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/logo/icon-152.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/logo/icon-144.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="assets/images/logo/icon-128.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="assets/images/logo/icon-96.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/logo/icon-72.png">
     
     <!-- SEO Meta Tags -->
     <title>DAMP - Never Leave Your Drink Behind | Smart Drinkware Technology</title>
@@ -1571,6 +1591,268 @@
             </div>
         </div>
     </footer>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+        // Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    const registration = await navigator.serviceWorker.register('/sw.js', {
+                        scope: '/'
+                    });
+                    
+                    console.log('✅ Service Worker registered:', registration.scope);
+                    
+                    // Handle service worker updates
+                    registration.addEventListener('updatefound', () => {
+                        const newWorker = registration.installing;
+                        
+                        newWorker.addEventListener('statechange', () => {
+                            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                // New content available, show update notification
+                                showUpdateNotification();
+                            }
+                        });
+                    });
+                    
+                } catch (error) {
+                    console.error('❌ Service Worker registration failed:', error);
+                }
+            });
+        }
+        
+        // PWA Install Prompt
+        let deferredPrompt;
+        let installButton = null;
+        
+        // Create install button
+        function createInstallButton() {
+            if (installButton) return;
+            
+            installButton = document.createElement('button');
+            installButton.id = 'pwa-install-btn';
+            installButton.innerHTML = '📱 Install App';
+            installButton.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+                color: white;
+                border: none;
+                padding: 15px 25px;
+                border-radius: 30px;
+                font-weight: 700;
+                font-size: 0.9rem;
+                cursor: pointer;
+                box-shadow: 0 4px 20px rgba(0, 212, 255, 0.3);
+                transition: all 0.3s ease;
+                z-index: 1000;
+                animation: pulse 2s infinite;
+            `;
+            
+            installButton.addEventListener('mouseenter', () => {
+                installButton.style.transform = 'translateY(-3px) scale(1.05)';
+                installButton.style.boxShadow = '0 6px 25px rgba(0, 212, 255, 0.4)';
+            });
+            
+            installButton.addEventListener('mouseleave', () => {
+                installButton.style.transform = 'translateY(0) scale(1)';
+                installButton.style.boxShadow = '0 4px 20px rgba(0, 212, 255, 0.3)';
+            });
+            
+            installButton.addEventListener('click', async () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    
+                    const { outcome } = await deferredPrompt.userChoice;
+                    
+                    if (outcome === 'accepted') {
+                        console.log('✅ PWA installed successfully');
+                        
+                        // Track installation
+                        if (window.gtag) {
+                            gtag('event', 'pwa_install', {
+                                event_category: 'engagement',
+                                event_label: 'user_initiated'
+                            });
+                        }
+                        
+                        // Show success notification
+                        showNotification('App installed successfully! 🎉', 'success');
+                    }
+                    
+                    deferredPrompt = null;
+                    hideInstallButton();
+                }
+            });
+            
+            document.body.appendChild(installButton);
+        }
+        
+        // Hide install button
+        function hideInstallButton() {
+            if (installButton) {
+                installButton.style.opacity = '0';
+                installButton.style.transform = 'translateY(20px) scale(0.8)';
+                setTimeout(() => {
+                    if (installButton && installButton.parentNode) {
+                        installButton.parentNode.removeChild(installButton);
+                        installButton = null;
+                    }
+                }, 300);
+            }
+        }
+        
+        // Listen for install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent Chrome 67 and earlier from automatically showing the prompt
+            e.preventDefault();
+            
+            // Store the event so it can be triggered later
+            deferredPrompt = e;
+            
+            // Show custom install button after 3 seconds
+            setTimeout(() => {
+                createInstallButton();
+            }, 3000);
+        });
+        
+        // Handle app installed
+        window.addEventListener('appinstalled', (e) => {
+            console.log('✅ PWA was installed');
+            
+            // Track installation
+            if (window.gtag) {
+                gtag('event', 'pwa_installed', {
+                    event_category: 'engagement',
+                    event_label: 'automatic'
+                });
+            }
+            
+            hideInstallButton();
+            deferredPrompt = null;
+        });
+        
+        // Check if app is already installed
+        function checkIfInstalled() {
+            // Check if running as PWA
+            if (window.matchMedia('(display-mode: standalone)').matches || 
+                window.navigator.standalone === true) {
+                console.log('✅ Running as installed PWA');
+                return true;
+            }
+            return false;
+        }
+        
+        // Show update notification
+        function showUpdateNotification() {
+            const notification = document.createElement('div');
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span>🔄</span>
+                    <div style="flex: 1;">
+                        <strong>Update Available</strong>
+                        <p style="margin: 5px 0 0; font-size: 0.9rem; opacity: 0.9;">
+                            A new version of DAMP is ready to install.
+                        </p>
+                    </div>
+                    <button onclick="refreshApp()" style="
+                        background: var(--secondary-color);
+                        color: var(--bg-primary);
+                        border: none;
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        font-weight: 600;
+                        cursor: pointer;
+                    ">Update</button>
+                    <button onclick="this.parentElement.parentElement.remove()" style="
+                        background: transparent;
+                        color: var(--text-muted);
+                        border: none;
+                        padding: 8px;
+                        cursor: pointer;
+                        font-size: 1.2rem;
+                    ">×</button>
+                </div>
+            `;
+            
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                right: 20px;
+                background: var(--card-bg);
+                border: 1px solid var(--border-color);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                border-radius: 12px;
+                color: var(--text-primary);
+                z-index: 10000;
+                transform: translateY(-100%);
+                transition: transform 0.3s ease;
+                max-width: 500px;
+                margin: 0 auto;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateY(0)';
+            }, 100);
+        }
+        
+        // Refresh app with new service worker
+        function refreshApp() {
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistration().then(registration => {
+                    if (registration && registration.waiting) {
+                        registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+        
+        // PWA Performance Monitoring
+        function initPWAMonitoring() {
+            if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+                // Get performance metrics from service worker
+                const messageChannel = new MessageChannel();
+                
+                messageChannel.port1.onmessage = (event) => {
+                    if (event.data && event.data.type === 'PERFORMANCE_METRICS') {
+                        console.log('📊 PWA Performance Metrics:', event.data.metrics);
+                        
+                        // Track metrics with analytics
+                        if (window.gtag) {
+                            gtag('event', 'pwa_performance', {
+                                event_category: 'performance',
+                                cache_hits: event.data.metrics.cacheHits,
+                                cache_misses: event.data.metrics.cacheMisses,
+                                offline_requests: event.data.metrics.offlineRequests
+                            });
+                        }
+                    }
+                };
+                
+                navigator.serviceWorker.controller.postMessage({
+                    type: 'GET_PERFORMANCE_METRICS'
+                }, [messageChannel.port2]);
+            }
+        }
+        
+        // Initialize PWA features
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if already installed
+            if (checkIfInstalled()) {
+                document.body.classList.add('pwa-installed');
+                
+                // Initialize PWA-specific features
+                setTimeout(initPWAMonitoring, 5000);
+            }
+        });
+    </script>
 
     <!-- Scripts -->
     <script src="assets/js/components/header.js"></script>

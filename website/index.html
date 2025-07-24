@@ -311,6 +311,100 @@
             overflow-x: hidden;
         }
         
+        /* Hero Animation Overlay */
+        .hero-animation-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bubbles-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .animation-bubble {
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        /* Animation Keyframes for Hero Animation */
+        @keyframes bubbleRise {
+            0% {
+                opacity: 0;
+                transform: translateY(0px) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-50vh) scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(-100vh) scale(0.8);
+            }
+        }
+        
+        @keyframes bubbleDisappear {
+            0% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+        
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+        }
+        
+        /* Initially hide main content for animation */
+        body:not(.animation-complete) > *:not(.hero-animation-overlay) {
+            opacity: 0;
+        }
+        
+        /* Prevent scrolling during animation */
+        body:not(.animation-complete) {
+            overflow: hidden;
+            height: 100vh;
+        }
+        
+        /* Skip button styling */
+        .animation-skip-button:hover {
+            background: rgba(255, 255, 255, 0.3) !important;
+            transform: translateY(-1px);
+        }
+        
         .container {
             max-width: var(--container-max-width);
             margin: 0 auto;
@@ -1854,6 +1948,57 @@
         });
     </script>
 
+    <!-- Hero Animation (Load First) -->
+    <script src="assets/js/components/hero-animation.js"></script>
+    
+    <!-- Hero Animation Completion Handler -->
+    <script>
+        // Ensure content is shown if animation doesn't load properly
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                if (!document.body.classList.contains('animation-complete')) {
+                    console.log('DAMP: Fallback - showing content after 12 seconds');
+                    showMainContent();
+                }
+            }, 12000); // Fallback after 12 seconds
+        });
+        
+        // Function to show main content (called by hero animation or fallback)
+        function showMainContent() {
+            document.body.classList.add('animation-complete');
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            
+            // Ensure all main content is visible
+            const allContent = document.querySelectorAll('body > *:not(.hero-animation-overlay)');
+            allContent.forEach(element => {
+                element.style.opacity = '1';
+                element.style.transition = 'opacity 0.5s ease';
+            });
+            
+            console.log('DAMP: Main content is now visible');
+        }
+        
+        // Make showMainContent available globally for hero animation
+        window.showMainContent = showMainContent;
+        
+        // Handle reduced motion preferences
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('DAMP: Reduced motion detected, skipping hero animation');
+                showMainContent();
+            });
+        }
+        
+        // Skip animation on small screens for better UX
+        if (window.innerWidth < 480 || window.innerHeight < 600) {
+            document.addEventListener('DOMContentLoaded', () => {
+                console.log('DAMP: Small screen detected, skipping hero animation');
+                showMainContent();
+            });
+        }
+    </script>
+    
     <!-- Scripts -->
     <script src="assets/js/components/header.js"></script>
     <script src="assets/js/scripts.js"></script>

@@ -693,31 +693,13 @@
 
     <!-- Scripts -->
     <script src="../assets/js/components/header.js"></script>
-    <script src="../assets/js/cookie-consent.js"></script>
+    <script src="../assets/js/cookie-consent-simple.js"></script>
     <script src="../assets/js/scripts.js"></script>
     
-    <!-- Professional Cookie Consent System -->
+    <!-- Simple Cookie Consent System -->
     <script>
-        // Initialize professional cookie consent when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Legacy compatibility function
-            window.acceptCookies = function() {
-                if (window.dampCookieConsent) {
-                    window.dampCookieConsent.acceptAll();
-                }
-            };
-            
-            // Initialize with your preferred settings
-            if (window.DAMPCookieConsent) {
-                window.dampCookieConsent = new DAMPCookieConsent({
-                    enableAnalytics: true,
-                    enableMarketing: false,
-                    enableFunctional: true,
-                    autoShow: true,
-                    theme: 'professional'
-                });
-            }
-        });
+        // Simple cookie consent auto-initializes, no additional setup needed
+        console.log('How It Works page: Simple cookie consent loaded');
     </script>
 </body>
 </html> 

@@ -53,7 +53,7 @@
                                 <p class="text-primary-700">Control what cookies we use and how we use them.</p>
                             </div>
                         </div>
-                        <button onclick="window.dampCookieConsent?.showSettings()" class="btn btn-primary">
+                        <button id="cookie-settings-btn" class="btn btn-primary">
                             Open Cookie Settings
                         </button>
                     </div>
@@ -301,9 +301,21 @@
 
     <!-- Scripts -->
     <script src="../assets/js/components/safe-area-wrapper.js"></script>
-    <script src="../assets/js/security-utils.js"></script>
-    <script src="../assets/js/cookie-consent.js"></script>
     <script src="../assets/js/components/header.js"></script>
-    <script src="../assets/js/components/footer.js"></script>
+    <script src="../assets/js/cookie-consent-simple.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+    
+    <!-- Simple Cookie Consent System -->
+    <script>
+        // Simple cookie consent auto-initializes, no additional setup needed
+        console.log('Cookie Policy page: Simple cookie consent loaded');
+        
+        // Update the cookie settings button to work with simple consent
+        document.getElementById('cookie-settings-btn')?.addEventListener('click', function() {
+            if (window.simpleCookieConsent) {
+                window.simpleCookieConsent.showSettings();
+            }
+        });
+    </script>
 </body>
 </html> 

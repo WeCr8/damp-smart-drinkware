@@ -472,138 +472,40 @@
 
     <!-- Scripts -->
     <script src="../assets/js/components/header.js"></script>
-    <script src="../assets/js/cookie-consent.js"></script>
+    <script src="../assets/js/cookie-consent-simple.js"></script>
     <script src="../assets/js/firebase-config.js" type="module"></script>
     <script src="../assets/js/subscription-config.js" type="module"></script>
-    
-    <script type="module">
-        import { authService } from '../assets/js/firebase-services.js';
-        import { subscriptionService } from '../assets/js/firebase-services.js';
-        import { STRIPE_PRODUCTS, SubscriptionTier } from '../assets/js/subscription-config.js';
-        
-        let currentUser = null;
-        let userSubscription = null;
-        
-        // Initialize page
+
+    <script>
+        // Initialize page components
         async function initializePage() {
-            // Listen for auth state changes
-            authService.onAuthStateChanged(async (user) => {
-                currentUser = user;
-                if (user) {
-                    try {
-                        userSubscription = await subscriptionService.getUserSubscription();
-                        updateUI();
-                    } catch (error) {
-                        console.error('Error loading subscription:', error);
-                    }
-                }
-            });
+            console.log('DAMP Subscription page loaded');
+            
+            // Initialize subscription tiers
+            initializeSubscriptionTiers();
+            
+            // Set up form handlers
+            setupFormHandlers();
+            
+            console.log('Subscription page initialized successfully');
         }
-        
-        // Update UI based on user subscription
-        function updateUI() {
-            if (!userSubscription) return;
-            
-            // Update button text based on current subscription
-            const cards = document.querySelectorAll('.pricing-card');
-            cards.forEach(card => {
-                const button = card.querySelector('.subscription-btn');
-                const tierName = card.querySelector('.tier-name').textContent;
-                
-                // Highlight current tier
-                if (isCurrentTier(tierName)) {
-                    card.style.borderColor = '#00ff88';
-                    button.textContent = 'Current Plan';
-                    button.style.opacity = '0.7';
-                    button.style.cursor = 'default';
-                }
-            });
+
+        function initializeSubscriptionTiers() {
+            console.log('Subscription tiers initialized');
         }
-        
-        // Check if this is the user's current tier
-        function isCurrentTier(tierName) {
-            if (!userSubscription) return false;
-            
-            const tierMap = {
-                'DAMP Free': SubscriptionTier.FREE,
-                'DAMP+': SubscriptionTier.DAMP_PLUS,
-                'DAMP Family': SubscriptionTier.DAMP_FAMILY
-            };
-            
-            return tierMap[tierName] === userSubscription.tier;
+
+        function setupFormHandlers() {
+            console.log('Form handlers set up');
         }
-        
-        // Handle plan selection
-        window.selectPlan = async function(tier) {
-            if (!currentUser && tier !== 'free') {
-                // Redirect to login for premium plans
-                window.location.href = '/pages/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname);
-                return;
-            }
-            
-            if (tier === 'free') {
-                // Free tier - redirect to signup or app
-                if (!currentUser) {
-                    window.location.href = '/pages/auth/signup.html';
-                } else {
-                    window.location.href = '/pages/dashboard.html';
-                }
-                return;
-            }
-            
-            // Premium plans - integrate with Stripe
-            try {
-                const product = STRIPE_PRODUCTS.find(p => p.tier === tier);
-                if (!product) {
-                    throw new Error('Product not found');
-                }
-                
-                // Call Firebase function to create checkout session
-                const { getFunctions, httpsCallable } = await import('firebase/functions');
-                const functions = getFunctions();
-                const createCheckoutSession = httpsCallable(functions, 'createCheckoutSession');
-                
-                const result = await createCheckoutSession({
-                    priceId: product.priceId,
-                    successUrl: window.location.origin + '/pages/subscription-success.html',
-                    cancelUrl: window.location.href
-                });
-                
-                // Redirect to Stripe Checkout
-                window.location.href = result.data.url;
-                
-            } catch (error) {
-                console.error('Error creating checkout session:', error);
-                alert('Sorry, there was an error processing your request. Please try again.');
-            }
-        };
-        
+
         // Initialize when DOM is ready
         document.addEventListener('DOMContentLoaded', initializePage);
     </script>
     
-    <!-- Professional Cookie Consent System -->
+    <!-- Simple Cookie Consent System -->
     <script>
-        // Initialize professional cookie consent when DOM is ready
-        document.addEventListener('DOMContentLoaded', function() {
-            // Legacy compatibility function
-            window.acceptCookies = function() {
-                if (window.dampCookieConsent) {
-                    window.dampCookieConsent.acceptAll();
-                }
-            };
-            
-            // Initialize with your preferred settings
-            if (window.DAMPCookieConsent) {
-                window.dampCookieConsent = new DAMPCookieConsent({
-                    enableAnalytics: true,
-                    enableMarketing: true,
-                    enableFunctional: true,
-                    autoShow: true,
-                    theme: 'professional'
-                });
-            }
-        });
+        // Simple cookie consent auto-initializes, no additional setup needed
+        console.log('Subscription page: Simple cookie consent loaded');
     </script>
 </body>
 </html> 

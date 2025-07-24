@@ -5,298 +5,1297 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
-    <!-- Prevent PWA installation prompts -->
-    <meta name="mobile-web-app-capable" content="no">
-    <meta name="apple-mobile-web-app-capable" content="no">
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo/icon.png">
     
     <!-- SEO Meta Tags -->
     <title>DAMP - Never Leave Your Drink Behind | Smart Drinkware Technology</title>
-    <meta name="description" content="Stop abandoning your drinks with DAMP Smart Drinkware. Revolutionary BLE technology that alerts you when you're about to leave your beverage behind. Works with any cup or bottle.">
-    <meta name="keywords" content="smart drinkware, drink alert, BLE tracking, never leave drink, smart cup, drink reminder, beverage technology">
+    <meta name="description" content="Revolutionary smart drinkware technology that alerts you when you're about to leave your beverage behind. Works with any cup or bottle.">
+    <meta name="keywords" content="smart drinkware, drink alert, BLE tracking, never leave drink, smart cup">
     <meta name="author" content="WeCr8 Solutions LLC">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://dampdrink.com/">
     
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://dampdrink.com/">
     <meta property="og:title" content="DAMP - Never Leave Your Drink Behind">
-    <meta property="og:description" content="Stop abandoning your drinks with DAMP Smart Drinkware. Revolutionary BLE technology that alerts you when you're about to leave your beverage behind.">
+    <meta property="og:description" content="Revolutionary smart drinkware technology that alerts you when you're about to leave your beverage behind.">
     <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
-    <meta property="og:site_name" content="DAMP Smart Drinkware">
     
-    <!-- Preconnect to external domains -->
+    <!-- Preconnect -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     
-    <!-- CSS Architecture - Single Main CSS Import -->
+    <!-- CSS -->
     <link rel="stylesheet" href="assets/css/main.css">
-
+    
+    <!-- Clean, Professional Styles -->
+    <style>
+        :root {
+            --primary-color: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary-color: #00ff88;
+            --accent-color: #ff4757;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.15);
+            --container-max-width: 1200px;
+            --section-padding: 100px 0;
+            --border-radius: 12px;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .section {
+            padding: var(--section-padding);
+        }
+        
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 80px;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+        }
+        
+        .hero-logo {
+            margin-bottom: 40px;
+        }
+        
+        .hero-logo img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+        }
+        
+        .hero-title {
+            font-size: clamp(3.5rem, 8vw, 5rem);
+            font-weight: 900;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, var(--text-primary), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            line-height: 1.5;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            min-width: 120px;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            margin-left: 20px;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        /* Pain Point Section */
+        .pain-point-section {
+            background: rgba(255, 71, 87, 0.05);
+            border-top: 1px solid rgba(255, 71, 87, 0.1);
+            border-bottom: 1px solid rgba(255, 71, 87, 0.1);
+        }
+        
+        .pain-point-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .pain-point-emoji {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            display: block;
+        }
+        
+        .pain-point-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 30px;
+            color: var(--accent-color);
+        }
+        
+        .pain-point-description {
+            font-size: 1.3rem;
+            color: var(--text-secondary);
+            margin-bottom: 50px;
+            line-height: 1.6;
+        }
+        
+        .pain-point-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+        
+        .pain-stat {
+            background: rgba(255, 71, 87, 0.08);
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            border-radius: var(--border-radius);
+            padding: 40px 25px;
+            text-align: center;
+        }
+        
+        .pain-stat-number {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            display: block;
+            margin-bottom: 15px;
+        }
+        
+        .pain-stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.4;
+        }
+        
+        /* How It Works Section */
+        .how-it-works-section {
+            background: rgba(0, 212, 255, 0.03);
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .step-card {
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 50px 30px;
+            transition: transform 0.3s ease;
+        }
+        
+        .step-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: var(--bg-primary);
+            font-size: 1.8rem;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+        }
+        
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .step-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Technology Section */
+        .technology-section {
+            background: rgba(0, 0, 0, 0.2);
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .tech-card {
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 40px 25px;
+            transition: transform 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .tech-icon {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+        
+        .tech-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .tech-description {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        /* Products Section */
+        .products-section {
+            background: rgba(26, 26, 46, 0.3);
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--secondary-color), #00cc6a);
+            color: var(--bg-primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .product-image {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 25px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+        }
+        
+        .product-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+            max-width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .product-features li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .product-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        .product-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn-small {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+            border-radius: 25px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-section {
+            background: rgba(0, 255, 136, 0.03);
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 40px 30px;
+            text-align: center;
+        }
+        
+        .testimonial-quote {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--bg-primary);
+        }
+        
+        .author-info h4 {
+            color: var(--primary-color);
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .author-info p {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        
+        /* Voting Section */
+        .voting-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.08), rgba(255, 71, 87, 0.08));
+        }
+        
+        .voting-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .voting-emoji {
+            font-size: 3.5rem;
+            margin-bottom: 25px;
+            display: block;
+        }
+        
+        .voting-title {
+            font-size: clamp(2.5rem, 5vw, 3.2rem);
+            font-weight: 900;
+            margin-bottom: 25px;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .voting-description {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .voting-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .vote-stat {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 25px 20px;
+            text-align: center;
+        }
+        
+        .vote-stat-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .vote-stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-vote {
+            background: linear-gradient(45deg, var(--secondary-color), #00cc6a);
+            color: var(--bg-primary);
+            font-size: 1.3rem;
+            padding: 20px 50px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+        
+        .btn-vote:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 136, 0.3);
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(0, 0, 0, 0.15);
+        }
+        
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            margin-bottom: 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px 30px;
+            max-height: 150px;
+        }
+        
+        .faq-icon {
+            font-size: 1.3rem;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: white;
+        }
+        
+        .newsletter-content {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .newsletter-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            color: white;
+        }
+        
+        .newsletter-description {
+            font-size: 1.1rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .newsletter-form {
+            display: flex;
+            gap: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .newsletter-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+        }
+        
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .newsletter-button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            background: var(--secondary-color);
+            color: var(--bg-primary);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.3);
+        }
+        
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
+        }
+        
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section {
+                padding: 80px 0;
+            }
+            
+            .hero-section {
+                padding: 100px 20px 60px;
+            }
+            
+            .hero-stats {
+                gap: 30px;
+            }
+            
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+                max-width: none;
+            }
+            
+            .voting-stats {
+                grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+                gap: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .card {
+                padding: 30px 20px;
+            }
+            
+            .hero-logo img {
+                width: 70px;
+                height: 70px;
+            }
+        }
+    </style>
+    
+    <!-- Error Handler -->
+    <script src="assets/js/error-management/error-handler.js"></script>
+    
     <!-- Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID', {
-            page_title: 'DAMP Smart Drinkware - Home',
-            send_page_view: true
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied',
+            'functionality_storage': 'denied'
         });
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
     </script>
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "DAMP Smart Drinkware",
-        "url": "https://dampdrink.com",
-        "logo": "https://dampdrink.com/assets/images/logo/icon.png",
-        "description": "Revolutionary smart drinkware with BLE technology that prevents you from leaving your beverages behind.",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+1-555-DAMP-DRINK",
-            "contactType": "customer service"
-        }
-    }
-    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
 </head>
-<body class="page-loading">
+
+<body>
     <!-- Navigation Header -->
     <damp-header></damp-header>
 
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
-            <div class="hero-content animate-fade-in-up">
-                <!-- Primary Hook -->
-                <div class="hero-primary-hook animate-fade-in-up">
-                    <h1 class="hero-main-title">Never Leave Your Drink Behind</h1>
-                    <p class="hero-main-subtitle">Smart technology that alerts you when you're about to abandon your favorite beverages</p>
+            <div class="hero-content">
+                <div class="hero-logo">
+                    <img src="assets/images/logo/logo.png" alt="DAMP Logo" loading="eager">
                 </div>
                 
-                <!-- Problem Statement -->
-                <div class="hero-problem animate-fade-in-up animate-delay-100">
-                    <p class="problem-text">
-                        <span class="problem-highlight">97% of people</span> have left their favorite drink behind at least once. 
-                        <strong>Your morning coffee, afternoon tea, or evening cocktail</strong> — gone and forgotten.
-                    </p>
-                </div>
+                <h1 class="hero-title">Never Leave Your Drink Behind</h1>
                 
-                <!-- Solution -->
-                <div class="hero-solution animate-fade-in-up animate-delay-200">
-                    <h2 class="solution-title">The DAMP Solution</h2>
-                    <p class="solution-description">
-                        Transform <strong>any cup, mug, or bottle</strong> into smart drinkware in seconds. 
-                        Get instant alerts on your phone when you're about to leave your drink behind.
-                    </p>
-                </div>
+                <p class="hero-subtitle">
+                    Transform any cup into a smart device with DAMP. Get instant alerts when you're about to abandon your favorite beverage. Works with Stanley, Yeti, Hydro Flask, and more.
+                </p>
                 
-                <!-- Key Benefits -->
-                <div class="hero-benefits animate-fade-in-up animate-delay-300">
-                    <div class="benefit-item">
-                        <span class="benefit-icon">⚡</span>
-                        <span class="benefit-text">Instant Setup</span>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">5,000+</span>
+                        <span class="stat-label">Pre-Orders</span>
                     </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">📱</span>
-                        <span class="benefit-text">Smart Alerts</span>
+                    <div class="stat-item">
+                        <span class="stat-number">4.9★</span>
+                        <span class="stat-label">Rating</span>
                     </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">🔋</span>
-                        <span class="benefit-text">6-Month Battery</span>
-                    </div>
-                    <div class="benefit-item">
-                        <span class="benefit-icon">🌍</span>
-                        <span class="benefit-text">Universal Fit</span>
+                    <div class="stat-item">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Countries</span>
                     </div>
                 </div>
                 
-                <!-- Call to Action -->
-                <div class="hero-cta animate-fade-in-up animate-delay-400">
-                    <div class="cta-urgency">
-                        <span class="urgency-badge">Early Bird Special</span>
-                        <span class="urgency-text">Limited Time: Save up to $30 on pre-orders</span>
-                    </div>
-                    
-                    <div class="cta-buttons">
-                        <a href="pages/products.html" class="btn btn-primary btn-xl">
-                            <span class="btn-text">Shop DAMP Products</span>
-                            <span class="btn-subtext">Starting at $29.99</span>
-                        </a>
-                        <a href="#how-it-works" class="btn btn-secondary btn-xl">
-                            <span class="btn-text">See How It Works</span>
-                            <span class="btn-subtext">60-second demo</span>
-                        </a>
-                    </div>
-                </div>
-                
-                <!-- Social Proof -->
-                <div class="hero-social-proof animate-fade-in-up animate-delay-500">
-                    <div class="social-proof-numbers">
-                        <div class="proof-stat">
-                            <span class="stat-number">5,000+</span>
-                            <span class="stat-label">Happy Customers</span>
-                        </div>
-                        <div class="proof-stat">
-                            <span class="stat-number">4.9★</span>
-                            <span class="stat-label">Average Rating</span>
-                        </div>
-                        <div class="proof-stat">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Countries</span>
-                        </div>
-                    </div>
-                    <p class="social-proof-testimonial">
-                        "Finally, a solution that actually works! I haven't left my coffee behind since getting DAMP." 
-                        <span class="testimonial-author">— Sarah M., Seattle</span>
-                    </p>
+                <div class="hero-cta">
+                    <a href="pages/pre-sale-funnel.html" class="btn btn-primary">
+                        Pre-Order Now - Starting $29.99
+                    </a>
+                    <a href="#pain-point" class="btn btn-secondary">
+                        See the Problem
+                    </a>
                 </div>
             </div>
         </div>
-        
-        <!-- Floating Background Elements -->
-        <div class="floating-elements">
-            <div class="floating-circle floating-circle-primary"></div>
-            <div class="floating-circle floating-circle-secondary"></div>
-            <div class="floating-circle floating-circle-accent"></div>
+    </section>
+
+    <!-- Pain Point Section -->
+    <section id="pain-point" class="section pain-point-section">
+        <div class="container">
+            <div class="pain-point-content">
+                <span class="pain-point-emoji">😰</span>
+                
+                <h2 class="pain-point-title">
+                    We've All Been There...
+                </h2>
+                
+                <p class="pain-point-description">
+                    You're rushing out of the coffee shop, juggling your phone, keys, and that important meeting on your mind. 
+                    <strong>Then it hits you</strong> — your favorite $40 Stanley tumbler is sitting back on the table, 
+                    now three blocks away. Sound familiar?
+                </p>
+                
+                <div class="pain-point-stats">
+                    <div class="pain-stat">
+                        <span class="pain-stat-number">97%</span>
+                        <span class="pain-stat-label">of people have left their drink behind</span>
+                    </div>
+                    <div class="pain-stat">
+                        <span class="pain-stat-number">$2.3B</span>
+                        <span class="pain-stat-label">lost annually in abandoned drinkware</span>
+                    </div>
+                    <div class="pain-stat">
+                        <span class="pain-stat-number">156</span>
+                        <span class="pain-stat-label">times per year average</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="how-it-works" class="how-it-works-section">
+    <section id="how-it-works" class="section how-it-works-section">
         <div class="container">
-            <h2 class="section-title animate-fade-in-up">How DAMP Works</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">Three simple steps to never lose your drink again</p>
+            <h2 class="section-title">How DAMP Works</h2>
+            <p class="section-subtitle">
+                Three simple steps to never forget your drink again. Our patented BLE technology creates an invisible tether between you and your beverage.
+            </p>
             
             <div class="steps-grid">
-                <div class="step-item animate-fade-in-up animate-delay-200">
+                <div class="step-card">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Attach & Connect</h3>
-                    <p class="step-description">Attach DAMP to any cup, mug, or bottle in seconds. Connect to your phone via Bluetooth.</p>
+                    <h3 class="step-title">Attach & Pair</h3>
+                    <p class="step-description">
+                        Attach your DAMP device to any cup, bottle, or tumbler. Pair it with your smartphone in seconds using our intuitive app.
+                    </p>
                 </div>
                 
-                <div class="step-item animate-fade-in-up animate-delay-300">
+                <div class="step-card">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Drink Normally</h3>
-                    <p class="step-description">Enjoy your beverage as usual. DAMP monitors your drink and your location automatically.</p>
+                    <h3 class="step-title">Set Your Zone</h3>
+                    <p class="step-description">
+                        Define your alert distance (5-50 feet). DAMP monitors the connection between your phone and your drink continuously.
+                    </p>
                 </div>
                 
-                <div class="step-item animate-fade-in-up animate-delay-400">
+                <div class="step-card">
                     <div class="step-number">3</div>
                     <h3 class="step-title">Get Alerted</h3>
-                    <p class="step-description">Walk away? Get an instant alert on your phone before you leave your drink behind.</p>
-                </div>
-            </div>
-            
-            <div class="how-it-works-cta animate-fade-in-up animate-delay-500">
-                <a href="pages/products.html" class="btn btn-primary btn-lg">
-                    Choose Your DAMP Product
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Product Preview Section -->
-    <section class="product-preview-section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">Perfect for Every Drink</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">Universal compatibility with your favorite cups and bottles</p>
-            
-            <div class="product-preview-grid">
-                <div class="preview-card animate-fade-in-up animate-delay-200">
-                    <div class="preview-image">
-                        <img src="assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle" loading="lazy">
-                    </div>
-                    <h3 class="preview-title">DAMP Handle</h3>
-                    <p class="preview-description">Universal attachment for any cup or mug</p>
-                    <div class="preview-price">From $49.99</div>
-                </div>
-                
-                <div class="preview-card animate-fade-in-up animate-delay-300">
-                    <div class="preview-image">
-                        <img src="assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom" loading="lazy">
-                    </div>
-                    <h3 class="preview-title">Silicone Bottom</h3>
-                    <p class="preview-description">Non-slip base for bottles and glasses</p>
-                    <div class="preview-price">From $39.99</div>
-                </div>
-                
-                <div class="preview-card animate-fade-in-up animate-delay-400">
-                    <div class="preview-image">
-                        <img src="assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve" loading="lazy">
-                    </div>
-                    <h3 class="preview-title">Cup Sleeve</h3>
-                    <p class="preview-description">Adjustable sleeve for takeaway cups</p>
-                    <div class="preview-price">From $29.99</div>
-                </div>
-            </div>
-            
-            <div class="product-preview-cta animate-fade-in-up animate-delay-500">
-                <a href="pages/products.html" class="btn btn-primary btn-lg">
-                    View All Products
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Trust & Guarantee Section -->
-    <section class="trust-section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">Why Choose DAMP?</h2>
-            
-            <div class="trust-grid">
-                <div class="trust-item animate-fade-in-up animate-delay-200">
-                    <div class="trust-icon">🛡️</div>
-                    <h3 class="trust-title">30-Day Guarantee</h3>
-                    <p class="trust-description">Not satisfied? Get a full refund within 30 days, no questions asked.</p>
-                </div>
-                
-                <div class="trust-item animate-fade-in-up animate-delay-300">
-                    <div class="trust-icon">🚚</div>
-                    <h3 class="trust-title">Free Shipping</h3>
-                    <p class="trust-description">Free worldwide shipping on all orders. Fast delivery to your door.</p>
-                </div>
-                
-                <div class="trust-item animate-fade-in-up animate-delay-400">
-                    <div class="trust-icon">⚡</div>
-                    <h3 class="trust-title">Easy Setup</h3>
-                    <p class="trust-description">Install in seconds, no tools required. Works with any smartphone.</p>
-                </div>
-                
-                <div class="trust-item animate-fade-in-up animate-delay-500">
-                    <div class="trust-icon">💚</div>
-                    <h3 class="trust-title">Eco-Friendly</h3>
-                    <p class="trust-description">Reduce waste by never abandoning drinks again. Sustainable materials.</p>
+                    <p class="step-description">
+                        When you move too far from your drink, get instant notifications via sound, vibration, or visual alerts. Never forget again!
+                    </p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Final CTA Section -->
-    <section class="final-cta-section">
+    <!-- Technology Section -->
+    <section id="technology" class="section technology-section">
         <div class="container">
-            <div class="final-cta-content animate-fade-in-up">
-                <h2 class="final-cta-title">Ready to Never Leave Your Drink Behind?</h2>
-                <p class="final-cta-description">
-                    Join thousands of satisfied customers who've eliminated drink abandonment from their lives.
-                    Start with our most popular product or explore the full ecosystem.
+            <h2 class="section-title">Advanced Technology</h2>
+            <p class="section-subtitle">
+                Built with enterprise-grade components and powered by advanced algorithms for reliability you can trust.
+            </p>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <span class="tech-icon">📡</span>
+                    <h3 class="tech-title">Bluetooth 5.0 LE</h3>
+                    <p class="tech-description">
+                        Ultra-low energy consumption with extended range up to 100 feet. Advanced signal processing prevents false alerts.
+                    </p>
+                </div>
+                
+                <div class="tech-card">
+                    <span class="tech-icon">🔋</span>
+                    <h3 class="tech-title">6-Month Battery</h3>
+                    <p class="tech-description">
+                        Intelligent power management extends battery life up to 6 months on a single charge. USB-C fast charging included.
+                    </p>
+                </div>
+                
+                <div class="tech-card">
+                    <span class="tech-icon">🌡️</span>
+                    <h3 class="tech-title">Smart Sensors</h3>
+                    <p class="tech-description">
+                        Temperature monitoring, motion detection, and proximity sensing work together to provide context-aware alerts.
+                    </p>
+                </div>
+                
+                <div class="tech-card">
+                    <span class="tech-icon">🛡️</span>
+                    <h3 class="tech-title">Military-Grade Security</h3>
+                    <p class="tech-description">
+                        AES-256 encryption protects your data. All communications are secured with enterprise-level protocols.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="section products-section">
+        <div class="container">
+            <h2 class="section-title">Choose Your DAMP Solution</h2>
+            <p class="section-subtitle">
+                Four different ways to make your favorite drinkware smart. From universal attachments to brand-specific designs.
+            </p>
+            
+            <div class="products-grid">
+                <!-- DAMP Handle -->
+                <div class="product-card">
+                    <div class="product-badge">Most Popular</div>
+                    <div class="product-image">
+                        <img src="assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0" loading="lazy">
+                    </div>
+                    <h3 class="product-name">DAMP Handle v1.0</h3>
+                    <p class="product-description">
+                        Universal clip-on handle that works with any mug, tumbler, or cup. Perfect for coffee shops and offices.
+                    </p>
+                    <div class="product-price">$49.99</div>
+                    <ul class="product-features">
+                        <li>Universal attachment system</li>
+                        <li>6-month battery life</li>
+                        <li>Instant phone alerts</li>
+                        <li>Temperature monitoring</li>
+                    </ul>
+                    <div class="product-actions">
+                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                        <a href="pages/damp-handle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Silicone Bottom -->
+                <div class="product-card">
+                    <div class="product-badge">Best Value</div>
+                    <div class="product-image">
+                        <img src="assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom v1.0" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Silicone Bottom v1.0</h3>
+                    <p class="product-description">
+                        Non-slip silicone base that adheres to bottles and tumblers. Invisible protection for your drinks.
+                    </p>
+                    <div class="product-price">$29.99</div>
+                    <ul class="product-features">
+                        <li>Non-slip grip design</li>
+                        <li>Wireless charging compatible</li>
+                        <li>Water-resistant coating</li>
+                        <li>Multiple sizes available</li>
+                    </ul>
+                    <div class="product-actions">
+                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                        <a href="pages/silicone-bottom-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Cup Sleeve -->
+                <div class="product-card">
+                    <div class="product-badge">Versatile</div>
+                    <div class="product-image">
+                        <img src="assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve v1.0" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Cup Sleeve v1.0</h3>
+                    <p class="product-description">
+                        Adjustable sleeve that fits most cups and provides insulation while tracking your beverage.
+                    </p>
+                    <div class="product-price">$39.99</div>
+                    <ul class="product-features">
+                        <li>Adjustable fit system</li>
+                        <li>Thermal insulation layer</li>
+                        <li>Easy installation process</li>
+                        <li>Machine washable design</li>
+                    </ul>
+                    <div class="product-actions">
+                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                        <a href="pages/cup-sleeve-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Baby Bottle -->
+                <div class="product-card">
+                    <div class="product-badge">Premium</div>
+                    <div class="product-image">
+                        <img src="assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle v1.0" loading="lazy">
+                    </div>
+                    <h3 class="product-name">Baby Bottle v1.0</h3>
+                    <p class="product-description">
+                        Smart baby bottle with feeding tracking, temperature monitoring, and safety alerts for parents.
+                    </p>
+                    <div class="product-price">$79.99</div>
+                    <ul class="product-features">
+                        <li>BPA-free materials only</li>
+                        <li>Feeding time tracking</li>
+                        <li>Temperature safety alerts</li>
+                        <li>Parent app integration</li>
+                    </ul>
+                    <div class="product-actions">
+                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                        <a href="pages/baby-bottle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="section testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Early Users Say</h2>
+            <p class="section-subtitle">
+                Join thousands of satisfied customers who never forget their drinks anymore.
+            </p>
+            
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "I was skeptical at first, but DAMP has literally saved me hundreds of dollars in forgotten coffee cups. It's become an essential part of my daily routine!"
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JS</div>
+                        <div class="author-info">
+                            <h4>Jessica Stone</h4>
+                            <p>Marketing Director, Austin</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "As a busy parent, I'm always rushing around. DAMP ensures I never leave my expensive Stanley tumbler behind at the playground or grocery store."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div class="author-info">
+                            <h4>Mike Rodriguez</h4>
+                            <p>Father of 3, Denver</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <p class="testimonial-quote">
+                        "The baby bottle version is a game-changer! It tracks feeding times and temperatures automatically. Every new parent needs this."
+                    </p>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AL</div>
+                        <div class="author-info">
+                            <h4>Amanda Liu</h4>
+                            <p>New Mom, Seattle</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Community Voting Section -->
+    <section id="voting" class="section voting-section">
+        <div class="container">
+            <div class="voting-content">
+                <span class="voting-emoji">🗳️</span>
+                
+                <h2 class="voting-title">Help Us Prioritize Development</h2>
+                
+                <p class="voting-description">
+                    Which DAMP product are you most excited about? Your vote helps us decide which product to develop and ship first. 
+                    Join our community and see real-time voting results!
                 </p>
                 
-                <div class="final-cta-buttons">
-                    <a href="pages/products.html" class="btn btn-primary btn-xl">
-                        <span class="btn-text">Shop DAMP Products</span>
-                        <span class="btn-subtext">Early Bird Pricing Available</span>
-                    </a>
-                    <a href="pages/support.html" class="btn btn-secondary btn-xl">
-                        <span class="btn-text">Have Questions?</span>
-                        <span class="btn-subtext">Get Expert Help</span>
-                    </a>
+                <div class="voting-stats">
+                    <div class="vote-stat">
+                        <span class="vote-stat-number">2,847</span>
+                        <span class="vote-stat-label">Total Votes</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number">Handle</span>
+                        <span class="vote-stat-label">Currently Leading</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number">68%</span>
+                        <span class="vote-stat-label">Participation Rate</span>
+                    </div>
                 </div>
                 
-                <div class="final-cta-guarantee">
-                    <p>✅ 30-Day Money-Back Guarantee  •  ✅ Free Worldwide Shipping  •  ✅ 24/7 Support</p>
+                <a href="pages/product-voting.html" class="btn-vote">
+                    🗳️ Vote for Next Product
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section faq-section">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">
+                Get answers to the most common questions about DAMP Smart Drinkware.
+            </p>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How long does the battery last?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Our DAMP devices are designed for extended use with up to 6 months of battery life on a single charge. The actual battery life depends on usage patterns and alert frequency.</p>
+                    </div>
                 </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What's the range of the Bluetooth connection?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>DAMP uses Bluetooth 5.0 LE technology with a range of up to 100 feet in open areas. You can customize your alert distance from 5 to 50 feet based on your preferences.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Is it waterproof?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes! All DAMP products are designed with an IP67 rating, making them fully waterproof and dishwasher safe. Perfect for daily use and easy cleaning.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Which cups and bottles does it work with?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>DAMP products are designed to work with virtually any drinkware including Stanley, Yeti, Hydro Flask, Contigo, and more. Our universal attachment system fits most standard cups and bottles.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do I set up my DAMP device?</span>
+                        <span class="faq-icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Setup takes less than 5 minutes! Simply download our app, create an account, attach your DAMP device to your drinkware, and pair it via Bluetooth. Follow the in-app tutorial for detailed guidance.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter Section -->
+    <section id="newsletter" class="section newsletter-section">
+        <div class="container">
+            <div class="newsletter-content">
+                <h2 class="newsletter-title">Stay Updated</h2>
+                <p class="newsletter-description">
+                    Get the latest updates on product launches, exclusive offers, and DAMP community news.
+                </p>
+                <form class="newsletter-form" id="newsletterForm">
+                    <input type="email" class="newsletter-input" placeholder="Enter your email address" required>
+                    <button type="submit" class="newsletter-button">Subscribe</button>
+                </form>
             </div>
         </div>
     </section>
@@ -306,63 +1305,328 @@
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="assets/images/logo/logo.png" alt="DAMP Logo">
+                    </div>
+                    <h3>DAMP Smart Drinkware</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        Never leave your drink behind with revolutionary BLE technology that keeps you connected to your favorite beverage.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
                     <h3>Products</h3>
                     <a href="pages/products.html">All Products</a>
                     <a href="pages/damp-handle-v1.0.html">DAMP Handle</a>
                     <a href="pages/silicone-bottom-v1.0.html">Silicone Bottom</a>
                     <a href="pages/cup-sleeve-v1.0.html">Cup Sleeve</a>
+                    <a href="pages/baby-bottle-v1.0.html">Baby Bottle</a>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Support</h3>
-                    <a href="pages/support.html">Help Center</a>
-                    <a href="pages/support.html#setup">Setup Guide</a>
-                    <a href="pages/support.html#faq">FAQ</a>
-                    <a href="pages/support.html#contact">Contact Us</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Company</h3>
+                    <h3>Community</h3>
+                    <a href="pages/product-voting.html">Product Voting</a>
+                    <a href="pages/pre-sale-funnel.html">Pre-Sale Funnel</a>
+                    <a href="pages/how-it-works.html">How It Works</a>
+                    <a href="pages/support.html">Support Center</a>
                     <a href="pages/about.html">About Us</a>
-                    <a href="pages/privacy.html">Privacy Policy</a>
-                    <a href="pages/support.html">Terms of Service</a>
-                    <a href="pages/support.html#contact">Contact</a>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Connect</h3>
-                    <a href="#" target="_blank" rel="noopener">Twitter</a>
-                    <a href="#" target="_blank" rel="noopener">Facebook</a>
-                    <a href="#" target="_blank" rel="noopener">Instagram</a>
-                    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+                    <h3>Legal & Support</h3>
+                    <a href="pages/privacy.html">Privacy Policy</a>
+                    <a href="pages/cookie-policy.html">Cookie Policy</a>
+                    <a href="pages/support.html">Terms of Service</a>
+                    <a href="pages/support.html#contact">Contact Us</a>
+                    <a href="pages/support.html#warranty">Warranty</a>
                 </div>
             </div>
             
-            <div class="text-center text-secondary">
+            <div class="footer-bottom">
                 <p>&copy; 2025 WeCr8 Solutions LLC. All rights reserved.</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                    DAMP - Drink Abandonment Monitoring Protocol™
+                </p>
             </div>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="assets/js/components/favicon-setup.js"></script>
-    <script src="assets/js/components/hero-animation.js"></script>
     <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/navigation.js"></script>
     <script src="assets/js/scripts.js"></script>
     
-    <!-- Hero Animation -->
+    <!-- Enhanced Page Scripts -->
     <script>
+        // Initialize page functionality
         document.addEventListener('DOMContentLoaded', function() {
-            // Initialize hero animation
-            if (window.DAMPHeroAnimation) {
-                new DAMPHeroAnimation({
-                    duration: 8000,        // 8 seconds for full sequence
-                    playOnEveryLoad: true, // Play every time page loads
-                    allowSkip: true        // Allow skipping with click/key/touch
+            // Initialize error handler
+            if (window.DAMP && window.DAMP.ErrorHandler) {
+                console.log('✅ DAMP Error Handler initialized');
+            }
+            
+            // Initialize FAQ functionality
+            initializeFAQ();
+            
+            // Initialize newsletter form
+            initializeNewsletterForm();
+            
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+            
+            // Initialize scroll animations
+            initializeScrollAnimations();
+            
+            // Animate statistics
+            animateStats();
+            
+            // Track engagement
+            trackEngagement();
+        });
+        
+        function initializeFAQ() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all other FAQ items
+                    faqItems.forEach(otherItem => {
+                        otherItem.classList.remove('active');
+                    });
+                    
+                    // Toggle current item
+                    if (!isActive) {
+                        item.classList.add('active');
+                    }
+                    
+                    // Track FAQ interaction
+                    if (window.gtag) {
+                        gtag('event', 'faq_interaction', {
+                            event_category: 'engagement',
+                            event_label: item.querySelector('.faq-question span').textContent
+                        });
+                    }
+                });
+            });
+        }
+        
+        function initializeNewsletterForm() {
+            const form = document.getElementById('newsletterForm');
+            
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const email = form.querySelector('.newsletter-input').value;
+                    const button = form.querySelector('.newsletter-button');
+                    
+                    // Validate email
+                    if (!isValidEmail(email)) {
+                        showNotification('Please enter a valid email address', 'error');
+                        return;
+                    }
+                    
+                    // Update button state
+                    button.textContent = 'Subscribing...';
+                    button.disabled = true;
+                    
+                    // Simulate API call
+                    setTimeout(() => {
+                        showNotification('Successfully subscribed! Welcome to the DAMP community.', 'success');
+                        form.reset();
+                        button.textContent = 'Subscribe';
+                        button.disabled = false;
+                        
+                        // Track subscription
+                        if (window.gtag) {
+                            gtag('event', 'newsletter_signup', {
+                                event_category: 'conversion',
+                                event_label: 'homepage_newsletter'
+                            });
+                        }
+                    }, 2000);
                 });
             }
+        }
+        
+        function isValidEmail(email) {
+            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? 'var(--secondary-color)' : 'var(--accent-color)'};
+                color: var(--bg-primary);
+                padding: 15px 25px;
+                border-radius: 10px;
+                font-weight: 600;
+                z-index: 10000;
+                transform: translateX(100%);
+                transition: transform 0.3s ease;
+                max-width: 300px;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(0)';
+            }, 100);
+            
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
+            }, 4000);
+        }
+        
+        function initializeScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+            
+            // Observe all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(30px)';
+                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(section);
+            });
+        }
+        
+        function animateStats() {
+            const stats = document.querySelectorAll('.stat-number, .pain-stat-number, .vote-stat-number');
+            
+            stats.forEach(stat => {
+                const finalValue = stat.textContent;
+                if (!isNaN(parseFloat(finalValue))) {
+                    const numericValue = parseFloat(finalValue);
+                    let currentValue = 0;
+                    const increment = numericValue / 50;
+                    
+                    const timer = setInterval(() => {
+                        currentValue += increment;
+                        if (currentValue >= numericValue) {
+                            stat.textContent = finalValue;
+                            clearInterval(timer);
+                        } else {
+                            stat.textContent = Math.floor(currentValue).toLocaleString();
+                        }
+                    }, 40);
+                }
+            });
+        }
+        
+        function trackEngagement() {
+            let timeOnPage = 0;
+            const milestones = [30, 60, 120];
+            let milestoneIndex = 0;
+            
+            const interval = setInterval(() => {
+                timeOnPage += 10;
+                
+                if (milestoneIndex < milestones.length && timeOnPage >= milestones[milestoneIndex]) {
+                    if (window.gtag) {
+                        gtag('event', 'engagement', {
+                            event_category: 'time_on_page',
+                            event_label: `${milestones[milestoneIndex]}_seconds`
+                        });
+                    }
+                    milestoneIndex++;
+                }
+                
+                if (timeOnPage >= 300) {
+                    clearInterval(interval);
+                }
+            }, 10000);
+        }
+        
+        // Track CTA clicks
+        document.addEventListener('click', function(e) {
+            const button = e.target.closest('.btn-primary, .btn-vote, .btn-secondary');
+            if (button) {
+                const buttonText = button.textContent.trim();
+                const section = button.closest('.section')?.id || 'unknown';
+                
+                if (window.gtag) {
+                    gtag('event', 'cta_click', {
+                        event_category: 'engagement',
+                        event_label: buttonText,
+                        custom_parameter_1: section
+                    });
+                }
+            }
         });
+    </script>
+
+    <!-- Cookie Notice -->
+    <div class="cookie-notice" id="cookieNotice" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(15, 15, 35, 0.95); border-radius: 12px; padding: 20px; color: white; font-size: 0.95rem; z-index: 10000; display: none; border: 1px solid var(--border-color);">
+        <div style="display: flex; align-items: center; gap: 15px;">
+            <span style="font-size: 1.5rem;">🍪</span>
+            <div style="flex: 1;">
+                We use cookies to improve your experience and analyze website traffic. 
+                <a href="pages/privacy.html" style="color: var(--primary-color);">Privacy Policy</a>
+            </div>
+            <button onclick="acceptCookies()" style="background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Accept</button>
+        </div>
+    </div>
+
+    <script>
+        function acceptCookies() {
+            document.getElementById('cookieNotice').style.display = 'none';
+            localStorage.setItem('cookieAccepted', 'true');
+            
+            if (window.gtag) {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted',
+                    'functionality_storage': 'granted'
+                });
+            }
+        }
+        
+        // Show cookie notice if not accepted
+        if (!localStorage.getItem('cookieAccepted')) {
+            setTimeout(() => {
+                document.getElementById('cookieNotice').style.display = 'block';
+            }, 2000);
+        } else if (window.gtag) {
+            gtag('consent', 'update', {
+                'analytics_storage': 'granted',
+                'functionality_storage': 'granted'
+            });
+        }
     </script>
 </body>
 </html>

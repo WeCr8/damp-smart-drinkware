@@ -1,0 +1,148 @@
+{
+  "$schema": "https://raw.githubusercontent.com/GoogleChrome/lighthouse/master/types/lhr/budget.json",
+  "budget": [
+    {
+      "path": "/*",
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 250
+        },
+        {
+          "resourceType": "stylesheet",
+          "budget": 100
+        },
+        {
+          "resourceType": "image",
+          "budget": 500
+        },
+        {
+          "resourceType": "font",
+          "budget": 150
+        },
+        {
+          "resourceType": "document",
+          "budget": 50
+        },
+        {
+          "resourceType": "other",
+          "budget": 100
+        },
+        {
+          "resourceType": "total",
+          "budget": 1000
+        }
+      ],
+      "resourceCounts": [
+        {
+          "resourceType": "script",
+          "budget": 15
+        },
+        {
+          "resourceType": "stylesheet",
+          "budget": 8
+        },
+        {
+          "resourceType": "image",
+          "budget": 25
+        },
+        {
+          "resourceType": "font",
+          "budget": 5
+        },
+        {
+          "resourceType": "document",
+          "budget": 1
+        },
+        {
+          "resourceType": "other",
+          "budget": 10
+        },
+        {
+          "resourceType": "total",
+          "budget": 50
+        }
+      ],
+      "timings": [
+        {
+          "metric": "first-contentful-paint",
+          "budget": 1800
+        },
+        {
+          "metric": "largest-contentful-paint",
+          "budget": 2500
+        },
+        {
+          "metric": "first-input-delay",
+          "budget": 100
+        },
+        {
+          "metric": "cumulative-layout-shift",
+          "budget": 0.1
+        },
+        {
+          "metric": "time-to-interactive",
+          "budget": 3800
+        },
+        {
+          "metric": "speed-index",
+          "budget": 3400
+        }
+      ]
+    },
+    {
+      "path": "/pages/*",
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 200
+        },
+        {
+          "resourceType": "stylesheet",
+          "budget": 80
+        },
+        {
+          "resourceType": "image",
+          "budget": 400
+        },
+        {
+          "resourceType": "total",
+          "budget": 800
+        }
+      ],
+      "timings": [
+        {
+          "metric": "first-contentful-paint",
+          "budget": 1500
+        },
+        {
+          "metric": "largest-contentful-paint",
+          "budget": 2000
+        }
+      ]
+    },
+    {
+      "path": "/pages/cart.html",
+      "resourceSizes": [
+        {
+          "resourceType": "script",
+          "budget": 300
+        },
+        {
+          "resourceType": "total",
+          "budget": 900
+        }
+      ],
+      "timings": [
+        {
+          "metric": "first-contentful-paint",
+          "budget": 1200
+        },
+        {
+          "metric": "largest-contentful-paint",
+          "budget": 1800
+        }
+      ]
+    }
+  ]
+} 

@@ -1,0 +1,567 @@
+name: DAMP CI/CD Pipeline - Enterprise Quality Gates
+
+on:
+  push:
+    branches: [main, development, feature/*]
+    paths-ignore:
+      - '*.md'
+      - 'docs/**'
+      - '.gitignore'
+  pull_request:
+    branches: [main, development]
+  workflow_dispatch:
+    inputs:
+      deploy_environment:
+        description: 'Environment to deploy to'
+        required: false
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+# Environment variables
+env:
+  NODE_VERSION: '18.x'
+  CACHE_KEY_PREFIX: 'damp-v1'
+  LIGHTHOUSE_BUDGET_PATH: './quality/performance-budget.json'
+  COVERAGE_THRESHOLD: 90
+
+# Concurrency control
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # === QUALITY GATE 1: CODE QUALITY ===
+  code-quality:
+    name: 🔍 Code Quality Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Full history for SonarQube
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: |
+            website/package-lock.json
+            backend/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci --audit=false
+          cd ../backend && npm ci --audit=false
+
+      - name: ESLint code analysis
+        run: |
+          cd website && npm run lint:ci
+        continue-on-error: false
+
+      - name: Prettier code formatting check
+        run: |
+          cd website && npm run format:check
+        continue-on-error: false
+
+      - name: TypeScript type checking
+        run: |
+          cd website && npm run type-check
+        continue-on-error: false
+
+      - name: Upload code quality results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: code-quality-results
+          path: |
+            website/eslint-report.json
+            website/prettier-report.json
+            website/typescript-report.json
+          retention-days: 30
+
+  # === QUALITY GATE 2: SECURITY SCANNING ===
+  security-scan:
+    name: 🛡️ Security Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci --audit=false
+          cd ../backend && npm ci --audit=false
+
+      - name: npm audit (high/critical vulnerabilities)
+        run: |
+          cd website && npm audit --audit-level=high --json > npm-audit-website.json || true
+          cd ../backend && npm audit --audit-level=high --json > npm-audit-backend.json || true
+
+      - name: Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=medium --json > snyk-report.json
+        continue-on-error: true
+
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'DAMP Smart Drinkware'
+          path: '.'
+          format: 'JSON'
+          out: 'dependency-check-report'
+
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+
+      - name: Upload security scan results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-results
+          path: |
+            npm-audit-*.json
+            snyk-report.json
+            dependency-check-report/
+          retention-days: 30
+
+  # === QUALITY GATE 3: COMPREHENSIVE TESTING ===
+  testing:
+    name: 🧪 Testing Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    strategy:
+      matrix:
+        test-type: [unit, integration]
+        node-version: ['18.x', '20.x']
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci
+          cd ../backend && npm ci
+
+      - name: Run ${{ matrix.test-type }} tests
+        run: |
+          cd website && npm run test:${{ matrix.test-type }} -- --coverage --ci --watchAll=false
+        env:
+          CI: true
+          NODE_ENV: test
+
+      - name: Generate test coverage report
+        run: |
+          cd website && npm run coverage:report
+
+      - name: Coverage threshold check
+        run: |
+          cd website && npm run coverage:check
+        continue-on-error: false
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results-${{ matrix.test-type }}-node${{ matrix.node-version }}
+          path: |
+            website/coverage/
+            website/test-results/
+          retention-days: 30
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: ${{ matrix.test-type }} Tests (Node ${{ matrix.node-version }})
+          path: website/test-results/junit.xml
+          reporter: jest-junit
+
+  # === QUALITY GATE 4: ACCESSIBILITY TESTING ===
+  accessibility:
+    name: ♿ Accessibility Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci
+
+      - name: Build website
+        run: |
+          cd website && npm run build
+
+      - name: Start test server
+        run: |
+          cd website && npm run serve:test &
+          sleep 10
+
+      - name: Run axe-core accessibility tests
+        run: |
+          cd website && npm run test:a11y -- --json > a11y-report.json
+
+      - name: Run Pa11y accessibility scan
+        run: |
+          npx pa11y-ci --sitemap http://localhost:3000/sitemap.xml --json > pa11y-report.json
+        continue-on-error: true
+
+      - name: Upload accessibility results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: accessibility-results
+          path: |
+            website/a11y-report.json
+            pa11y-report.json
+          retention-days: 30
+
+  # === QUALITY GATE 5: PERFORMANCE TESTING ===
+  performance:
+    name: ⚡ Performance Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci
+
+      - name: Build optimized website
+        run: |
+          cd website && npm run build:prod
+
+      - name: Start production server
+        run: |
+          cd website && npm run serve:prod &
+          sleep 15
+
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli
+          lhci autorun
+        env:
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Performance budget check
+        run: |
+          cd website && npm run lighthouse:budget
+
+      - name: WebPageTest performance audit
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: |
+          npx webpagetest test http://localhost:3000 --key ${{ secrets.WPT_API_KEY }} --budget budget.json
+
+      - name: Upload performance results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: performance-results
+          path: |
+            .lighthouseci/
+            website/reports/
+          retention-days: 30
+
+  # === QUALITY GATE 6: END-TO-END TESTING ===
+  e2e-tests:
+    name: 🎭 E2E Testing Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci
+
+      - name: Install Playwright browsers
+        run: |
+          cd website && npx playwright install ${{ matrix.browser }} --with-deps
+
+      - name: Build and start application
+        run: |
+          cd website && npm run build
+          cd website && npm run serve:e2e &
+          sleep 20
+
+      - name: Run Playwright E2E tests
+        run: |
+          cd website && npm run test:e2e:${{ matrix.browser }}
+        env:
+          CI: true
+
+      - name: Upload E2E test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: e2e-results-${{ matrix.browser }}
+          path: |
+            website/test-results/
+            website/playwright-report/
+          retention-days: 30
+
+  # === QUALITY GATE 7: VISUAL REGRESSION ===
+  visual-regression:
+    name: 👁️ Visual Regression Gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci
+
+      - name: Build application
+        run: |
+          cd website && npm run build
+
+      - name: Start application
+        run: |
+          cd website && npm run serve:test &
+          sleep 15
+
+      - name: Run visual regression tests
+        run: |
+          cd website && npm run test:visual
+
+      - name: Upload visual diff artifacts
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-regression-diffs
+          path: website/visual-tests/diffs/
+          retention-days: 30
+
+  # === DEPLOYMENT PREPARATION ===
+  build-and-package:
+    name: 📦 Build & Package
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-scan, testing, accessibility, performance, e2e-tests]
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/development'
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd website && npm ci --production=false
+          cd ../backend && npm ci --production=false
+
+      - name: Build frontend
+        run: |
+          cd website && npm run build:prod
+
+      - name: Build backend
+        run: |
+          cd backend && npm run build
+
+      - name: Generate deployment artifacts
+        run: |
+          tar -czf damp-frontend-${{ github.sha }}.tar.gz -C website/dist .
+          tar -czf damp-backend-${{ github.sha }}.tar.gz -C backend/dist .
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: deployment-artifacts
+          path: |
+            damp-frontend-${{ github.sha }}.tar.gz
+            damp-backend-${{ github.sha }}.tar.gz
+          retention-days: 90
+
+  # === DEPLOYMENT TO STAGING ===
+  deploy-staging:
+    name: 🚀 Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [build-and-package]
+    if: github.ref == 'refs/heads/development'
+    environment: staging
+    timeout-minutes: 10
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-artifacts
+
+      - name: Deploy to staging
+        run: |
+          echo "Deploying to staging environment..."
+          # Add actual deployment commands here
+          
+      - name: Run smoke tests
+        run: |
+          sleep 30 # Wait for deployment
+          curl -f https://staging.dampdrink.com/health || exit 1
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "✅ Staging deployment successful"
+
+  # === DEPLOYMENT TO PRODUCTION ===
+  deploy-production:
+    name: 🚀 Deploy to Production
+    runs-on: ubuntu-latest
+    needs: [build-and-package]
+    if: github.ref == 'refs/heads/main'
+    environment: production
+    timeout-minutes: 15
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: deployment-artifacts
+
+      - name: Deploy to production
+        run: |
+          echo "Deploying to production environment..."
+          # Add actual deployment commands here
+
+      - name: Run production smoke tests
+        run: |
+          sleep 60 # Wait for deployment
+          curl -f https://dampdrink.com/health || exit 1
+
+      - name: Run post-deployment monitoring
+        run: |
+          # Check Core Web Vitals after deployment
+          npx lighthouse https://dampdrink.com --only-categories=performance --chrome-flags="--headless"
+
+      - name: Notify deployment success
+        if: success()
+        run: |
+          echo "✅ Production deployment successful"
+
+  # === QUALITY METRICS COLLECTION ===
+  quality-metrics:
+    name: 📊 Quality Metrics
+    runs-on: ubuntu-latest
+    needs: [code-quality, security-scan, testing, accessibility, performance]
+    if: always()
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+
+      - name: Generate quality report
+        run: |
+          node .github/scripts/generate-quality-report.js
+
+      - name: Upload quality metrics
+        uses: actions/upload-artifact@v4
+        with:
+          name: quality-metrics
+          path: quality-report.json
+          retention-days: 365
+
+      - name: Update quality dashboard
+        if: github.ref == 'refs/heads/main'
+        run: |
+          # Send metrics to monitoring dashboard
+          echo "Updating quality dashboard..."
+
+  # === NOTIFICATION ===
+  notify:
+    name: 📢 Notifications
+    runs-on: ubuntu-latest
+    needs: [deploy-staging, deploy-production, quality-metrics]
+    if: always()
+    
+    steps:
+      - name: Notify success
+        if: needs.deploy-production.result == 'success' || needs.deploy-staging.result == 'success'
+        run: |
+          echo "🎉 Pipeline completed successfully!"
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          echo "❌ Pipeline failed. Please check the logs." 

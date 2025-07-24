@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hamburger Menu Test - DAMP</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        /* Debug styles for hamburger menu */
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #0f0f23;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        
+        .debug-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        
+        .test-button {
+            background: #00d4ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        /* Clean hamburger styling - no debug borders */
+        .hamburger {
+            /* All styling now handled by navigation.css */
+        }
+        
+        .safe-area-mobile-menu {
+            /* Clean menu styling */
+        }
+        
+        .hamburger-line {
+            /* Clean hamburger lines */
+        }
+    </style>
+</head>
+<body>
+    <h1>DAMP Hamburger Menu Debug Test</h1>
+    
+    <div class="debug-info">
+        <h2>Universal Hamburger Menu Test:</h2>
+        <ol>
+            <li>The hamburger should be visible on ALL screen sizes (desktop & mobile)</li>
+            <li>Click the hamburger - it should animate to an X</li>
+            <li>The navigation menu should slide in from the left with a clean design</li>
+            <li>On desktop: Menu width is limited for better UX</li>
+            <li>Click the close button or backdrop to close</li>
+        </ol>
+        <p><strong>✨ The hamburger menu is now universal - works great on all devices!</strong></p>
+    </div>
+    
+    <!-- Test hamburger menu -->
+    <damp-header></damp-header>
+    
+    <div class="debug-info">
+        <h2>Debug Controls:</h2>
+        <button class="test-button" onclick="debugNavigation()">Debug Navigation State</button>
+        <button class="test-button" onclick="toggleMobileMenu()">Force Toggle Menu</button>
+        <button class="test-button" onclick="testHamburgerAnimation()">Test Hamburger Animation</button>
+    </div>
+    
+    <div class="debug-info">
+        <h2>Current State:</h2>
+        <div id="debug-output">Loading...</div>
+    </div>
+    
+    <script src="assets/js/components/header.js"></script>
+    
+    <script>
+        // Debug functions
+        function testHamburgerAnimation() {
+            const hamburger = document.querySelector('.hamburger');
+            if (hamburger) {
+                hamburger.classList.toggle('active');
+                updateDebugOutput();
+            }
+        }
+        
+        function updateDebugOutput() {
+            const output = document.getElementById('debug-output');
+            const header = document.querySelector('damp-header');
+            const hamburger = document.querySelector('.hamburger');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            
+            output.innerHTML = `
+                <strong>Header Component:</strong> ${header ? '✅ Found' : '❌ Missing'}<br>
+                <strong>Hamburger Element:</strong> ${hamburger ? '✅ Found' : '❌ Missing'}<br>
+                <strong>Mobile Menu:</strong> ${mobileMenu ? '✅ Found' : '❌ Missing'}<br>
+                <strong>Hamburger Active:</strong> ${hamburger?.classList.contains('active') ? '✅ Yes' : '❌ No'}<br>
+                <strong>Menu Open:</strong> ${mobileMenu?.classList.contains('active') ? '✅ Yes' : '❌ No'}<br>
+                <strong>Menu Visible:</strong> ${header?.isMenuOpen ? '✅ Yes' : '❌ No'}<br>
+                <strong>Viewport Width:</strong> ${window.innerWidth}px<br>
+                <strong>Is Mobile:</strong> ${window.innerWidth <= 768 ? '✅ Yes' : '❌ No'}
+            `;
+        }
+        
+        // Update debug info every second
+        setInterval(updateDebugOutput, 1000);
+        
+        // Initial update
+        setTimeout(updateDebugOutput, 500);
+        
+        // Test clicking
+        document.addEventListener('click', (e) => {
+            console.log('Click event:', e.target, e.target.className);
+        });
+        
+        // Log any errors
+        window.addEventListener('error', (e) => {
+            console.error('Error:', e.error);
+            const output = document.getElementById('debug-output');
+            output.innerHTML += `<br><strong style="color: red;">Error:</strong> ${e.error.message}`;
+        });
+    </script>
+</body>
+</html> 

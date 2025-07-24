@@ -18,6 +18,7 @@ export interface StripeProduct {
   popular?: boolean;
 }
 
+// DAMP Family
 export const STRIPE_PRODUCTS: StripeProduct[] = [
   {
     id: 'prod_SZfhGiRkeApGkC',
@@ -25,24 +26,6 @@ export const STRIPE_PRODUCTS: StripeProduct[] = [
     name: 'DAMP Family',
     description: 'Perfect for families who want to keep track of their drinkware',
     price: 5.99,
-    currency: 'usd',
-    interval: 'month',
-    mode: 'subscription',
-    features: [
-      'Track up to 3 devices',
-      'Basic safe zones',
-      'Standard notifications',
-      'Battery monitoring',
-      'Mobile app access'
-    ],
-    popular: false
-  },
-  {
-    id: 'prod_SZfg2AbQGXWCdS',
-    priceId: 'price_1ReWLYCcrIDahSGRUnhZ9GpV',
-    name: 'DAMP+',
-    description: 'More Devices (Up to 5–10)Unlimited or Expanded Safe ZonesCustom Notifications (e.g., Time-based reminders, shared alerts for kids/teams)"Last Known Location" HistoryBattery Status & Smart Recommendations',
-    price: 2.99,
     currency: 'usd',
     interval: 'month',
     mode: 'subscription',
@@ -55,6 +38,26 @@ export const STRIPE_PRODUCTS: StripeProduct[] = [
       'Last known location history',
       'Smart recommendations',
       'Priority support'
+    ],
+    popular: false
+  },
+
+  // DAMP+
+  {
+    id: 'prod_SZfg2AbQGXWCdS',
+    priceId: 'price_1ReWLYCcrIDahSGRUnhZ9GpV',
+    name: 'DAMP+',
+    description: 'More Devices (Up to 5–10)Unlimited or Expanded Safe ZonesCustom Notifications (e.g., Time-based reminders, shared alerts for kids/teams)"Last Known Location" HistoryBattery Status & Smart Recommendations',
+    price: 2.99,
+    currency: 'usd',
+    interval: 'month',
+    mode: 'subscription',
+    features: [
+      'Track up to 3 devices',
+      'Basic safe zones',
+      'Standard notifications',
+      'Battery monitoring',
+      'Mobile app access'
     ],
     popular: true
   }

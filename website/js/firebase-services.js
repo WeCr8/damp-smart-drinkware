@@ -12,7 +12,8 @@ import {
   orderBy, 
   limit,
   onSnapshot,
-  serverTimestamp 
+  serverTimestamp,
+  increment
 } from 'firebase/firestore';
 import { 
   signInWithEmailAndPassword, 
@@ -259,6 +260,178 @@ export const analyticsService = {
     logEvent(analytics, 'user_engagement', {
       engagement_time_msec
     });
+  }
+};
+
+// Subscription Services
+export const subscriptionService = {
+  // Get user subscription status
+  async getUserSubscription() {
+    try {
+      if (!auth.currentUser) return null;
+      
+      const userDoc = await getDoc(doc(db, 'users', auth.currentUser.uid));
+      const userData = userDoc.data();
+      
+      return {
+        tier: userData?.subscription?.tier || 'free',
+        status: userData?.subscription?.status || 'active',
+        priceId: userData?.subscription?.priceId || null,
+        expiresAt: userData?.subscription?.expiresAt || null,
+        deviceCount: userData?.stats?.devicesConnected || 0,
+        safeZoneCount: userData?.stats?.safeZonesCreated || 0
+      };
+    } catch (error) {
+      console.error('Get user subscription error:', error);
+      throw error;
+    }
+  },
+
+  // Update user subscription
+  async updateSubscription(subscriptionData) {
+    try {
+      if (!auth.currentUser) throw new Error('User not authenticated');
+      
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        'subscription.tier': subscriptionData.tier,
+        'subscription.status': subscriptionData.status,
+        'subscription.priceId': subscriptionData.priceId,
+        'subscription.expiresAt': subscriptionData.expiresAt,
+        'subscription.updatedAt': serverTimestamp()
+      });
+      
+      logEvent(analytics, 'subscription_updated', {
+        tier: subscriptionData.tier,
+        status: subscriptionData.status
+      });
+    } catch (error) {
+      console.error('Update subscription error:', error);
+      throw error;
+    }
+  },
+
+  // Check if user can perform action
+  async canPerformAction(action, currentCount = 0) {
+    try {
+      const subscription = await this.getUserSubscription();
+      const { canPerformAction } = await import('./subscription-config.js');
+      
+      return canPerformAction(subscription.tier, action, currentCount);
+    } catch (error) {
+      console.error('Can perform action error:', error);
+      return false;
+    }
+  },
+
+  // Get upgrade suggestion
+  async getUpgradeSuggestion() {
+    try {
+      const subscription = await this.getUserSubscription();
+      const { getUpgradeSuggestion } = await import('./subscription-config.js');
+      
+      return getUpgradeSuggestion(
+        subscription.tier,
+        subscription.deviceCount,
+        subscription.safeZoneCount
+      );
+    } catch (error) {
+      console.error('Get upgrade suggestion error:', error);
+      return null;
+    }
+  }
+};
+
+// Safe Zone Services
+export const safeZoneService = {
+  // Add safe zone
+  async addSafeZone(zoneData) {
+    try {
+      if (!auth.currentUser) throw new Error('User not authenticated');
+      
+      // Check if user can add more zones
+      const canAdd = await subscriptionService.canPerformAction('add_safe_zone', zoneData.currentZoneCount || 0);
+      if (!canAdd) {
+        throw new Error('Zone limit reached for current subscription tier');
+      }
+      
+      const docRef = await addDoc(collection(db, 'safe_zones'), {
+        ...zoneData,
+        userId: auth.currentUser.uid,
+        createdAt: serverTimestamp(),
+        active: true
+      });
+      
+      // Update user stats
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        'stats.safeZonesCreated': increment(1)
+      });
+      
+      logEvent(analytics, 'safe_zone_added', {
+        zone_type: zoneData.type,
+        zone_name: zoneData.name
+      });
+      
+      return docRef.id;
+    } catch (error) {
+      console.error('Add safe zone error:', error);
+      throw error;
+    }
+  },
+
+  // Get user safe zones
+  async getUserSafeZones() {
+    try {
+      if (!auth.currentUser) return [];
+      
+      const q = query(
+        collection(db, 'safe_zones'),
+        where('userId', '==', auth.currentUser.uid),
+        where('active', '==', true),
+        orderBy('createdAt', 'desc')
+      );
+      
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      console.error('Get user safe zones error:', error);
+      throw error;
+    }
+  },
+
+  // Update safe zone
+  async updateSafeZone(zoneId, updateData) {
+    try {
+      const zoneRef = doc(db, 'safe_zones', zoneId);
+      await updateDoc(zoneRef, {
+        ...updateData,
+        updatedAt: serverTimestamp()
+      });
+      
+      logEvent(analytics, 'safe_zone_updated');
+    } catch (error) {
+      console.error('Update safe zone error:', error);
+      throw error;
+    }
+  },
+
+  // Delete safe zone
+  async deleteSafeZone(zoneId) {
+    try {
+      await updateDoc(doc(db, 'safe_zones', zoneId), {
+        active: false,
+        deletedAt: serverTimestamp()
+      });
+      
+      // Update user stats
+      await updateDoc(doc(db, 'users', auth.currentUser.uid), {
+        'stats.safeZonesCreated': increment(-1)
+      });
+      
+      logEvent(analytics, 'safe_zone_deleted');
+    } catch (error) {
+      console.error('Delete safe zone error:', error);
+      throw error;
+    }
   }
 };
 

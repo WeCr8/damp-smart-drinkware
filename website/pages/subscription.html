@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- SEO Meta Tags -->
+    <title>DAMP Subscription Plans - Choose Your Smart Drinkware Tier</title>
+    <meta name="description" content="Choose the perfect DAMP Smart Drinkware subscription plan. Free tier with 1 device, DAMP+ with 3 devices, or DAMP Family with unlimited devices and zones.">
+    <meta name="keywords" content="DAMP subscription, smart drinkware plans, BLE tracking, drink alerts, safe zones">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/subscription.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="DAMP Subscription Plans - Smart Drinkware Tiers">
+    <meta property="og:description" content="Never leave your drink behind with DAMP Smart Drinkware. Choose from Free, DAMP+, or DAMP Family plans.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-subscription.jpg">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    
+    <style>
+        .subscription-hero {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+        }
+        
+        .subscription-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .subscription-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 212, 255, 0.5);
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.15);
+        }
+        
+        .pricing-card.popular {
+            border-color: #00ff88;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.05));
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #0f0f23;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tier-name {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-description {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .tier-price {
+            font-size: 3rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-price.free {
+            color: #00ff88;
+        }
+        
+        .tier-interval {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .features-list li {
+            padding: 0.8rem 0;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .features-list li::before {
+            content: "✓";
+            color: #00ff88;
+            font-weight: bold;
+            margin-right: 0.8rem;
+            font-size: 1.1rem;
+        }
+        
+        .subscription-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .btn-free {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #0f0f23;
+        }
+        
+        .btn-premium {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: #0f0f23;
+        }
+        
+        .btn-family {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: white;
+        }
+        
+        .subscription-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .feature-comparison {
+            margin-top: 4rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+        
+        .comparison-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .comparison-table th {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            font-weight: bold;
+        }
+        
+        .comparison-table td {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .feature-name {
+            text-align: left !important;
+            font-weight: 500;
+        }
+        
+        .faq-section {
+            margin-top: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .faq-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: white;
+            margin-bottom: 2rem;
+        }
+        
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .faq-question {
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .faq-answer {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .pricing-card {
+                padding: 2rem;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Hero Section -->
+    <section class="subscription-hero">
+        <div class="container">
+            <h1 class="subscription-title">Choose Your DAMP Plan</h1>
+            <p class="subscription-subtitle">
+                Never leave your drink behind with the perfect subscription tier for your needs. 
+                Start free or upgrade for more devices and advanced features.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-container">
+        <div class="pricing-grid">
+            <!-- Free Tier -->
+            <div class="pricing-card">
+                <h3 class="tier-name">DAMP Free</h3>
+                <p class="tier-description">Perfect for trying out DAMP Smart Drinkware</p>
+                <div class="tier-price free">$0</div>
+                <div class="tier-interval">Forever free</div>
+                
+                <ul class="features-list">
+                    <li>1 Registered Device</li>
+                    <li>2 Safe Zones</li>
+                    <li>Basic Notifications</li>
+                    <li>Battery Monitoring</li>
+                    <li>Mobile App Access</li>
+                </ul>
+                
+                <a href="#" class="subscription-btn btn-free" onclick="selectPlan('free')">
+                    Get Started Free
+                </a>
+            </div>
+
+            <!-- DAMP+ Tier -->
+            <div class="pricing-card popular">
+                <div class="popular-badge">Most Popular</div>
+                <h3 class="tier-name">DAMP+</h3>
+                <p class="tier-description">Enhanced features for power users and small families</p>
+                <div class="tier-price">$2.99</div>
+                <div class="tier-interval">per month</div>
+                
+                <ul class="features-list">
+                    <li>Track up to 3 devices</li>
+                    <li>5 Safe Zones</li>
+                    <li>Standard Notifications</li>
+                    <li>Battery Monitoring</li>
+                    <li>Priority Support</li>
+                </ul>
+                
+                <a href="#" class="subscription-btn btn-premium" onclick="selectPlan('damp_plus')">
+                    Upgrade to DAMP+
+                </a>
+            </div>
+
+            <!-- DAMP Family Tier -->
+            <div class="pricing-card">
+                <h3 class="tier-name">DAMP Family</h3>
+                <p class="tier-description">Complete solution for families and teams</p>
+                <div class="tier-price">$5.99</div>
+                <div class="tier-interval">per month</div>
+                
+                <ul class="features-list">
+                    <li>Track up to 10 devices</li>
+                    <li>Unlimited Safe Zones</li>
+                    <li>Custom Notifications</li>
+                    <li>Time-based Reminders</li>
+                    <li>Shared Family Alerts</li>
+                    <li>Location History</li>
+                    <li>Smart Recommendations</li>
+                    <li>Priority Support</li>
+                </ul>
+                
+                <a href="#" class="subscription-btn btn-family" onclick="selectPlan('damp_family')">
+                    Go Family Plan
+                </a>
+            </div>
+        </div>
+
+        <!-- Feature Comparison Table -->
+        <div class="feature-comparison">
+            <h2 class="comparison-title">Feature Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th class="feature-name">Feature</th>
+                        <th>Free</th>
+                        <th>DAMP+</th>
+                        <th>DAMP Family</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="feature-name">Connected Devices</td>
+                        <td>1 device</td>
+                        <td>3 devices</td>
+                        <td>10 devices</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Safe Zones</td>
+                        <td>2 zones</td>
+                        <td>5 zones</td>
+                        <td>Unlimited</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Notifications</td>
+                        <td>Basic alerts</td>
+                        <td>Standard alerts</td>
+                        <td>Custom + shared</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Location History</td>
+                        <td>Last location</td>
+                        <td>Last location</td>
+                        <td>Full history</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Family Sharing</td>
+                        <td>❌</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td class="feature-name">Priority Support</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
+            
+            <div class="faq-item">
+                <div class="faq-question">How does the free tier work?</div>
+                <div class="faq-answer">
+                    The free tier gives you access to core DAMP functionality with 1 device and 2 safe zones. 
+                    Perfect for trying out the system or single-device users. No credit card required.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Can I upgrade or downgrade anytime?</div>
+                <div class="faq-answer">
+                    Yes! You can upgrade to a higher tier anytime. Downgrades take effect at the end of your current billing cycle 
+                    to ensure you don't lose access to premium features.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">What happens if I exceed my device/zone limits?</div>
+                <div class="faq-answer">
+                    The app will prompt you to upgrade when you try to add devices or zones beyond your tier limits. 
+                    Existing devices and zones continue working normally.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">Is there a family sharing option?</div>
+                <div class="faq-answer">
+                    Yes! DAMP Family includes full family sharing features, allowing family members to receive shared alerts 
+                    and manage devices together. Perfect for keeping track of kids' water bottles.
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question">How do safe zones work?</div>
+                <div class="faq-answer">
+                    Safe zones are approved locations (like your desk, car, or kitchen) where you don't want drink abandonment alerts. 
+                    The system uses WiFi fingerprinting and BLE to detect when you're in these areas.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/firebase-config.js" type="module"></script>
+    <script src="../assets/js/subscription-config.js" type="module"></script>
+    
+    <script type="module">
+        import { authService } from '../assets/js/firebase-services.js';
+        import { subscriptionService } from '../assets/js/firebase-services.js';
+        import { STRIPE_PRODUCTS, SubscriptionTier } from '../assets/js/subscription-config.js';
+        
+        let currentUser = null;
+        let userSubscription = null;
+        
+        // Initialize page
+        async function initializePage() {
+            // Listen for auth state changes
+            authService.onAuthStateChanged(async (user) => {
+                currentUser = user;
+                if (user) {
+                    try {
+                        userSubscription = await subscriptionService.getUserSubscription();
+                        updateUI();
+                    } catch (error) {
+                        console.error('Error loading subscription:', error);
+                    }
+                }
+            });
+        }
+        
+        // Update UI based on user subscription
+        function updateUI() {
+            if (!userSubscription) return;
+            
+            // Update button text based on current subscription
+            const cards = document.querySelectorAll('.pricing-card');
+            cards.forEach(card => {
+                const button = card.querySelector('.subscription-btn');
+                const tierName = card.querySelector('.tier-name').textContent;
+                
+                // Highlight current tier
+                if (isCurrentTier(tierName)) {
+                    card.style.borderColor = '#00ff88';
+                    button.textContent = 'Current Plan';
+                    button.style.opacity = '0.7';
+                    button.style.cursor = 'default';
+                }
+            });
+        }
+        
+        // Check if this is the user's current tier
+        function isCurrentTier(tierName) {
+            if (!userSubscription) return false;
+            
+            const tierMap = {
+                'DAMP Free': SubscriptionTier.FREE,
+                'DAMP+': SubscriptionTier.DAMP_PLUS,
+                'DAMP Family': SubscriptionTier.DAMP_FAMILY
+            };
+            
+            return tierMap[tierName] === userSubscription.tier;
+        }
+        
+        // Handle plan selection
+        window.selectPlan = async function(tier) {
+            if (!currentUser && tier !== 'free') {
+                // Redirect to login for premium plans
+                window.location.href = '/pages/auth/login.html?redirect=' + encodeURIComponent(window.location.pathname);
+                return;
+            }
+            
+            if (tier === 'free') {
+                // Free tier - redirect to signup or app
+                if (!currentUser) {
+                    window.location.href = '/pages/auth/signup.html';
+                } else {
+                    window.location.href = '/pages/dashboard.html';
+                }
+                return;
+            }
+            
+            // Premium plans - integrate with Stripe
+            try {
+                const product = STRIPE_PRODUCTS.find(p => p.tier === tier);
+                if (!product) {
+                    throw new Error('Product not found');
+                }
+                
+                // Call Firebase function to create checkout session
+                const { getFunctions, httpsCallable } = await import('firebase/functions');
+                const functions = getFunctions();
+                const createCheckoutSession = httpsCallable(functions, 'createCheckoutSession');
+                
+                const result = await createCheckoutSession({
+                    priceId: product.priceId,
+                    successUrl: window.location.origin + '/pages/subscription-success.html',
+                    cancelUrl: window.location.href
+                });
+                
+                // Redirect to Stripe Checkout
+                window.location.href = result.data.url;
+                
+            } catch (error) {
+                console.error('Error creating checkout session:', error);
+                alert('Sorry, there was an error processing your request. Please try again.');
+            }
+        };
+        
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializePage);
+    </script>
+</body>
+</html> 

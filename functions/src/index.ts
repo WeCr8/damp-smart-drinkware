@@ -422,5 +422,222 @@ app.get('/api/dashboard/:userId', async (req, res) => {
   }
 });
 
+// ==================== STRIPE INTEGRATION ====================
+
+// Subscription configuration matching our website config
+const SUBSCRIPTION_PRODUCTS = {
+  'price_1ReWLYCcrIDahSGRUnhZ9GpV': {
+    tier: 'damp_plus',
+    name: 'DAMP+',
+    maxDevices: 3,
+    maxSafeZones: 5
+  },
+  'price_1ReWMUCcrIDahSGRJgVqS4ns': {
+    tier: 'damp_family', 
+    name: 'DAMP Family',
+    maxDevices: 10,
+    maxSafeZones: -1 // Unlimited
+  }
+};
+
+/**
+ * Create Stripe Checkout Session
+ * Used by subscription page to initiate payments
+ */
+export const createCheckoutSession = functions.https.onCall(async (data, context) => {
+  // Verify user is authenticated
+  if (!context.auth) {
+    throw new functions.https.HttpsError('unauthenticated', 'User must be authenticated');
+  }
+
+  try {
+    const { priceId, successUrl, cancelUrl } = data;
+
+    // Validate price ID
+    if (!SUBSCRIPTION_PRODUCTS[priceId]) {
+      throw new functions.https.HttpsError('invalid-argument', 'Invalid price ID');
+    }
+
+    const product = SUBSCRIPTION_PRODUCTS[priceId];
+    const userId = context.auth.uid;
+
+    // Get user email from Firebase Auth
+    const userRecord = await admin.auth().getUser(userId);
+    
+    // Create Stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      customer_email: userRecord.email,
+      client_reference_id: userId,
+      line_items: [
+        {
+          price: priceId,
+          quantity: 1,
+        },
+      ],
+      mode: 'subscription',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+      metadata: {
+        userId: userId,
+        tier: product.tier,
+      },
+      subscription_data: {
+        metadata: {
+          userId: userId,
+          tier: product.tier,
+        },
+      },
+    });
+
+    functions.logger.info(`Created checkout session for user ${userId}: ${session.id}`);
+    
+    return { 
+      sessionId: session.id,
+      url: session.url 
+    };
+  } catch (error) {
+    functions.logger.error('Error creating checkout session:', error);
+    throw new functions.https.HttpsError('internal', 'Failed to create checkout session');
+  }
+});
+
+/**
+ * Handle Stripe Webhook Events
+ * Processes subscription status changes
+ */
+export const stripeWebhook = functions.https.onRequest(async (req, res) => {
+  const sig = req.headers['stripe-signature'] as string;
+  const endpointSecret = functions.config().stripe.webhook_secret;
+
+  let event: Stripe.Event;
+
+  try {
+    event = stripe.webhooks.constructEvent(req.body, sig, endpointSecret);
+    functions.logger.info(`Received Stripe webhook: ${event.type}`);
+  } catch (err) {
+    functions.logger.error('Webhook signature verification failed:', err);
+    res.status(400).send('Webhook signature verification failed');
+    return;
+  }
+
+  try {
+    switch (event.type) {
+      case 'checkout.session.completed':
+        await handleCheckoutCompleted(event.data.object as Stripe.Checkout.Session);
+        break;
+      
+      case 'customer.subscription.created':
+      case 'customer.subscription.updated':
+        await handleSubscriptionChange(event.data.object as Stripe.Subscription);
+        break;
+      
+      case 'customer.subscription.deleted':
+        await handleSubscriptionCanceled(event.data.object as Stripe.Subscription);
+        break;
+      
+      case 'invoice.payment_succeeded':
+        await handlePaymentSucceeded(event.data.object as Stripe.Invoice);
+        break;
+      
+      case 'invoice.payment_failed':
+        await handlePaymentFailed(event.data.object as Stripe.Invoice);
+        break;
+      
+      default:
+        functions.logger.info(`Unhandled event type: ${event.type}`);
+    }
+
+    res.json({ received: true });
+  } catch (error) {
+    functions.logger.error('Error processing webhook:', error);
+    res.status(500).json({ error: 'Webhook processing failed' });
+  }
+});
+
+// Helper function to handle completed checkout
+async function handleCheckoutCompleted(session: Stripe.Checkout.Session) {
+  const userId = session.client_reference_id;
+  const subscriptionId = session.subscription as string;
+  
+  if (!userId) {
+    functions.logger.error('No user ID in checkout session');
+    return;
+  }
+
+  // Get subscription details
+  const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+  const priceId = subscription.items.data[0].price.id;
+  const product = SUBSCRIPTION_PRODUCTS[priceId];
+
+  if (!product) {
+    functions.logger.error(`Unknown price ID: ${priceId}`);
+    return;
+  }
+
+  // Update user subscription in Firestore
+  await db.collection('users').doc(userId).update({
+    'subscription.tier': product.tier,
+    'subscription.status': 'active',
+    'subscription.priceId': priceId,
+    'subscription.stripeSubscriptionId': subscriptionId,
+    'subscription.stripeCustomerId': subscription.customer,
+    'subscription.currentPeriodStart': new Date(subscription.current_period_start * 1000),
+    'subscription.currentPeriodEnd': new Date(subscription.current_period_end * 1000),
+    'subscription.updatedAt': admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  functions.logger.info(`Updated subscription for user ${userId} to ${product.tier}`);
+}
+
+// Helper function to handle subscription changes
+async function handleSubscriptionChange(subscription: Stripe.Subscription) {
+  const userId = subscription.metadata.userId;
+  const priceId = subscription.items.data[0].price.id;
+  const product = SUBSCRIPTION_PRODUCTS[priceId];
+
+  if (!userId || !product) {
+    functions.logger.error('Missing user ID or unknown product in subscription');
+    return;
+  }
+
+  await db.collection('users').doc(userId).update({
+    'subscription.status': subscription.status,
+    'subscription.currentPeriodStart': new Date(subscription.current_period_start * 1000),
+    'subscription.currentPeriodEnd': new Date(subscription.current_period_end * 1000),
+    'subscription.updatedAt': admin.firestore.FieldValue.serverTimestamp(),
+  });
+}
+
+// Helper function to handle subscription cancellation
+async function handleSubscriptionCanceled(subscription: Stripe.Subscription) {
+  const userId = subscription.metadata.userId;
+
+  if (!userId) {
+    functions.logger.error('No user ID in canceled subscription');
+    return;
+  }
+
+  await db.collection('users').doc(userId).update({
+    'subscription.tier': 'free',
+    'subscription.status': 'canceled',
+    'subscription.canceledAt': admin.firestore.FieldValue.serverTimestamp(),
+    'subscription.updatedAt': admin.firestore.FieldValue.serverTimestamp(),
+  });
+
+  functions.logger.info(`Canceled subscription for user ${userId}`);
+}
+
+// Helper function to handle successful payments
+async function handlePaymentSucceeded(invoice: Stripe.Invoice) {
+  functions.logger.info(`Payment succeeded for subscription: ${invoice.subscription}`);
+  // Add any additional logic for successful payments
+}
+
+// Helper function to handle failed payments
+async function handlePaymentFailed(invoice: Stripe.Invoice) {
+  functions.logger.error(`Payment failed for subscription: ${invoice.subscription}`);
+  // Add logic to handle failed payments (email notifications, etc.)
+}
+
 // Export the Express app as a Firebase Function
 export const api = functions.https.onRequest(app); 

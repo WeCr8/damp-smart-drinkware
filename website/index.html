@@ -37,7 +37,7 @@
     <!-- CSS -->
     <link rel="stylesheet" href="assets/css/main.css">
     
-    <!-- Clean, Professional Styles -->
+    <!-- Enhanced Visual Styles with Animations -->
     <style>
         :root {
             --primary-color: #00d4ff;
@@ -55,6 +55,226 @@
             --section-padding: 100px 0;
             --border-radius: 12px;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --bubble-color-1: rgba(0, 212, 255, 0.3);
+            --bubble-color-2: rgba(0, 255, 136, 0.2);
+            --bubble-color-3: rgba(255, 71, 87, 0.2);
+        }
+        
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, var(--bubble-color-1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, var(--bubble-color-2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, var(--bubble-color-3) 0%, transparent 50%);
+            animation: backgroundPulse 15s ease-in-out infinite;
+            z-index: -2;
+        }
+        
+        @keyframes backgroundPulse {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            33% { opacity: 0.6; transform: scale(1.1); }
+            66% { opacity: 0.3; transform: scale(0.9); }
+        }
+        
+        /* Floating Bubbles */
+        .floating-bubbles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+        
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, 
+                rgba(0, 212, 255, 0.1), 
+                rgba(0, 255, 136, 0.15)
+            );
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: floatUp 20s infinite linear;
+        }
+        
+        .bubble:nth-child(1) { left: 10%; width: 80px; height: 80px; animation-delay: 0s; }
+        .bubble:nth-child(2) { left: 20%; width: 60px; height: 60px; animation-delay: 2s; }
+        .bubble:nth-child(3) { left: 35%; width: 100px; height: 100px; animation-delay: 4s; }
+        .bubble:nth-child(4) { left: 50%; width: 40px; height: 40px; animation-delay: 6s; }
+        .bubble:nth-child(5) { left: 70%; width: 120px; height: 120px; animation-delay: 8s; }
+        .bubble:nth-child(6) { left: 85%; width: 70px; height: 70px; animation-delay: 10s; }
+        .bubble:nth-child(7) { left: 15%; width: 90px; height: 90px; animation-delay: 12s; }
+        .bubble:nth-child(8) { left: 65%; width: 50px; height: 50px; animation-delay: 14s; }
+        
+        @keyframes floatUp {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0);
+            }
+            10% {
+                opacity: 1;
+                transform: translateY(90vh) scale(1);
+            }
+            90% {
+                opacity: 1;
+                transform: translateY(-10vh) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-20vh) scale(0);
+            }
+        }
+        
+        /* Enhanced Card Effects */
+        .card {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--border-radius);
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.1), 
+                transparent
+            );
+            transition: left 0.6s ease;
+        }
+        
+        .card:hover::before {
+            left: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        /* Animated Gradients */
+        .animated-gradient {
+            background: linear-gradient(45deg, 
+                var(--primary-color), 
+                var(--secondary-color), 
+                var(--primary-color)
+            );
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+        
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Pulsing Animation */
+        .pulse {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        /* Floating Animation */
+        .float {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        /* Fade In Up Animation */
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeInUp 1s ease forwards;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Stagger animation delays */
+        .fade-in-up:nth-child(1) { animation-delay: 0.1s; }
+        .fade-in-up:nth-child(2) { animation-delay: 0.2s; }
+        .fade-in-up:nth-child(3) { animation-delay: 0.3s; }
+        .fade-in-up:nth-child(4) { animation-delay: 0.4s; }
+        
+        /* Sparkle Effect */
+        .sparkle {
+            position: relative;
+            overflow: visible;
+        }
+        
+        .sparkle::after {
+            content: '✨';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            font-size: 1.2rem;
+            animation: sparkle 3s ease-in-out infinite;
+            opacity: 0;
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+            50% { opacity: 1; transform: scale(1) rotate(180deg); }
+        }
+        
+        /* Enhanced Hover Effects */
+        .interactive-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .interactive-hover:hover {
+            transform: scale(1.05) rotate(2deg);
+            filter: brightness(1.2);
+        }
+        
+        /* Glowing Text Effect */
+        .glow-text {
+            text-shadow: 
+                0 0 5px var(--primary-color),
+                0 0 10px var(--primary-color),
+                0 0 15px var(--primary-color);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 5px var(--primary-color), 0 0 10px var(--primary-color), 0 0 15px var(--primary-color); }
+            to { text-shadow: 0 0 10px var(--primary-color), 0 0 20px var(--primary-color), 0 0 25px var(--primary-color); }
         }
         
         * {
@@ -99,18 +319,7 @@
             margin-right: auto;
         }
         
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: var(--border-radius);
-            padding: 40px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow);
-        }
+
         
         /* Hero Section */
         .hero-section {
@@ -874,6 +1083,18 @@
 </head>
 
 <body>
+    <!-- Floating Bubbles Background -->
+    <div class="floating-bubbles">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+    </div>
+
     <!-- Navigation Header -->
     <damp-header></damp-header>
 
@@ -881,36 +1102,36 @@
     <section class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <div class="hero-logo">
+                <div class="hero-logo float">
                     <img src="assets/images/logo/logo.png" alt="DAMP Logo" loading="eager">
                 </div>
                 
-                <h1 class="hero-title">Never Leave Your Drink Behind</h1>
+                <h1 class="hero-title fade-in-up">Never Leave Your Drink Behind</h1>
                 
                 <p class="hero-subtitle">
                     Transform any cup into a smart device with DAMP. Get instant alerts when you're about to abandon your favorite beverage. Works with Stanley, Yeti, Hydro Flask, and more.
                 </p>
                 
                 <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">5,000+</span>
+                    <div class="stat-item fade-in-up">
+                        <span class="stat-number pulse">5,000+</span>
                         <span class="stat-label">Pre-Orders</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number">4.9★</span>
+                    <div class="stat-item fade-in-up">
+                        <span class="stat-number pulse">4.9★</span>
                         <span class="stat-label">Rating</span>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-number">50+</span>
+                    <div class="stat-item fade-in-up">
+                        <span class="stat-number pulse">50+</span>
                         <span class="stat-label">Countries</span>
                     </div>
                 </div>
                 
-                <div class="hero-cta">
-                    <a href="pages/pre-sale-funnel.html" class="btn btn-primary">
+                <div class="hero-cta fade-in-up">
+                    <a href="pages/pre-sale-funnel.html" class="btn btn-primary animated-gradient">
                         Pre-Order Now - Starting $29.99
                     </a>
-                    <a href="#pain-point" class="btn btn-secondary">
+                    <a href="#pain-point" class="btn btn-secondary pulse">
                         See the Problem
                     </a>
                 </div>
@@ -922,9 +1143,9 @@
     <section id="pain-point" class="section pain-point-section">
         <div class="container">
             <div class="pain-point-content">
-                <span class="pain-point-emoji">😰</span>
+                <span class="pain-point-emoji float interactive-hover">😰</span>
                 
-                <h2 class="pain-point-title">
+                <h2 class="pain-point-title fade-in-up">
                     We've All Been There...
                 </h2>
                 
@@ -961,24 +1182,24 @@
             </p>
             
             <div class="steps-grid">
-                <div class="step-card">
-                    <div class="step-number">1</div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number pulse">1</div>
                     <h3 class="step-title">Attach & Pair</h3>
                     <p class="step-description">
                         Attach your DAMP device to any cup, bottle, or tumbler. Pair it with your smartphone in seconds using our intuitive app.
                     </p>
                 </div>
                 
-                <div class="step-card">
-                    <div class="step-number">2</div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number pulse">2</div>
                     <h3 class="step-title">Set Your Zone</h3>
                     <p class="step-description">
                         Define your alert distance (5-50 feet). DAMP monitors the connection between your phone and your drink continuously.
                     </p>
                 </div>
                 
-                <div class="step-card">
-                    <div class="step-number">3</div>
+                <div class="step-card fade-in-up">
+                    <div class="step-number pulse">3</div>
                     <h3 class="step-title">Get Alerted</h3>
                     <p class="step-description">
                         When you move too far from your drink, get instant notifications via sound, vibration, or visual alerts. Never forget again!
@@ -997,32 +1218,32 @@
             </p>
             
             <div class="tech-grid">
-                <div class="tech-card">
-                    <span class="tech-icon">📡</span>
+                <div class="tech-card fade-in-up">
+                    <span class="tech-icon float">📡</span>
                     <h3 class="tech-title">Bluetooth 5.0 LE</h3>
                     <p class="tech-description">
                         Ultra-low energy consumption with extended range up to 100 feet. Advanced signal processing prevents false alerts.
                     </p>
                 </div>
                 
-                <div class="tech-card">
-                    <span class="tech-icon">🔋</span>
+                <div class="tech-card fade-in-up">
+                    <span class="tech-icon float">🔋</span>
                     <h3 class="tech-title">6-Month Battery</h3>
                     <p class="tech-description">
                         Intelligent power management extends battery life up to 6 months on a single charge. USB-C fast charging included.
                     </p>
                 </div>
                 
-                <div class="tech-card">
-                    <span class="tech-icon">🌡️</span>
+                <div class="tech-card fade-in-up">
+                    <span class="tech-icon float">🌡️</span>
                     <h3 class="tech-title">Smart Sensors</h3>
                     <p class="tech-description">
                         Temperature monitoring, motion detection, and proximity sensing work together to provide context-aware alerts.
                     </p>
                 </div>
                 
-                <div class="tech-card">
-                    <span class="tech-icon">🛡️</span>
+                <div class="tech-card fade-in-up">
+                    <span class="tech-icon float">🛡️</span>
                     <h3 class="tech-title">Military-Grade Security</h3>
                     <p class="tech-description">
                         AES-256 encryption protects your data. All communications are secured with enterprise-level protocols.
@@ -1042,8 +1263,8 @@
             
             <div class="products-grid">
                 <!-- DAMP Handle -->
-                <div class="product-card">
-                    <div class="product-badge">Most Popular</div>
+                <div class="product-card fade-in-up">
+                    <div class="product-badge sparkle">Most Popular</div>
                     <div class="product-image">
                         <img src="assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0" loading="lazy">
                     </div>
@@ -1065,8 +1286,8 @@
                 </div>
                 
                 <!-- Silicone Bottom -->
-                <div class="product-card">
-                    <div class="product-badge">Best Value</div>
+                <div class="product-card fade-in-up">
+                    <div class="product-badge sparkle">Best Value</div>
                     <div class="product-image">
                         <img src="assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom v1.0" loading="lazy">
                     </div>
@@ -1088,8 +1309,8 @@
                 </div>
                 
                 <!-- Cup Sleeve -->
-                <div class="product-card">
-                    <div class="product-badge">Versatile</div>
+                <div class="product-card fade-in-up">
+                    <div class="product-badge sparkle">Versatile</div>
                     <div class="product-image">
                         <img src="assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve v1.0" loading="lazy">
                     </div>
@@ -1111,8 +1332,8 @@
                 </div>
                 
                 <!-- Baby Bottle -->
-                <div class="product-card">
-                    <div class="product-badge">Premium</div>
+                <div class="product-card fade-in-up">
+                    <div class="product-badge sparkle">Premium</div>
                     <div class="product-image">
                         <img src="assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle v1.0" loading="lazy">
                     </div>
@@ -1145,12 +1366,12 @@
             </p>
             
             <div class="testimonials-grid">
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in-up">
                     <p class="testimonial-quote">
                         "I was skeptical at first, but DAMP has literally saved me hundreds of dollars in forgotten coffee cups. It's become an essential part of my daily routine!"
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">JS</div>
+                        <div class="author-avatar pulse">JS</div>
                         <div class="author-info">
                             <h4>Jessica Stone</h4>
                             <p>Marketing Director, Austin</p>
@@ -1158,12 +1379,12 @@
                     </div>
                 </div>
                 
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in-up">
                     <p class="testimonial-quote">
                         "As a busy parent, I'm always rushing around. DAMP ensures I never leave my expensive Stanley tumbler behind at the playground or grocery store."
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">MR</div>
+                        <div class="author-avatar pulse">MR</div>
                         <div class="author-info">
                             <h4>Mike Rodriguez</h4>
                             <p>Father of 3, Denver</p>
@@ -1171,12 +1392,12 @@
                     </div>
                 </div>
                 
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in-up">
                     <p class="testimonial-quote">
                         "The baby bottle version is a game-changer! It tracks feeding times and temperatures automatically. Every new parent needs this."
                     </p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">AL</div>
+                        <div class="author-avatar pulse">AL</div>
                         <div class="author-info">
                             <h4>Amanda Liu</h4>
                             <p>New Mom, Seattle</p>
@@ -1191,9 +1412,9 @@
     <section id="voting" class="section voting-section">
         <div class="container">
             <div class="voting-content">
-                <span class="voting-emoji">🗳️</span>
+                <span class="voting-emoji sparkle interactive-hover">🗳️</span>
                 
-                <h2 class="voting-title">Help Us Prioritize Development</h2>
+                <h2 class="voting-title glow-text">Help Us Prioritize Development</h2>
                 
                 <p class="voting-description">
                     Which DAMP product are you most excited about? Your vote helps us decide which product to develop and ship first. 
@@ -1215,7 +1436,7 @@
                     </div>
                 </div>
                 
-                <a href="pages/product-voting.html" class="btn-vote">
+                <a href="pages/product-voting.html" class="btn-vote animated-gradient pulse">
                     🗳️ Vote for Next Product
                 </a>
             </div>
@@ -1513,6 +1734,15 @@
                     if (entry.isIntersecting) {
                         entry.target.style.opacity = '1';
                         entry.target.style.transform = 'translateY(0)';
+                        
+                        // Trigger fade-in-up animations for child elements
+                        const fadeElements = entry.target.querySelectorAll('.fade-in-up');
+                        fadeElements.forEach((element, index) => {
+                            setTimeout(() => {
+                                element.style.opacity = '1';
+                                element.style.transform = 'translateY(0)';
+                            }, index * 100);
+                        });
                     }
                 });
             }, observerOptions);
@@ -1521,8 +1751,15 @@
             document.querySelectorAll('.section').forEach(section => {
                 section.style.opacity = '0';
                 section.style.transform = 'translateY(30px)';
-                section.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
                 observer.observe(section);
+            });
+            
+            // Initialize fade-in-up elements
+            document.querySelectorAll('.fade-in-up').forEach(element => {
+                element.style.opacity = '0';
+                element.style.transform = 'translateY(40px)';
+                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
             });
         }
         

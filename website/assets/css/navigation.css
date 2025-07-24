@@ -4,10 +4,6 @@
 
 :root {
     --nav-height: 80px;
-    --safe-area-top: env(safe-area-inset-top);
-    --safe-area-right: env(safe-area-inset-right);
-    --safe-area-bottom: env(safe-area-inset-bottom);
-    --safe-area-left: env(safe-area-inset-left);
     --primary-color: #00d4ff;
     --secondary-color: #0099cc;
     --nav-bg: rgba(15, 15, 35, 0.95);
@@ -24,10 +20,10 @@
     --transition-slow: 0.5s ease;
 }
 
-/* Enhanced Safe Area Container */
+/* Enhanced Safe Area Container - Using DAMP SafeAreaWrapper */
 .safe-area-container {
-    padding-left: max(20px, var(--safe-area-left));
-    padding-right: max(20px, var(--safe-area-right));
+    padding-left: max(20px, var(--damp-safe-area-left));
+    padding-right: max(20px, var(--damp-safe-area-right));
 }
 
 /* Navigation Container */
@@ -41,7 +37,7 @@
     -webkit-backdrop-filter: blur(20px);
     z-index: 1000;
     padding: 15px 0;
-    padding-top: calc(15px + var(--safe-area-top));
+    padding-top: calc(15px + var(--damp-safe-area-top));
     border-bottom: 1px solid var(--border-color);
     transition: all var(--transition-standard);
     will-change: transform, background-color;
@@ -148,9 +144,9 @@
     box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4) !important;
 }
 
-/* Enhanced Hamburger Menu */
+/* Enhanced Hamburger Menu - Show on All Platforms */
 .hamburger {
-    display: none;
+    display: flex;
     flex-direction: column;
     cursor: pointer;
     gap: 4px;
@@ -161,6 +157,11 @@
     border-radius: 8px;
     transition: all var(--transition-standard);
     position: relative;
+}
+
+/* Hide traditional nav links on all platforms */
+.nav-links {
+    display: none;
 }
 
 .hamburger:hover {
@@ -184,7 +185,7 @@
 }
 
 .hamburger.active .hamburger-line:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+    transform: rotate(45deg) translate(6px, 6px);
     background: var(--primary-color);
 }
 
@@ -194,16 +195,17 @@
 }
 
 .hamburger.active .hamburger-line:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
+    transform: rotate(-45deg) translate(6px, -6px);
     background: var(--primary-color);
 }
 
-/* Enhanced Mobile Menu */
+/* Enhanced Universal Menu - Responsive for All Platforms */
 .safe-area-mobile-menu {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
+    max-width: 400px; /* Limit width on desktop */
     height: 100vh;
     height: 100dvh; /* Dynamic viewport height for mobile */
     background: var(--mobile-menu-bg);
@@ -216,20 +218,40 @@
     transition: transform var(--transition-standard);
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    visibility: hidden;
+    border-right: 1px solid var(--border-color);
+}
+
+/* Desktop optimization */
+@media (min-width: 769px) {
+    .safe-area-mobile-menu {
+        max-width: 350px;
+        box-shadow: var(--shadow-heavy);
+    }
 }
 
 .safe-area-mobile-menu.active {
     transform: translateX(0);
+    visibility: visible;
 }
 
-/* Mobile Menu Header with Safe Area */
+/* Universal Menu Header with Safe Area */
 .mobile-menu-header {
     padding: 20px;
-    padding-top: calc(20px + var(--safe-area-top));
+    padding-top: calc(20px + var(--damp-safe-area-top));
     display: flex;
     justify-content: flex-end;
     align-items: center;
     border-bottom: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+/* Desktop menu header optimization */
+@media (min-width: 769px) {
+    .mobile-menu-header {
+        padding: 15px 20px;
+        padding-top: calc(15px + var(--damp-safe-area-top));
+    }
 }
 
 .mobile-close {
@@ -261,7 +283,7 @@
     line-height: 1;
 }
 
-/* Mobile Menu Content */
+/* Universal Menu Content */
 .mobile-menu-content {
     flex: 1;
     display: flex;
@@ -270,6 +292,15 @@
     align-items: center;
     padding: 40px 20px;
     gap: 10px;
+}
+
+/* Desktop menu content optimization */
+@media (min-width: 769px) {
+    .mobile-menu-content {
+        justify-content: flex-start;
+        padding: 30px 20px;
+        gap: 5px;
+    }
 }
 
 .mobile-nav {
@@ -284,20 +315,30 @@
 .mobile-nav a {
     color: var(--text-color);
     text-decoration: none;
-    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    font-size: clamp(1.1rem, 4vw, 1.3rem);
     font-weight: 600;
     padding: 15px 25px;
     border-radius: 12px;
     transition: all var(--transition-standard);
-    text-align: center;
+    text-align: left;
     width: 100%;
     border: 2px solid transparent;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
+    justify-content: flex-start;
+    gap: 15px;
     position: relative;
     overflow: hidden;
+}
+
+/* Desktop menu styling */
+@media (min-width: 769px) {
+    .mobile-nav a {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+        justify-content: flex-start;
+        text-align: left;
+    }
 }
 
 .mobile-nav a::before {
@@ -354,12 +395,20 @@
     box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5) !important;
 }
 
-/* Mobile Menu Footer with Safe Area */
+/* Universal Menu Footer with Safe Area */
 .mobile-menu-footer {
     padding: 20px;
-    padding-bottom: calc(20px + var(--safe-area-bottom));
+    padding-bottom: calc(20px + var(--damp-safe-area-bottom));
     border-top: 1px solid var(--border-color);
     background: rgba(0, 0, 0, 0.2);
+}
+
+/* Desktop menu footer optimization */
+@media (min-width: 769px) {
+    .mobile-menu-footer {
+        padding: 15px 20px;
+        padding-bottom: calc(15px + var(--damp-safe-area-bottom));
+    }
 }
 
 .mobile-social-proof {
@@ -393,12 +442,13 @@
     left: 0;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.5);
     z-index: 999;
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-standard);
     backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 .mobile-menu-backdrop.active {
@@ -438,9 +488,9 @@
 }
 
 /* Device-Specific Styles */
-.ios-device .safe-area-mobile-menu {
+.damp-ios-device .safe-area-mobile-menu {
     /* iOS-specific safe area handling */
-    padding-top: var(--safe-area-top);
+    padding-top: var(--damp-safe-area-top);
 }
 
 .android-device .hamburger {
@@ -449,9 +499,9 @@
     min-height: 48px;
 }
 
-.has-notch .mobile-menu-header {
+.damp-has-notch .mobile-menu-header {
     /* Additional padding for devices with notches */
-    padding-top: calc(30px + var(--safe-area-top));
+    padding-top: calc(30px + var(--damp-safe-area-top));
 }
 
 /* Body States */

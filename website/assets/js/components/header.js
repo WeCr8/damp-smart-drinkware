@@ -424,45 +424,87 @@ class DAMPHeader extends HTMLElement {
     }
 
     setupMobileSafeAreas() {
-        // Detect device capabilities
+        // Integration with DAMP SafeAreaWrapper
+        if (window.dampSafeArea) {
+            const deviceInfo = window.dampSafeArea.getDeviceInfo();
+            this.securityLog(`Using DAMP SafeAreaWrapper - Device: ${deviceInfo.deviceType}, Orientation: ${deviceInfo.orientation}, Screen: ${deviceInfo.screenSize}`);
+            
+            // Listen for safe area updates
+            window.addEventListener('damp:safearea:orientationchange', (e) => {
+                this.securityLog('Safe area orientation changed:', e.detail);
+                this.updateSafeAreas();
+            });
+            
+            window.addEventListener('damp:safearea:screensize', (e) => {
+                this.securityLog('Screen size changed:', e.detail);
+                this.updateSafeAreas();
+            });
+        } else {
+            // Fallback if SafeAreaWrapper not available
+            this.securityLog('DAMP SafeAreaWrapper not available, using fallback');
+            this.setupFallbackSafeAreas();
+        }
+        
+        // Update safe area calculations
+        this.updateSafeAreas();
+    }
+    
+    setupFallbackSafeAreas() {
+        // Fallback device detection (only if SafeAreaWrapper not available)
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
         const isAndroid = /Android/.test(navigator.userAgent);
         const hasNotch = window.screen.height >= 812 && window.devicePixelRatio >= 2;
         
-        // Add device classes
+        // Add legacy device classes as fallback
         if (isIOS) document.body.classList.add('ios-device');
         if (isAndroid) document.body.classList.add('android-device');
         if (hasNotch) document.body.classList.add('has-notch');
         
-        // Update safe area calculations
-        this.updateSafeAreas();
-        
-        this.securityLog(`Mobile setup complete - iOS: ${isIOS}, Android: ${isAndroid}, Notch: ${hasNotch}`);
+        this.securityLog(`Fallback setup complete - iOS: ${isIOS}, Android: ${isAndroid}, Notch: ${hasNotch}`);
     }
 
     updateSafeAreas() {
         const nav = this.querySelector('nav');
         if (!nav) return;
         
-        // Calculate safe area values
-        const safeAreaTop = this.getSafeAreaValue('top');
-        const safeAreaBottom = this.getSafeAreaValue('bottom');
-        const safeAreaLeft = this.getSafeAreaValue('left');
-        const safeAreaRight = this.getSafeAreaValue('right');
-        
-        // Apply safe area CSS custom properties
-        nav.style.setProperty('--safe-area-top', safeAreaTop);
-        nav.style.setProperty('--safe-area-bottom', safeAreaBottom);
-        nav.style.setProperty('--safe-area-left', safeAreaLeft);
-        nav.style.setProperty('--safe-area-right', safeAreaRight);
-        
-        // Update mobile menu safe areas
-        const mobileMenu = this.querySelector('.mobile-menu');
-        if (mobileMenu) {
-            mobileMenu.style.setProperty('--safe-area-top', safeAreaTop);
-            mobileMenu.style.setProperty('--safe-area-bottom', safeAreaBottom);
-            mobileMenu.style.setProperty('--safe-area-left', safeAreaLeft);
-            mobileMenu.style.setProperty('--safe-area-right', safeAreaRight);
+        if (window.dampSafeArea) {
+            // Use DAMP SafeAreaWrapper values - they're already applied globally
+            const deviceInfo = window.dampSafeArea.getDeviceInfo();
+            const safeAreas = {
+                top: window.dampSafeArea.getSafeAreaValue('top'),
+                right: window.dampSafeArea.getSafeAreaValue('right'),
+                bottom: window.dampSafeArea.getSafeAreaValue('bottom'),
+                left: window.dampSafeArea.getSafeAreaValue('left')
+            };
+            
+            this.securityLog('Safe areas updated via SafeAreaWrapper:', safeAreas);
+            
+            // The SafeAreaWrapper already applies global CSS variables, so we don't need to do it here
+            // But we can add any component-specific adjustments if needed
+            
+        } else {
+            // Fallback safe area calculation
+            const safeAreaTop = this.getSafeAreaValue('top');
+            const safeAreaBottom = this.getSafeAreaValue('bottom');
+            const safeAreaLeft = this.getSafeAreaValue('left');
+            const safeAreaRight = this.getSafeAreaValue('right');
+            
+            // Apply safe area CSS custom properties as fallback
+            nav.style.setProperty('--damp-safe-area-top', safeAreaTop);
+            nav.style.setProperty('--damp-safe-area-bottom', safeAreaBottom);
+            nav.style.setProperty('--damp-safe-area-left', safeAreaLeft);
+            nav.style.setProperty('--damp-safe-area-right', safeAreaRight);
+            
+            // Update mobile menu safe areas
+            const mobileMenu = this.querySelector('.mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.style.setProperty('--damp-safe-area-top', safeAreaTop);
+                mobileMenu.style.setProperty('--damp-safe-area-bottom', safeAreaBottom);
+                mobileMenu.style.setProperty('--damp-safe-area-left', safeAreaLeft);
+                mobileMenu.style.setProperty('--damp-safe-area-right', safeAreaRight);
+            }
+            
+            this.securityLog('Safe areas updated via fallback');
         }
     }
 

@@ -1,9 +1,44 @@
 {
-  "currentCount": 369,
+  "currentCount": 381,
   "goalCount": 500,
   "startDate": "2025-01-01T00:00:00.000Z",
   "endDate": "2025-07-31T05:49:37.826Z",
   "recentOrders": [
+    {
+      "timestamp": "2025-07-24T10:33:55.754Z",
+      "location": "Chicago, IL",
+      "count": 3
+    },
+    {
+      "timestamp": "2025-07-24T10:26:25.688Z",
+      "location": "Seattle, WA",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T10:21:55.657Z",
+      "location": "Chicago, IL",
+      "count": 3
+    },
+    {
+      "timestamp": "2025-07-24T10:18:55.628Z",
+      "location": "Denver, CO",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T10:13:40.567Z",
+      "location": "Miami, FL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T10:02:25.471Z",
+      "location": "Portland, OR",
+      "count": 2
+    },
+    {
+      "timestamp": "2025-07-24T10:00:55.464Z",
+      "location": "Portland, OR",
+      "count": 1
+    },
     {
       "timestamp": "2025-07-24T09:54:55.401Z",
       "location": "New York, NY",
@@ -17,41 +52,6 @@
     {
       "timestamp": "2025-07-24T09:33:55.168Z",
       "location": "New York, NY",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T09:31:40.149Z",
-      "location": "Chicago, IL",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T09:27:55.111Z",
-      "location": "Seattle, WA",
-      "count": 3
-    },
-    {
-      "timestamp": "2025-07-24T09:02:24.819Z",
-      "location": "Miami, FL",
-      "count": 3
-    },
-    {
-      "timestamp": "2025-07-24T08:42:09.619Z",
-      "location": "Seattle, WA",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T08:33:09.550Z",
-      "location": "Chicago, IL",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T08:21:54.431Z",
-      "location": "Denver, CO",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T08:03:54.242Z",
-      "location": "Austin, TX",
       "count": 1
     }
   ],

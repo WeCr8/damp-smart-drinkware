@@ -906,401 +906,103 @@
     <!-- Security Scripts -->
     <script src="assets/js/security-utils.js"></script>
     
-    <!-- Analytics -->
+    <!-- DAMP Analytics - Google Analytics 4 with GDPR Compliance -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('consent', 'default', {
-            'analytics_storage': 'denied',
-            'ad_storage': 'denied',
-            'functionality_storage': 'denied',
-            'personalization_storage': 'denied',
-            'security_storage': 'granted'
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied', // Will be updated based on cookie consent
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000, // 2 years
+        'anonymize_ip': true // Privacy protection
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for home page
+      function trackHomePageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - Home',
+          'page_location': window.location.href,
+          'content_group1': 'home',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'landing_page': true
+          }
         });
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID', {
-            page_title: 'DAMP Smart Drinkware - Home',
-            send_page_view: false
-        });
-    </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
-</head>
+      }
 
-<body class="page-loading">
-    <!-- Navigation Header -->
-    <damp-header></damp-header>
+      // Track page view when gtag is ready
+      setTimeout(trackHomePageView, 100);
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-content">
-            <div class="hero-logo">
-                <img src="assets/images/logo/logo.png" alt="DAMP Logo" loading="eager">
-            </div>
-            
-            <h1 class="hero-title">Never Leave Your Drink Behind</h1>
-            
-            <p class="hero-subtitle">
-                Transform any cup into a smart device with DAMP. Get instant alerts when you're about to abandon your favorite beverage. Works with Stanley, Yeti, Hydro Flask, and more.
-            </p>
-            
-            <div class="hero-stats">
-                <div class="stat-item">
-                    <span class="stat-number">5,000+</span>
-                    <span class="stat-label">Pre-Orders</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">4.9★</span>
-                    <span class="stat-label">Rating</span>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">50+</span>
-                    <span class="stat-label">Countries</span>
-                </div>
-            </div>
-            
-            <div class="hero-cta">
-                <a href="pages/pre-sale-funnel.html" class="btn btn-primary">
-                    Pre-Order Now - Starting $29.99
-                </a>
-                <a href="#pain-point" class="btn btn-secondary">
-                    See the Problem We Solve
-                </a>
-            </div>
-        </div>
-    </section>
+      // Track clicks on CTA buttons and navigation
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'engagement',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'home'
+            }
+          });
+        }
+      });
 
-    <!-- Pain Point Section -->
-    <section id="pain-point" class="section section-centered pain-point-section">
-        <div class="container">
-            <div class="pain-point-content">
-                <span class="pain-point-emoji">😰</span>
-                
-                <h2 class="pain-point-title">
-                    We've All Been There...
-                </h2>
-                
-                <p class="pain-point-description">
-                    You're rushing out of the coffee shop, juggling your phone, keys, and that important meeting on your mind. 
-                    <strong>Then it hits you</strong> — your favorite $40 Stanley tumbler is sitting back on the table, 
-                    now three blocks away. Sound familiar?
-                </p>
-                
-                <div class="pain-point-stats">
-                    <div class="pain-stat">
-                        <span class="pain-stat-number">97%</span>
-                        <span class="pain-stat-label">of people have left their drink behind</span>
-                    </div>
-                    <div class="pain-stat">
-                        <span class="pain-stat-number">$2.3B</span>
-                        <span class="pain-stat-label">lost annually in abandoned drinkware</span>
-                    </div>
-                    <div class="pain-stat">
-                        <span class="pain-stat-number">156</span>
-                        <span class="pain-stat-label">average times per year you forget</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products" class="section products-section">
-        <div class="container">
-            <h2 class="section-title">Choose Your DAMP Solution</h2>
-            <p class="section-subtitle">
-                Four different ways to make your favorite drinkware smart. From universal attachments to brand-specific designs.
-            </p>
-            
-            <div class="products-grid">
-                <!-- DAMP Handle -->
-                <div class="product-tile">
-                    <div class="product-badge">Most Popular</div>
-                    <div class="product-image">
-                        <img src="assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">DAMP Handle v1.0</h3>
-                    <p class="product-description">
-                        Universal clip-on handle that works with any mug, tumbler, or cup. Perfect for coffee shops and offices.
-                    </p>
-                    <div class="product-price">$49.99</div>
-                    <ul class="product-features">
-                        <li>Universal attachment system</li>
-                        <li>6-month battery life</li>
-                        <li>Instant phone alerts</li>
-                        <li>Temperature monitoring</li>
-                    </ul>
-                    <div class="product-actions">
-                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
-                        <a href="pages/damp-handle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
-                    </div>
-                </div>
-                
-                <!-- Silicone Bottom -->
-                <div class="product-tile">
-                    <div class="product-badge">Best Value</div>
-                    <div class="product-image">
-                        <img src="assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Silicone Bottom v1.0</h3>
-                    <p class="product-description">
-                        Non-slip silicone base that adheres to bottles and tumblers. Invisible protection for your drinks.
-                    </p>
-                    <div class="product-price">$29.99</div>
-                    <ul class="product-features">
-                        <li>Non-slip grip design</li>
-                        <li>Wireless charging compatible</li>
-                        <li>Water-resistant</li>
-                        <li>Multiple sizes available</li>
-                    </ul>
-                    <div class="product-actions">
-                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
-                        <a href="pages/silicone-bottom-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
-                    </div>
-                </div>
-                
-                <!-- Cup Sleeve -->
-                <div class="product-tile">
-                    <div class="product-badge">Versatile</div>
-                    <div class="product-image">
-                        <img src="assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Cup Sleeve v1.0</h3>
-                    <p class="product-description">
-                        Adjustable sleeve that fits most cups and provides insulation while tracking your beverage.
-                    </p>
-                    <div class="product-price">$39.99</div>
-                    <ul class="product-features">
-                        <li>Adjustable fit system</li>
-                        <li>Thermal insulation</li>
-                        <li>Easy installation</li>
-                        <li>Machine washable</li>
-                    </ul>
-                    <div class="product-actions">
-                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
-                        <a href="pages/cup-sleeve-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
-                    </div>
-                </div>
-                
-                <!-- Baby Bottle -->
-                <div class="product-tile">
-                    <div class="product-badge">Premium</div>
-                    <div class="product-image">
-                        <img src="assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Baby Bottle v1.0</h3>
-                    <p class="product-description">
-                        Smart baby bottle with feeding tracking, temperature monitoring, and safety alerts for parents.
-                    </p>
-                    <div class="product-price">$79.99</div>
-                    <ul class="product-features">
-                        <li>BPA-free materials</li>
-                        <li>Feeding time tracking</li>
-                        <li>Temperature alerts</li>
-                        <li>Parent app integration</li>
-                    </ul>
-                    <div class="product-actions">
-                        <a href="pages/pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
-                        <a href="pages/baby-bottle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Subscription Tiers Section -->
-    <section class="section subscription-preview-section">
-        <div class="container">
-            <h2 class="section-title">Choose Your DAMP Plan</h2>
-            <p class="section-subtitle">
-                From free trials to unlimited family plans, we have the perfect tier for your smart drinkware needs.
-            </p>
-            
-            <div class="subscription-preview-grid">
-                <!-- Free Tier -->
-                <div class="subscription-preview-card">
-                    <div class="tier-header">
-                        <h3 class="tier-name">DAMP Free</h3>
-                        <div class="tier-price">
-                            <span class="price-amount">$0</span>
-                            <span class="price-period">Forever</span>
-                        </div>
-                    </div>
-                    <div class="tier-description">Perfect for trying out DAMP Smart Drinkware</div>
-                    <ul class="tier-features">
-                        <li>1 Connected Device</li>
-                        <li>2 Safe Zones</li>
-                        <li>Basic Notifications</li>
-                        <li>Mobile App Access</li>
-                    </ul>
-                    <div class="tier-actions">
-                        <a href="pages/subscription.html?plan=free" class="btn btn-secondary">Get Started Free</a>
-                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
-                    </div>
-                </div>
-
-                <!-- DAMP+ Tier -->
-                <div class="subscription-preview-card popular">
-                    <div class="popular-badge">Most Popular</div>
-                    <div class="tier-header">
-                        <h3 class="tier-name">DAMP+</h3>
-                        <div class="tier-price">
-                            <span class="price-amount">$2.99</span>
-                            <span class="price-period">per month</span>
-                        </div>
-                    </div>
-                    <div class="tier-description">Enhanced features for power users</div>
-                    <ul class="tier-features">
-                        <li>3 Connected Devices</li>
-                        <li>5 Safe Zones</li>
-                        <li>Standard Notifications</li>
-                        <li>Priority Support</li>
-                    </ul>
-                    <div class="tier-actions">
-                        <a href="pages/subscription.html?plan=damp_plus" class="btn btn-primary">Upgrade to DAMP+</a>
-                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
-                    </div>
-                </div>
-
-                <!-- DAMP Family Tier -->
-                <div class="subscription-preview-card">
-                    <div class="tier-header">
-                        <h3 class="tier-name">DAMP Family</h3>
-                        <div class="tier-price">
-                            <span class="price-amount">$5.99</span>
-                            <span class="price-period">per month</span>
-                        </div>
-                    </div>
-                    <div class="tier-description">Complete solution for families and teams</div>
-                    <ul class="tier-features">
-                        <li>10 Connected Devices</li>
-                        <li>Unlimited Safe Zones</li>
-                        <li>Custom Notifications</li>
-                        <li>Family Sharing</li>
-                    </ul>
-                    <div class="tier-actions">
-                        <a href="pages/subscription.html?plan=damp_family" class="btn btn-secondary">Go Family Plan</a>
-                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="subscription-cta">
-                <h3>Ready to Never Leave Your Drink Behind?</h3>
-                <p>Start with our free tier or choose the perfect plan for your needs.</p>
-                <a href="pages/subscription.html" class="btn btn-primary btn-large">View All Plans & Features</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Voting Section -->
-    <section class="section section-centered voting-section">
-        <div class="container">
-            <div class="voting-content">
-                <span class="voting-emoji">🗳️</span>
-                
-                <h2 class="voting-title">Help Us Prioritize Development</h2>
-                
-                <p class="voting-description">
-                    Which DAMP product are you most excited about? Your vote helps us decide which product to develop and ship first. 
-                    Join our community and see real-time voting results!
-                </p>
-                
-                <div class="voting-stats">
-                    <div class="vote-stat">
-                        <span class="vote-stat-number">2,847</span>
-                        <span class="vote-stat-label">Total Votes</span>
-                    </div>
-                    <div class="vote-stat">
-                        <span class="vote-stat-number">Handle</span>
-                        <span class="vote-stat-label">Currently Leading</span>
-                    </div>
-                    <div class="vote-stat">
-                        <span class="vote-stat-number">68%</span>
-                        <span class="vote-stat-label">Completion Rate</span>
-                    </div>
-                </div>
-                
-                <a href="pages/product-voting.html" class="btn-vote">
-                    🗳️ Vote for Next Product
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Products</h3>
-                    <a href="pages/products.html">All Products</a>
-                    <a href="pages/damp-handle-v1.0.html">DAMP Handle</a>
-                    <a href="pages/silicone-bottom-v1.0.html">Silicone Bottom</a>
-                    <a href="pages/cup-sleeve-v1.0.html">Cup Sleeve</a>
-                    <a href="pages/baby-bottle-v1.0.html">Baby Bottle</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Community</h3>
-                    <a href="pages/product-voting.html">Product Voting</a>
-                    <a href="pages/pre-sale-funnel.html">Pre-Sale Funnel</a>
-                    <a href="pages/support.html">Support Center</a>
-                    <a href="pages/about.html">About Us</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Legal</h3>
-                    <a href="pages/privacy.html">Privacy Policy</a>
-                    <a href="pages/cookie-policy.html">Cookie Policy</a>
-                    <a href="pages/support.html">Terms of Service</a>
-                    <a href="pages/support.html#contact">Contact</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Connect</h3>
-                    <a href="#" target="_blank" rel="noopener">Twitter</a>
-                    <a href="#" target="_blank" rel="noopener">Facebook</a>
-                    <a href="#" target="_blank" rel="noopener">Instagram</a>
-                    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 WeCr8 Solutions LLC. All rights reserved.</p>
-                <p style="margin-top: 10px; font-size: 0.8rem; opacity: 0.7;">
-                    DAMP - Drink Abandonment Monitoring Protocol™
-                </p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="assets/js/components/safe-area-wrapper.js"></script>
-    <script src="assets/js/components/favicon-setup.js"></script>
-    <script src="assets/js/components/hero-animation.js"></script>
-    <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/cookie-consent-simple.js"></script>
-    
-    <!-- Firebase Services (ES6 Modules) -->
-    <script type="module">
-        import { 
-            authService, 
-            statsService, 
-            votingService, 
-            adminService, 
-            initializeFirebaseServices 
-        } from './js/firebase-services.js';
-        
-        // Make services globally available
-        window.firebaseServices = {
-            authService,
-            statsService,
-            votingService,
-            adminService,
-            initializeFirebaseServices
-        };
-        
-        console.log('Firebase services loaded');
+      console.log('✅ DAMP Analytics initialized for Home Page');
     </script>
     
     <!-- Real-time Stats Manager -->

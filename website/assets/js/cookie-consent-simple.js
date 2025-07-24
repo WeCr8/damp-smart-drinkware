@@ -263,6 +263,9 @@ class SimpleCookieConsent {
         };
     }
 
+    /**
+     * Update analytics consent and notify analytics system
+     */
     updateAnalyticsConsent() {
         // Update Google Analytics consent mode
         if (window.gtag) {
@@ -270,9 +273,26 @@ class SimpleCookieConsent {
                 'analytics_storage': this.consentData.analytics ? 'granted' : 'denied',
                 'ad_storage': this.consentData.marketing ? 'granted' : 'denied',
                 'functionality_storage': this.consentData.functional ? 'granted' : 'denied',
-                'personalization_storage': this.consentData.marketing ? 'granted' : 'denied'
+                'personalization_storage': this.consentData.marketing ? 'granted' : 'denied',
+                'ad_user_data': this.consentData.marketing ? 'granted' : 'denied',
+                'ad_personalization': this.consentData.marketing ? 'granted' : 'denied'
             });
         }
+        
+        // Notify DAMP Analytics service if available
+        if (window.dampAnalytics && window.dampAnalytics.updateConsent) {
+            window.dampAnalytics.updateConsent(this.consentData);
+        }
+        
+        // Notify analytics utils if available
+        if (window.dampAnalyticsUtils && window.dampAnalyticsUtils.updateConsent) {
+            window.dampAnalyticsUtils.updateConsent(this.consentData);
+        }
+        
+        // Dispatch custom event for other integrations
+        window.dispatchEvent(new CustomEvent('cookieConsentUpdated', {
+            detail: this.consentData
+        }));
     }
 
     trackEvent(event, data = {}) {

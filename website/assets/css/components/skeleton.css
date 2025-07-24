@@ -1,0 +1,101 @@
+/**
+ * Professional Skeleton Loading System
+ * Google Material Design inspired loading states
+ */
+
+.product-card--loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.product-skeleton {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}
+
+.skeleton-image {
+    width: 200px;
+    height: 150px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.1) 25%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(255, 255, 255, 0.1) 75%
+    );
+    background-size: 400% 100%;
+    border-radius: 10px;
+    margin: 0 auto 20px;
+    animation: skeleton-shimmer 2s infinite;
+}
+
+.skeleton-text {
+    height: 20px;
+    background: linear-gradient(90deg, 
+        rgba(255, 255, 255, 0.1) 25%, 
+        rgba(255, 255, 255, 0.2) 50%, 
+        rgba(255, 255, 255, 0.1) 75%
+    );
+    background-size: 400% 100%;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    animation: skeleton-shimmer 2s infinite;
+}
+
+.skeleton-text--title {
+    width: 80%;
+    height: 24px;
+}
+
+.skeleton-text--price {
+    width: 60%;
+    height: 32px;
+}
+
+.skeleton-text--features {
+    width: 100%;
+    height: 100px;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -400% 0;
+    }
+    100% {
+        background-position: 400% 0;
+    }
+}
+
+@keyframes skeleton-pulse {
+    0%, 100% {
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.9;
+    }
+}
+
+/* Error States */
+.product-card--error {
+    border: 1px solid rgba(255, 68, 68, 0.3);
+    background: rgba(255, 68, 68, 0.05);
+}
+
+.product-error {
+    text-align: center;
+    padding: 40px 20px;
+    color: #ff4444;
+}
+
+.error-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+
+.product-error h3 {
+    color: #ff4444;
+    margin-bottom: 10px;
+}
+
+.product-error p {
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+} 

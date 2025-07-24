@@ -1,0 +1,5 @@
+# DAMP-specific paths
+Allow: /damp-ai-knowledge-base.md
+Allow: /damp-product-faqs.json
+Allow: /damp-use-cases.json
+Allow: /damp-knowledge-graph.json

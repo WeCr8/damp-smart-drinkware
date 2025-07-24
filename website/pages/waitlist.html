@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Join DAMP Waitlist - Get Early Access | DAMP Smart Drinkware</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Join the DAMP Smart Drinkware waitlist for early access to revolutionary BLE-enabled beverage tracking technology. Get exclusive updates, pre-order discounts, and be first to know about launch dates.">
+    <meta name="keywords" content="DAMP waitlist, smart drinkware pre-order, BLE beverage tracking, early access, exclusive updates, drink monitoring technology">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/waitlist.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/waitlist.html">
+    <meta property="og:title" content="Join the DAMP Smart Drinkware Waitlist">
+    <meta property="og:description" content="Get early access to revolutionary smart drinkware with BLE technology. Join our waitlist for exclusive updates and pre-order discounts.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Join the DAMP Smart Drinkware Waitlist">
+    <meta name="twitter:description" content="Get early access to revolutionary smart drinkware with BLE technology. Join our waitlist for exclusive updates and pre-order discounts.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- DAMP Analytics - Google Analytics 4 with GDPR Compliance -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for waitlist page
+      function trackWaitlistPageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - Waitlist',
+          'page_location': window.location.href,
+          'content_group1': 'waitlist',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'page_type': 'waitlist'
+          }
+        });
+      }
+
+      // Track page view when gtag is ready
+      setTimeout(trackWaitlistPageView, 100);
+
+      // Track waitlist interactions
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'waitlist',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'waitlist'
+            }
+          });
+        }
+      });
+
+      console.log('✅ DAMP Analytics initialized for Waitlist Page');
+    </script>
+    
+    <!-- Structured Data - Waitlist Page -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "DAMP Smart Drinkware Waitlist",
+        "description": "Join the waitlist for early access to revolutionary smart drinkware with BLE technology",
+        "url": "https://dampdrink.com/pages/waitlist.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "DAMP Smart Drinkware",
+            "offers": {
+                "@type": "Offer",
+                "availability": "https://schema.org/PreOrder",
+                "category": "Smart Home Technology"
+            }
+        }
+    }
+    </script>
+    
+    <style>
+        :root {
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-right: env(safe-area-inset-right);
+            --safe-area-bottom: env(safe-area-inset-bottom);
+            --safe-area-left: env(safe-area-inset-left);
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            line-height: 1.6;
+            overflow-x: hidden;
+            padding-top: calc(var(--nav-height) + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            padding-bottom: var(--safe-area-bottom);
+            min-height: 100vh;
+            min-height: 100dvh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 max(20px, var(--safe-area-left));
+            width: 100%;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            padding-top: calc(15px + var(--safe-area-top));
+            padding-left: var(--safe-area-left);
+            padding-right: var(--safe-area-right);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: #00d4ff;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+            border-radius: 3px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-6px, -6px);
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 15, 35, 0.98);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 1001;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            padding: 100px 40px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: #00d4ff;
+        }
+
+        .mobile-close {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* Main Content */
+        .waitlist-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .waitlist-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .waitlist-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .waitlist-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .card-title {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+
+        .card-description {
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #00d4ff;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-top: 3px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .btn {
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .benefits {
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 30px;
+        }
+
+        .benefits h4 {
+            color: #00d4ff;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .benefits li {
+            padding: 5px 0;
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .benefits li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        /* Success Message */
+        .success-message {
+            display: none;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        /* Footer */
+        footer {
+            padding: 60px 0 30px;
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            :root {
+                --nav-height: 70px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .waitlist-options {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .waitlist-card {
+                padding: 30px;
+            }
+            
+            .card-title {
+                font-size: 1.6rem;
+            }
+            
+            .card-description {
+                font-size: 1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 16px;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.2;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .waitlist-card {
+                padding: 20px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+            
+            .card-description {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="../index.html" class="logo">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo">
+                DAMP
+            </a>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../index.html#products">Products</a></li>
+                <li><a href="../index.html#app">App</a></li>
+                <li><a href="../index.html#contact">Contact</a></li>
+            </ul>
+            
+            <div class="hamburger" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+        
+        <div class="mobile-menu" id="mobile-menu">
+            <button class="mobile-close" onclick="toggleMobileMenu()">×</button>
+            <a href="../index.html">Home</a>
+            <a href="../index.html#products">Products</a>
+            <a href="../index.html#app">App</a>
+            <a href="../index.html#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="waitlist-hero">
+        <div class="container">
+            <h1 class="hero-title">Join the DAMP Revolution</h1>
+            <p class="hero-subtitle">Get early access to our smart drinkware products and mobile app. Be among the first to experience the future of beverage tracking!</p>
+        </div>
+    </section>
+
+    <section style="padding: 0 0 100px;">
+        <div class="container">
+            <div class="waitlist-options">
+                <!-- App Waitlist -->
+                <div class="waitlist-card">
+                    <div class="card-icon">📱</div>
+                    <h3 class="card-title">Mobile App Waitlist</h3>
+                    <p class="card-description">Be the first to download the DAMP mobile app when it launches. Get beta access and help shape the future of smart drinkware.</p>
+                    
+                    <form id="appWaitlistForm">
+                        <div class="form-group">
+                            <label for="app-name">Full Name</label>
+                            <input type="text" id="app-name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="app-email">Email Address</label>
+                            <input type="email" id="app-email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="app-platform">Preferred Platform</label>
+                            <select id="app-platform" name="platform" required>
+                                <option value="">Select your platform</option>
+                                <option value="ios">iOS (iPhone/iPad)</option>
+                                <option value="android">Android</option>
+                                <option value="both">Both iOS and Android</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="app-interests">What features interest you most?</label>
+                            <textarea id="app-interests" name="interests" rows="3" placeholder="Tell us what you're most excited about (optional)"></textarea>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="app-beta" name="beta" value="yes">
+                            <label for="app-beta">I'm interested in beta testing the app before public release</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="app-updates" name="updates" value="yes" checked>
+                            <label for="app-updates">Send me development updates and progress reports</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join App Waitlist</button>
+                    </form>
+
+                    <div class="benefits">
+                        <h4>App Waitlist Benefits:</h4>
+                        <ul>
+                            <li>First access to beta testing</li>
+                            <li>Priority download when app launches</li>
+                            <li>Exclusive development updates</li>
+                            <li>Direct feedback channel to our team</li>
+                            <li>Special in-app features for early users</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Product Updates Waitlist -->
+                <div class="waitlist-card">
+                    <div class="card-icon">🚀</div>
+                    <h3 class="card-title">Product Updates List</h3>
+                    <p class="card-description">Stay informed about all DAMP products, pre-order opportunities, and exclusive launch events. Get insider access to our development process.</p>
+                    
+                    <form id="productWaitlistForm">
+                        <div class="form-group">
+                            <label for="product-name">Full Name</label>
+                            <input type="text" id="product-name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-email">Email Address</label>
+                            <input type="email" id="product-email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-interests">Which products interest you most?</label>
+                            <select id="product-interests" name="products" required>
+                                <option value="">Select your interest</option>
+                                <option value="damp-handle">DAMP Handle v1.0</option>
+                                <option value="silicone-bottom">DAMP Silicone Bottom</option>
+                                <option value="cup-sleeve">DAMP Cup Sleeve</option>
+                                <option value="baby-bottle">DAMP Baby Bottle</option>
+                                <option value="all">All Products</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-role">How would you use DAMP products?</label>
+                            <select id="product-role" name="useCase">
+                                <option value="">Select use case</option>
+                                <option value="personal">Personal use at home</option>
+                                <option value="office">Office/workplace</option>
+                                <option value="travel">Travel and commuting</option>
+                                <option value="cafe">Coffee shops and cafes</option>
+                                <option value="parent">Parenting and childcare</option>
+                                <option value="business">Business/corporate gifts</option>
+                            </select>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="product-preorder" name="preorder" value="yes">
+                            <label for="product-preorder">Notify me when pre-orders open for my selected products</label>
+                        </div>
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="product-events" name="events" value="yes">
+                            <label for="product-events">Invite me to exclusive launch events and demos</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Join Product Updates</button>
+                    </form>
+
+                    <div class="benefits">
+                        <h4>Product Updates Benefits:</h4>
+                        <ul>
+                            <li>Early pre-order access with special pricing</li>
+                            <li>Monthly development progress reports</li>
+                            <li>Exclusive launch event invitations</li>
+                            <li>Behind-the-scenes content and videos</li>
+                            <li>Direct input on product features</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Message -->
+            <div id="successMessage" class="success-message">
+                <h3 style="color: #00ff88; margin-bottom: 15px;">🎉 Welcome to the DAMP Community!</h3>
+                <p>Thank you for joining our waitlist. You'll receive a confirmation email shortly with your next steps and exclusive updates.</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">Check your spam folder if you don't see our email within a few minutes.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    
+    <script>
+        // Analytics tracking function
+        function trackEvent(eventName, parameters = {}) {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', eventName, {
+                    event_category: parameters.category || 'engagement',
+                    event_label: parameters.label || '',
+                    value: parameters.value || 0,
+                    custom_parameter_action: parameters.action || '',
+                    custom_parameter_location: parameters.location || '',
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+            
+            if (typeof fbq !== 'undefined') {
+                fbq('track', eventName, parameters);
+            }
+            
+            console.log('Event tracked:', eventName, parameters);
+        }
+
+        // Track form interactions
+        function trackFormStart(formType) {
+            trackEvent('form_start', {
+                action: formType,
+                category: 'waitlist',
+                location: 'waitlist_page'
+            });
+        }
+
+        function trackFormSubmit(formType, additionalData = {}) {
+            trackEvent('form_submit', {
+                action: formType,
+                category: 'waitlist',
+                location: 'waitlist_page',
+                ...additionalData
+            });
+            
+            // Track as conversion
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'conversion', {
+                    'send_to': 'GA_MEASUREMENT_ID',
+                    'event_category': 'waitlist_signup',
+                    'event_label': formType
+                });
+            }
+        }
+
+        // Handle App Waitlist Form
+        document.getElementById('appWaitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                type: 'app_waitlist',
+                name: formData.get('name'),
+                email: formData.get('email'),
+                platform: formData.get('platform'),
+                interests: formData.get('interests'),
+                beta: formData.get('beta') === 'yes',
+                updates: formData.get('updates') === 'yes'
+            };
+            
+            // Track form submission
+            trackFormSubmit('app_waitlist', {
+                platform: data.platform,
+                beta_interested: data.beta
+            });
+            
+            // In a real implementation, this would send to your backend
+            console.log('App Waitlist Signup:', data);
+            
+            // Show success message
+            showSuccessMessage('app');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Handle Product Waitlist Form
+        document.getElementById('productWaitlistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const data = {
+                type: 'product_waitlist',
+                name: formData.get('name'),
+                email: formData.get('email'),
+                products: formData.get('products'),
+                useCase: formData.get('useCase'),
+                preorder: formData.get('preorder') === 'yes',
+                events: formData.get('events') === 'yes'
+            };
+            
+            // Track form submission
+            trackFormSubmit('product_waitlist', {
+                product_interest: data.products,
+                use_case: data.useCase,
+                preorder_interested: data.preorder
+            });
+            
+            // In a real implementation, this would send to your backend
+            console.log('Product Waitlist Signup:', data);
+            
+            // Show success message
+            showSuccessMessage('product');
+            
+            // Reset form
+            this.reset();
+        });
+
+        function showSuccessMessage(type = '') {
+            const successMessage = document.getElementById('successMessage');
+            successMessage.classList.add('show');
+            
+            // Track success message view
+            trackEvent('waitlist_success', {
+                action: 'success_shown',
+                category: 'waitlist',
+                label: type
+            });
+            
+            // Scroll to success message
+            successMessage.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'center' 
+            });
+            
+            // Hide after 10 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+            }, 10000);
+        }
+
+        // Track form starts when user interacts with form fields
+        document.querySelectorAll('#appWaitlistForm input, #appWaitlistForm select, #appWaitlistForm textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackFormStart('app_waitlist');
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        document.querySelectorAll('#productWaitlistForm input, #productWaitlistForm select, #productWaitlistForm textarea').forEach(input => {
+            input.addEventListener('focus', function() {
+                if (!this.dataset.tracked) {
+                    trackFormStart('product_waitlist');
+                    this.dataset.tracked = 'true';
+                }
+            });
+        });
+
+        // Track page engagement
+        function trackPageEngagement() {
+            let timeOnPage = 0;
+            const interval = setInterval(() => {
+                timeOnPage += 5;
+                
+                if (timeOnPage === 30) {
+                    trackEvent('page_engagement', {
+                        action: '30_seconds',
+                        category: 'engagement',
+                        value: 30
+                    });
+                } else if (timeOnPage === 60) {
+                    trackEvent('page_engagement', {
+                        action: '1_minute',
+                        category: 'engagement',
+                        value: 60
+                    });
+                } else if (timeOnPage === 120) {
+                    trackEvent('page_engagement', {
+                        action: '2_minutes',
+                        category: 'engagement',
+                        value: 120
+                    });
+                    clearInterval(interval);
+                }
+            }, 5000);
+        }
+
+        // Track scroll depth
+        function trackScrollDepth() {
+            let scrollDepthTracked = {
+                25: false,
+                50: false,
+                75: false,
+                100: false
+            };
+
+            window.addEventListener('scroll', () => {
+                const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                
+                Object.keys(scrollDepthTracked).forEach(depth => {
+                    if (scrollPercent >= depth && !scrollDepthTracked[depth]) {
+                        scrollDepthTracked[depth] = true;
+                        trackEvent('scroll_depth', {
+                            action: `${depth}_percent`,
+                            category: 'engagement',
+                            value: parseInt(depth)
+                        });
+                    }
+                });
+            });
+        }
+
+        // Initialize tracking
+        trackPageEngagement();
+        trackScrollDepth();
+
+        // Get URL parameters to pre-select platform if coming from app buttons
+        const urlParams = new URLSearchParams(window.location.search);
+        const platform = urlParams.get('platform');
+        if (platform) {
+            document.getElementById('app-platform').value = platform;
+            
+            // Track referral from specific platform button
+            trackEvent('referral', {
+                action: 'platform_preselect',
+                category: 'navigation',
+                label: platform
+            });
+        }
+
+        // Hamburger menu functionality
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            menu.classList.toggle('active');
+            hamburger.classList.toggle('active');
+            
+            // Prevent body scroll when menu is open
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        // Close mobile menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const menu = document.getElementById('mobile-menu');
+            const hamburger = document.querySelector('.hamburger');
+            
+            if (menu.classList.contains('active') && 
+                !menu.contains(event.target) && 
+                !hamburger.contains(event.target)) {
+                toggleMobileMenu();
+            }
+        });
+
+        // Close mobile menu on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const menu = document.getElementById('mobile-menu');
+                if (menu.classList.contains('active')) {
+                    toggleMobileMenu();
+                }
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>DAMP SafeAreaWrapper Test</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: white;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .test-card {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        
+        .test-button {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .test-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        .debug-output {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .safe-area-demo {
+            border: 2px dashed #00d4ff;
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+            position: relative;
+        }
+        
+        .device-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .info-item {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .info-label {
+            font-weight: bold;
+            color: #00ff88;
+        }
+        
+        .info-value {
+            color: white;
+        }
+        
+        /* Test utility classes */
+        .test-safe-area {
+            background: rgba(255, 71, 87, 0.2);
+            border: 2px solid #ff4757;
+        }
+        
+        .test-safe-container {
+            background: rgba(255, 165, 0, 0.2);
+            border: 2px solid #ffa502;
+        }
+        
+        .orientation-indicator {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 212, 255, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 10000;
+        }
+        
+        /* Real-time visual indicators */
+        .safe-area-visualizer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 5000;
+        }
+        
+        .safe-area-indicator {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.5);
+        }
+        
+        .safe-area-top {
+            top: 0;
+            left: 0;
+            right: 0;
+            height: var(--damp-safe-area-top);
+        }
+        
+        .safe-area-bottom {
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: var(--damp-safe-area-bottom);
+        }
+        
+        .safe-area-left {
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: var(--damp-safe-area-left);
+        }
+        
+        .safe-area-right {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: var(--damp-safe-area-right);
+        }
+    </style>
+</head>
+<body>
+    <!-- Orientation Indicator -->
+    <div class="orientation-indicator" id="orientationIndicator">
+        <span id="orientationText">Loading...</span>
+    </div>
+    
+    <!-- Safe Area Visual Indicators -->
+    <div class="safe-area-visualizer" id="safeAreaVisualizer">
+        <div class="safe-area-indicator safe-area-top" title="Safe Area Top"></div>
+        <div class="safe-area-indicator safe-area-bottom" title="Safe Area Bottom"></div>
+        <div class="safe-area-indicator safe-area-left" title="Safe Area Left"></div>
+        <div class="safe-area-indicator safe-area-right" title="Safe Area Right"></div>
+    </div>
+    
+    <h1>🛡️ DAMP SafeAreaWrapper Test Page</h1>
+    
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+    
+    <!-- Device Information -->
+    <div class="test-section">
+        <h2>Device Information</h2>
+        <div class="device-info" id="deviceInfo">
+            <div class="info-item">
+                <div class="info-label">Device Type:</div>
+                <div class="info-value" id="deviceType">Unknown</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Orientation:</div>
+                <div class="info-value" id="orientation">Unknown</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Screen Size:</div>
+                <div class="info-value" id="screenSize">Unknown</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Has Notch:</div>
+                <div class="info-value" id="hasNotch">Unknown</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Has Dynamic Island:</div>
+                <div class="info-value" id="hasDynamicIsland">Unknown</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Viewport:</div>
+                <div class="info-value" id="viewport">Unknown</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Safe Area Values -->
+    <div class="test-section">
+        <h2>Safe Area Values</h2>
+        <div class="device-info" id="safeAreaValues">
+            <div class="info-item">
+                <div class="info-label">Top:</div>
+                <div class="info-value" id="safeAreaTop">0px</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Right:</div>
+                <div class="info-value" id="safeAreaRight">0px</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Bottom:</div>
+                <div class="info-value" id="safeAreaBottom">0px</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Left:</div>
+                <div class="info-value" id="safeAreaLeft">0px</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Utility Classes Test -->
+    <div class="test-section">
+        <h2>Safe Area Utility Classes Demo</h2>
+        
+        <h3>1. Full Safe Area (.damp-safe-area)</h3>
+        <div class="safe-area-demo damp-safe-area test-safe-area">
+            <span>Content with full safe area padding</span>
+        </div>
+        
+        <h3>2. Safe Container (.damp-container-safe)</h3>
+        <div class="safe-area-demo damp-container-safe test-safe-container">
+            <span>Responsive container with safe area support</span>
+        </div>
+        
+        <h3>3. Safe Area Top (.damp-safe-area-top)</h3>
+        <div class="safe-area-demo damp-safe-area-top test-safe-area">
+            <span>Content with top safe area padding only</span>
+        </div>
+        
+        <h3>4. Safe Area Horizontal (.damp-safe-area-horizontal)</h3>
+        <div class="safe-area-demo damp-safe-area-horizontal test-safe-area">
+            <span>Content with left/right safe area padding</span>
+        </div>
+        
+        <h3>5. Full Viewport Height (.damp-vh-safe)</h3>
+        <div class="safe-area-demo damp-vh-safe test-safe-container" style="min-height: auto;">
+            <span>Full viewport height with safe areas</span>
+        </div>
+    </div>
+    
+    <!-- Control Panel -->
+    <div class="test-section">
+        <h2>Test Controls</h2>
+        <div class="test-grid">
+            <div class="test-card">
+                <h3>Debug Functions</h3>
+                <button class="test-button" onclick="debugSafeArea()">Debug Safe Area</button>
+                <button class="test-button" onclick="debugNavigation()">Debug Navigation</button>
+                <button class="test-button" onclick="recalculateSafeAreas()">Recalculate</button>
+            </div>
+            
+            <div class="test-card">
+                <h3>Visual Controls</h3>
+                <button class="test-button" onclick="toggleSafeAreaVisualizer()">Toggle Visualizer</button>
+                <button class="test-button" onclick="simulateOrientationChange()">Simulate Orientation</button>
+                <button class="test-button" onclick="testResponsive()">Test Responsive</button>
+            </div>
+            
+            <div class="test-card">
+                <h3>Device Tests</h3>
+                <button class="test-button" onclick="testIOSDevice()">Test iOS</button>
+                <button class="test-button" onclick="testAndroidDevice()">Test Android</button>
+                <button class="test-button" onclick="testDesktopDevice()">Test Desktop</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Live Output -->
+    <div class="test-section">
+        <h2>Live Debug Output</h2>
+        <div class="debug-output" id="debugOutput">
+            Initializing SafeAreaWrapper test page...
+        </div>
+        <button class="test-button" onclick="clearDebugOutput()">Clear Output</button>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="assets/js/components/safe-area-wrapper.js"></script>
+    <script src="assets/js/components/header.js"></script>
+    
+    <script>
+        // Test page functionality
+        let debugOutput = document.getElementById('debugOutput');
+        let visualizerVisible = true;
+        
+        function log(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            debugOutput.textContent += `[${timestamp}] ${message}\n`;
+            debugOutput.scrollTop = debugOutput.scrollHeight;
+            console.log(`SafeArea Test: ${message}`);
+        }
+        
+        function clearDebugOutput() {
+            debugOutput.textContent = '';
+            log('Debug output cleared');
+        }
+        
+        function updateDeviceInfo() {
+            if (!window.dampSafeArea) {
+                log('SafeAreaWrapper not available');
+                return;
+            }
+            
+            const deviceInfo = window.dampSafeArea.getDeviceInfo();
+            const viewport = `${window.innerWidth}x${window.innerHeight}`;
+            
+            // Update device info
+            document.getElementById('deviceType').textContent = deviceInfo.deviceType;
+            document.getElementById('orientation').textContent = deviceInfo.orientation;
+            document.getElementById('screenSize').textContent = deviceInfo.screenSize;
+            document.getElementById('hasNotch').textContent = deviceInfo.hasNotch ? 'Yes' : 'No';
+            document.getElementById('hasDynamicIsland').textContent = deviceInfo.hasDynamicIsland ? 'Yes' : 'No';
+            document.getElementById('viewport').textContent = viewport;
+            
+            // Update safe area values
+            document.getElementById('safeAreaTop').textContent = window.dampSafeArea.getSafeAreaValue('top');
+            document.getElementById('safeAreaRight').textContent = window.dampSafeArea.getSafeAreaValue('right');
+            document.getElementById('safeAreaBottom').textContent = window.dampSafeArea.getSafeAreaValue('bottom');
+            document.getElementById('safeAreaLeft').textContent = window.dampSafeArea.getSafeAreaValue('left');
+            
+            // Update orientation indicator
+            document.getElementById('orientationText').textContent = 
+                `${deviceInfo.orientation.toUpperCase()} | ${deviceInfo.screenSize.toUpperCase()} | ${viewport}`;
+        }
+        
+        function recalculateSafeAreas() {
+            if (window.dampSafeArea) {
+                window.dampSafeArea.recalculate();
+                log('Safe areas recalculated');
+                updateDeviceInfo();
+            }
+        }
+        
+        function toggleSafeAreaVisualizer() {
+            const visualizer = document.getElementById('safeAreaVisualizer');
+            visualizerVisible = !visualizerVisible;
+            visualizer.style.display = visualizerVisible ? 'block' : 'none';
+            log(`Safe area visualizer ${visualizerVisible ? 'enabled' : 'disabled'}`);
+        }
+        
+        function simulateOrientationChange() {
+            log('Simulating orientation change...');
+            setTimeout(() => {
+                if (window.dampSafeArea) {
+                    window.dampSafeArea.handleOrientationChange();
+                    updateDeviceInfo();
+                    log('Orientation change simulated');
+                }
+            }, 500);
+        }
+        
+        function testResponsive() {
+            log('Testing responsive behavior...');
+            const sizes = [
+                { width: 320, label: 'Mobile Portrait' },
+                { width: 768, label: 'Tablet Portrait' },
+                { width: 1024, label: 'Desktop' },
+                { width: 1440, label: 'Large Desktop' }
+            ];
+            
+            let index = 0;
+            const testNext = () => {
+                if (index < sizes.length) {
+                    const size = sizes[index];
+                    log(`Testing ${size.label} (${size.width}px)`);
+                    // In a real test, you'd resize the window or simulate
+                    setTimeout(() => {
+                        updateDeviceInfo();
+                        index++;
+                        testNext();
+                    }, 1000);
+                }
+            };
+            testNext();
+        }
+        
+        function testIOSDevice() {
+            log('This would simulate iOS device characteristics in a real test environment');
+        }
+        
+        function testAndroidDevice() {
+            log('This would simulate Android device characteristics in a real test environment');
+        }
+        
+        function testDesktopDevice() {
+            log('This would simulate desktop characteristics in a real test environment');
+        }
+        
+        // Event listeners for SafeAreaWrapper events
+        window.addEventListener('damp:safearea:orientationchange', (e) => {
+            log(`Orientation changed: ${e.detail.orientation}`);
+            updateDeviceInfo();
+        });
+        
+        window.addEventListener('damp:safearea:screensize', (e) => {
+            log(`Screen size changed: ${e.detail.oldSize} → ${e.detail.newSize}`);
+            updateDeviceInfo();
+        });
+        
+        window.addEventListener('damp:safearea:viewport', (e) => {
+            log(`Viewport changed. Keyboard visible: ${e.detail.keyboardVisible}`);
+            updateDeviceInfo();
+        });
+        
+        // Initialize when SafeAreaWrapper is ready
+        function initializeTest() {
+            if (window.dampSafeArea) {
+                log('SafeAreaWrapper detected and ready');
+                updateDeviceInfo();
+                
+                // Set up periodic updates
+                setInterval(updateDeviceInfo, 5000);
+            } else {
+                log('SafeAreaWrapper not found, retrying...');
+                setTimeout(initializeTest, 500);
+            }
+        }
+        
+        // Start initialization
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeTest);
+        } else {
+            initializeTest();
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            setTimeout(updateDeviceInfo, 100);
+        });
+        
+        // Initial log
+        log('SafeAreaWrapper test page loaded');
+    </script>
+</body>
+</html> 

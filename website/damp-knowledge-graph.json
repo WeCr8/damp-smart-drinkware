@@ -1,0 +1,117 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Brand",
+  "name": "DAMP Smart Drinkware",
+  "alternateName": ["DAMP", "Drink Abandonment Monitoring Protocol"],
+  "description": "Revolutionary smart drinkware technology that prevents beverage abandonment using advanced BLE tracking and mobile app integration",
+  "manufacturer": "WeCr8 Solutions LLC",
+  "url": "https://dampdrink.com",
+  "logo": "https://dampdrink.com/assets/images/logo/damp-logo.png",
+  "foundingDate": "2024",
+  "category": "Smart Home Technology",
+  "industry": "IoT Drinkware",
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "DAMP Smart Drinkware Collection",
+    "itemListElement": [
+      {
+        "@type": "Product",
+        "name": "DAMP Handle v1.0",
+        "description": "Universal BLE attachment that transforms any existing mug into smart drinkware",
+        "price": "$49.99",
+        "availability": "PreOrder",
+        "deliveryTime": "Q3 2025",
+        "features": [
+          "Universal mug compatibility",
+          "6-month battery life",
+          "IP67 waterproof rating",
+          "Smart zone detection",
+          "Mobile app integration"
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "DAMP Silicone Bottom",
+        "description": "Smart silicone base with integrated BLE technology for beverage monitoring",
+        "price": "$29.99",
+        "availability": "PreOrder",
+        "deliveryTime": "Q4 2025",
+        "features": [
+          "Universal cup compatibility",
+          "Non-slip surface",
+          "Wireless charging ready",
+          "Dishwasher safe",
+          "Smart proximity alerts"
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "DAMP Cup Sleeve",
+        "description": "Flexible silicone sleeve with integrated sensors for drink monitoring",
+        "price": "$34.99",
+        "availability": "PreOrder",
+        "deliveryTime": "Q4 2025",
+        "features": [
+          "Flexible fit design",
+          "Heat-resistant up to 200°F",
+          "Comfortable grip texture",
+          "Easy maintenance",
+          "Multi-size compatibility"
+        ]
+      },
+      {
+        "@type": "Product",
+        "name": "DAMP Baby Bottle",
+        "description": "Smart baby bottle with temperature monitoring and feeding alerts",
+        "price": "$79.99",
+        "availability": "PreOrder",
+        "deliveryTime": "Q1 2026",
+        "features": [
+          "BPA-free materials",
+          "Temperature monitoring",
+          "Feeding schedule reminders",
+          "Parent proximity alerts",
+          "Easy-clean design"
+        ]
+      }
+    ]
+  },
+  "technology": {
+    "connectivity": "Bluetooth 5.0 Low Energy",
+    "range": "Up to 100 feet (30 meters)",
+    "battery": "Up to 6 months per charge",
+    "charging": "USB-C fast charging",
+    "compatibility": "iOS and Android apps",
+    "waterResistance": "IP67 rating",
+    "materials": "Food-grade silicone, BPA-free plastics"
+  },
+  "applications": [
+    "Home beverage monitoring",
+    "Office drink tracking",
+    "Outdoor activity hydration",
+    "Travel beverage safety",
+    "Elderly care monitoring",
+    "Child supervision",
+    "Smart home integration",
+    "Health and wellness tracking"
+  ],
+  "targetAudience": [
+    "Coffee enthusiasts",
+    "Busy professionals",
+    "Parents with young children",
+    "Smart home technology adopters",
+    "Health-conscious consumers",
+    "Elderly care providers",
+    "Outdoor enthusiasts",
+    "Travel professionals"
+  ],
+  "competitiveAdvantages": [
+    "First-to-market smart drinkware solution",
+    "Universal compatibility with existing drinkware",
+    "Long battery life with efficient power management",
+    "Comprehensive product line for all use cases",
+    "Affordable pricing with early bird discounts",
+    "Professional-grade technology in consumer products",
+    "Seamless smart home integration"
+  ]
+} 

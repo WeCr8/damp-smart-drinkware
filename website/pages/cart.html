@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Shopping Cart - DAMP Smart Drinkware | Complete Your Pre-Order</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Review your DAMP Smart Drinkware pre-order cart and complete your purchase. Secure checkout with early bird pricing and exclusive pre-order benefits.">
+    <meta name="keywords" content="DAMP cart, smart drinkware checkout, pre-order cart, secure checkout, early bird pricing">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/cart.html">
+    
+    <!-- DAMP Analytics - Google Analytics 4 with GDPR Compliance -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for cart page
+      function trackCartPageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - Shopping Cart',
+          'page_location': window.location.href,
+          'content_group1': 'cart',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'page_type': 'ecommerce'
+          }
+        });
+      }
+
+      // Track page view when gtag is ready
+      setTimeout(trackCartPageView, 100);
+
+      // Track cart interactions
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'ecommerce',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'cart'
+            }
+          });
+        }
+      });
+
+      console.log('✅ DAMP Analytics initialized for Cart Page with E-commerce Tracking');
+    </script>
+
+    <!-- Stripe -->
+    <script src="https://js.stripe.com/v3/"></script>
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Cart Hero -->
+    <section class="section hero-section">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="hero-title animate-fade-in-up">Shopping Cart</h1>
+                <p class="hero-subtitle animate-fade-in-up animate-delay-200">Review your items and complete your pre-order</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cart Content -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Cart Items -->
+                <div class="lg:col-span-2">
+                    <div class="card">
+                        <h2 class="text-2xl font-bold mb-6">Your Items</h2>
+                        
+                        <!-- Cart Items Will Be Populated by JavaScript -->
+                        <div id="cart-items" class="space-y-4">
+                            <!-- Example cart item -->
+                            <div class="cart-item flex items-center gap-4 p-4 border rounded-lg">
+                                <div class="cart-item-image w-16 h-16 bg-surface rounded-lg flex items-center justify-center">
+                                    <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle" class="w-12 h-12">
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="font-semibold">DAMP Handle v1.0</h3>
+                                    <p class="text-sm text-secondary">Universal BLE attachment</p>
+                                </div>
+                                <div class="cart-item-controls flex items-center gap-2">
+                                    <button class="btn btn-sm btn-outline">-</button>
+                                    <span class="px-3">1</span>
+                                    <button class="btn btn-sm btn-outline">+</button>
+                                </div>
+                                <div class="cart-item-price font-bold">$49.99</div>
+                                <button class="btn btn-sm btn-ghost text-error">Remove</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Empty Cart Message -->
+                        <div id="empty-cart" class="text-center py-12 hidden">
+                            <div class="text-6xl mb-4">🛒</div>
+                            <h3 class="text-xl font-semibold mb-2">Your cart is empty</h3>
+                            <p class="text-secondary mb-6">Add some DAMP products to get started</p>
+                            <a href="../index.html#products" class="btn btn-primary">Shop Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Order Summary -->
+                <div class="lg:col-span-1">
+                    <div class="card sticky top-24">
+                        <h2 class="text-2xl font-bold mb-6">Order Summary</h2>
+                        
+                        <div class="space-y-4 mb-6">
+                            <div class="flex justify-between">
+                                <span>Subtotal</span>
+                                <span id="subtotal">$49.99</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Shipping</span>
+                                <span id="shipping">FREE</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Tax</span>
+                                <span id="tax">$4.00</span>
+                            </div>
+                            <div class="border-t pt-4">
+                                <div class="flex justify-between font-bold text-lg">
+                                    <span>Total</span>
+                                    <span id="total">$53.99</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Promo Code -->
+                        <div class="promo-code-section mb-6">
+                            <div class="promo-code-title">Promo Code</div>
+                            <div class="promo-code-input-group">
+                                <input type="text" class="promo-code-input" placeholder="Enter code">
+                                <button class="promo-code-apply">Apply</button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <button class="btn btn-primary btn-lg w-full">Proceed to Checkout</button>
+                            <button class="btn btn-secondary w-full">Continue Shopping</button>
+                        </div>
+                        
+                        <div class="mt-6 text-center">
+                            <div class="flex items-center justify-center gap-2 text-sm text-secondary">
+                                <span>🔒</span>
+                                <span>Secure checkout with Stripe</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    <script src="../assets/js/components/favicon-setup.js"></script>
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+    
+    <!-- Cart Functionality -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('page-loaded');
+            document.body.classList.remove('page-loading');
+            
+            // Cart functionality will be implemented here
+            // This would typically load cart data from localStorage or API
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Hero Animation Performance Test</title>
+    <link rel="stylesheet" href="website/assets/css/main.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: #0f0f23;
+            color: white;
+        }
+        .test-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 10001;
+            font-size: 14px;
+            max-width: 300px;
+        }
+        .test-controls {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px;
+            border-radius: 8px;
+            z-index: 10001;
+        }
+        .btn {
+            background: #00d4ff;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .btn:hover {
+            background: #00bce6;
+        }
+        #performance-stats {
+            margin-top: 10px;
+            font-size: 12px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-info">
+        <h3>🧪 DAMP Animation Performance Test</h3>
+        <div id="device-info"></div>
+        <div id="bubble-count"></div>
+        <div id="performance-stats"></div>
+    </div>
+    
+    <div class="test-controls">
+        <button class="btn" onclick="startAnimation()">▶️ Start Animation</button>
+        <button class="btn" onclick="skipAnimation()">⏭️ Skip Animation</button>
+        <button class="btn" onclick="resetAnimation()">🔄 Reset</button>
+    </div>
+
+    <script src="website/assets/js/components/favicon-setup.js"></script>
+    <script src="website/assets/js/components/hero-animation.js"></script>
+    
+    <script>
+        let heroAnimation = null;
+        let startTime = null;
+        let endTime = null;
+
+        function updateDeviceInfo() {
+            const deviceInfo = document.getElementById('device-info');
+            const bubbleCount = document.getElementById('bubble-count');
+            const performanceStats = document.getElementById('performance-stats');
+            
+            // Create temp animation instance to get optimal bubble count
+            const tempAnimation = new DAMPHeroAnimation({ playOnEveryLoad: false });
+            const optimalBubbles = tempAnimation.bubbleCount;
+            
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            const hardwareConcurrency = navigator.hardwareConcurrency || 'Unknown';
+            const deviceMemory = navigator.deviceMemory || 'Unknown';
+            
+            deviceInfo.innerHTML = `
+                <strong>Device Detection:</strong><br>
+                📱 Type: ${isMobile ? 'Mobile' : 'Desktop'}<br>
+                📐 Screen: ${screenWidth}x${screenHeight}<br>
+                🖥️ CPU Cores: ${hardwareConcurrency}<br>
+                💾 Memory: ${deviceMemory} GB
+            `;
+            
+            bubbleCount.innerHTML = `
+                <strong>🫧 Optimized Bubble Count:</strong><br>
+                <span style="color: #00d4ff; font-size: 16px; font-weight: bold;">${optimalBubbles} bubbles</span><br>
+                <small>(vs 500 in original)</small>
+            `;
+            
+            // Check if low-end device
+            if (tempAnimation.isLowEndDevice && tempAnimation.isLowEndDevice()) {
+                performanceStats.innerHTML = `
+                    <strong style="color: #ff6b6b;">⚠️ Low-End Device Detected</strong><br>
+                    Animation will be skipped for optimal performance
+                `;
+            } else {
+                performanceStats.innerHTML = `
+                    <strong style="color: #51cf66;">✅ Performance Optimized</strong><br>
+                    Ready for smooth animation
+                `;
+            }
+        }
+
+        function startAnimation() {
+            startTime = performance.now();
+            
+            // Listen for animation complete event
+            document.addEventListener('damp:heroAnimationComplete', function(event) {
+                endTime = performance.now();
+                const duration = Math.round(endTime - startTime);
+                
+                const performanceStats = document.getElementById('performance-stats');
+                performanceStats.innerHTML += `<br><br>
+                    <strong>📊 Performance Results:</strong><br>
+                    ⏱️ Total Time: ${duration}ms<br>
+                    🫧 Bubbles Used: ${event.detail.bubblesCount}<br>
+                    📱 Device Type: ${event.detail.deviceType}<br>
+                    ⚡ Optimized: ${event.detail.performanceOptimized ? 'Yes' : 'No'}
+                `;
+            }, { once: true });
+            
+            heroAnimation = new DAMPHeroAnimation({
+                duration: 8000,
+                playOnEveryLoad: true,
+                allowSkip: true
+            });
+        }
+
+        function skipAnimation() {
+            const skipButton = document.querySelector('.hero-skip-button');
+            if (skipButton) {
+                skipButton.click();
+            }
+        }
+
+        function resetAnimation() {
+            // Clear any existing animation
+            const existingOverlay = document.querySelector('.hero-animation-overlay');
+            if (existingOverlay) {
+                existingOverlay.remove();
+            }
+            
+            // Reset body classes
+            document.body.classList.remove('page-loading', 'page-loaded');
+            
+            // Reset stats
+            updateDeviceInfo();
+            
+            heroAnimation = null;
+            startTime = null;
+            endTime = null;
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDeviceInfo();
+        });
+
+        // Update on window resize
+        window.addEventListener('resize', updateDeviceInfo);
+    </script>
+</body>
+</html> 

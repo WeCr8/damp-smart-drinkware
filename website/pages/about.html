@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>About DAMP Smart Drinkware - Our Story & Technology | WeCr8 Solutions</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn about DAMP Smart Drinkware and WeCr8 Solutions LLC. Discover our mission to revolutionize beverage tracking with advanced BLE technology and prevent drink abandonment.">
+    <meta name="keywords" content="DAMP Smart Drinkware, WeCr8 Solutions, about us, company story, BLE technology, smart drinkware innovation, beverage tracking company">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/about.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/about.html">
+    <meta property="og:title" content="About DAMP Smart Drinkware - Our Story & Technology">
+    <meta property="og:description" content="Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking with advanced BLE technology.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="About DAMP Smart Drinkware - Our Story & Technology">
+    <meta name="twitter:description" content="Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking with advanced BLE technology.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for about page
+      function trackAboutPageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - About Us',
+          'page_location': window.location.href,
+          'content_group1': 'about',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'page_type': 'about'
+          }
+        });
+      }
+
+      // Track page view when gtag is ready
+      setTimeout(trackAboutPageView, 100);
+
+      // Track about page interactions
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'engagement',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'about'
+            }
+          });
+        }
+      });
+
+      console.log('✅ DAMP Analytics initialized for About Page');
+    </script>
+    
+    <!-- Structured Data - AboutPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "name": "About DAMP Smart Drinkware",
+        "description": "Learn about DAMP Smart Drinkware and our mission to revolutionize beverage tracking",
+        "url": "https://dampdrink.com/pages/about.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "WeCr8 Solutions LLC",
+            "description": "Innovative technology company specializing in smart drinkware solutions"
+        }
+    }
+    </script>
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- About Hero -->
+    <section class="section hero-section">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="hero-title animate-fade-in-up">About DAMP Smart Drinkware</h1>
+                <p class="hero-subtitle animate-fade-in-up animate-delay-200">Revolutionizing beverage tracking with innovative BLE technology to ensure you never leave your drink behind again.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="animate-fade-in-left">
+                    <h2 class="section-title" style="color: #00d4ff;">Our Mission</h2>
+                    <p>At DAMP Smart Drinkware, we're solving a universal problem that affects millions of people daily - drink abandonment. Our mission is to create intelligent, user-friendly solutions that seamlessly integrate into your daily routine while ensuring your favorite beverages never get left behind.</p>
+                    <p style="margin-top: 15px;">We believe that technology should enhance, not complicate, your life. That's why we've developed the DAMP (Drink Abandonment Monitoring Protocol) system - a revolutionary approach to beverage tracking that's both powerful and intuitive.</p>
+                </div>
+                <div class="animate-fade-in-right">
+                    <h2 class="section-title" style="color: #00d4ff;">The Problem We Solve</h2>
+                    <p>Studies show that the average person abandons their drink 3-4 times per week, leading to:</p>
+                    <ul style="margin: 15px 0; padding-left: 20px;">
+                        <li>Wasted beverages and money</li>
+                        <li>Missed caffeine or hydration goals</li>
+                        <li>Frustration and inconvenience</li>
+                        <li>Environmental impact from discarded drinks</li>
+                    </ul>
+                    <p>Our smart drinkware collection uses advanced BLE technology to create a connected ecosystem that keeps you aware of your beverage location at all times.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section class="section bg-surface">
+        <div class="container">
+            <h2 class="section-title">Our Technology</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="feature-card animate-fade-in-up animate-delay-200">
+                    <div class="feature-icon">🔗</div>
+                    <h3>Advanced BLE Connectivity</h3>
+                    <p>Our proprietary Bluetooth Low Energy implementation provides reliable, long-range tracking while maintaining exceptional battery life. Each device can operate for weeks on a single charge.</p>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-300">
+                    <div class="feature-icon">🧠</div>
+                    <h3>Smart Zone Detection</h3>
+                    <p>Machine learning algorithms learn your daily patterns and create approved zones where leaving your drink is acceptable, reducing false alarms and improving user experience.</p>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-400">
+                    <div class="feature-icon">📱</div>
+                    <h3>Seamless App Integration</h3>
+                    <p>Our intuitive mobile app provides real-time notifications, customizable settings, and detailed analytics about your drinking habits and patterns.</p>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-500">
+                    <div class="feature-icon">🛡️</div>
+                    <h3>Enterprise-Grade Security</h3>
+                    <p>All data transmission is encrypted, and we never store personal location data. Your privacy and security are our top priorities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Meet the Team</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
+                <div class="team-member animate-fade-in-up animate-delay-200">
+                    <div class="team-avatar">👨‍💻</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Engineering Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Hardware & Software Development</p>
+                    <p>Our experienced engineers specialize in IoT device development, mobile app creation, and embedded systems design.</p>
+                </div>
+                <div class="team-member animate-fade-in-up animate-delay-300">
+                    <div class="team-avatar">🎨</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Design Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Product & UX Design</p>
+                    <p>Our design team focuses on creating beautiful, functional products that seamlessly integrate into your daily life.</p>
+                </div>
+                <div class="team-member animate-fade-in-up animate-delay-400">
+                    <div class="team-avatar">🚀</div>
+                    <h3 style="color: #00d4ff; margin-bottom: 10px;">Innovation Team</h3>
+                    <p style="margin-bottom: 10px; font-weight: bold;">Research & Development</p>
+                    <p>Our R&D team continuously explores new technologies and improvements to enhance the DAMP experience.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Company Information -->
+    <section class="section bg-surface">
+        <div class="container">
+            <h2 class="section-title">Company Information</h2>
+            <div class="card" style="max-width: 800px; margin: 0 auto;">
+                <h3 style="color: #00d4ff; margin-bottom: 20px;">WeCr8 Solutions LLC</h3>
+                <p style="margin-bottom: 15px;"><strong>Founded:</strong> 2025</p>
+                <p style="margin-bottom: 15px;"><strong>Location:</strong> San Diego, CA</p>
+                <p style="margin-bottom: 15px;"><strong>Specialty:</strong> Smart IoT Solutions for Everyday Problems</p>
+                <p style="margin-bottom: 15px;"><strong>Mission:</strong> Creating innovative technology solutions that enhance daily life through intelligent, user-friendly products.</p>
+                <p><strong>Vision:</strong> To become the leading provider of smart drinkware solutions, expanding into other areas of connected lifestyle products.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="container">
+            <h2 class="section-title">Join the DAMP Revolution</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Ready to never leave your drink behind again? Join thousands of early adopters who are already experiencing the future of smart drinkware.</p>
+            <div class="cta-buttons">
+                <a href="../pages/pre-order.html" class="btn btn-primary btn-lg">Pre-Order Now</a>
+                <a href="../pages/waitlist.html" class="btn btn-secondary btn-lg">Join Waitlist</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="section" style="padding: 40px 0; background: rgba(0, 0, 0, 0.3); text-align: center;">
+        <div class="container">
+            <p>&copy; 2025 DAMP Smart Drinkware by WeCr8 Solutions LLC. All rights reserved.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">Drink Abandonment Monitoring Protocol™</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    <script src="../assets/js/components/favicon-setup.js"></script>
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+    
+    <!-- Page Load Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('page-loaded');
+            document.body.classList.remove('page-loading');
+        });
+    </script>
+</body>
+</html>

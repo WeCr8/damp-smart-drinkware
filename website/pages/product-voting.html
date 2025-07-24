@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- Prevent PWA installation prompts -->
+    <meta name="mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    
+    <!-- SEO Meta Tags -->
+    <title>DAMP Product Voting - Help Us Prioritize Development | Community Choice</title>
+    <meta name="description" content="Vote for your favorite DAMP Smart Drinkware product! Help us prioritize development by voting for Handle, Silicone Bottom, Cup Sleeve, or Baby Bottle.">
+    <meta name="keywords" content="DAMP product voting, community choice, smart drinkware poll, product development priority">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/product-voting.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/product-voting.html">
+    <meta property="og:title" content="DAMP Product Voting - Community Choice">
+    <meta property="og:description" content="Help us prioritize DAMP Smart Drinkware development! Vote for your favorite product and see real-time results.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    
+    <!-- Voting System Styles -->
+    <style>
+        :root {
+            --vote-glass-width: 120px;
+            --vote-glass-height: 200px;
+            --vote-liquid-color: #00d4ff;
+            --vote-liquid-glow: rgba(0, 212, 255, 0.3);
+            --vote-ball-size: 20px;
+            --vote-glass-border: #ffffff40;
+            --vote-target: 100;
+        }
+        
+        .voting-body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .voting-hero {
+            padding: 120px 20px 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .voting-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .voting-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+        
+        .vote-target-info {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px auto;
+            max-width: 500px;
+            text-align: center;
+        }
+        
+        .target-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+        
+        .target-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+        
+        .voting-container {
+            padding: 60px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .voting-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        
+        .product-vote-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            padding: 30px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-vote-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .product-rank {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        .rank-1 {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            color: #000;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .rank-2 {
+            background: linear-gradient(45deg, #c0c0c0, #e8e8e8);
+            color: #000;
+            box-shadow: 0 0 15px rgba(192, 192, 192, 0.5);
+        }
+        
+        .rank-3 {
+            background: linear-gradient(45deg, #cd7f32, #d4af37);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(205, 127, 50, 0.5);
+        }
+        
+        .product-image {
+            margin-bottom: 20px;
+        }
+        
+        .product-image img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+        
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 15px;
+        }
+        
+        .vote-glass-container {
+            position: relative;
+            width: var(--vote-glass-width);
+            height: var(--vote-glass-height);
+            margin: 30px auto;
+        }
+        
+        .vote-glass {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--vote-glass-border);
+            border-radius: 0 0 15px 15px;
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .vote-liquid {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(180deg, 
+                var(--vote-liquid-color) 0%, 
+                rgba(0, 212, 255, 0.8) 50%, 
+                rgba(0, 212, 255, 0.9) 100%);
+            border-radius: 0 0 12px 12px;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 20px var(--vote-liquid-glow);
+        }
+        
+        .vote-liquid::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: liquidWave 3s ease-in-out infinite;
+        }
+        
+        .damp-ball {
+            position: absolute;
+            width: var(--vote-ball-size);
+            height: var(--vote-ball-size);
+            background: #ffffff;
+            border-radius: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: bottom 1s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            color: #0f0f23;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+        }
+        
+        .damp-ball::before {
+            content: 'DAMP';
+            font-size: 6px;
+            letter-spacing: 0.5px;
+        }
+        
+        .vote-count {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin: 15px 0 10px;
+        }
+        
+        .vote-percentage {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 20px;
+        }
+        
+        .vote-button {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .vote-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .vote-button:active {
+            transform: scale(0.95);
+        }
+        
+        .vote-button.voted {
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            animation: voteSuccess 0.6s ease;
+        }
+        
+        .voting-stats {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .stats-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .voting-controls {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+        
+        .control-button {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .control-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes liquidWave {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.1); }
+        }
+        
+        @keyframes voteSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes ballBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+        
+        /* Voting Mode Toggle */
+        .voting-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mode-toggle-btn {
+            flex: 1;
+            max-width: 200px;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-family: inherit;
+        }
+        
+        .mode-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .mode-toggle-btn.active {
+            background: linear-gradient(45deg, var(--vote-liquid-color), #0099cc);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        .mode-icon {
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+        }
+        
+        .mode-text {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .mode-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* Voting Status Indicator */
+        .voting-status {
+            text-align: center;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 10px;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .voting-status.active {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: rgba(0, 255, 136, 0.4);
+            color: #00ff88;
+        }
+        
+        .voting-status.disabled {
+            background: rgba(255, 71, 87, 0.2);
+            border-color: rgba(255, 71, 87, 0.4);
+            color: #ff4757;
+        }
+        
+        .voting-status.auth-required {
+            background: rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.4);
+            color: #00d4ff;
+        }
+        
+        .voting-status.voted {
+            background: rgba(255, 193, 7, 0.2);
+            border-color: rgba(255, 193, 7, 0.4);
+            color: #ffc107;
+        }
+        
+        /* User Vote Indicator */
+        .user-vote-indicator {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: linear-gradient(45deg, #00ff88, #00d4ff);
+            color: #0f0f23;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        /* Vote Button States */
+        .vote-button.auth-required {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+        }
+        
+        .vote-button.disabled {
+            background: #666;
+            color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        /* Admin Controls */
+        .control-button.admin-only {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+            border-color: #ff4757;
+        }
+        
+        .control-button.admin-only:hover {
+            background: linear-gradient(45deg, #c44569, #ff4757);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .voting-hero {
+                padding: 100px 15px 40px;
+            }
+            
+            .voting-container {
+                padding: 40px 15px;
+            }
+            
+            .voting-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .vote-glass-container {
+                width: 100px;
+                height: 160px;
+            }
+            
+            :root {
+                --vote-glass-width: 100px;
+                --vote-glass-height: 160px;
+                --vote-ball-size: 16px;
+            }
+            
+            .voting-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .voting-status {
+                margin: 15px 0;
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+            
+            .voting-mode-toggle {
+                flex-direction: column;
+                gap: 5px;
+                margin: 20px 0;
+            }
+            
+            .mode-toggle-btn {
+                max-width: none;
+                padding: 12px 15px;
+            }
+            
+            .mode-text {
+                font-size: 0.9rem;
+            }
+            
+            .mode-desc {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+    
+    <!-- Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Product Voting',
+            send_page_view: true
+        });
+    </script>
+</head>
+
+<body class="voting-body">
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Hero Section -->
+    <section class="voting-hero">
+                    <div class="hero-content">
+            <div class="voting-badge">
+                🗳️ COMMUNITY VOICE
+            </div>
+            
+            <h1 class="hero-title">
+                Vote for Your Favorite DAMP Product
+            </h1>
+            
+            <p class="hero-subtitle">
+                Help us prioritize development! Choose between customer insights from verified users or join the open community vote. 
+                Watch the glasses fill up as votes pour in!
+            </p>
+            
+            <!-- Voting Mode Toggle -->
+            <div class="voting-mode-toggle">
+                <button class="mode-toggle-btn active" id="customerModeBtn" onclick="switchVotingMode('customer')">
+                    <span class="mode-icon">🔐</span>
+                    <span class="mode-text">Customer Vote</span>
+                    <span class="mode-desc">Verified DAMP users</span>
+                </button>
+                <button class="mode-toggle-btn" id="publicModeBtn" onclick="switchVotingMode('public')">
+                    <span class="mode-icon">🌍</span>
+                    <span class="mode-text">Public Vote</span>
+                    <span class="mode-desc">Open community</span>
+                </button>
+            </div>
+            
+            <div class="vote-target-info">
+                <div class="target-display" id="voteTarget">100</div>
+                <div class="target-label">votes to reach development milestone</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Voting Section -->
+    <section class="voting-container">
+        <div class="voting-grid" id="votingGrid">
+            <!-- Products will be dynamically loaded here -->
+        </div>
+        
+        <!-- Voting Controls -->
+        <div class="voting-controls">
+            <button class="control-button" onclick="exportResults()">📊 Export Results</button>
+            <button class="control-button admin-only" onclick="resetVotes()" style="display: none;">🔄 Reset Current Mode</button>
+            <button class="control-button admin-only" onclick="resetAllVotes()" style="display: none;">🔄🔄 Reset Both Systems</button>
+            <button class="control-button admin-only" onclick="toggleVotingStatus()" style="display: none;">⏸️ Toggle Current Mode</button>
+            <button class="control-button admin-only" onclick="adjustTarget()" style="display: none;">🎯 Adjust Target</button>
+        </div>
+        
+        <!-- Voting Status Indicator -->
+        <div class="voting-status">
+            🗳️ Loading voting status...
+        </div>
+        
+        <!-- Voting Stats -->
+        <div class="voting-stats">
+            <div class="stats-title">📈 Live Voting Statistics</div>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                Real-time community feedback on DAMP Smart Drinkware development priorities
+            </p>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalVotes">0</span>
+                    <span class="stat-label">Total Votes</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="leadingProduct">—</span>
+                    <span class="stat-label">Leading Product</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completionRate">0%</span>
+                    <span class="stat-label">Target Progress</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="participantCount">0</span>
+                    <span class="stat-label">Participants</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="background: rgba(0, 0, 0, 0.5); padding: 40px 20px; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                Your vote helps shape the future of DAMP Smart Drinkware development!
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 20px;">
+                <a href="products.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">View All Products</a>
+                <a href="about.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">About DAMP</a>
+                <a href="support.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Support</a>
+            </div>
+            
+            <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">
+                &copy; 2025 WeCr8 Solutions LLC. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    <script src="../assets/js/components/header.js"></script>
+    
+    <!-- Firebase Services (ES6 Modules) -->
+    <script type="module">
+        import { 
+            authService, 
+            statsService, 
+            votingService, 
+            adminService, 
+            initializeFirebaseServices 
+        } from '../js/firebase-services.js';
+        
+        // Make services globally available
+        window.firebaseServices = {
+            authService,
+            statsService,
+            votingService,
+            adminService,
+            initializeFirebaseServices
+        };
+        
+        console.log('Firebase services loaded for voting page');
+    </script>
+
+    <!-- Firebase-Integrated Product Voting System -->
+    <script>
+        class FirebaseVotingSystem {
+            constructor() {
+                this.voteTarget = 100;
+                this.products = [
+                    {
+                        id: 'handle',
+                        name: 'DAMP Handle v1.0',
+                        image: '../assets/images/products/damp-handle/damp-handle.png',
+                        description: 'Universal attachment for any mug',
+                        votes: 0,
+                        percentage: 0
+                    },
+                    {
+                        id: 'siliconeBottom',
+                        name: 'Silicone Bottom v1.0',
+                        image: '../assets/images/products/silicone-bottom/silicone-bottom.png',
+                        description: 'Non-slip silicone base',
+                        votes: 0,
+                        percentage: 0
+                    },
+                    {
+                        id: 'cupSleeve',
+                        name: 'Cup Sleeve v1.0',
+                        image: '../assets/images/products/cup-sleeve/cup-sleeve.png',
+                        description: 'Adjustable fit for most cups',
+                        votes: 0,
+                        percentage: 0
+                    },
+                    {
+                        id: 'babyBottle',
+                        name: 'Baby Bottle v1.0',
+                        image: '../assets/images/products/baby-bottle/baby-bottle.png',
+                        description: 'BPA-free smart bottle',
+                        votes: 0,
+                        percentage: 0
+                    }
+                ];
+                
+                this.currentUser = null;
+                this.userVote = null;
+                this.publicVote = null;
+                this.votingData = null;
+                this.publicVotingData = null;
+                this.isVotingActive = true;
+                this.isPublicVotingActive = true;
+                this.isAdmin = false;
+                this.unsubscribe = null;
+                this.publicUnsubscribe = null;
+                this.authUnsubscribe = null;
+                this.currentMode = 'customer'; // 'customer' or 'public'
+                this.browserFingerprint = null;
+                
+                this.init();
+            }
+            
+            async init() {
+                try {
+                    // Wait for Firebase services
+                    await this.waitForFirebaseServices();
+                    
+                    // Initialize Firebase services
+                    if (window.firebaseServices?.initializeFirebaseServices) {
+                        await window.firebaseServices.initializeFirebaseServices();
+                    }
+                    
+                    // Generate browser fingerprint for public voting
+                    this.browserFingerprint = window.firebaseServices.votingService.generateBrowserFingerprint();
+                    
+                    // Set up authentication listener
+                    this.setupAuthListener();
+                    
+                    // Set up voting data listeners
+                    this.startVotingListener();
+                    this.startPublicVotingListener();
+                    
+                    // Check public vote status
+                    this.checkPublicVoteStatus();
+                    
+                    console.log('Firebase Voting System initialized');
+                    
+                } catch (error) {
+                    console.error('Firebase Voting System init error:', error);
+                    // Fallback to static display
+                    this.renderProducts();
+                    this.updateStats();
+                }
+            }
+            
+            async waitForFirebaseServices() {
+                return new Promise((resolve, reject) => {
+                    let attempts = 0;
+                    const maxAttempts = 50;
+                    
+                    const checkServices = () => {
+                        if (window.firebaseServices) {
+                            resolve();
+                        } else if (attempts >= maxAttempts) {
+                            reject(new Error('Firebase services not available'));
+                        } else {
+                            attempts++;
+                            setTimeout(checkServices, 100);
+                        }
+                    };
+                    
+                    checkServices();
+                });
+            }
+            
+            setupAuthListener() {
+                if (window.firebaseServices?.authService?.onAuthStateChanged) {
+                    this.authUnsubscribe = window.firebaseServices.authService.onAuthStateChanged(async (user) => {
+                        this.currentUser = user;
+                        
+                        if (user) {
+                            // Check if user is admin
+                            this.isAdmin = await window.firebaseServices.authService.isAdmin(user);
+                            
+                            // Get user's vote status
+                            this.userVote = await window.firebaseServices.votingService.getUserVote(user);
+                            
+                            // Update admin controls visibility
+                            this.updateAdminControls();
+                        } else {
+                            this.isAdmin = false;
+                            this.userVote = null;
+                        }
+                        
+                        // Re-render to update vote buttons
+                        if (this.votingData) {
+                            this.renderProducts();
+                        }
+                        
+                        console.log('Auth state:', user ? 'Signed in' : 'Signed out', 
+                                   this.isAdmin ? '(Admin)' : '');
+                    });
+                }
+            }
+            
+            startVotingListener() {
+                if (window.firebaseServices?.votingService?.onVotingChange) {
+                    this.unsubscribe = window.firebaseServices.votingService.onVotingChange((data) => {
+                        this.votingData = data;
+                        this.isVotingActive = data.isActive;
+                        
+                        if (this.currentMode === 'customer') {
+                            this.updateProductsFromFirebase(data, 'customer');
+                            this.renderProducts();
+                            this.updateStats();
+                        }
+                        
+                        console.log('Customer voting data updated:', data);
+                    });
+                }
+            }
+            
+            startPublicVotingListener() {
+                if (window.firebaseServices?.votingService?.onPublicVotingChange) {
+                    this.publicUnsubscribe = window.firebaseServices.votingService.onPublicVotingChange((data) => {
+                        this.publicVotingData = data;
+                        this.isPublicVotingActive = data.isActive;
+                        
+                        if (this.currentMode === 'public') {
+                            this.updateProductsFromFirebase(data, 'public');
+                            this.renderProducts();
+                            this.updateStats();
+                        }
+                        
+                        console.log('Public voting data updated:', data);
+                    });
+                }
+            }
+            
+            async checkPublicVoteStatus() {
+                if (window.firebaseServices?.votingService?.getPublicVote) {
+                    this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
+                    console.log('Public vote status:', this.publicVote);
+                }
+            }
+            
+            updateProductsFromFirebase(votingData, mode) {
+                if (votingData.products) {
+                    this.products.forEach(product => {
+                        const firebaseProduct = votingData.products[product.id];
+                        if (firebaseProduct) {
+                            product.votes = firebaseProduct.votes || 0;
+                            product.percentage = firebaseProduct.percentage || 0;
+                        }
+                    });
+                    
+                    // Update vote target based on highest vote count
+                    const maxVotes = Math.max(...this.products.map(p => p.votes));
+                    this.voteTarget = Math.max(100, Math.ceil(maxVotes * 1.2 / 50) * 50);
+                    
+                    console.log(`Products updated from ${mode} voting data`);
+                }
+            }
+            
+            // Switch between customer and public voting modes
+            async switchMode(mode) {
+                if (this.currentMode === mode) return;
+                
+                this.currentMode = mode;
+                
+                // Update active voting data and products
+                if (mode === 'customer' && this.votingData) {
+                    this.updateProductsFromFirebase(this.votingData, 'customer');
+                } else if (mode === 'public' && this.publicVotingData) {
+                    this.updateProductsFromFirebase(this.publicVotingData, 'public');
+                }
+                
+                // Re-render with new mode
+                this.renderProducts();
+                this.updateStats();
+                this.updateAdminControls();
+                
+                console.log(`Switched to ${mode} voting mode`);
+            }
+            
+            updateAdminControls() {
+                const controlsContainer = document.querySelector('.voting-controls');
+                if (controlsContainer) {
+                    const adminControls = controlsContainer.querySelectorAll('.admin-only');
+                    adminControls.forEach(control => {
+                        control.style.display = this.isAdmin ? 'inline-block' : 'none';
+                    });
+                }
+            }
+            
+            loadSavedData() {
+                try {
+                    const saved = localStorage.getItem('dampVotingData');
+                    if (saved) {
+                        const data = JSON.parse(saved);
+                        this.products = data.products || this.products;
+                        this.voteTarget = data.voteTarget || this.voteTarget;
+                        this.userVotes = new Set(data.userVotes || []);
+                    }
+                } catch (error) {
+                    console.warn('Could not load saved voting data:', error);
+                }
+            }
+            
+            saveData() {
+                try {
+                    const data = {
+                        products: this.products,
+                        voteTarget: this.voteTarget,
+                        userVotes: Array.from(this.userVotes),
+                        lastUpdated: new Date().toISOString()
+                    };
+                    localStorage.setItem('dampVotingData', JSON.stringify(data));
+                } catch (error) {
+                    console.warn('Could not save voting data:', error);
+                }
+            }
+            
+            startAutoSave() {
+                setInterval(() => {
+                    this.saveData();
+                }, 30000); // Save every 30 seconds
+            }
+            
+            renderProducts() {
+                const grid = document.getElementById('votingGrid');
+                
+                // Sort products by votes (descending)
+                const sortedProducts = [...this.products].sort((a, b) => b.votes - a.votes);
+                
+                grid.innerHTML = sortedProducts.map((product, index) => {
+                    const percentage = this.getTotalVotes() > 0 ? (product.votes / this.getTotalVotes() * 100) : 0;
+                    const fillHeight = (product.votes / this.voteTarget) * 100;
+                    const ballPosition = Math.min(fillHeight, 95); // Keep ball in glass
+                    
+                    const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
+                    
+                    // Determine button state based on current mode
+                    let buttonText, buttonClass, buttonDisabled, userVotedForThis = false;
+                    
+                    if (this.currentMode === 'customer') {
+                        // Customer voting logic
+                        const hasUserVoted = this.userVote && this.userVote.hasVoted;
+                        userVotedForThis = hasUserVoted && this.userVote.productId === product.id;
+                        
+                        if (userVotedForThis) {
+                            buttonText = '✓ Your Vote';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (hasUserVoted) {
+                            buttonText = '✓ Already Voted';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (!this.currentUser) {
+                            buttonText = '🔐 Sign In to Vote';
+                            buttonClass = 'auth-required';
+                            buttonDisabled = '';
+                        } else if (!this.isVotingActive) {
+                            buttonText = '🚫 Voting Disabled';
+                            buttonClass = 'disabled';
+                            buttonDisabled = 'disabled';
+                        } else {
+                            buttonText = '🗳️ Vote';
+                            buttonClass = '';
+                            buttonDisabled = '';
+                        }
+                    } else {
+                        // Public voting logic
+                        const hasPublicVoted = this.publicVote && this.publicVote.hasVoted;
+                        userVotedForThis = hasPublicVoted && this.publicVote.productId === product.id;
+                        
+                        if (userVotedForThis) {
+                            buttonText = '✓ Your Vote';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (hasPublicVoted) {
+                            buttonText = '✓ Already Voted';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (!this.isPublicVotingActive) {
+                            buttonText = '🚫 Voting Disabled';
+                            buttonClass = 'disabled';
+                            buttonDisabled = 'disabled';
+                        } else {
+                            buttonText = '🌍 Vote';
+                            buttonClass = '';
+                            buttonDisabled = '';
+                        }
+                    }
+                    
+                    return `
+                        <div class="product-vote-card" data-product="${product.id}">
+                            <div class="product-rank ${rankClass}">${index + 1}</div>
+                            
+                            <div class="product-image">
+                                <img src="${product.image}" alt="${product.name}" loading="lazy">
+                            </div>
+                            
+                            <h3 class="product-name">${product.name}</h3>
+                            <p style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem; margin-bottom: 20px;">
+                                ${product.description}
+                            </p>
+                            
+                            <div class="vote-glass-container">
+                                <div class="vote-glass">
+                                    <div class="vote-liquid" style="height: ${Math.max(fillHeight, 0)}%"></div>
+                                    <div class="damp-ball" style="bottom: ${Math.max(ballPosition, 5)}%"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="vote-count">${product.votes.toLocaleString()}</div>
+                            <div class="vote-percentage">${percentage.toFixed(1)}% of total votes</div>
+                            
+                            <button class="vote-button ${buttonClass}" 
+                                    onclick="votingSystem.vote('${product.id}')"
+                                    ${buttonDisabled}>
+                                ${buttonText}
+                            </button>
+                            
+                            ${userVotedForThis ? '<div class="user-vote-indicator">🎯 Your Choice</div>' : ''}
+                        </div>
+                    `;
+                }).join('');
+                
+                // Update target display
+                document.getElementById('voteTarget').textContent = this.voteTarget.toLocaleString();
+                
+                // Update voting status indicator
+                this.updateVotingStatus();
+            }
+            
+            updateVotingStatus() {
+                const statusIndicator = document.querySelector('.voting-status');
+                if (statusIndicator) {
+                    if (this.currentMode === 'customer') {
+                        if (!this.isVotingActive) {
+                            statusIndicator.innerHTML = '🚫 Customer voting is currently disabled by administrators';
+                            statusIndicator.className = 'voting-status disabled';
+                        } else if (!this.currentUser) {
+                            statusIndicator.innerHTML = '🔐 Sign in to participate in customer voting';
+                            statusIndicator.className = 'voting-status auth-required';
+                        } else if (this.userVote && this.userVote.hasVoted) {
+                            statusIndicator.innerHTML = `✓ You voted for ${this.userVote.productId} (Customer Vote)`;
+                            statusIndicator.className = 'voting-status voted';
+                        } else {
+                            statusIndicator.innerHTML = '🗳️ Customer voting is active - Verified users only!';
+                            statusIndicator.className = 'voting-status active';
+                        }
+                    } else {
+                        if (!this.isPublicVotingActive) {
+                            statusIndicator.innerHTML = '🚫 Public voting is currently disabled by administrators';
+                            statusIndicator.className = 'voting-status disabled';
+                        } else if (this.publicVote && this.publicVote.hasVoted) {
+                            statusIndicator.innerHTML = `✓ This device voted for ${this.publicVote.productId} (Public Vote)`;
+                            statusIndicator.className = 'voting-status voted';
+                        } else {
+                            statusIndicator.innerHTML = '🌍 Public voting is active - Everyone can participate!';
+                            statusIndicator.className = 'voting-status active';
+                        }
+                    }
+                }
+            }
+            
+            async vote(productId) {
+                if (this.currentMode === 'customer') {
+                    return this.submitCustomerVote(productId);
+                } else {
+                    return this.submitPublicVote(productId);
+                }
+            }
+            
+            async submitCustomerVote(productId) {
+                // Check if customer voting is active
+                if (!this.isVotingActive) {
+                    alert('🚫 Customer voting is currently disabled by administrators.');
+                    return;
+                }
+                
+                // Check if user is authenticated
+                if (!this.currentUser) {
+                    alert('🔐 Please sign in to vote! Authentication is required for customer voting to prevent duplicate votes.');
+                    return;
+                }
+                
+                // Check if user has already voted
+                if (this.userVote && this.userVote.hasVoted) {
+                    alert(`✓ You already voted for ${this.userVote.productId}! Only one vote per user is allowed.`);
+                    return;
+                }
+                
+                try {
+                    // Show loading state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '⏳ Voting...';
+                        button.disabled = true;
+                    }
+                    
+                    // Submit authenticated vote to Firebase
+                    await window.firebaseServices.votingService.submitVote(productId, this.currentUser);
+                    
+                    // Track vote in analytics
+                    this.trackVote(productId, 'customer');
+                    
+                    // Show success feedback
+                    this.showVoteSuccess(productId);
+                    
+                    // Update user vote status
+                    this.userVote = await window.firebaseServices.votingService.getUserVote(this.currentUser);
+                    
+                    console.log(`Customer vote submitted successfully for: ${productId}`);
+                    
+                } catch (error) {
+                    console.error('Customer vote submission error:', error);
+                    
+                    // Reset button state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '🗳️ Vote';
+                        button.disabled = false;
+                    }
+                    
+                    // Show error message
+                    alert(`❌ Customer voting failed: ${error.message}`);
+                }
+            }
+            
+            async submitPublicVote(productId) {
+                // Check if public voting is active
+                if (!this.isPublicVotingActive) {
+                    alert('🚫 Public voting is currently disabled by administrators.');
+                    return;
+                }
+                
+                // Check if device has already voted
+                if (this.publicVote && this.publicVote.hasVoted) {
+                    alert(`✓ This device already voted for ${this.publicVote.productId}! Only one vote per device is allowed.`);
+                    return;
+                }
+                
+                try {
+                    // Show loading state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '⏳ Voting...';
+                        button.disabled = true;
+                    }
+                    
+                    // Submit public vote to Firebase
+                    await window.firebaseServices.votingService.submitPublicVote(productId, this.browserFingerprint);
+                    
+                    // Track vote in analytics
+                    this.trackVote(productId, 'public');
+                    
+                    // Show success feedback
+                    this.showVoteSuccess(productId);
+                    
+                    // Update public vote status
+                    this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
+                    
+                    console.log(`Public vote submitted successfully for: ${productId}`);
+                    
+                } catch (error) {
+                    console.error('Public vote submission error:', error);
+                    
+                    // Reset button state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '🗳️ Vote';
+                        button.disabled = false;
+                    }
+                    
+                    // Show error message
+                    alert(`❌ Public voting failed: ${error.message}`);
+                }
+            }
+            
+            showVoteSuccess(productId) {
+                const card = document.querySelector(`[data-product="${productId}"]`);
+                if (card) {
+                    card.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        card.style.transform = '';
+                    }, 300);
+                }
+            }
+            
+            getTotalVotes() {
+                return this.products.reduce((total, product) => total + product.votes, 0);
+            }
+            
+            updateStats() {
+                const totalVotes = this.getTotalVotes();
+                const leadingProduct = [...this.products].sort((a, b) => b.votes - a.votes)[0];
+                const completionRate = totalVotes > 0 ? ((leadingProduct.votes / this.voteTarget) * 100) : 0;
+                
+                document.getElementById('totalVotes').textContent = totalVotes;
+                document.getElementById('leadingProduct').textContent = 
+                    leadingProduct.votes > 0 ? leadingProduct.name.split(' ')[0] + ' ' + leadingProduct.name.split(' ')[1] : '—';
+                document.getElementById('completionRate').textContent = completionRate.toFixed(1) + '%';
+                document.getElementById('participantCount').textContent = this.userVotes.size;
+            }
+            
+            trackVote(productId, voteType) {
+                try {
+                    if (window.gtag) {
+                        gtag('event', 'product_vote', {
+                            product_id: productId,
+                            event_category: 'voting',
+                            event_label: `${productId}_${voteType}`,
+                            vote_type: voteType,
+                            user_id: this.currentUser?.uid,
+                            session_id: voteType === 'public' ? this.browserFingerprint : undefined
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Analytics tracking failed:', error);
+                }
+            }
+            
+            // Cleanup method
+            destroy() {
+                if (this.unsubscribe) {
+                    this.unsubscribe();
+                    this.unsubscribe = null;
+                }
+                
+                if (this.publicUnsubscribe) {
+                    this.publicUnsubscribe();
+                    this.publicUnsubscribe = null;
+                }
+                
+                if (this.authUnsubscribe) {
+                    this.authUnsubscribe();
+                    this.authUnsubscribe = null;
+                }
+                
+                console.log('Firebase Voting System destroyed');
+            }
+            
+            async resetVotes() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Are you sure you want to reset ALL votes? This will:\n\n• Delete all user votes\n• Reset all product counts to 0\n• This action cannot be undone\n\nProceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetVoting(this.currentUser);
+                        alert('✅ All votes have been reset successfully.');
+                        console.log('Admin reset all votes');
+                    } catch (error) {
+                        console.error('Reset votes error:', error);
+                        alert(`❌ Failed to reset votes: ${error.message}`);
+                    }
+                }
+            }
+            
+            async toggleVotingStatus() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to toggle voting status.');
+                    return;
+                }
+                
+                try {
+                    const newStatus = await window.firebaseServices.votingService.toggleVotingStatus(this.currentUser);
+                    alert(`✅ Customer voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
+                    console.log(`Admin toggled customer voting to: ${newStatus}`);
+                } catch (error) {
+                    console.error('Toggle customer voting status error:', error);
+                    alert(`❌ Failed to toggle customer voting status: ${error.message}`);
+                }
+            }
+            
+            async resetPublicVotes() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Are you sure you want to reset ALL PUBLIC votes? This will:\n\n• Delete all public votes\n• Reset all public product counts to 0\n• This action cannot be undone\n\nProceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetPublicVoting(this.currentUser);
+                        alert('✅ All public votes have been reset successfully.');
+                        console.log('Admin reset all public votes');
+                    } catch (error) {
+                        console.error('Reset public votes error:', error);
+                        alert(`❌ Failed to reset public votes: ${error.message}`);
+                    }
+                }
+            }
+            
+            async resetAllVotes() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Are you sure you want to reset ALL VOTES (Customer + Public)? This will:\n\n• Delete all customer votes\n• Delete all public votes\n• Reset all product counts to 0\n• This action cannot be undone\n\nProceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetAllVoting(this.currentUser);
+                        alert('✅ All votes (customer + public) have been reset successfully.');
+                        console.log('Admin reset all votes (both systems)');
+                    } catch (error) {
+                        console.error('Reset all votes error:', error);
+                        alert(`❌ Failed to reset all votes: ${error.message}`);
+                    }
+                }
+            }
+            
+            async togglePublicVotingStatus() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to toggle voting status.');
+                    return;
+                }
+                
+                try {
+                    const newStatus = await window.firebaseServices.votingService.togglePublicVotingStatus(this.currentUser);
+                    alert(`✅ Public voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
+                    console.log(`Admin toggled public voting to: ${newStatus}`);
+                } catch (error) {
+                    console.error('Toggle public voting status error:', error);
+                    alert(`❌ Failed to toggle public voting status: ${error.message}`);
+                }
+            }
+            
+            adjustTarget() {
+                const newTarget = prompt('Enter new vote target:', this.voteTarget);
+                if (newTarget && !isNaN(newTarget) && newTarget > 0) {
+                    this.voteTarget = parseInt(newTarget);
+                    this.renderProducts();
+                    this.saveData();
+                }
+            }
+            
+            exportResults() {
+                const results = {
+                    timestamp: new Date().toISOString(),
+                    voteTarget: this.voteTarget,
+                    totalVotes: this.getTotalVotes(),
+                    participants: this.userVotes.size,
+                    products: this.products.map(p => ({
+                        name: p.name,
+                        votes: p.votes,
+                        percentage: this.getTotalVotes() > 0 ? (p.votes / this.getTotalVotes() * 100).toFixed(2) : 0
+                    })).sort((a, b) => b.votes - a.votes)
+                };
+                
+                const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `damp-voting-results-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+            
+            simulateVotes() {
+                // Add random votes for demonstration
+                const iterations = Math.floor(Math.random() * 10) + 5;
+                
+                for (let i = 0; i < iterations; i++) {
+                    setTimeout(() => {
+                        const randomProduct = this.products[Math.floor(Math.random() * this.products.length)];
+                        randomProduct.votes++;
+                        
+                        if (i === iterations - 1) {
+                            this.renderProducts();
+                            this.updateStats();
+                            this.saveData();
+                        }
+                    }, i * 200);
+                }
+            }
+        }
+        
+        // Initialize Firebase voting system when DOM is ready
+        let votingSystem;
+        document.addEventListener('DOMContentLoaded', () => {
+            votingSystem = new FirebaseVotingSystem();
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (votingSystem) {
+                votingSystem.destroy();
+            }
+        });
+        
+        // Global mode switching function
+        function switchVotingMode(mode) {
+            if (votingSystem) {
+                votingSystem.switchMode(mode);
+                
+                // Update UI toggle buttons
+                const customerBtn = document.getElementById('customerModeBtn');
+                const publicBtn = document.getElementById('publicModeBtn');
+                
+                if (mode === 'customer') {
+                    customerBtn.classList.add('active');
+                    publicBtn.classList.remove('active');
+                } else {
+                    publicBtn.classList.add('active');
+                    customerBtn.classList.remove('active');
+                }
+                
+                console.log(`UI switched to ${mode} mode`);
+            }
+        }
+
+        // Global functions for buttons
+        function resetVotes() {
+            if (votingSystem) {
+                const mode = votingSystem.currentMode;
+                if (mode === 'customer') {
+                    votingSystem.resetVotes();
+                } else {
+                    votingSystem.resetPublicVotes();
+                }
+            }
+        }
+        
+        function resetAllVotes() {
+            if (votingSystem) {
+                votingSystem.resetAllVotes();
+            }
+        }
+        
+        function toggleVotingStatus() {
+            if (votingSystem) {
+                const mode = votingSystem.currentMode;
+                if (mode === 'customer') {
+                    votingSystem.toggleVotingStatus();
+                } else {
+                    votingSystem.togglePublicVotingStatus();
+                }
+            }
+        }
+        
+        function adjustTarget() {
+            if (votingSystem) {
+                const newTarget = prompt('Enter new vote target:', votingSystem.voteTarget);
+                if (newTarget && !isNaN(newTarget) && newTarget > 0) {
+                    votingSystem.voteTarget = parseInt(newTarget);
+                    votingSystem.renderProducts();
+                }
+            }
+        }
+        
+        function exportResults() {
+            if (votingSystem) {
+                const results = {
+                    timestamp: new Date().toISOString(),
+                    voteTarget: votingSystem.voteTarget,
+                    totalVotes: votingSystem.getTotalVotes(),
+                    votingActive: votingSystem.isVotingActive,
+                    products: votingSystem.products.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        votes: p.votes,
+                        percentage: p.percentage || (votingSystem.getTotalVotes() > 0 ? (p.votes / votingSystem.getTotalVotes() * 100).toFixed(2) : 0)
+                    })).sort((a, b) => b.votes - a.votes)
+                };
+                
+                const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `damp-voting-results-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+        
+        // Auto-refresh stats every 30 seconds (Firebase handles real-time updates)
+        setInterval(() => {
+            if (votingSystem) {
+                votingSystem.updateStats();
+                console.log('Stats refreshed');
+            }
+        }, 30000);
+    </script>
+</body>
+</html> 

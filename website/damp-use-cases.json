@@ -1,0 +1,59 @@
+{
+  "home_use": {
+    "title": "Home Applications",
+    "scenarios": [
+      {
+        "scenario": "Morning Coffee Routine",
+        "description": "Never leave your coffee behind when rushing to work. DAMP alerts you if you're about to leave without your mug.",
+        "products": ["DAMP Handle v1.0", "DAMP Silicone Bottom"],
+        "benefits": ["Save money on replacement drinks", "Stay hydrated", "Reduce morning stress"]
+      },
+      {
+        "scenario": "Home Office Productivity",
+        "description": "Stay focused on work while ensuring you don't abandon your beverages around the house.",
+        "products": ["DAMP Handle v1.0", "DAMP Cup Sleeve"],
+        "benefits": ["Maintain hydration", "Prevent wasted drinks", "Improve focus"]
+      },
+      {
+        "scenario": "Family Meal Management",
+        "description": "Keep track of children's drinks and ensure proper hydration during meals and activities.",
+        "products": ["DAMP Baby Bottle", "DAMP Cup Sleeve"],
+        "benefits": ["Child safety", "Hydration monitoring", "Parental peace of mind"]
+      }
+    ]
+  },
+  "professional_use": {
+    "title": "Professional Applications",
+    "scenarios": [
+      {
+        "scenario": "Office Meetings",
+        "description": "Discrete alerts ensure you don't leave beverages behind when moving between meetings or workspaces.",
+        "products": ["DAMP Handle v1.0", "DAMP Silicone Bottom"],
+        "benefits": ["Professional appearance", "Cost savings", "Hydration maintenance"]
+      },
+      {
+        "scenario": "Business Travel",
+        "description": "Monitor beverages in hotels, airports, and meeting venues to prevent abandonment while traveling.",
+        "products": ["DAMP Cup Sleeve", "DAMP Handle v1.0"],
+        "benefits": ["Travel convenience", "Cost savings", "Hydration on-the-go"]
+      }
+    ]
+  },
+  "healthcare_use": {
+    "title": "Healthcare Applications",
+    "scenarios": [
+      {
+        "scenario": "Elderly Care",
+        "description": "Monitor hydration and beverage intake for elderly individuals to ensure proper health maintenance.",
+        "products": ["DAMP Silicone Bottom", "DAMP Handle v1.0"],
+        "benefits": ["Health monitoring", "Caregiver alerts", "Independence support"]
+      },
+      {
+        "scenario": "Medication Management",
+        "description": "Ensure proper fluid intake with medications and track hydration during recovery.",
+        "products": ["DAMP Baby Bottle", "DAMP Cup Sleeve"],
+        "benefits": ["Medication compliance", "Recovery support", "Health tracking"]
+      }
+    ]
+  }
+} 

@@ -7,6 +7,14 @@
     box-sizing: border-box;
 }
 
+/* Enhanced Safe Area Support */
+:root {
+    --safe-area-top: env(safe-area-inset-top);
+    --safe-area-right: env(safe-area-inset-right);
+    --safe-area-bottom: env(safe-area-inset-bottom);
+    --safe-area-left: env(safe-area-inset-left);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
@@ -14,167 +22,65 @@ body {
     line-height: 1.6;
     overflow-x: hidden;
     padding-top: 80px; /* Account for fixed header */
+    padding-top: calc(80px + var(--safe-area-top)); /* Enhanced for safe areas */
+}
+
+/* Safe Area Utilities */
+.safe-area-padding-top {
+    padding-top: var(--safe-area-top);
+}
+
+.safe-area-padding-bottom {
+    padding-bottom: var(--safe-area-bottom);
+}
+
+.safe-area-padding-left {
+    padding-left: var(--safe-area-left);
+}
+
+.safe-area-padding-right {
+    padding-right: var(--safe-area-right);
+}
+
+.safe-area-margin-top {
+    margin-top: var(--safe-area-top);
+}
+
+.safe-area-margin-bottom {
+    margin-bottom: var(--safe-area-bottom);
+}
+
+/* Main Content ID for Skip Links */
+#main-content {
+    outline: none;
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+    padding-left: max(20px, var(--safe-area-left));
+    padding-right: max(20px, var(--safe-area-right));
 }
 
 /* Sections */
 section {
     scroll-margin-top: 100px; /* Ensures proper spacing when navigating to sections */
+    scroll-margin-top: calc(100px + var(--safe-area-top)); /* Enhanced for safe areas */
 }
 
-/* Navigation */
-nav {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(15, 15, 35, 0.9);
-    backdrop-filter: blur(20px);
-    z-index: 1000;
-    padding: 15px 0;
-    transition: all 0.3s ease;
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.logo {
-    font-size: 1.8rem;
-    font-weight: bold;
-    background: linear-gradient(45deg, #00d4ff, #0099cc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-
-.nav-links {
-    display: flex;
-    list-style: none;
-    gap: 30px;
-}
-
-.nav-links a {
-    color: white;
-    text-decoration: none;
-    transition: color 0.3s ease;
-    font-weight: 500;
-}
-
-.nav-links a:hover {
-    color: #00d4ff;
-}
-
-/* Hamburger Menu */
-.hamburger {
-    display: none;
-    flex-direction: column;
-    cursor: pointer;
-    gap: 4px;
-    padding: 10px;
-    z-index: 1001;
-}
-
-.hamburger span {
-    width: 25px;
-    height: 3px;
-    background: white;
-    transition: all 0.3s ease;
-    border-radius: 2px;
-}
-
-.hamburger.active span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-}
-
-.hamburger.active span:nth-child(2) {
-    opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-    transform: rotate(-45deg) translate(7px, -6px);
-}
-
-/* Mobile Menu Overlay */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(15, 15, 35, 0.98);
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-.mobile-menu.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.mobile-menu a {
-    color: white;
-    text-decoration: none;
-    font-size: 2rem;
-    font-weight: 600;
-    margin: 20px 0;
-    transition: all 0.3s ease;
-    position: relative;
-    padding: 15px 30px;
-    border-radius: 10px;
-}
-
-.mobile-menu a:hover {
-    color: #00d4ff;
-    background: rgba(0, 212, 255, 0.1);
-    transform: translateY(-2px);
-}
-
-.mobile-menu .close-btn {
-    position: absolute;
-    top: 30px;
-    right: 30px;
-    font-size: 2rem;
-    color: white;
-    cursor: pointer;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.mobile-menu .close-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: rotate(90deg);
-}
+/* Navigation styles are now handled by navigation.css */
+/* This removes conflicts with the enhanced DAMPHeader component */
 
 /* Hero Section */
-.hero {
+.hero-section {
     min-height: calc(100vh - 80px); /* Adjust for header */
+    min-height: calc(100vh - 80px - var(--safe-area-top)); /* Enhanced for safe areas */
     display: flex;
     align-items: center;
     position: relative;
     overflow: hidden;
+    padding: 120px 0 80px;
 }
 
 .hero-content {
@@ -241,6 +147,26 @@ nav {
     transform: translateY(-2px);
 }
 
+/* Enhanced Button Variants */
+.btn-xl {
+    padding: 18px 36px;
+    font-size: 1.2rem;
+}
+
+.btn-lg {
+    padding: 16px 32px;
+    font-size: 1.1rem;
+}
+
+/* Analytics-Friendly Classes */
+[data-analytics] {
+    cursor: pointer;
+}
+
+[data-analytics]:hover {
+    opacity: 0.9;
+}
+
 /* Floating Elements */
 .floating-elements {
     position: absolute;
@@ -258,7 +184,7 @@ nav {
     animation: float 6s ease-in-out infinite;
 }
 
-.circle-1 {
+.floating-circle-primary {
     width: 200px;
     height: 200px;
     top: 10%;
@@ -266,7 +192,7 @@ nav {
     animation-delay: 0s;
 }
 
-.circle-2 {
+.floating-circle-secondary {
     width: 150px;
     height: 150px;
     top: 60%;
@@ -274,7 +200,7 @@ nav {
     animation-delay: 2s;
 }
 
-.circle-3 {
+.floating-circle-accent {
     width: 100px;
     height: 100px;
     top: 80%;
@@ -387,13 +313,14 @@ nav {
     position: absolute;
     top: 20px;
     right: 20px;
-    background: linear-gradient(45deg, #ff6b35, #f7931e);
-    color: white;
+    background: linear-gradient(45deg, #00ff88, #00cc6a);
+    color: #0f0f23;
     padding: 8px 15px;
     border-radius: 15px;
     font-size: 0.8rem;
     font-weight: bold;
     text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
     letter-spacing: 0.5px;
 }
 
@@ -493,6 +420,7 @@ nav {
 /* Footer */
 footer {
     padding: 60px 0 30px;
+    padding-bottom: calc(30px + var(--safe-area-bottom)); /* Enhanced for safe areas */
     background: rgba(0, 0, 0, 0.3);
     text-align: center;
 }
@@ -554,10 +482,12 @@ footer {
 @media (max-width: 768px) {
     body {
         padding-top: 70px; /* Slightly less padding on mobile */
+        padding-top: calc(70px + var(--safe-area-top)); /* Enhanced for safe areas */
     }
     
-    .hero {
+    .hero-section {
         min-height: calc(100vh - 70px);
+        min-height: calc(100vh - 70px - var(--safe-area-top)); /* Enhanced for safe areas */
     }
     
     .hero h1 {
@@ -567,14 +497,6 @@ footer {
     .hero-buttons {
         flex-direction: column;
         align-items: center;
-    }
-    
-    .nav-links {
-        display: none;
-    }
-    
-    .hamburger {
-        display: flex;
     }
     
     .product-grid {
@@ -593,11 +515,42 @@ footer {
     .hero .subtitle {
         font-size: 1.1rem;
     }
+    
+    .container {
+        padding: 0 15px;
+        padding-left: max(15px, var(--safe-area-left));
+        padding-right: max(15px, var(--safe-area-right));
+    }
 }
 
-@media (min-width: 769px) {
-    .hamburger {
-        display: none;
+/* Hamburger menu responsive styles are now handled by navigation.css */
+
+/* Enhanced Mobile Support */
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero .subtitle {
+        font-size: 1rem;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 1rem;
+    }
+    
+    .btn-xl {
+        padding: 15px 30px;
+        font-size: 1.1rem;
+    }
+    
+    .feature-card {
+        padding: 30px 20px;
+    }
+    
+    .product-card {
+        padding: 30px 20px;
     }
 }
 
@@ -619,5 +572,57 @@ footer {
     }
     60% {
         transform: translateX(-50%) translateY(-5px);
+    }
+}
+
+/* Device-Specific Styles */
+.ios-device body {
+    /* iOS-specific optimizations */
+    -webkit-text-size-adjust: 100%;
+}
+
+.android-device body {
+    /* Android-specific optimizations */
+    text-size-adjust: 100%;
+}
+
+.has-notch .hero-section {
+    /* Additional padding for devices with notches */
+    padding-top: calc(120px + var(--safe-area-top));
+}
+
+/* Accessibility Enhancements */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+@media (prefers-contrast: high) {
+    body {
+        background: #000000;
+    }
+    
+    .feature-card,
+    .product-card {
+        border: 2px solid #ffffff;
+    }
+}
+
+/* Print Styles */
+@media print {
+    body {
+        background: white;
+        color: black;
+        padding-top: 0;
+    }
+    
+    .floating-elements,
+    .hero-buttons,
+    .app-buttons {
+        display: none;
     }
 }

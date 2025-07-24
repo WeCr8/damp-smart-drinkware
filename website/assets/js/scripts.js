@@ -336,3 +336,21 @@ function checkBrowserSupport() {
 
 // Run browser compatibility check
 checkBrowserSupport();
+
+// Global tracking function for all pages
+window.trackEvent = function(eventName, parameters = {}) {
+    // Google Analytics 4 tracking
+    if (typeof gtag !== 'undefined') {
+        gtag('event', eventName, parameters);
+    }
+    
+    // Console logging for development
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        console.log('Track Event:', eventName, parameters);
+    }
+    
+    // Custom analytics if needed
+    if (window.analytics && typeof window.analytics.track === 'function') {
+        window.analytics.track(eventName, parameters);
+    }
+};

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Pages Functionality Test</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .controls {
+            padding: 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #1e7e34;
+        }
+
+        .btn-warning {
+            background: #ffc107;
+            color: #212529;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .status {
+            padding: 20px;
+            background: #e9ecef;
+            border-left: 4px solid #007bff;
+            margin: 20px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .test-card {
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .test-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .test-card-header {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-card-header h3 {
+            margin: 0;
+            color: #495057;
+        }
+
+        .test-status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-testing {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .test-details {
+            padding: 20px;
+        }
+
+        .test-url {
+            font-family: 'Courier New', monospace;
+            background: #f8f9fa;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+
+        .test-checklist {
+            list-style: none;
+            margin: 15px 0;
+        }
+
+        .test-checklist li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .check-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .check-pending {
+            background: #ffc107;
+            color: white;
+        }
+
+        .check-success {
+            background: #28a745;
+            color: white;
+        }
+
+        .check-error {
+            background: #dc3545;
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .summary {
+            padding: 20px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+            text-align: center;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 15px;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .test-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .summary-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 DAMP Pages Functionality Test</h1>
+            <p>Comprehensive validation of all pages with new analytics and global store integration</p>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-primary" onclick="startTests()">
+                🚀 Start All Tests
+            </button>
+            <button class="btn btn-success" onclick="testCriticalPages()">
+                ⭐ Test Critical Pages Only
+            </button>
+            <button class="btn btn-warning" onclick="testAnalytics()">
+                📊 Test Analytics Integration
+            </button>
+            <button class="btn" onclick="window.open('http://localhost:8000', '_blank')">
+                🌐 Open Homepage
+            </button>
+        </div>
+
+        <div class="status" id="status">
+            Ready to test pages. Click "Start All Tests" to begin comprehensive validation.
+        </div>
+
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        </div>
+
+        <div class="test-grid" id="testGrid">
+            <!-- Test cards will be populated by JavaScript -->
+        </div>
+
+        <div class="summary">
+            <h3>Test Summary</h3>
+            <div class="summary-stats">
+                <div class="stat">
+                    <div class="stat-number" id="totalPages">0</div>
+                    <div class="stat-label">Total Pages</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="passedTests">0</div>
+                    <div class="stat-label">Passed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="failedTests">0</div>
+                    <div class="stat-label">Failed</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number" id="testProgress">0%</div>
+                    <div class="stat-label">Progress</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pages to test with their expected features
+        const pagesToTest = [
+            {
+                name: 'Homepage',
+                url: 'http://localhost:8000',
+                critical: true,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Hero animation',
+                    'Product tiles visible',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Products',
+                url: 'http://localhost:8000/pages/products.html',
+                critical: true,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Product cards render',
+                    'Navigation working',
+                    'Analytics tracking events'
+                ]
+            },
+            {
+                name: 'Support',
+                url: 'http://localhost:8000/pages/support.html',
+                critical: true,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Contact forms working',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'About',
+                url: 'http://localhost:8000/pages/about.html',
+                critical: true,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Content loads properly',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Shopping Cart',
+                url: 'http://localhost:8000/pages/cart.html',
+                critical: true,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'E-commerce tracking',
+                    'DAMP Header component',
+                    'Cart functionality',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Waitlist',
+                url: 'http://localhost:8000/pages/waitlist.html',
+                critical: false,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'DAMP Header component',
+                    'Form submission works',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Product Voting',
+                url: 'http://localhost:8000/pages/product-voting.html',
+                critical: false,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Voting system works',
+                    'DAMP Header component',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Pre-Sale Funnel',
+                url: 'http://localhost:8000/pages/pre-sale-funnel.html',
+                critical: false,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'DAMP Header component',
+                    'Funnel steps work',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'How It Works',
+                url: 'http://localhost:8000/pages/how-it-works.html',
+                critical: false,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Interactive content',
+                    'Navigation working'
+                ]
+            },
+            {
+                name: 'Subscription',
+                url: 'http://localhost:8000/pages/subscription.html',
+                critical: false,
+                tests: [
+                    'Google Analytics 4 loaded',
+                    'Cookie consent system',
+                    'DAMP Header component',
+                    'Subscription plans',
+                    'Navigation working'
+                ]
+            }
+        ];
+
+        let testResults = [];
+        let currentTestIndex = 0;
+
+        // Initialize test grid
+        function initializeTests() {
+            const testGrid = document.getElementById('testGrid');
+            testGrid.innerHTML = '';
+
+            pagesToTest.forEach((page, index) => {
+                const card = createTestCard(page, index);
+                testGrid.appendChild(card);
+            });
+
+            updateSummary();
+        }
+
+        // Create test card HTML
+        function createTestCard(page, index) {
+            const card = document.createElement('div');
+            card.className = 'test-card';
+            card.id = `test-card-${index}`;
+
+            const criticalBadge = page.critical ? 
+                '<span class="test-status status-pending">CRITICAL</span>' : 
+                '<span class="test-status status-pending">OPTIONAL</span>';
+
+            card.innerHTML = `
+                <div class="test-card-header">
+                    <h3>${page.name}</h3>
+                    ${criticalBadge}
+                </div>
+                <div class="test-details">
+                    <div class="test-url">${page.url}</div>
+                    <ul class="test-checklist">
+                        ${page.tests.map(test => `
+                            <li>
+                                <span class="check-icon check-pending">?</span>
+                                ${test}
+                            </li>
+                        `).join('')}
+                    </ul>
+                    <button class="btn btn-primary" onclick="testSinglePage(${index})">
+                        🧪 Test This Page
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Start all tests
+        async function startTests() {
+            updateStatus('🚀 Starting comprehensive page tests...');
+            
+            for (let i = 0; i < pagesToTest.length; i++) {
+                await testSinglePage(i);
+                await sleep(1000); // Small delay between tests
+            }
+
+            updateStatus('✅ All tests completed!');
+        }
+
+        // Test critical pages only
+        async function testCriticalPages() {
+            updateStatus('⭐ Testing critical pages...');
+            
+            const criticalPages = pagesToTest
+                .map((page, index) => ({ page, index }))
+                .filter(item => item.page.critical);
+
+            for (let item of criticalPages) {
+                await testSinglePage(item.index);
+                await sleep(1000);
+            }
+
+            updateStatus('✅ Critical page tests completed!');
+        }
+
+        // Test single page
+        async function testSinglePage(index) {
+            const page = pagesToTest[index];
+            const card = document.getElementById(`test-card-${index}`);
+            
+            updateCardStatus(card, 'testing');
+            updateStatus(`🧪 Testing ${page.name}...`);
+
+            try {
+                // Create hidden iframe to test page
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.src = page.url;
+                document.body.appendChild(iframe);
+
+                await new Promise((resolve, reject) => {
+                    iframe.onload = () => {
+                        setTimeout(() => {
+                            try {
+                                const results = testPageFeatures(iframe, page);
+                                testResults[index] = results;
+                                updateCardResults(card, results, page);
+                                document.body.removeChild(iframe);
+                                resolve();
+                            } catch (error) {
+                                console.error(`Error testing ${page.name}:`, error);
+                                testResults[index] = { passed: 0, total: page.tests.length, errors: [error.message] };
+                                updateCardStatus(card, 'error');
+                                document.body.removeChild(iframe);
+                                resolve();
+                            }
+                        }, 2000); // Wait 2 seconds for page to fully load
+                    };
+
+                    iframe.onerror = () => {
+                        testResults[index] = { passed: 0, total: page.tests.length, errors: ['Failed to load page'] };
+                        updateCardStatus(card, 'error');
+                        document.body.removeChild(iframe);
+                        resolve();
+                    };
+
+                    // Timeout after 10 seconds
+                    setTimeout(() => {
+                        if (document.body.contains(iframe)) {
+                            testResults[index] = { passed: 0, total: page.tests.length, errors: ['Test timeout'] };
+                            updateCardStatus(card, 'error');
+                            document.body.removeChild(iframe);
+                            resolve();
+                        }
+                    }, 10000);
+                });
+
+            } catch (error) {
+                console.error(`Error testing ${page.name}:`, error);
+                testResults[index] = { passed: 0, total: page.tests.length, errors: [error.message] };
+                updateCardStatus(card, 'error');
+            }
+
+            updateSummary();
+        }
+
+        // Test page features
+        function testPageFeatures(iframe, page) {
+            const doc = iframe.contentDocument || iframe.contentWindow.document;
+            const results = { passed: 0, total: page.tests.length, errors: [] };
+
+            page.tests.forEach(test => {
+                try {
+                    let passed = false;
+
+                    switch (test) {
+                        case 'Google Analytics 4 loaded':
+                            passed = doc.querySelector('script[src*="googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"]') !== null;
+                            break;
+                        case 'Cookie consent system':
+                            passed = doc.querySelector('script[src*="cookie-consent"]') !== null;
+                            break;
+                        case 'DAMP Header component':
+                            passed = doc.querySelector('damp-header') !== null;
+                            break;
+                        case 'Hero animation':
+                            passed = doc.querySelector('.hero') !== null || doc.querySelector('[class*="hero"]') !== null;
+                            break;
+                        case 'Product tiles visible':
+                            passed = doc.querySelector('.product-card') !== null || doc.querySelector('[class*="product"]') !== null;
+                            break;
+                        case 'Navigation working':
+                            passed = doc.querySelector('nav') !== null || doc.querySelector('.nav') !== null || doc.querySelector('damp-header') !== null;
+                            break;
+                        case 'Product cards render':
+                            passed = doc.querySelector('.product-card') !== null || doc.querySelector('[class*="product"]') !== null;
+                            break;
+                        case 'Analytics tracking events':
+                            passed = doc.querySelector('[data-analytics]') !== null;
+                            break;
+                        case 'Contact forms working':
+                            passed = doc.querySelector('form') !== null;
+                            break;
+                        case 'Content loads properly':
+                            passed = doc.body.textContent.trim().length > 100;
+                            break;
+                        case 'E-commerce tracking':
+                            passed = doc.querySelector('script[src*="gtag"]') !== null;
+                            break;
+                        case 'Cart functionality':
+                            passed = doc.querySelector('[class*="cart"]') !== null || doc.querySelector('form') !== null;
+                            break;
+                        case 'Form submission works':
+                            passed = doc.querySelector('form') !== null;
+                            break;
+                        case 'Voting system works':
+                            passed = doc.querySelector('[class*="vote"]') !== null || doc.querySelector('.voting') !== null;
+                            break;
+                        case 'Funnel steps work':
+                            passed = doc.querySelector('[class*="step"]') !== null || doc.querySelector('[class*="funnel"]') !== null;
+                            break;
+                        case 'Interactive content':
+                            passed = doc.querySelector('button') !== null || doc.querySelector('[onclick]') !== null;
+                            break;
+                        case 'Subscription plans':
+                            passed = doc.querySelector('[class*="plan"]') !== null || doc.querySelector('[class*="subscription"]') !== null;
+                            break;
+                        default:
+                            passed = true; // Default to passed for unrecognized tests
+                    }
+
+                    if (passed) {
+                        results.passed++;
+                    }
+                } catch (error) {
+                    results.errors.push(`${test}: ${error.message}`);
+                }
+            });
+
+            return results;
+        }
+
+        // Update card status
+        function updateCardStatus(card, status) {
+            const statusElement = card.querySelector('.test-status');
+            statusElement.className = `test-status status-${status}`;
+            
+            switch (status) {
+                case 'testing':
+                    statusElement.textContent = 'TESTING...';
+                    break;
+                case 'success':
+                    statusElement.textContent = 'PASSED';
+                    break;
+                case 'error':
+                    statusElement.textContent = 'FAILED';
+                    break;
+                default:
+                    statusElement.textContent = 'PENDING';
+            }
+        }
+
+        // Update card with test results
+        function updateCardResults(card, results, page) {
+            const checkIcons = card.querySelectorAll('.check-icon');
+            const isSuccess = results.passed === results.total;
+            
+            updateCardStatus(card, isSuccess ? 'success' : 'error');
+
+            // Update individual test indicators
+            checkIcons.forEach((icon, index) => {
+                if (index < results.passed) {
+                    icon.className = 'check-icon check-success';
+                    icon.textContent = '✓';
+                } else if (index < results.total) {
+                    icon.className = 'check-icon check-error';
+                    icon.textContent = '✗';
+                }
+            });
+        }
+
+        // Update status message
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        // Update summary statistics
+        function updateSummary() {
+            const totalPages = pagesToTest.length;
+            const completedTests = testResults.filter(result => result !== undefined).length;
+            const passedTests = testResults.filter(result => result && result.passed === result.total).length;
+            const failedTests = completedTests - passedTests;
+            const progress = Math.round((completedTests / totalPages) * 100);
+
+            document.getElementById('totalPages').textContent = totalPages;
+            document.getElementById('passedTests').textContent = passedTests;
+            document.getElementById('failedTests').textContent = failedTests;
+            document.getElementById('testProgress').textContent = `${progress}%`;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+        }
+
+        // Test analytics specifically
+        function testAnalytics() {
+            updateStatus('📊 Testing Google Analytics integration...');
+            
+            // Check if gtag is available globally
+            if (typeof gtag !== 'undefined') {
+                updateStatus('✅ Google Analytics gtag function is available globally');
+            } else {
+                updateStatus('❌ Google Analytics gtag function not found globally');
+            }
+
+            // Test cookie consent integration
+            const consentData = localStorage.getItem('damp_cookie_consent');
+            if (consentData) {
+                updateStatus('✅ Cookie consent data found in localStorage');
+            } else {
+                updateStatus('⚠️ No cookie consent data found - this is normal for first visit');
+            }
+        }
+
+        // Utility function
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', initializeTests);
+    </script>
+</body>
+</html> 

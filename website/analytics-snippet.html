@@ -1,0 +1,268 @@
+<!-- 
+DAMP Analytics Implementation Snippet
+Google Engineering Standards - Production Ready
+Copy this snippet to any page for automatic analytics tracking
+
+Usage: Include this in the <head> section of your HTML pages
+-->
+
+<!-- Google Analytics 4 with GDPR Compliance -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  // Set consent defaults (GDPR compliant)
+  gtag('consent', 'default', {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied', 
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied', // Will be updated based on cookie consent
+    'wait_for_update': 500
+  });
+
+  // Configure Google Analytics
+  gtag('config', 'G-YW2BN4SVPQ', {
+    'send_page_view': true,
+    'allow_google_signals': true,
+    'allow_ad_personalization_signals': false,
+    'cookie_domain': 'auto',
+    'cookie_expires': 63072000, // 2 years
+    'anonymize_ip': true // Privacy protection
+  });
+
+  // Check for existing cookie consent and update accordingly
+  (function() {
+    try {
+      const consentData = localStorage.getItem('damp_cookie_consent');
+      if (consentData) {
+        const consent = JSON.parse(consentData);
+        gtag('consent', 'update', {
+          'analytics_storage': consent.analytics ? 'granted' : 'denied',
+          'ad_storage': consent.marketing ? 'granted' : 'denied',
+          'ad_user_data': consent.marketing ? 'granted' : 'denied',
+          'ad_personalization': consent.marketing ? 'granted' : 'denied'
+        });
+        console.log('✅ Analytics consent loaded from storage');
+      }
+    } catch (error) {
+      console.warn('Could not load cookie consent:', error);
+    }
+  })();
+
+  // Listen for consent updates
+  window.addEventListener('cookieConsentUpdated', function(event) {
+    if (event.detail) {
+      gtag('consent', 'update', {
+        'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+        'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+        'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+        'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+      });
+      console.log('🍪 Analytics consent updated:', event.detail);
+    }
+  });
+
+  // Track enhanced page view with additional context
+  function trackEnhancedPageView() {
+    const pageSection = (() => {
+      const path = window.location.pathname;
+      if (path === '/' || path === '/index.html') return 'home';
+      if (path.includes('/pages/')) {
+        return path.split('/pages/')[1]?.split('.')[0] || 'unknown';
+      }
+      return 'unknown';
+    })();
+
+    const deviceCategory = (() => {
+      const width = window.innerWidth;
+      if (width < 768) return 'mobile';
+      if (width < 1024) return 'tablet';
+      return 'desktop';
+    })();
+
+    gtag('event', 'page_view', {
+      'page_title': document.title,
+      'page_location': window.location.href,
+      'content_group1': pageSection,
+      'custom_map': {
+        'device_category': deviceCategory,
+        'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+        'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct'
+      }
+    });
+  }
+
+  // Track page view when gtag is ready
+  setTimeout(trackEnhancedPageView, 100);
+
+  // Track clicks on elements with data-analytics attribute
+  document.addEventListener('click', function(event) {
+    const element = event.target.closest('[data-analytics]');
+    if (element) {
+      const analyticsData = element.dataset.analytics;
+      const elementType = element.tagName.toLowerCase();
+      
+      gtag('event', 'click', {
+        'event_category': 'engagement',
+        'event_label': analyticsData,
+        'custom_map': {
+          'element_type': elementType,
+          'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+          'element_id': element.id || 'no_id'
+        }
+      });
+    }
+  });
+
+  // Track outbound links
+  document.addEventListener('click', function(event) {
+    const link = event.target.closest('a');
+    if (link && link.href) {
+      try {
+        const url = new URL(link.href, window.location.href);
+        if (url.hostname !== window.location.hostname) {
+          gtag('event', 'click', {
+            'event_category': 'outbound_links', 
+            'event_label': url.hostname,
+            'custom_map': {
+              'destination_url': link.href,
+              'link_text': link.textContent?.trim()?.substring(0, 50) || ''
+            }
+          });
+        }
+      } catch (e) {
+        // Invalid URL, skip tracking
+      }
+    }
+  });
+
+  // Track form submissions
+  document.addEventListener('submit', function(event) {
+    if (event.target.tagName === 'FORM') {
+      const form = event.target;
+      const formName = form.name || form.id || 'unnamed_form';
+      
+      gtag('event', 'form_submit', {
+        'event_category': 'forms',
+        'event_label': formName,
+        'custom_map': {
+          'form_method': form.method || 'get',
+          'field_count': form.querySelectorAll('input, textarea, select').length
+        }
+      });
+    }
+  });
+
+  // Scroll depth tracking
+  (function() {
+    let maxScroll = 0;
+    const scrollMilestones = [25, 50, 75, 90];
+    let milestoneTracked = [false, false, false, false];
+    
+    function trackScroll() {
+      const scrollPercent = Math.round(
+        (window.scrollY + window.innerHeight) / document.body.scrollHeight * 100
+      );
+      
+      if (scrollPercent > maxScroll) {
+        maxScroll = scrollPercent;
+        
+        scrollMilestones.forEach((milestone, index) => {
+          if (scrollPercent >= milestone && !milestoneTracked[index]) {
+            milestoneTracked[index] = true;
+            gtag('event', 'scroll', {
+              'event_category': 'engagement',
+              'event_label': milestone + '%',
+              'value': milestone,
+              'non_interaction': true
+            });
+          }
+        });
+      }
+    }
+    
+    let scrollTimeout;
+    window.addEventListener('scroll', function() {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(trackScroll, 1000);
+    });
+  })();
+
+  // Performance tracking
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      if ('performance' in window) {
+        const perfData = performance.getEntriesByType('navigation')[0];
+        if (perfData) {
+          gtag('event', 'performance_timing', {
+            'event_category': 'performance',
+            'custom_map': {
+              'page_load_time': Math.round(perfData.loadEventEnd - perfData.loadEventStart),
+              'dom_content_loaded': Math.round(perfData.domContentLoadedEventEnd - perfData.domContentLoadedEventStart),
+              'server_response_time': Math.round(perfData.responseEnd - perfData.requestStart)
+            }
+          });
+        }
+      }
+    }, 2000);
+  });
+
+  console.log('✅ DAMP Analytics initialized with Google Analytics 4');
+</script>
+
+<!-- Alternative: Include the full analytics service (for advanced features) -->
+<!-- 
+<script type="module">
+  import dampAnalytics from './assets/js/analytics/damp-analytics.js';
+  
+  // Analytics will auto-initialize and provide advanced features
+  window.dampAnalytics = dampAnalytics;
+</script>
+-->
+
+<!-- 
+USAGE EXAMPLES:
+
+1. Track button clicks:
+   <button data-analytics="header-cta-button">Pre-Order Now</button>
+
+2. Track navigation:
+   <a href="/products" data-analytics="nav-products">Products</a>
+
+3. Track custom events:
+   <script>
+     gtag('event', 'custom_event', {
+       'event_category': 'user_action',
+       'event_label': 'custom_action'
+     });
+   </script>
+
+4. Set user properties:
+   <script>
+     gtag('config', 'G-YW2BN4SVPQ', {
+       'user_id': 'user_123',
+       'custom_map': {
+         'user_type': 'premium',
+         'sign_up_method': 'google'
+       }
+     });
+   </script>
+
+5. E-commerce tracking:
+   <script>
+     gtag('event', 'purchase', {
+       'transaction_id': '12345',
+       'value': 29.99,
+       'currency': 'USD',
+       'items': [{
+         'item_id': 'damp_silicone_bottom',
+         'item_name': 'DAMP Silicone Bottom',
+         'category': 'accessories',
+         'quantity': 1,
+         'price': 29.99
+       }]
+     });
+   </script>
+--> 

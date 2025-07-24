@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "build:products": "node build/product-builder.js",
+    "dev:products": "node build/product-builder.js --watch",
+    "dev": "npm run build:products && npm run dev:products & npm run dev:server",
+    "dev:server": "npx http-server . -p 3000 -c-1"
+  },
+  "devDependencies": {
+    "chokidar": "^3.5.3",
+    "glob": "^10.3.3",
+    "gray-matter": "^4.0.3"
+  }
+} 

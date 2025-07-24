@@ -1,0 +1,8 @@
+# WeCr8 Solutions LLC - AI-Optimized robots.txt
+
+User-agent: *
+Allow: /
+Sitemap: https://damp-smart-drinkware.netlify.app/sitemap.xml
+
+# AI/LLM Crawlers
+User-agent: Chat 

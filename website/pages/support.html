@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Support & Help Center - DAMP Smart Drinkware | Get Help & Contact Us</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions, contact support, and access setup guides for your smart drinkware devices and mobile app.">
+    <meta name="keywords" content="DAMP support, smart drinkware help, customer support, setup guide, troubleshooting, contact support, FAQ">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/support.html">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/support.html">
+    <meta property="og:title" content="Support & Help Center - DAMP Smart Drinkware">
+    <meta property="og:description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions and contact our support team.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Support & Help Center - DAMP Smart Drinkware">
+    <meta name="twitter:description" content="Get help with DAMP Smart Drinkware products. Find answers to common questions and contact our support team.">
+    <meta name="twitter:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- DAMP Analytics - Google Analytics 4 with GDPR Compliance -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for support page
+      function trackSupportPageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - Support',
+          'page_location': window.location.href,
+          'content_group1': 'support',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'page_type': 'support'
+          }
+        });
+      }
+
+      // Track page view when gtag is ready
+      setTimeout(trackSupportPageView, 100);
+
+      // Track support interactions
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'support',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'support'
+            }
+          });
+        }
+      });
+
+      console.log('✅ DAMP Analytics initialized for Support Page');
+    </script>
+    
+    <!-- Structured Data - ContactPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "name": "DAMP Smart Drinkware Support",
+        "description": "Get help and support for DAMP Smart Drinkware products and services",
+        "url": "https://dampdrink.com/pages/support.html",
+        "mainEntity": {
+            "@type": "Organization",
+            "name": "WeCr8 Solutions LLC",
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-555-DAMP-DRINK",
+                "contactType": "customer service",
+                "email": "support@dampdrink.com"
+            }
+        }
+    }
+    </script>
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Support Hero -->
+    <section class="section hero-section">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="hero-title animate-fade-in-up">Support & Help Center</h1>
+                <p class="hero-subtitle animate-fade-in-up animate-delay-200">Get help with your DAMP Smart Drinkware products and find answers to common questions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Help -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Quick Help</h2>
+            
+            <div class="features-grid">
+                <div class="feature-card animate-fade-in-up animate-delay-200">
+                    <div class="feature-icon">📋</div>
+                    <h3>Setup Guide</h3>
+                    <p>Step-by-step instructions to get your DAMP device up and running.</p>
+                    <a href="#setup" class="btn btn-primary mt-4">Get Started</a>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-300">
+                    <div class="feature-icon">❓</div>
+                    <h3>FAQ</h3>
+                    <p>Find answers to frequently asked questions about DAMP products.</p>
+                    <a href="#faq" class="btn btn-primary mt-4">View FAQ</a>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-400">
+                    <div class="feature-icon">🔧</div>
+                    <h3>Troubleshooting</h3>
+                    <p>Resolve common issues with your DAMP smart drinkware devices.</p>
+                    <a href="#troubleshooting" class="btn btn-primary mt-4">Get Help</a>
+                </div>
+                
+                <div class="feature-card animate-fade-in-up animate-delay-500">
+                    <div class="feature-icon">📞</div>
+                    <h3>Contact Support</h3>
+                    <p>Get in touch with our support team for personalized assistance.</p>
+                    <a href="#contact" class="btn btn-primary mt-4">Contact Us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section bg-surface">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            
+            <div class="max-w-3xl mx-auto">
+                <div class="faq-card">
+                    <button class="faq-question">
+                        How do I set up my DAMP device?
+                    </button>
+                    <div class="faq-answer">
+                        <p>Setting up your DAMP device is simple! Download the DAMP app, create an account, and follow the in-app pairing instructions. Make sure Bluetooth is enabled on your phone and the device is charged.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-card">
+                    <button class="faq-question">
+                        What's the battery life of DAMP devices?
+                    </button>
+                    <div class="faq-answer">
+                        <p>DAMP devices are designed for long-lasting performance. The DAMP Handle and Silicone Bottom offer up to 6 months of battery life, while the Cup Sleeve provides 4 months and the Baby Bottle lasts 3 months with normal use.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-card">
+                    <button class="faq-question">
+                        Are DAMP devices dishwasher safe?
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes! All DAMP devices are designed to be dishwasher safe. The Silicone Bottom and Cup Sleeve can go in the dishwasher, while the Handle should be wiped clean with a damp cloth.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-card">
+                    <button class="faq-question">
+                        How do I update my device firmware?
+                    </button>
+                    <div class="faq-answer">
+                        <p>Firmware updates are automatically pushed through the DAMP mobile app. Make sure your device is connected and the app is updated to the latest version to receive firmware updates.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Contact Support</h2>
+            
+            <div class="grid grid-cols-2 gap-8">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4">Get in Touch</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-3">
+                            <div class="feature-icon text-sm">📧</div>
+                            <div>
+                                <p class="font-medium">Email Support</p>
+                                <a href="mailto:support@dampdrink.com" class="text-primary">support@dampdrink.com</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="feature-icon text-sm">📞</div>
+                            <div>
+                                <p class="font-medium">Phone Support</p>
+                                <a href="tel:+1-555-DAMP-DRINK" class="text-primary">1-555-DAMP-DRINK</a>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="feature-icon text-sm">🕒</div>
+                            <div>
+                                <p class="font-medium">Support Hours</p>
+                                <p>Monday - Friday: 9 AM - 6 PM EST</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-4">Submit a Ticket</h3>
+                    <form id="supportForm" class="space-y-4">
+                        <div class="form-group">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" required placeholder="Enter your email address">
+                        </div>
+                        <div class="form-group">
+                            <label for="orderNumber">Order Number (if applicable)</label>
+                            <input type="text" id="orderNumber" name="orderNumber" placeholder="Enter your order number">
+                        </div>
+                        <div class="form-group">
+                            <label for="category">Issue Category</label>
+                            <select id="category" name="category" required>
+                                <option value="">Select a category</option>
+                                <option value="pre-order">Pre-order Questions</option>
+                                <option value="shipping">Shipping & Delivery</option>
+                                <option value="device-setup">Device Setup & Pairing</option>
+                                <option value="app-issues">App Issues</option>
+                                <option value="battery-charging">Battery & Charging</option>
+                                <option value="product-care">Product Care & Cleaning</option>
+                                <option value="technical">Technical Support</option>
+                                <option value="billing">Billing & Payments</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="priority">Priority Level</label>
+                            <select id="priority" name="priority">
+                                <option value="low">Low - General question</option>
+                                <option value="medium">Medium - Issue affecting use</option>
+                                <option value="high">High - Urgent issue</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" required placeholder="Please describe your issue or question in detail..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <input type="checkbox" id="updates" name="updates" style="width: auto; margin-right: 10px;">
+                            <label for="updates" style="display: inline;">Send me product updates and support tips</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message</button>
+                    </form>
+                    <div id="successMessage" class="success-message">
+                        <h4 style="color: #00ff88; margin-bottom: 10px;">Message Sent Successfully!</h4>
+                        <p>Thank you for contacting us. We'll respond within 24 hours (or next business day).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    <script src="../assets/js/components/favicon-setup.js"></script>
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/cookie-consent-simple.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+    
+    <!-- Page Load Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('page-loaded');
+            document.body.classList.remove('page-loading');
+        });
+    </script>
+    
+    <!-- Simple Cookie Consent System -->
+    <script>
+        // Simple cookie consent auto-initializes, no additional setup needed
+        console.log('Support page: Simple cookie consent loaded');
+    </script>
+</body>
+</html>

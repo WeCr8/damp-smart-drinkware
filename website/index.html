@@ -271,6 +271,43 @@
     <script type="module" src="assets/js/config/env-config.js"></script>
     <script type="module" src="assets/js/security/security-manager.js"></script>
     <script type="module" src="assets/js/performance/performance-manager.js"></script>
+
+    <!-- Google Analytics 4 - Advanced Consent Mode (Google Engineering Recommended) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
+    <script>
+      // Initialize dataLayer and gtag function
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // CRITICAL: Set consent defaults BEFORE config (Google's v2 requirements)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted',
+        'wait_for_update': 2000,
+        'region': ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'GB', 'CH']
+      });
+
+      // Configure Google Analytics (ADVANCED CONSENT MODE - tags always fire)
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure',
+        // CRITICAL: Don't set storage permissions here - let consent mode handle it
+        'debug_mode': false
+      });
+
+      console.log('✅ Google Analytics 4 initialized with Advanced Consent Mode (Google Engineering Standards)');
+    </script>
 </head>
 
 <body class="page-loading">
@@ -898,121 +935,11 @@
         <p>Loading DAMP...</p>
     </div>
     
-    <!-- Load Critical Components -->
+    <!-- Load Critical Components in Correct Order -->
+    <script src="assets/js/components/safe-area-wrapper.js"></script>
+    <script src="assets/js/compliance/compliance-manager.js"></script>
     <script src="assets/js/components/header.js"></script>
     <script src="assets/js/cookie-consent-simple.js"></script>
-    
-    <!-- Enhanced Analytics with Environment Variables -->
-    <script>
-        // Initialize analytics with environment configuration
-        document.addEventListener('DOMContentLoaded', function() {
-            const config = window.DAMP.Config;
-            
-            if (config && config.isFeatureEnabled('analytics')) {
-                const analyticsId = config.get('analytics.googleAnalyticsId');
-                
-                if (analyticsId) {
-                    // Load Google Analytics 4
-                    const script = document.createElement('script');
-                    script.async = true;
-                    script.src = `https://www.googletagmanager.com/gtag/js?id=${analyticsId}`;
-                    document.head.appendChild(script);
-                    
-                    // Initialize gtag
-                    window.dataLayer = window.dataLayer || [];
-                    function gtag(){dataLayer.push(arguments);}
-                    gtag('js', new Date());
-
-                    // Set consent defaults (GDPR compliant)
-                    gtag('consent', 'default', {
-                        'ad_storage': 'denied',
-                        'ad_user_data': 'denied', 
-                        'ad_personalization': 'denied',
-                        'analytics_storage': 'denied',
-                        'wait_for_update': 500
-                    });
-
-                    // Configure Google Analytics
-                    gtag('config', analyticsId, {
-                        'send_page_view': true,
-                        'allow_google_signals': true,
-                        'allow_ad_personalization_signals': false,
-                        'cookie_domain': 'auto',
-                        'cookie_expires': 63072000,
-                        'anonymize_ip': true
-                    });
-
-                    // Check for existing cookie consent
-                    try {
-                        const consentData = localStorage.getItem('damp_cookie_consent');
-                        if (consentData) {
-                            const consent = JSON.parse(consentData);
-                            gtag('consent', 'update', {
-                                'analytics_storage': consent.analytics ? 'granted' : 'denied',
-                                'ad_storage': consent.marketing ? 'granted' : 'denied',
-                                'ad_user_data': consent.marketing ? 'granted' : 'denied',
-                                'ad_personalization': consent.marketing ? 'granted' : 'denied'
-                            });
-                        }
-                    } catch (error) {
-                        console.warn('Could not load cookie consent:', error);
-                    }
-
-                    // Listen for consent updates
-                    window.addEventListener('cookieConsentUpdated', function(event) {
-                        if (event.detail) {
-                            gtag('consent', 'update', {
-                                'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
-                                'ad_storage': event.detail.marketing ? 'granted' : 'denied',
-                                'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
-                                'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
-                            });
-                        }
-                    });
-
-                    // Enhanced page view tracking
-                    setTimeout(() => {
-                        gtag('event', 'page_view', {
-                            'page_title': 'DAMP Smart Drinkware - Home',
-                            'page_location': window.location.href,
-                            'content_group1': 'home',
-                            'custom_map': {
-                                'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-                                'viewport_size': window.innerWidth + 'x' + window.innerHeight,
-                                'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
-                                'landing_page': true,
-                                'app_version': config.get('app.version', '1.0.0')
-                            }
-                        });
-                    }, 100);
-
-                    // Track all analytics-enabled elements
-                    document.addEventListener('click', function(event) {
-                        const element = event.target.closest('[data-analytics]');
-                        if (element) {
-                            const analyticsData = element.dataset.analytics;
-                            const elementType = element.tagName.toLowerCase();
-                            
-                            gtag('event', 'click', {
-                                'event_category': 'engagement',
-                                'event_label': analyticsData,
-                                'custom_map': {
-                                    'element_type': elementType,
-                                    'element_text': element.textContent?.trim()?.substring(0, 50) || '',
-                                    'element_id': element.id || 'no_id',
-                                    'page_section': 'home',
-                                    'timestamp': Date.now()
-                                }
-                            });
-                        }
-                    });
-
-                    window.gtag = gtag;
-                    console.log('✅ DAMP Analytics initialized with environment config');
-                }
-            }
-        });
-    </script>
     
     <!-- Enhanced Landing Page Scripts with Performance Monitoring -->
     <script>

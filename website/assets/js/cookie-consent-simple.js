@@ -72,19 +72,45 @@ class SimpleCookieConsent {
     showBanner() {
         if (this.banner) return;
         
+        // Get region-specific compliance requirements
+        const requiresGDPR = window.dampCompliance?.getComplianceStatus().region?.requiresGDPR;
+        const requiresCCPA = window.dampCompliance?.getComplianceStatus().region?.requiresCCPA;
+        
+        let complianceText = 'We use cookies to enhance your experience and analyze site usage.';
+        let additionalLinks = '';
+        
+        if (requiresGDPR) {
+            complianceText = 'We use cookies with your consent to enhance your experience, analyze site usage, and assist with marketing efforts.';
+            additionalLinks = `
+                <a href="${this.options.privacyPolicyUrl}" target="_blank">Privacy Policy</a> | 
+                <a href="${this.options.cookiePolicyUrl}" target="_blank">Cookie Policy</a> |
+                <a href="/pages/user-rights.html" target="_blank">Your Rights</a>
+            `;
+        } else if (requiresCCPA) {
+            complianceText = 'We use cookies to enhance your experience. California residents have additional privacy rights.';
+            additionalLinks = `
+                <a href="${this.options.privacyPolicyUrl}" target="_blank">Privacy Policy</a> | 
+                <a href="/pages/ccpa-rights.html" target="_blank">CA Privacy Rights</a>
+            `;
+        } else {
+            additionalLinks = `
+                <a href="${this.options.privacyPolicyUrl}" target="_blank">Privacy Policy</a> | 
+                <a href="${this.options.cookiePolicyUrl}" target="_blank">Cookie Policy</a>
+            `;
+        }
+        
         this.banner = document.createElement('div');
         this.banner.className = 'simple-cookie-banner';
         this.banner.innerHTML = `
             <div class="cookie-banner-content">
                 <div class="cookie-banner-text">
-                    <strong>🍪 We use cookies</strong> to enhance your experience and analyze site usage. 
-                    <a href="${this.options.privacyPolicyUrl}" target="_blank">Privacy Policy</a> | 
-                    <a href="${this.options.cookiePolicyUrl}" target="_blank">Cookie Policy</a>
+                    <strong>🍪 Cookie Notice</strong> ${complianceText}
+                    ${additionalLinks}
                 </div>
                 <div class="cookie-banner-actions">
                     <button class="cookie-btn cookie-btn-accept" onclick="window.simpleCookieConsent?.acceptAll()">Accept All</button>
                     <button class="cookie-btn cookie-btn-essential" onclick="window.simpleCookieConsent?.acceptEssential()">Essential Only</button>
-                    <button class="cookie-btn cookie-btn-settings" onclick="window.simpleCookieConsent?.showSettings()">Settings</button>
+                    <button class="cookie-btn cookie-btn-settings" onclick="window.simpleCookieConsent?.showSettings()">Manage Preferences</button>
                 </div>
             </div>
         `;
@@ -265,33 +291,58 @@ class SimpleCookieConsent {
 
     /**
      * Update analytics consent and notify analytics system
+     * ENHANCED: Full compliance integration with GDPR/CCPA
      */
     updateAnalyticsConsent() {
-        // Update Google Analytics consent mode
-        if (window.gtag) {
-            gtag('consent', 'update', {
-                'analytics_storage': this.consentData.analytics ? 'granted' : 'denied',
+        // Update Google Analytics consent mode v2 (Google's Advanced Mode)
+        if (window.gtag && window.gtag_consent_initialized) {
+            const consentUpdate = {
                 'ad_storage': this.consentData.marketing ? 'granted' : 'denied',
+                'ad_user_data': this.consentData.marketing ? 'granted' : 'denied',
+                'ad_personalization': this.consentData.marketing ? 'granted' : 'denied',
+                'analytics_storage': this.consentData.analytics ? 'granted' : 'denied',
                 'functionality_storage': this.consentData.functional ? 'granted' : 'denied',
                 'personalization_storage': this.consentData.marketing ? 'granted' : 'denied',
-                'ad_user_data': this.consentData.marketing ? 'granted' : 'denied',
-                'ad_personalization': this.consentData.marketing ? 'granted' : 'denied'
+                'security_storage': 'granted' // Always granted for security
+            };
+
+            gtag('consent', 'update', consentUpdate);
+            
+            // Track consent interaction with compliance data
+            gtag('event', 'consent_update', {
+                event_category: 'compliance',
+                event_label: 'user_interaction',
+                custom_map: {
+                    analytics: this.consentData.analytics,
+                    marketing: this.consentData.marketing,
+                    functional: this.consentData.functional,
+                    compliance_version: '2.1.0',
+                    gdpr_applicable: window.dampCompliance?.getComplianceStatus().region?.requiresGDPR || false,
+                    ccpa_applicable: window.dampCompliance?.getComplianceStatus().region?.requiresCCPA || false
+                }
             });
+            
+            console.log('🍪 Google Consent Mode v2 updated (Advanced Mode):', consentUpdate);
         }
         
-        // Notify DAMP Analytics service if available
-        if (window.dampAnalytics && window.dampAnalytics.updateConsent) {
-            window.dampAnalytics.updateConsent(this.consentData);
+        // Update compliance manager
+        if (window.dampCompliance) {
+            window.dampCompliance.updateConsent(this.consentData);
         }
         
-        // Notify analytics utils if available
-        if (window.dampAnalyticsUtils && window.dampAnalyticsUtils.updateConsent) {
-            window.dampAnalyticsUtils.updateConsent(this.consentData);
+        // Notify other systems
+        if (window.DAMP_Analytics) {
+            window.DAMP_Analytics.updateConsent(this.consentData);
         }
         
-        // Dispatch custom event for other integrations
+        // Dispatch enhanced compliance event
         window.dispatchEvent(new CustomEvent('cookieConsentUpdated', {
-            detail: this.consentData
+            detail: {
+                consent: this.consentData,
+                timestamp: Date.now(),
+                complianceVersion: '2.1.0',
+                region: window.dampCompliance?.getComplianceStatus().region
+            }
         }));
     }
 

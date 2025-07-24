@@ -28,7 +28,10 @@ class DAMPEnvironmentConfig {
                     googleTagManagerId: this.getEnvVar('VITE_GOOGLE_TAG_MANAGER_ID', ''),
                     facebookPixelId: this.getEnvVar('VITE_FACEBOOK_PIXEL_ID', ''),
                     hotjarId: this.getEnvVar('VITE_HOTJAR_ID', ''),
-                    enableAnalytics: this.getBoolEnvVar('VITE_ENABLE_ANALYTICS', true)
+                    enableAnalytics: this.getBoolEnvVar('VITE_ENABLE_ANALYTICS', true),
+                    // NEW: Advanced consent mode settings
+                    consentMode: 'advanced', // Google recommended
+                    consentVersion: 'v2' // Latest version
                 },
 
                 // Stripe Configuration
@@ -145,7 +148,9 @@ class DAMPEnvironmentConfig {
         this.config = {
             analytics: {
                 googleAnalyticsId: this.devMode ? '' : 'G-YW2BN4SVPQ',
-                enableAnalytics: !this.devMode
+                enableAnalytics: !this.devMode,
+                consentMode: 'advanced',
+                consentVersion: 'v2'
             },
             stripe: {
                 publishableKey: '',

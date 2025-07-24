@@ -1280,6 +1280,31 @@
     <script src="assets/js/components/hero-animation.js"></script>
     <script src="assets/js/components/header.js"></script>
     <script src="assets/js/cookie-consent.js"></script>
+    
+    <!-- Firebase Services (ES6 Modules) -->
+    <script type="module">
+        import { 
+            authService, 
+            statsService, 
+            votingService, 
+            adminService, 
+            initializeFirebaseServices 
+        } from './js/firebase-services.js';
+        
+        // Make services globally available
+        window.firebaseServices = {
+            authService,
+            statsService,
+            votingService,
+            adminService,
+            initializeFirebaseServices
+        };
+        
+        console.log('Firebase services loaded');
+    </script>
+    
+    <!-- Real-time Stats Manager -->
+    <script src="assets/js/realtime-stats.js"></script>
     <script src="assets/js/scripts.js"></script>
     
     <!-- Enhanced Landing Page Scripts -->

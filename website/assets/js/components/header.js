@@ -116,15 +116,23 @@ class DAMPHeader extends HTMLElement {
                             <span class="mobile-nav-icon">ℹ️</span>
                             <span class="mobile-nav-text">About</span>
                         </a>
-                        <a href="${this.basePath}pages/pre-order.html" class="mobile-nav-cta" data-analytics="mobile-nav-preorder">
+                    </nav>
+                    
+                    <!-- Blue Action Buttons Section -->
+                    <div class="mobile-nav-actions">
+                        <a href="${this.basePath}pages/pre-order.html" class="mobile-nav-cta btn-preorder" data-analytics="mobile-nav-preorder">
                             <span class="mobile-nav-icon">🚀</span>
                             <span class="mobile-nav-text">Pre-Order Now</span>
                         </a>
-                        <a href="${this.basePath}pages/subscription.html" class="mobile-nav-subscription" data-analytics="mobile-nav-subscription">
+                        <a href="${this.basePath}pages/product-voting.html" class="mobile-nav-vote" data-analytics="mobile-nav-vote">
+                            <span class="mobile-nav-icon">🗳️</span>
+                            <span class="mobile-nav-text">Vote for Next Product</span>
+                        </a>
+                        <a href="${this.basePath}pages/subscription.html" class="mobile-nav-subscription btn-subscription" data-analytics="mobile-nav-subscription">
                             <span class="mobile-nav-icon">💎</span>
                             <span class="mobile-nav-text">Subscription Plans</span>
                         </a>
-                    </nav>
+                    </div>
                 </div>
                 
                 <div class="mobile-menu-footer safe-area-bottom">

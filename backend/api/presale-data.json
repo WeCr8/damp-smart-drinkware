@@ -1,9 +1,14 @@
 {
-  "currentCount": 368,
+  "currentCount": 369,
   "goalCount": 500,
   "startDate": "2025-01-01T00:00:00.000Z",
   "endDate": "2025-07-31T05:49:37.826Z",
   "recentOrders": [
+    {
+      "timestamp": "2025-07-24T09:54:55.401Z",
+      "location": "New York, NY",
+      "count": 1
+    },
     {
       "timestamp": "2025-07-24T09:48:55.327Z",
       "location": "Seattle, WA",
@@ -46,11 +51,6 @@
     },
     {
       "timestamp": "2025-07-24T08:03:54.242Z",
-      "location": "Austin, TX",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T07:39:53.977Z",
       "location": "Austin, TX",
       "count": 1
     }

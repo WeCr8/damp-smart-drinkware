@@ -378,19 +378,54 @@
     letter-spacing: 0.5px;
 }
 
-/* Mobile CTA Styling */
+/* Enhanced CTA Styling for Mobile Menu */
 .mobile-nav-cta {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color)) !important;
     color: white !important;
-    border-color: var(--primary-color) !important;
+    border: 2px solid var(--primary-color) !important;
     font-weight: 700 !important;
-    margin-top: 10px;
-    animation: pulse 2s infinite;
+    margin-top: 5px;
 }
 
 .mobile-nav-cta:hover,
 .mobile-nav-cta:focus {
     background: linear-gradient(45deg, var(--secondary-color), var(--primary-color)) !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5) !important;
+}
+
+/* Mobile Navigation Actions Section */
+.mobile-nav-actions {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.mobile-nav-actions a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 15px 20px !important;
+    margin: 8px 0 !important;
+    border-radius: 12px !important;
+    font-weight: 600 !important;
+    font-size: 1.1rem !important;
+    text-decoration: none !important;
+    transition: all var(--transition-standard) !important;
+    border: 2px solid transparent !important;
+}
+
+/* Vote Button Styling */
+.mobile-nav-vote {
+    background: linear-gradient(45deg, #00d4ff, #0099cc) !important;
+    color: white !important;
+    border: 2px solid #00d4ff !important;
+    font-weight: 700 !important;
+}
+
+.mobile-nav-vote:hover,
+.mobile-nav-vote:focus {
+    background: linear-gradient(45deg, #0099cc, #00d4ff) !important;
     transform: translateY(-3px) scale(1.05) !important;
     box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5) !important;
 }

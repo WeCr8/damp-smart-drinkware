@@ -1490,6 +1490,26 @@
 
     <!-- Navigation Header -->
     <damp-header></damp-header>
+    
+    <!-- Debug: Ensure header.js is working -->
+    <script>
+        // Verify header component is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const headerElement = document.querySelector('damp-header');
+            if (headerElement) {
+                console.log('✅ DAMP Header element found');
+            } else {
+                console.error('❌ DAMP Header element not found');
+            }
+            
+            // Check if custom element is defined
+            if (customElements.get('damp-header')) {
+                console.log('✅ DAMP Header custom element registered');
+            } else {
+                console.error('❌ DAMP Header custom element not registered');
+            }
+        });
+    </script>
 
     <!-- Hero Section -->
     <section class="hero-section">
@@ -2228,15 +2248,21 @@
     </script>
 
     <!-- Hero Animation (Load First) -->
-    <script src="assets/js/components/hero-animation.js"></script>
+    <script src="assets/js/components/hero-animation.js" 
+            onerror="console.error('❌ Failed to load hero-animation.js'); window.heroAnimationFailed = true;" 
+            onload="console.log('✅ hero-animation.js loaded successfully')"></script>
     
     <!-- Hero Animation Completion Handler -->
     <script>
+        // Debug: Check if hero animation script loaded
+        console.log('🎬 Hero animation script section loaded');
+        
         // Ensure content is shown if animation doesn't load properly
         window.addEventListener('load', () => {
+            console.log('🔄 Window load event fired, checking animation status...');
             setTimeout(() => {
                 if (!document.body.classList.contains('animation-complete')) {
-                    console.log('DAMP: Fallback - showing content after 12 seconds');
+                    console.log('⏰ DAMP: Fallback - showing content after 12 seconds');
                     showMainContent();
                 }
             }, 12000); // Fallback after 12 seconds
@@ -2244,18 +2270,20 @@
         
         // Function to show main content (called by hero animation or fallback)
         function showMainContent() {
+            console.log('✅ DAMP: showMainContent() called');
             document.body.classList.add('animation-complete');
             document.body.style.overflow = 'auto';
             document.body.style.height = 'auto';
             
             // Ensure all main content is visible
             const allContent = document.querySelectorAll('body > *:not(.hero-animation-overlay)');
+            console.log(`📄 Making ${allContent.length} content elements visible`);
             allContent.forEach(element => {
                 element.style.opacity = '1';
                 element.style.transition = 'opacity 0.5s ease';
             });
             
-            console.log('DAMP: Main content is now visible');
+            console.log('🎉 DAMP: Main content is now visible');
         }
         
         // Make showMainContent available globally for hero animation
@@ -2264,7 +2292,7 @@
         // Handle reduced motion preferences
         if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('DAMP: Reduced motion detected, skipping hero animation');
+                console.log('♿ DAMP: Reduced motion detected, skipping hero animation');
                 showMainContent();
             });
         }
@@ -2272,15 +2300,75 @@
         // Skip animation on small screens for better UX
         if (window.innerWidth < 480 || window.innerHeight < 600) {
             document.addEventListener('DOMContentLoaded', () => {
-                console.log('DAMP: Small screen detected, skipping hero animation');
+                console.log('📱 DAMP: Small screen detected, skipping hero animation');
                 showMainContent();
             });
         }
+        
+        // Additional debugging - check if animation class exists
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🔍 DOM loaded, checking for DAMPHeroAnimation...');
+            
+            if (window.heroAnimationFailed) {
+                console.error('💥 Hero animation script failed to load, showing content immediately');
+                showMainContent();
+                return;
+            }
+            
+            if (window.DAMPHeroAnimation) {
+                console.log('✅ DAMPHeroAnimation class found');
+            } else {
+                console.error('❌ DAMPHeroAnimation class not found - hero-animation.js may not have loaded');
+                // Fallback - show content immediately
+                setTimeout(() => showMainContent(), 1000);
+            }
+        });
+        
+        // Emergency fallback if nothing works after 5 seconds
+        setTimeout(() => {
+            if (!document.body.classList.contains('animation-complete')) {
+                console.warn('🚨 Emergency fallback: Showing content after 5 seconds');
+                showMainContent();
+            }
+        }, 5000);
     </script>
     
     <!-- Scripts -->
-    <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/scripts.js"></script>
+    <script>
+        // Debug: Check script loading
+        console.log('📦 Loading main scripts...');
+    </script>
+    <script src="assets/js/components/header.js" onerror="console.error('❌ Failed to load header.js')" onload="console.log('✅ header.js loaded successfully')"></script>
+    <script src="assets/js/scripts.js" onerror="console.error('❌ Failed to load scripts.js')" onload="console.log('✅ scripts.js loaded successfully')"></script>
+    
+    <!-- Backup Navigation (if header.js fails) -->
+    <script>
+        // Fallback if custom header doesn't load
+        setTimeout(() => {
+            const headerElement = document.querySelector('damp-header');
+            if (!headerElement || !headerElement.innerHTML.trim()) {
+                console.warn('⚠️ DAMP Header not loaded, injecting fallback navigation');
+                const fallbackNav = document.createElement('nav');
+                fallbackNav.innerHTML = `
+                    <div style="position: fixed; top: 0; left: 0; right: 0; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 15px 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <img src="assets/images/logo/icon.png" alt="DAMP" style="width: 30px; height: 30px;">
+                            <span style="color: var(--primary-color); font-weight: 700; font-size: 1.2rem;">DAMP</span>
+                        </div>
+                        <div style="display: flex; gap: 20px;">
+                            <a href="#products" style="color: var(--text-secondary); text-decoration: none;">Products</a>
+                            <a href="#how-it-works" style="color: var(--text-secondary); text-decoration: none;">How It Works</a>
+                            <a href="pages/pre-sale-funnel.html" style="background: var(--primary-color); color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600;">Pre-Order</a>
+                        </div>
+                    </div>
+                `;
+                document.body.insertBefore(fallbackNav, document.body.firstChild);
+                
+                // Add top padding to body to account for fixed nav
+                document.body.style.paddingTop = '80px';
+            }
+        }, 2000);
+    </script>
     
     <!-- Enhanced Page Scripts -->
     <script>
@@ -2534,24 +2622,81 @@
         });
     </script>
 
-    <!-- Cookie Notice -->
-    <div class="cookie-notice" id="cookieNotice" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(15, 15, 35, 0.95); border-radius: 12px; padding: 20px; color: white; font-size: 0.95rem; z-index: 10000; display: none; border: 1px solid var(--border-color);">
-        <div style="display: flex; align-items: center; gap: 15px;">
-            <span style="font-size: 1.5rem;">🍪</span>
-            <div style="flex: 1;">
-                We use cookies to improve your experience and analyze website traffic. 
-                <a href="pages/privacy.html" style="color: var(--primary-color);">Privacy Policy</a>
-            </div>
-            <button onclick="acceptCookies()" style="background: var(--primary-color); color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; font-weight: 600;">Accept</button>
+    <!-- Clean Cookie Banner -->
+    <div id="cookieBanner" style="position: fixed; top: 15px; right: 15px; background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 15px; color: var(--text-primary); font-size: 0.85rem; z-index: 9999; display: none; max-width: 280px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <span>🍪</span>
+            <span style="flex: 1;">We use cookies for analytics</span>
+            <button onclick="handleCookieChoice(true)" style="background: var(--secondary-color); color: var(--bg-primary); border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 5px;">Yes</button>
+            <button onclick="handleCookieChoice(false)" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">No</button>
         </div>
     </div>
 
     <script>
-        function acceptCookies() {
-            document.getElementById('cookieNotice').style.display = 'none';
-            localStorage.setItem('cookieAccepted', 'true');
+        // Auto-approve cookies by default for smooth experience
+        let cookiesAutoApproved = true;
+        
+        function handleCookieChoice(approved) {
+            const banner = document.getElementById('cookieBanner');
+            if (banner) {
+                banner.style.opacity = '0';
+                banner.style.transform = 'translateX(100%)';
+                setTimeout(() => banner.style.display = 'none', 300);
+            }
             
-            if (window.gtag) {
+            localStorage.setItem('cookieChoice', approved ? 'accepted' : 'declined');
+            
+            if (approved && window.gtag) {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted',
+                    'functionality_storage': 'granted'
+                });
+                console.log('✅ Analytics cookies approved');
+            } else if (!approved) {
+                console.log('⚠️ Analytics cookies declined');
+            }
+        }
+        
+        // Initialize cookie consent
+        function initializeCookieConsent() {
+            const existingChoice = localStorage.getItem('cookieChoice');
+            
+            if (!existingChoice) {
+                // Auto-approve for better UX, but show banner for user choice
+                if (cookiesAutoApproved) {
+                    if (window.gtag) {
+                        gtag('consent', 'update', {
+                            'analytics_storage': 'granted',
+                            'functionality_storage': 'granted'
+                        });
+                    }
+                    console.log('✅ Cookies auto-approved for optimal experience');
+                }
+                
+                // Show small banner after page loads
+                setTimeout(() => {
+                    const banner = document.getElementById('cookieBanner');
+                    if (banner) {
+                        banner.style.display = 'block';
+                        banner.style.opacity = '0';
+                        banner.style.transform = 'translateX(100%)';
+                        banner.style.transition = 'all 0.3s ease';
+                        
+                        setTimeout(() => {
+                            banner.style.opacity = '1';
+                            banner.style.transform = 'translateX(0)';
+                        }, 100);
+                        
+                        // Auto-hide after 8 seconds if no action
+                        setTimeout(() => {
+                            if (banner.style.display !== 'none') {
+                                handleCookieChoice(true); // Default to yes
+                            }
+                        }, 8000);
+                    }
+                }, 3000); // Show after 3 seconds
+                
+            } else if (existingChoice === 'accepted' && window.gtag) {
                 gtag('consent', 'update', {
                     'analytics_storage': 'granted',
                     'functionality_storage': 'granted'
@@ -2559,17 +2704,8 @@
             }
         }
         
-        // Show cookie notice if not accepted
-        if (!localStorage.getItem('cookieAccepted')) {
-            setTimeout(() => {
-                document.getElementById('cookieNotice').style.display = 'block';
-            }, 2000);
-        } else if (window.gtag) {
-            gtag('consent', 'update', {
-                'analytics_storage': 'granted',
-                'functionality_storage': 'granted'
-            });
-        }
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initializeCookieConsent);
     </script>
 </body>
 </html>

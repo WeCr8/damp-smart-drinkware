@@ -15,16 +15,103 @@
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://dampdrink.com/pages/cart.html">
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <!-- DAMP Analytics - Google Analytics 4 with GDPR Compliance -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID', {
-            page_title: 'DAMP Smart Drinkware - Shopping Cart',
-            custom_map: {'dimension1': 'cart_page'}
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      // Set consent defaults (GDPR compliant)
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied', 
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'wait_for_update': 500
+      });
+
+      // Configure Google Analytics
+      gtag('config', 'G-YW2BN4SVPQ', {
+        'send_page_view': true,
+        'allow_google_signals': true,
+        'allow_ad_personalization_signals': false,
+        'cookie_domain': 'auto',
+        'cookie_expires': 63072000,
+        'anonymize_ip': true
+      });
+
+      // Check for existing cookie consent and update accordingly
+      (function() {
+        try {
+          const consentData = localStorage.getItem('damp_cookie_consent');
+          if (consentData) {
+            const consent = JSON.parse(consentData);
+            gtag('consent', 'update', {
+              'analytics_storage': consent.analytics ? 'granted' : 'denied',
+              'ad_storage': consent.marketing ? 'granted' : 'denied',
+              'ad_user_data': consent.marketing ? 'granted' : 'denied',
+              'ad_personalization': consent.marketing ? 'granted' : 'denied'
+            });
+            console.log('✅ Analytics consent loaded from storage');
+          }
+        } catch (error) {
+          console.warn('Could not load cookie consent:', error);
+        }
+      })();
+
+      // Listen for consent updates
+      window.addEventListener('cookieConsentUpdated', function(event) {
+        if (event.detail) {
+          gtag('consent', 'update', {
+            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
+            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
+            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
+            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
+          });
+          console.log('🍪 Analytics consent updated:', event.detail);
+        }
+      });
+
+      // Enhanced page view tracking for cart page
+      function trackCartPageView() {
+        gtag('event', 'page_view', {
+          'page_title': 'DAMP Smart Drinkware - Shopping Cart',
+          'page_location': window.location.href,
+          'content_group1': 'cart',
+          'custom_map': {
+            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
+            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
+            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
+            'page_type': 'ecommerce'
+          }
         });
+      }
+
+      // Track page view when gtag is ready
+      setTimeout(trackCartPageView, 100);
+
+      // Track cart interactions
+      document.addEventListener('click', function(event) {
+        const element = event.target.closest('[data-analytics]');
+        if (element) {
+          const analyticsData = element.dataset.analytics;
+          const elementType = element.tagName.toLowerCase();
+          
+          gtag('event', 'click', {
+            'event_category': 'ecommerce',
+            'event_label': analyticsData,
+            'custom_map': {
+              'element_type': elementType,
+              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
+              'element_id': element.id || 'no_id',
+              'page_section': 'cart'
+            }
+          });
+        }
+      });
+
+      console.log('✅ DAMP Analytics initialized for Cart Page with E-commerce Tracking');
     </script>
 
     <!-- Stripe -->

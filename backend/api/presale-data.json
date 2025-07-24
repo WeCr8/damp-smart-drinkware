@@ -1,57 +1,57 @@
 {
-  "currentCount": 381,
+  "currentCount": 397,
   "goalCount": 500,
   "startDate": "2025-01-01T00:00:00.000Z",
   "endDate": "2025-07-31T05:49:37.826Z",
   "recentOrders": [
     {
-      "timestamp": "2025-07-24T10:33:55.754Z",
-      "location": "Chicago, IL",
-      "count": 3
-    },
-    {
-      "timestamp": "2025-07-24T10:26:25.688Z",
+      "timestamp": "2025-07-24T12:41:27.007Z",
       "location": "Seattle, WA",
       "count": 1
     },
     {
-      "timestamp": "2025-07-24T10:21:55.657Z",
-      "location": "Chicago, IL",
+      "timestamp": "2025-07-24T12:40:42.000Z",
+      "location": "Seattle, WA",
       "count": 3
     },
     {
-      "timestamp": "2025-07-24T10:18:55.628Z",
+      "timestamp": "2025-07-24T12:39:11.993Z",
+      "location": "Denver, CO",
+      "count": 3
+    },
+    {
+      "timestamp": "2025-07-24T12:31:41.913Z",
+      "location": "New York, NY",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T12:27:56.874Z",
       "location": "Denver, CO",
       "count": 1
     },
     {
-      "timestamp": "2025-07-24T10:13:40.567Z",
+      "timestamp": "2025-07-24T12:15:11.717Z",
       "location": "Miami, FL",
       "count": 1
     },
     {
-      "timestamp": "2025-07-24T10:02:25.471Z",
-      "location": "Portland, OR",
-      "count": 2
-    },
-    {
-      "timestamp": "2025-07-24T10:00:55.464Z",
-      "location": "Portland, OR",
+      "timestamp": "2025-07-24T11:51:56.499Z",
+      "location": "San Francisco, CA",
       "count": 1
     },
     {
-      "timestamp": "2025-07-24T09:54:55.401Z",
-      "location": "New York, NY",
+      "timestamp": "2025-07-24T11:51:11.496Z",
+      "location": "Denver, CO",
       "count": 1
     },
     {
-      "timestamp": "2025-07-24T09:48:55.327Z",
+      "timestamp": "2025-07-24T11:15:56.083Z",
+      "location": "San Francisco, CA",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T11:06:56.020Z",
       "location": "Seattle, WA",
-      "count": 1
-    },
-    {
-      "timestamp": "2025-07-24T09:33:55.168Z",
-      "location": "New York, NY",
       "count": 1
     }
   ],

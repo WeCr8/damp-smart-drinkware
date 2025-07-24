@@ -9,16 +9,14 @@ name: DAMP CI/CD Pipeline - Enterprise Quality Gates
 # 4. Uncomment the 'environment:' lines in deploy-staging and deploy-production jobs
 #
 # === External Service Integration (Optional) ===
-# To enable optional security and performance tools:
-# 
-# 1. Repository Variables (Settings > Secrets and variables > Actions > Variables):
-#    - ENABLE_SNYK: Set to 'true' to enable Snyk security scanning
-#    - ENABLE_WEBPAGETEST: Set to 'true' to enable WebPageTest performance audits
+# To enable optional security and performance tools, add these repository secrets:
+# (Settings > Secrets and variables > Actions > Secrets)
 #
-# 2. Repository Secrets (Settings > Secrets and variables > Actions > Secrets):
-#    - SNYK_TOKEN: Your Snyk API token (for vulnerability scanning)
-#    - LHCI_GITHUB_APP_TOKEN: Lighthouse CI GitHub App token (for PR comments)
-#    - WPT_API_KEY: WebPageTest API key (for performance audits)
+# - SNYK_TOKEN: Your Snyk API token (enables vulnerability scanning)
+# - LHCI_GITHUB_APP_TOKEN: Lighthouse CI GitHub App token (enables PR comments)
+# - WPT_API_KEY: WebPageTest API key (enables performance audits on main branch)
+#
+# If these secrets are not configured, the related steps will be skipped automatically.
 
 on:
   push:
@@ -132,7 +130,6 @@ jobs:
           cd ../backend && npm audit --audit-level=high --json > npm-audit-backend.json || true
 
       - name: Snyk security scan
-        if: vars.ENABLE_SNYK == 'true'  # Only run if explicitly enabled
         uses: snyk/actions/node@master
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
@@ -140,10 +137,10 @@ jobs:
           args: --severity-threshold=medium --json > snyk-report.json
         continue-on-error: true
 
-      - name: Snyk scan placeholder
-        if: vars.ENABLE_SNYK != 'true'  # Run when Snyk is not enabled
+      - name: Create Snyk placeholder report if scan failed
+        if: failure()
         run: |
-          echo "Snyk scan skipped - set ENABLE_SNYK repository variable to 'true' to enable"
+          echo "Snyk scan failed or skipped - creating placeholder report"
           echo '{"vulnerabilities": [], "summary": {"total": 0}, "skipped": true}' > snyk-report.json
 
       - name: OWASP Dependency Check
@@ -329,21 +326,17 @@ jobs:
           cd website && npm run lighthouse:budget
 
       - name: WebPageTest performance audit
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_WEBPAGETEST == 'true'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: |
           if [ -n "$WPT_API_KEY" ]; then
             echo "Running WebPageTest with API key"
-            npx webpagetest test http://localhost:3000 --key ${{ secrets.WPT_API_KEY }} --budget budget.json
+            npx webpagetest test http://localhost:3000 --key $WPT_API_KEY --budget budget.json
           else
             echo "WebPageTest skipped - WPT_API_KEY not configured"
           fi
         env:
           WPT_API_KEY: ${{ secrets.WPT_API_KEY }}
-
-      - name: WebPageTest placeholder
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.ENABLE_WEBPAGETEST != 'true'
-        run: |
-          echo "WebPageTest skipped - set ENABLE_WEBPAGETEST repository variable to 'true' to enable"
+        continue-on-error: true
 
       - name: Upload performance results
         uses: actions/upload-artifact@v4

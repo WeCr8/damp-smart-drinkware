@@ -61,7 +61,7 @@
     }
     </script>
 </head>
-<body class="page-loading">
+<body>
     <!-- Navigation Header -->
     <damp-header></damp-header>
 
@@ -472,22 +472,7 @@
     <!-- Scripts - Updated with SafeAreaWrapper -->
     <script src="../assets/js/components/safe-area-wrapper.js"></script>
     <script src="../assets/js/components/favicon-setup.js"></script>
-    <script src="../assets/js/components/hero-animation.js"></script>
     <script src="../assets/js/components/header.js"></script>
     <script src="../assets/js/scripts.js"></script>
-    
-    <!-- Page Load Animation -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize brand messaging hero animation
-            if (window.DAMPHeroAnimation) {
-                new DAMPHeroAnimation({
-                    duration: 8000,        // 8 seconds for full brand messaging sequence
-                    playOnEveryLoad: true, // Play every time page loads
-                    allowSkip: true        // Allow skipping with click/key/touch
-                });
-            }
-        });
-    </script>
 </body>
 </html> 

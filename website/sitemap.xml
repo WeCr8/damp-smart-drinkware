@@ -20,6 +20,14 @@
         <priority>0.95</priority>
     </url>
     
+    <!-- How It Works - Technology Guide -->
+    <url>
+        <loc>https://dampdrink.com/pages/how-it-works.html</loc>
+        <lastmod>2025-01-24</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
     <!-- Product Voting System - New Feature -->
     <url>
         <loc>https://dampdrink.com/pages/product-voting.html</loc>

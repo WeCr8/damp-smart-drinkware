@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- SEO Meta Tags -->
+    <title>How DAMP Smart Drinkware Works - BLE + WiFi Technology Explained</title>
+    <meta name="description" content="Learn how DAMP Smart Drinkware uses Bluetooth Low Energy (BLE) and WiFi coordination to prevent you from leaving your drinks behind. Comprehensive guide to zones, subscriptions, and smart features.">
+    <meta name="keywords" content="DAMP how it works, BLE drinkware, smart drink technology, safe zones, subscription tiers">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/how-it-works.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="How DAMP Smart Drinkware Works - Technology Guide">
+    <meta property="og:description" content="Discover the revolutionary BLE + WiFi technology that prevents drink abandonment. Safe zones, smart alerts, and subscription tiers explained.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-how-it-works.jpg">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <script src="../assets/js/components/safe-area-wrapper.js"></script>
+    
+    <style>
+        .how-it-works-hero {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .how-it-works-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .how-it-works-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .how-it-works-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+        
+        .section-block {
+            margin-bottom: 4rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .section-emoji {
+            font-size: 2.5rem;
+        }
+        
+        .subsection-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin: 2rem 0 1rem 0;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .tech-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-card:hover {
+            border-color: rgba(0, 212, 255, 0.5);
+            transform: translateY(-5px);
+        }
+        
+        .tech-card h4 {
+            color: #00d4ff;
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-list li {
+            padding: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        
+        .feature-list li::before {
+            content: "→";
+            color: #00ff88;
+            font-weight: bold;
+            margin-top: 0.1rem;
+        }
+        
+        .zone-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .zone-card {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.05));
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            text-align: center;
+        }
+        
+        .zone-card h4 {
+            color: #00ff88;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .zone-card ul {
+            list-style: none;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .zone-card li {
+            padding: 0.3rem 0;
+            font-size: 0.9rem;
+        }
+        
+        .subscription-tiers {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .tier-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .tier-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .tier-card.popular {
+            border-color: #00ff88;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.05));
+        }
+        
+        .tier-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #00ff88, #00cc6a);
+            color: #0f0f23;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-price {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+        
+        .tier-features {
+            list-style: none;
+            text-align: left;
+            margin: 1rem 0;
+        }
+        
+        .tier-features li {
+            padding: 0.4rem 0;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .tier-features li::before {
+            content: "✓";
+            color: #00ff88;
+            font-weight: bold;
+        }
+        
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .step-card {
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 2px solid rgba(0, 212, 255, 0.2);
+            position: relative;
+        }
+        
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+            color: #00ff88;
+            border-left: 4px solid #00d4ff;
+            overflow-x: auto;
+        }
+        
+        .daily-scenario {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 107, 53, 0.1));
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .scenario-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #00d4ff;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .scenario-steps {
+            list-style: none;
+        }
+        
+        .scenario-steps li {
+            padding: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.9);
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+        
+        .scenario-steps li strong {
+            color: #00ff88;
+            min-width: 140px;
+        }
+        
+        .cta-section {
+            background: linear-gradient(45deg, #00d4ff, #00ff88);
+            border-radius: 20px;
+            padding: 3rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #0f0f23;
+        }
+        
+        .cta-section h3 {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+        
+        .btn-cta {
+            background: #0f0f23;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin: 0 10px;
+        }
+        
+        .btn-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(15, 15, 35, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 40px 15px;
+            }
+            
+            .section-block {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            
+            .tech-grid,
+            .subscription-tiers,
+            .zone-types,
+            .process-steps {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+            
+            .section-emoji {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Hero Section -->
+    <section class="how-it-works-hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="how-it-works-title">How DAMP Smart Drinkware Works</h1>
+                <p class="how-it-works-subtitle">
+                    Discover the revolutionary technology that prevents you from leaving your beverages behind using 
+                    Bluetooth Low Energy (BLE), WiFi coordination, and intelligent zone management.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="content-container">
+        
+        <!-- Technology Stack Section -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="section-emoji">🔗</span>
+                Technology Stack
+            </h2>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>Primary Connection: BLE</h4>
+                    <ul class="feature-list">
+                        <li><strong>Direct Device Communication:</strong> Your DAMP device connects directly to your phone via Bluetooth Low Energy</li>
+                        <li><strong>Real-time Monitoring:</strong> Continuous distance monitoring between your phone and drink</li>
+                        <li><strong>Low Power Consumption:</strong> 6+ months battery life with efficient BLE protocol</li>
+                        <li><strong>Instant Alerts:</strong> Immediate notifications when you move away from your device</li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>Secondary Network: WiFi</h4>
+                    <ul class="feature-list">
+                        <li><strong>Enhanced Accuracy:</strong> WiFi triangulation provides precise location data indoors</li>
+                        <li><strong>Network Integration:</strong> Connects to local WiFi networks for improved zone detection</li>
+                        <li><strong>Cloud Sync:</strong> Real-time sync with Firebase for multi-device management</li>
+                        <li><strong>Smart Learning:</strong> Learns your movement patterns and WiFi environments</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3 class="subsection-title">Phone Integration</h3>
+            <div class="code-block">
+📱 Your Phone Acts As:<br>
+├── 🔵 BLE Central Hub (Primary connection to DAMP devices)<br>
+├── 📶 WiFi Network Bridge (Location accuracy & cloud sync)<br>
+├── 🔔 Notification Center (Smart alerts & reminders)<br>
+├── 🗺️ Zone Manager (Safe zone configuration)<br>
+└── 📊 Analytics Engine (Usage patterns & insights)
+            </div>
+        </div>
+
+        <!-- Smart Zone Management Section -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="section-emoji">🏠</span>
+                Smart Zone Management
+            </h2>
+            
+            <p style="color: rgba(255, 255, 255, 0.9); font-size: 1.1rem; margin-bottom: 2rem;">
+                <strong>Safe Zones</strong> are approved locations where you don't want to receive abandonment alerts. 
+                These are places where it's normal to leave your drink temporarily.
+            </p>
+            
+            <h3 class="subsection-title">Stationary Positions</h3>
+            <div class="zone-types">
+                <div class="zone-card">
+                    <h4>🏢 Desk/Workstation</h4>
+                    <ul>
+                        <li>Office desk</li>
+                        <li>Home office</li>
+                        <li>Study area</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <h4>🚗 Vehicle</h4>
+                    <ul>
+                        <li>Car cup holder</li>
+                        <li>Truck console</li>
+                        <li>Motorcycle storage</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <h4>🍽️ Kitchen</h4>
+                    <ul>
+                        <li>Counter space</li>
+                        <li>Dining table</li>
+                        <li>Coffee station</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <h4>🛏️ Bedroom</h4>
+                    <ul>
+                        <li>Nightstand</li>
+                        <li>Dresser</li>
+                        <li>Bedside table</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <h3 class="subsection-title">Zone Configuration Process</h3>
+            <div class="process-steps">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h4>Place Device</h4>
+                    <p>Place your DAMP device in desired location</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h4>Open App</h4>
+                    <p>Open DAMP app → "Add Safe Zone"</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h4>System Scan</h4>
+                    <p>System scans WiFi networks & BLE signals</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <h4>Set Radius</h4>
+                    <p>Set zone radius (5-50 feet)</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">5</div>
+                    <h4>Name Zone</h4>
+                    <p>Name your zone ("Office Desk", "Car", etc.)</p>
+                </div>
+                <div class="step-card">
+                    <div class="step-number">6</div>
+                    <h4>Activate</h4>
+                    <p>Zone active! No alerts within this area</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Subscription Tiers Section -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="section-emoji">📊</span>
+                Subscription Tiers & Features
+            </h2>
+            
+            <div class="subscription-tiers">
+                <div class="tier-card">
+                    <h3 class="tier-name">DAMP Free</h3>
+                    <div class="tier-price">$0</div>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">Perfect for trying out DAMP Smart Drinkware</p>
+                    <ul class="tier-features">
+                        <li>1 Registered Device</li>
+                        <li>2 Approved Safe Zones</li>
+                        <li>Basic Notifications</li>
+                        <li>Standard Battery Monitoring</li>
+                        <li>Mobile App Access</li>
+                    </ul>
+                    <p style="color: #00ff88; font-size: 0.9rem; margin-top: 1rem;">
+                        Perfect for: Single device users, students, trying out the system
+                    </p>
+                </div>
+                
+                <div class="tier-card popular">
+                    <div class="tier-badge">Most Popular</div>
+                    <h3 class="tier-name">DAMP+</h3>
+                    <div class="tier-price">$2.99/month</div>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">Enhanced features for power users</p>
+                    <ul class="tier-features">
+                        <li>Track up to 3 devices</li>
+                        <li>5 Safe Zones</li>
+                        <li>Standard Notifications</li>
+                        <li>Battery Monitoring</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <p style="color: #00ff88; font-size: 0.9rem; margin-top: 1rem;">
+                        Perfect for: Multi-location users, small families, power users
+                    </p>
+                </div>
+                
+                <div class="tier-card">
+                    <h3 class="tier-name">DAMP Family</h3>
+                    <div class="tier-price">$5.99/month</div>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1.5rem;">Complete solution for families and teams</p>
+                    <ul class="tier-features">
+                        <li>Track up to 10 devices</li>
+                        <li>Unlimited Safe Zones</li>
+                        <li>Custom Notifications</li>
+                        <li>Shared Family Alerts</li>
+                        <li>Location History</li>
+                        <li>Smart Recommendations</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <p style="color: #00ff88; font-size: 0.9rem; margin-top: 1rem;">
+                        Perfect for: Large families, offices and teams, unlimited flexibility
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Daily Use Scenarios -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="section-emoji">🔄</span>
+                How the System Works in Practice
+            </h2>
+            
+            <div class="daily-scenario">
+                <div class="scenario-title">☕ Morning Coffee Routine</div>
+                <ol class="scenario-steps">
+                    <li><strong>Device Pairing:</strong> Your DAMP device (handle/bottom/sleeve) is attached to your coffee mug</li>
+                    <li><strong>BLE Connection:</strong> Phone automatically connects when DAMP device is nearby</li>
+                    <li><strong>Zone Recognition:</strong> App recognizes you're at your "Kitchen Counter" safe zone</li>
+                    <li><strong>No Alerts:</strong> System stays quiet while you prepare and enjoy coffee at home</li>
+                </ol>
+            </div>
+            
+            <div class="daily-scenario">
+                <div class="scenario-title">🚗 Commute to Work</div>
+                <ol class="scenario-steps">
+                    <li><strong>Movement Detection:</strong> Phone detects you're moving with your drink</li>
+                    <li><strong>Vehicle Zone:</strong> System recognizes your "Car Cup Holder" safe zone</li>
+                    <li><strong>Travel Mode:</strong> Alerts paused during active commute</li>
+                    <li><strong>Arrival Notification:</strong> Gentle reminder when you arrive at work</li>
+                </ol>
+            </div>
+            
+            <div class="daily-scenario">
+                <div class="scenario-title">🏢 At the Office</div>
+                <ol class="scenario-steps">
+                    <li><strong>Workplace Recognition:</strong> WiFi fingerprinting identifies your office network</li>
+                    <li><strong>Desk Zone Setup:</strong> System activates your "Office Desk" safe zone</li>
+                    <li><strong>Meeting Alerts:</strong> Smart notifications when you leave desk for meetings</li>
+                    <li><strong>Bathroom Break:</strong> Brief pause in alerts for short departures</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Technical Specifications -->
+        <div class="section-block">
+            <h2 class="section-title">
+                <span class="section-emoji">🔧</span>
+                Technical Specifications
+            </h2>
+            
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <h4>BLE Protocol</h4>
+                    <ul class="feature-list">
+                        <li><strong>Standard:</strong> Bluetooth 5.0 Low Energy</li>
+                        <li><strong>Range:</strong> Up to 100 feet (30 meters) optimal conditions</li>
+                        <li><strong>Battery Life:</strong> 6-12 months depending on usage</li>
+                        <li><strong>Connection Time:</strong> < 2 seconds auto-reconnection</li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>WiFi Integration</h4>
+                    <ul class="feature-list">
+                        <li><strong>Standards:</strong> 802.11 b/g/n/ac compatibility</li>
+                        <li><strong>Security:</strong> WPA2/WPA3 encrypted connections</li>
+                        <li><strong>Mesh Support:</strong> Works with mesh networks and extenders</li>
+                        <li><strong>Backup:</strong> Cellular data fallback when WiFi unavailable</li>
+                    </ul>
+                </div>
+                
+                <div class="tech-card">
+                    <h4>Device Compatibility</h4>
+                    <ul class="feature-list">
+                        <li><strong>iOS:</strong> 12.0+ (iPhone 6s and newer)</li>
+                        <li><strong>Android:</strong> 8.0+ (API level 26)</li>
+                        <li><strong>Bluetooth:</strong> 4.0+ required</li>
+                        <li><strong>Hardware:</strong> Universal Handle, Silicone Bottom, Cup Sleeve, Bottle Cap</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="cta-section">
+            <h3>Ready to Never Leave Your Drink Behind Again?</h3>
+            <p>Start with our free tier and experience the peace of mind that comes with DAMP Smart Drinkware!</p>
+            <a href="subscription.html" class="btn-cta">Choose Your Plan</a>
+            <a href="pre-sale-funnel.html" class="btn-cta">Pre-Order Now</a>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+</body>
+</html> 

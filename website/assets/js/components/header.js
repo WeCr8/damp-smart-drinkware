@@ -55,7 +55,7 @@ class DAMPHeader extends HTMLElement {
                     
                     <ul class="nav-links" role="menubar">
                         <li><a href="${homeHref}" data-analytics="nav-home">Home</a></li>
-                        <li><a href="${homeHref}#how-it-works" data-analytics="nav-how-it-works">How It Works</a></li>
+                        <li><a href="${this.basePath}pages/how-it-works.html" data-analytics="nav-how-it-works">How It Works</a></li>
                         <li><a href="${this.basePath}pages/products.html" data-analytics="nav-products">Products</a></li>
                         <li><a href="${this.basePath}pages/support.html" data-analytics="nav-support">Support</a></li>
                         <li><a href="${this.basePath}pages/about.html" data-analytics="nav-about">About</a></li>
@@ -100,7 +100,7 @@ class DAMPHeader extends HTMLElement {
                             <span class="mobile-nav-icon">🏠</span>
                             <span class="mobile-nav-text">Home</span>
                         </a>
-                        <a href="${homeHref}#how-it-works" data-analytics="mobile-nav-how-it-works">
+                        <a href="${this.basePath}pages/how-it-works.html" data-analytics="mobile-nav-how-it-works">
                             <span class="mobile-nav-icon">⚡</span>
                             <span class="mobile-nav-text">How It Works</span>
                         </a>

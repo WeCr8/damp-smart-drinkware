@@ -1,0 +1,53 @@
+{
+  "currentCount": 341,
+  "goalCount": 500,
+  "startDate": "2025-01-01T00:00:00.000Z",
+  "endDate": "2025-07-31T05:49:37.826Z",
+  "recentOrders": [
+    {
+      "timestamp": "2025-07-24T06:17:23.085Z",
+      "location": "Miami, FL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T06:16:38.081Z",
+      "location": "Portland, OR",
+      "count": 3
+    },
+    {
+      "timestamp": "2025-07-24T06:12:08.052Z",
+      "location": "Miami, FL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T06:10:38.032Z",
+      "location": "Denver, CO",
+      "count": 2
+    },
+    {
+      "timestamp": "2025-07-24T06:07:38.005Z",
+      "location": "Chicago, IL",
+      "count": 1
+    },
+    {
+      "timestamp": "2025-07-24T06:03:07.972Z",
+      "location": "Denver, CO",
+      "count": 2
+    },
+    {
+      "timestamp": "2025-07-24T05:58:37.915Z",
+      "location": "Austin, TX",
+      "count": 3
+    },
+    {
+      "timestamp": "2025-07-24T05:57:07.897Z",
+      "location": "Miami, FL",
+      "count": 2
+    }
+  ],
+  "analytics": {
+    "pageViews": 0,
+    "checkoutAttempts": 0,
+    "conversionRate": "Infinity"
+  }
+}

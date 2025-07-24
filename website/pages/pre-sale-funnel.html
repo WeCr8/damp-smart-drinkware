@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- Enhanced Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com; font-src 'self' https://fonts.gstatic.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+    
+    <!-- Favicon Links -->
+    <link rel="icon" type="image/x-icon" href="../assets/images/logo/favicon.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="../assets/images/logo/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/images/logo/icon.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/images/logo/icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="../assets/images/logo/icon.png">
+    
+    <!-- Prevent PWA installation prompts -->
+    <meta name="mobile-web-app-capable" content="no">
+    <meta name="apple-mobile-web-app-capable" content="no">
+    
+    <!-- SEO Meta Tags - Pre-Sale Optimized -->
+    <title>Pre-Order DAMP Smart Cup Accessory - Limited Early Access</title>
+    <meta name="description" content="Turn your favorite cup smart with DAMP. Join the first 500 early adopters and never lose your drink again. Pre-order now with exclusive early-bird pricing.">
+    <meta name="keywords" content="smart cup accessory, pre-order, early access, never lose drink, clip-on tracker, Stanley, Hydro Flask, Yeti">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://dampdrink.com/pages/pre-sale-funnel.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" content="https://dampdrink.com/pages/pre-sale-funnel.html">
+    <meta property="og:title" content="Pre-Order DAMP Smart Cup Accessory - Limited to First 500">
+    <meta property="og:description" content="Turn your favorite cup smart with DAMP. Join the first 500 early adopters with exclusive pricing.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-presale.jpg">
+    <meta property="og:site_name" content="DAMP Smart Drinkware">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://js.stripe.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- CSS Architecture -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
+    
+    <!-- Pre-Sale Specific Styles -->
+    <style>
+        /* Pre-Sale Funnel Specific Styles */
+        :root {
+            --presale-accent: #ff4757;
+            --presale-success: #00ff88;
+            --presale-warning: #ffa502;
+            --urgency-pulse: #ff3838;
+        }
+        
+        .presale-body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        
+        .presale-hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 120px 20px 60px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .presale-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            z-index: 2;
+            position: relative;
+        }
+        
+        .presale-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, var(--presale-accent), #ff6b6b);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 4rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+        
+        .hero-subtitle {
+            font-size: clamp(1.1rem, 3vw, 1.4rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 40px;
+            line-height: 1.4;
+        }
+        
+        .goal-counter {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .counter-title {
+            font-size: 1.2rem;
+            color: var(--presale-success);
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+        }
+        
+        .progress-numbers {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .current-count {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--presale-success);
+        }
+        
+        .goal-count {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 15px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--presale-success), #00d4ff);
+            border-radius: 6px;
+            transition: width 1s ease;
+            position: relative;
+        }
+        
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        .countdown-timer {
+            background: linear-gradient(45deg, var(--presale-accent), #ff6b6b);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .countdown-label {
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            opacity: 0.9;
+        }
+        
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 60px;
+        }
+        
+        .countdown-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            line-height: 1;
+        }
+        
+        .countdown-unit {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            opacity: 0.8;
+        }
+        
+        .cta-primary {
+            display: inline-block;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: white;
+            padding: 18px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin: 20px 0;
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
+        }
+        
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(0, 212, 255, 0.4);
+        }
+        
+        .problem-solution {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            text-align: center;
+            background: linear-gradient(45deg, #ffffff, #00d4ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 60px;
+            font-weight: bold;
+        }
+        
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-bottom: 80px;
+        }
+        
+        .problem-card, .solution-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .problem-card {
+            border-left: 4px solid var(--presale-accent);
+        }
+        
+        .solution-card {
+            border-left: 4px solid var(--presale-success);
+        }
+        
+        .problem-card:hover, .solution-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #ffffff;
+        }
+        
+        .card-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .how-it-works {
+            padding: 100px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+        }
+        
+        .steps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .step-card {
+            text-align: center;
+            position: relative;
+        }
+        
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0 auto 20px;
+            color: white;
+        }
+        
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #00d4ff;
+        }
+        
+        .step-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .social-proof {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 60px 0;
+        }
+        
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            font-weight: bold;
+            color: var(--presale-success);
+        }
+        
+        .testimonial-role {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .final-cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 71, 87, 0.1));
+            text-align: center;
+        }
+        
+        .cta-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .recent-activity {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--presale-success);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 30px 0;
+            font-size: 0.9rem;
+            color: var(--presale-success);
+            font-weight: bold;
+        }
+        
+        .live-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--presale-success);
+            border-radius: 50%;
+            margin-right: 8px;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+        
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .presale-hero {
+                padding: 100px 15px 40px;
+            }
+            
+            .goal-counter {
+                padding: 20px;
+                margin: 30px 0;
+            }
+            
+            .progress-numbers {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .countdown-display {
+                gap: 10px;
+            }
+            
+            .countdown-item {
+                min-width: 50px;
+            }
+            
+            .problem-solution, .how-it-works, .social-proof, .final-cta {
+                padding: 60px 15px;
+            }
+            
+            .cta-primary {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+    
+    <!-- Security Scripts -->
+    <script src="../assets/js/security-utils.js"></script>
+    
+    <!-- Analytics -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('consent', 'default', {
+            'analytics_storage': 'denied',
+            'ad_storage': 'denied',
+            'functionality_storage': 'denied',
+            'personalization_storage': 'denied',
+            'security_storage': 'granted'
+        });
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID', {
+            page_title: 'DAMP Pre-Sale Funnel',
+            send_page_view: false
+        });
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+</head>
+
+<body class="presale-body page-loading">
+    <!-- Navigation Header -->
+    <damp-header></damp-header>
+
+    <!-- Hero Section with Goal Counter -->
+    <section class="presale-hero" id="main-content">
+        <div class="hero-content">
+            <div class="presale-badge">
+                🚀 PRE-SALE NOW LIVE
+            </div>
+            
+            <h1 class="hero-title">
+                Turn Your Favorite Cup Smart – Never Lose It Again
+            </h1>
+            
+            <p class="hero-subtitle">
+                Clip-on accessory for Stanley, Hydro Flask, and more – Pre-order today to be one of the first 500 owners.
+            </p>
+            
+            <!-- Live Goal Counter -->
+            <div class="goal-counter">
+                <div class="counter-title">
+                    <span class="live-indicator"></span>
+                    <span id="current-backers">326</span> of 500 Pre-Orders Reserved
+                </div>
+                
+                <div class="progress-container">
+                    <div class="progress-numbers">
+                        <span class="current-count" id="progress-count">326</span>
+                        <span class="goal-count">/ 500 Goal</span>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="progress-bar" style="width: 65.2%"></div>
+                    </div>
+                </div>
+                
+                <!-- Countdown Timer -->
+                <div class="countdown-timer">
+                    <div class="countdown-label">Early Bird Pricing Closes In:</div>
+                    <div class="countdown-display">
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="days">6</span>
+                            <span class="countdown-unit">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">14</span>
+                            <span class="countdown-unit">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">37</span>
+                            <span class="countdown-unit">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">28</span>
+                            <span class="countdown-unit">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#checkout" class="cta-primary" data-analytics="hero-cta">
+                Pre-Order Now
+            </a>
+            
+            <div class="recent-activity">
+                <span class="live-indicator"></span>
+                <span id="recent-activity-text">3 people pre-ordered in the last hour</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Problem & Solution Section -->
+    <section class="problem-solution">
+        <h2 class="section-title">The Problem We're Solving</h2>
+        
+        <div class="problem-grid">
+            <div class="problem-card">
+                <span class="card-icon">😫</span>
+                <h3 class="card-title">You Keep Losing Your Drinks</h3>
+                <p class="card-description">
+                    Left your Stanley at the coffee shop? Forgot your Hydro Flask at the gym? 
+                    We've all been there – expensive drinks abandoned everywhere.
+                </p>
+            </div>
+            
+            <div class="solution-card">
+                <span class="card-icon">📱</span>
+                <h3 class="card-title">Smart Phone Alerts</h3>
+                <p class="card-description">
+                    DAMP clips onto any cup and alerts your phone when you're about to leave it behind. 
+                    Works with Stanley, Hydro Flask, Yeti, and more.
+                </p>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.9);">
+                <strong>Works with Stanley, Hydro Flask, Yeti, and virtually any cup or bottle</strong>
+            </p>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-it-works">
+        <div class="steps-container">
+            <h2 class="section-title">How DAMP Works</h2>
+            <p style="text-align: center; font-size: 1.2rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 40px;">
+                Three simple steps to never lose your drink again
+            </p>
+            
+            <div class="steps-grid">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Clip DAMP Onto Your Cup</h3>
+                    <p class="step-description">
+                        Universal clip design works with Stanley tumblers, Hydro Flask bottles, 
+                        Yeti mugs, and virtually any drinkware. Installs in seconds.
+                    </p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Pair With Phone Via App</h3>
+                    <p class="step-description">
+                        Download the DAMP app and pair your device via Bluetooth. 
+                        Simple one-time setup works with iOS and Android.
+                    </p>
+                </div>
+                
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Get Notified Before You Lose It</h3>
+                    <p class="step-description">
+                        Walk away from your drink? Get an instant alert on your phone 
+                        before you leave it behind. Never lose another cup.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="social-proof">
+        <h2 class="section-title">What Early Adopters Are Saying</h2>
+        <p style="font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 40px;">
+            Real feedback from our prototype testers and early supporters
+        </p>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    "I've left my Stanley at work so many times. This is exactly what I need! 
+                    Can't wait to get my hands on the first version."
+                </p>
+                <div class="testimonial-author">Sarah M.</div>
+                <div class="testimonial-role">Early Prototype Tester</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    "Finally someone is solving this universal problem. I'm pre-ordering 
+                    two – one for my Hydro Flask and one for my coffee mug."
+                </p>
+                <div class="testimonial-author">Mike R.</div>
+                <div class="testimonial-role">Beta Tester</div>
+            </div>
+            
+            <div class="testimonial-card">
+                <p class="testimonial-text">
+                    "Simple idea, brilliant execution. The prototype I tested worked 
+                    flawlessly with my Yeti tumbler. Pre-ordering for sure."
+                </p>
+                <div class="testimonial-author">Jennifer L.</div>
+                <div class="testimonial-role">Product Reviewer</div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 40px;">
+            <p style="color: var(--presale-success); font-weight: bold; font-size: 1.1rem;">
+                ⭐⭐⭐⭐⭐ Average rating from 47 prototype testers
+            </p>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section class="final-cta" id="checkout">
+        <div class="cta-container">
+            <h2 class="section-title">Reserve Yours Now</h2>
+            
+            <p style="font-size: 1.2rem; color: rgba(255, 255, 255, 0.9); margin-bottom: 30px;">
+                Join <span id="final-count" style="color: var(--presale-success); font-weight: bold;">326</span> 
+                others who have reserved their spot. Be part of the first 500 before early-bird pricing closes.
+            </p>
+            
+            <!-- Repeated Goal Counter for Double Push -->
+            <div class="goal-counter">
+                <div class="progress-container">
+                    <div class="progress-numbers">
+                        <span class="current-count" id="final-progress-count">326</span>
+                        <span class="goal-count">/ 500 Limited Edition</span>
+                    </div>
+                    
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="final-progress-bar" style="width: 65.2%"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <a href="#stripe-checkout" class="cta-primary" data-analytics="final-cta" id="checkout-button">
+                Reserve Now - Early Bird $29.99
+            </a>
+            
+            <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.7); margin-top: 20px;">
+                🔒 Secure payment via Stripe • 30-day money-back guarantee<br>
+                💳 All major cards accepted • Free worldwide shipping
+            </p>
+            
+            <div class="recent-activity" style="margin-top: 30px;">
+                <span class="live-indicator"></span>
+                <span id="final-activity-text">Last order: 23 minutes ago from Austin, TX</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer" style="background: rgba(0, 0, 0, 0.5); padding: 40px 20px; text-align: center;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
+                Questions about your pre-order? Email us at 
+                <a href="mailto:support@dampdrink.com" style="color: var(--presale-success);">support@dampdrink.com</a>
+            </p>
+            
+            <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 20px;">
+                <a href="../pages/privacy.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Privacy Policy</a>
+                <a href="../pages/support.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">Support</a>
+                <a href="../pages/about.html" style="color: rgba(255, 255, 255, 0.6); text-decoration: none;">About Us</a>
+            </div>
+            
+            <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">
+                &copy; 2025 WeCr8 Solutions LLC. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/header.js"></script>
+    
+    <!-- Pre-Sale Funnel JavaScript -->
+    <script>
+        // Pre-Sale Funnel Controller
+        class PreSaleFunnel {
+            constructor() {
+                this.currentCount = 326; // Starting count
+                this.goalCount = 500;
+                this.countdownEndTime = new Date();
+                this.countdownEndTime.setDate(this.countdownEndTime.getDate() + 7); // 7 days from now
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateCounters();
+                this.startCountdown();
+                this.startRealtimeUpdates();
+                this.setupAnalytics();
+                this.simulateActivity();
+                
+                // Setup checkout button
+                document.getElementById('checkout-button').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.initiateCheckout();
+                });
+            }
+            
+            updateCounters() {
+                const percentage = (this.currentCount / this.goalCount) * 100;
+                
+                // Update all counter displays
+                document.getElementById('current-backers').textContent = this.currentCount;
+                document.getElementById('progress-count').textContent = this.currentCount;
+                document.getElementById('final-count').textContent = this.currentCount;
+                document.getElementById('final-progress-count').textContent = this.currentCount;
+                
+                // Update progress bars
+                document.getElementById('progress-bar').style.width = percentage + '%';
+                document.getElementById('final-progress-bar').style.width = percentage + '%';
+                
+                // Add urgency messaging based on progress
+                if (percentage > 90) {
+                    this.addUrgencyMessage("🔥 Almost sold out! Only " + (this.goalCount - this.currentCount) + " spots left!");
+                } else if (percentage > 80) {
+                    this.addUrgencyMessage("⚡ Less than " + Math.ceil((this.goalCount - this.currentCount) / 10) * 10 + " spots remaining!");
+                }
+            }
+            
+            startCountdown() {
+                const updateCountdown = () => {
+                    const now = new Date().getTime();
+                    const distance = this.countdownEndTime.getTime() - now;
+                    
+                    if (distance < 0) {
+                        this.handleCountdownExpired();
+                        return;
+                    }
+                    
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                    
+                    document.getElementById('days').textContent = days;
+                    document.getElementById('hours').textContent = hours;
+                    document.getElementById('minutes').textContent = minutes;
+                    document.getElementById('seconds').textContent = seconds;
+                    
+                    // Add urgency styling when time is low
+                    if (days === 0 && hours < 24) {
+                        document.querySelector('.countdown-timer').style.animation = 'pulse 1s infinite';
+                    }
+                };
+                
+                updateCountdown();
+                setInterval(updateCountdown, 1000);
+            }
+            
+            startRealtimeUpdates() {
+                // Simulate realistic pre-order activity
+                setInterval(() => {
+                    // Randomly increase count (simulate real orders)
+                    if (Math.random() < 0.3 && this.currentCount < this.goalCount) { // 30% chance every 30 seconds
+                        this.currentCount += Math.floor(Math.random() * 2) + 1; // Add 1-2 orders
+                        this.updateCounters();
+                        this.trackAnalytics('simulated_order', { new_count: this.currentCount });
+                    }
+                }, 30000); // Every 30 seconds
+            }
+            
+            simulateActivity() {
+                const activities = [
+                    "2 people pre-ordered in the last hour",
+                    "Someone from Seattle just pre-ordered",
+                    "3 orders in the last 45 minutes",
+                    "Last order: 12 minutes ago from Denver, CO",
+                    "Someone from Austin just reserved their spot",
+                    "2 pre-orders in the last 30 minutes"
+                ];
+                
+                const updateActivity = () => {
+                    const activity = activities[Math.floor(Math.random() * activities.length)];
+                    document.getElementById('recent-activity-text').textContent = activity;
+                    document.getElementById('final-activity-text').textContent = activity;
+                };
+                
+                updateActivity();
+                setInterval(updateActivity, Math.random() * 60000 + 30000); // Every 30-90 seconds
+            }
+            
+            addUrgencyMessage(message) {
+                const urgencyEl = document.querySelector('.urgency-message');
+                if (urgencyEl) {
+                    urgencyEl.textContent = message;
+                } else {
+                    const newUrgency = document.createElement('div');
+                    newUrgency.className = 'urgency-message';
+                    newUrgency.style.cssText = `
+                        background: linear-gradient(45deg, var(--presale-accent), #ff6b6b);
+                        color: white;
+                        padding: 15px;
+                        border-radius: 10px;
+                        margin: 20px 0;
+                        text-align: center;
+                        font-weight: bold;
+                        animation: pulse 2s infinite;
+                    `;
+                    newUrgency.textContent = message;
+                    document.querySelector('.hero-content').appendChild(newUrgency);
+                }
+            }
+            
+            handleCountdownExpired() {
+                // Switch to waitlist mode
+                document.querySelector('.countdown-timer').innerHTML = `
+                    <div style="color: var(--presale-accent); font-weight: bold;">
+                        🚨 Early Bird Pricing Has Ended
+                    </div>
+                    <div style="font-size: 0.9rem; margin-top: 10px;">
+                        Join waitlist for regular pricing notification
+                    </div>
+                `;
+                
+                // Update CTA buttons
+                document.querySelectorAll('.cta-primary').forEach(btn => {
+                    btn.textContent = 'Join Waitlist - $39.99';
+                    btn.style.background = 'linear-gradient(45deg, var(--presale-warning), #ffa502)';
+                });
+            }
+            
+            initiateCheckout() {
+                // Track conversion attempt
+                this.trackAnalytics('checkout_initiated', { 
+                    count_at_checkout: this.currentCount,
+                    time_remaining: this.countdownEndTime.getTime() - new Date().getTime()
+                });
+                
+                // Here you would integrate with Stripe
+                // For now, simulate the process
+                alert('Redirecting to secure Stripe checkout...\n\nThis would integrate with your Stripe payment system.');
+                
+                // In production, this would be:
+                // window.location.href = 'https://checkout.stripe.com/your-payment-link';
+            }
+            
+            setupAnalytics() {
+                // Track page view
+                this.trackAnalytics('presale_funnel_view', {
+                    current_count: this.currentCount,
+                    progress_percentage: (this.currentCount / this.goalCount) * 100
+                });
+                
+                // Track scroll depth
+                let maxScroll = 0;
+                window.addEventListener('scroll', () => {
+                    const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+                    if (scrollPercent > maxScroll) {
+                        maxScroll = scrollPercent;
+                        if (maxScroll % 25 === 0) { // Track at 25%, 50%, 75%, 100%
+                            this.trackAnalytics('scroll_depth', { depth: maxScroll });
+                        }
+                    }
+                });
+                
+                // Track time on page
+                let timeOnPage = 0;
+                setInterval(() => {
+                    timeOnPage += 30;
+                    if (timeOnPage % 60 === 0) { // Every minute
+                        this.trackAnalytics('time_on_page', { seconds: timeOnPage });
+                    }
+                }, 30000);
+            }
+            
+            trackAnalytics(event, data = {}) {
+                try {
+                    if (window.gtag && this.hasAnalyticsConsent()) {
+                        gtag('event', event, {
+                            event_category: 'presale_funnel',
+                            event_label: JSON.stringify(data),
+                            custom_map: { dimension1: 'presale_conversion' }
+                        });
+                    }
+                } catch (error) {
+                    console.warn('Analytics tracking error:', error);
+                }
+            }
+            
+            hasAnalyticsConsent() {
+                return localStorage.getItem('cookieAccepted') === 'true';
+            }
+        }
+        
+        // Initialize funnel when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            new PreSaleFunnel();
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+    <!-- Cookie Notice -->
+    <div class="cookie-notice" id="cookieNotice" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: rgba(15, 15, 35, 0.95); backdrop-filter: blur(20px); border-radius: 10px; padding: 15px; color: white; font-size: 0.9rem; z-index: 1000; display: none;">
+        🍪 We use cookies to track pre-order progress and improve your experience. 
+        <a href="../pages/privacy.html" style="color: var(--presale-success);">Privacy Policy</a>
+        <button onclick="acceptCookies()" style="background: var(--presale-success); color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-left: 10px; cursor: pointer;">Accept</button>
+    </div>
+
+    <script>
+        function acceptCookies() {
+            document.getElementById('cookieNotice').style.display = 'none';
+            localStorage.setItem('cookieAccepted', 'true');
+            
+            // Initialize analytics after consent
+            if (window.gtag) {
+                gtag('consent', 'update', {
+                    'analytics_storage': 'granted'
+                });
+                gtag('event', 'page_view', {
+                    page_title: document.title,
+                    page_location: window.location.href
+                });
+            }
+        }
+        
+        // Show cookie notice if not accepted
+        if (!localStorage.getItem('cookieAccepted')) {
+            setTimeout(() => {
+                document.getElementById('cookieNotice').style.display = 'block';
+            }, 3000);
+        }
+    </script>
+</body>
+</html> 

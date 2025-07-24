@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Vote for the next Stanley product to be DAMP-compatible. Help us prioritize which Stanley tumblers, water bottles, and drinkware should work with DAMP Smart Cup Accessory next.">
+    <meta name="keywords" content="DAMP, Stanley, vote, compatibility, smart cup, tumbler, water bottle, Quencher, IceFlow">
+    <meta name="author" content="DAMP Smart Drinkware">
+    <meta property="og:title" content="Vote: Next Stanley Product for DAMP Compatibility">
+    <meta property="og:description" content="Help us decide which Stanley products should be DAMP-compatible next. Vote for your favorites!">
+    <meta property="og:image" content="../assets/images/products/damp-handle/damp-handle.png">
+    <meta property="og:url" content="https://dampdrink.com/pages/damp-handle-v1.0-stanley.html">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/pages/damp-handle-v1.0-stanley.html">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../assets/images/logo/favicon.png">
+    <link rel="apple-touch-icon" href="../assets/images/logo/icon.png">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/navigation.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#1a1a1a">
+    <meta name="msapplication-navbutton-color" content="#1a1a1a">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <title>Vote: Next Stanley Product for DAMP Compatibility | DAMP Smart Drinkware</title>
+
+    <!-- Voting System Styles -->
+    <style>
+        .voting-hero {
+            background: linear-gradient(135deg, #2c3e50 0%, #1a1a1a 100%);
+            color: white;
+            padding: 80px 20px 60px;
+            text-align: center;
+        }
+
+        .voting-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .voting-hero .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            line-height: 1.6;
+        }
+
+        .voting-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .products-section {
+            padding: 80px 20px;
+            background: #f8f9fa;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 2.2rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .section-description {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .product-categories {
+            display: grid;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .category {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .category-subtitle {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .products-grid {
+            padding: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            position: relative;
+        }
+
+        .product-card:hover {
+            border-color: #00ff88;
+            transform: translateY(-3px);
+        }
+
+        .product-image {
+            width: 80px;
+            height: 80px;
+            background: #e9ecef;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .vote-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .vote-count {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        .vote-btn {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .vote-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,255,136,0.3);
+        }
+
+        .vote-btn:active {
+            transform: translateY(0);
+        }
+
+        .vote-btn.voted {
+            background: linear-gradient(135deg, #28a745 0%, #20924c 100%);
+        }
+
+        .priority-badge {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6b6b;
+            color: white;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .priority-badge.high {
+            background: #ff6b6b;
+        }
+
+        .priority-badge.medium {
+            background: #ffa726;
+        }
+
+        .priority-badge.low {
+            background: #66bb6a;
+        }
+
+        .leaderboard {
+            background: white;
+            padding: 60px 20px;
+        }
+
+        .leaderboard-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .leaderboard-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+
+        .rank {
+            font-size: 1.5rem;
+            font-weight: 700;
+            width: 60px;
+            text-align: center;
+        }
+
+        .rank.first { color: #ffd700; }
+        .rank.second { color: #c0c0c0; }
+        .rank.third { color: #cd7f32; }
+
+        .product-info {
+            flex: 1;
+            margin-left: 20px;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .product-category {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .vote-progress {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            transition: width 0.3s ease;
+        }
+
+        .vote-total {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1a1a1a;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2c3e50 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cta-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #00ff88 0%, #00cc6a 100%);
+            color: white;
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,255,136,0.3);
+        }
+
+        @media (max-width: 768px) {
+            .voting-hero h1 {
+                font-size: 2rem;
+            }
+
+            .voting-stats {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .products-grid {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .leaderboard-item {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .rank {
+                margin-bottom: 10px;
+            }
+
+            .vote-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+
+        /* Animation for vote counting */
+        @keyframes voteSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .vote-animation {
+            animation: voteSuccess 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <damp-header></damp-header>
+
+    <!-- Voting Hero Section -->
+    <section class="voting-hero">
+        <div class="container">
+            <h1>Vote for Next Stanley Compatibility</h1>
+            <p class="subtitle">
+                Help us prioritize which Stanley products should be DAMP-compatible next. 
+                Your votes directly influence our development roadmap and ensure we build what our community wants most.
+            </p>
+            <div class="voting-stats">
+                <div class="stat-item">
+                    <div class="stat-number" id="totalVotes">1,247</div>
+                    <div class="stat-label">Total Votes</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="activeVoters">523</div>
+                    <div class="stat-label">Active Voters</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="productsTracked">28</div>
+                    <div class="stat-label">Products Tracked</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Stanley Product Categories</h2>
+                <p class="section-description">
+                    Based on data from <a href="https://www.stanley1913.com" target="_blank" rel="noopener">Stanley 1913</a>, 
+                    these are the most popular and requested products for DAMP compatibility. Vote for your favorites!
+                </p>
+            </div>
+
+            <div class="product-categories">
+                <!-- Quencher Collection -->
+                <div class="category">
+                    <div class="category-header">
+                        <h3 class="category-title">Quencher Collection</h3>
+                        <p class="category-subtitle">The iconic tumbler series - most requested by our community</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="priority-badge high">High Priority</div>
+                            <div class="product-image">🥤</div>
+                            <h4 class="product-name">Quencher H2.0 FlowState™ Tumbler</h4>
+                            <p class="product-specs">40oz | Most Popular Size</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">342</span>
+                                </div>
+                                <button class="vote-btn" data-product="quencher-40oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="priority-badge medium">Medium Priority</div>
+                            <div class="product-image">🥤</div>
+                            <h4 class="product-name">Quencher H2.0 FlowState™ Tumbler</h4>
+                            <p class="product-specs">64oz | Extra Large</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">156</span>
+                                </div>
+                                <button class="vote-btn" data-product="quencher-64oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🥤</div>
+                            <h4 class="product-name">Quencher ProTour FlowState™</h4>
+                            <p class="product-specs">40oz | Professional Series</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">89</span>
+                                </div>
+                                <button class="vote-btn" data-product="quencher-protour">Vote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IceFlow Collection -->
+                <div class="category">
+                    <div class="category-header">
+                        <h3 class="category-title">IceFlow Collection</h3>
+                        <p class="category-subtitle">Water bottles with flip straw design</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="priority-badge high">High Priority</div>
+                            <div class="product-image">💧</div>
+                            <h4 class="product-name">IceFlow™ Flip Straw Water Bottle</h4>
+                            <p class="product-specs">24oz | Fast Flow Lid</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">298</span>
+                                </div>
+                                <button class="vote-btn" data-product="iceflow-24oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">💧</div>
+                            <h4 class="product-name">IceFlow™ Flip Straw Tumbler</h4>
+                            <p class="product-specs">30oz | Tumbler Style</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">187</span>
+                                </div>
+                                <button class="vote-btn" data-product="iceflow-tumbler-30oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">💧</div>
+                            <h4 class="product-name">IceFlow™ Flip Straw Jug</h4>
+                            <p class="product-specs">64oz | Extra Large</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">124</span>
+                                </div>
+                                <button class="vote-btn" data-product="iceflow-jug-64oz">Vote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Adventure Collection -->
+                <div class="category">
+                    <div class="category-header">
+                        <h3 class="category-title">Adventure Collection</h3>
+                        <p class="category-subtitle">Outdoor and rugged drinkware</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="product-image">🏔️</div>
+                            <h4 class="product-name">Adventure Tough-To-Tip Admiral's Mug</h4>
+                            <p class="product-specs">20oz | Outdoor Series</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">78</span>
+                                </div>
+                                <button class="vote-btn" data-product="adventure-mug-20oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🍺</div>
+                            <h4 class="product-name">Adventure Stacking Beer Pint</h4>
+                            <p class="product-specs">16oz | Stackable Design</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">95</span>
+                                </div>
+                                <button class="vote-btn" data-product="adventure-pint-16oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🥃</div>
+                            <h4 class="product-name">Adventure Pre-Party Flask</h4>
+                            <p class="product-specs">8oz | Compact Flask</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">67</span>
+                                </div>
+                                <button class="vote-btn" data-product="adventure-flask-8oz">Vote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Everyday Collection -->
+                <div class="category">
+                    <div class="category-header">
+                        <h3 class="category-title">Everyday Collection</h3>
+                        <p class="category-subtitle">Daily use tumblers and coolers</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="priority-badge medium">Medium Priority</div>
+                            <div class="product-image">☕</div>
+                            <h4 class="product-name">The Everyday Tumbler</h4>
+                            <p class="product-specs">16oz | Smooth Finish</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">143</span>
+                                </div>
+                                <button class="vote-btn" data-product="everyday-tumbler-16oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🥤</div>
+                            <h4 class="product-name">Everyday Can Cooler Cup</h4>
+                            <p class="product-specs">10oz | Can Holder</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">92</span>
+                                </div>
+                                <button class="vote-btn" data-product="everyday-cooler-10oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🍷</div>
+                            <h4 class="product-name">GO Everyday Wine Tumbler</h4>
+                            <p class="product-specs">10oz | Wine Optimized</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">76</span>
+                                </div>
+                                <button class="vote-btn" data-product="everyday-wine-10oz">Vote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vacuum & Classic Collection -->
+                <div class="category">
+                    <div class="category-header">
+                        <h3 class="category-title">Classic & Vacuum Collection</h3>
+                        <p class="category-subtitle">Traditional Stanley bottles and food jars</p>
+                    </div>
+                    <div class="products-grid">
+                        <div class="product-card">
+                            <div class="product-image">🌡️</div>
+                            <h4 class="product-name">Classic Vacuum Bottle</h4>
+                            <p class="product-specs">32oz | Traditional Design</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">58</span>
+                                </div>
+                                <button class="vote-btn" data-product="vacuum-bottle-32oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🥘</div>
+                            <h4 class="product-name">Classic Food Jar</h4>
+                            <p class="product-specs">24oz | Food Storage</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">41</span>
+                                </div>
+                                <button class="vote-btn" data-product="food-jar-24oz">Vote</button>
+                            </div>
+                        </div>
+
+                        <div class="product-card">
+                            <div class="product-image">🚰</div>
+                            <h4 class="product-name">Adventure Fast Flow Water Jug</h4>
+                            <p class="product-specs">2 Gallon | Extra Large</p>
+                            <div class="vote-section">
+                                <div class="vote-count">
+                                    <span>👍</span>
+                                    <span class="vote-number">35</span>
+                                </div>
+                                <button class="vote-btn" data-product="water-jug-2gal">Vote</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard Section -->
+    <section class="leaderboard">
+        <div class="container">
+            <div class="leaderboard-header">
+                <h2 class="section-title">Current Vote Leaderboard</h2>
+                <p class="section-description">
+                    The most requested Stanley products based on community votes. 
+                    Top products will be prioritized for DAMP compatibility development.
+                </p>
+            </div>
+
+            <div class="leaderboard-list">
+                <div class="leaderboard-item">
+                    <div class="rank first">🥇</div>
+                    <div class="product-info">
+                        <div class="product-title">Quencher H2.0 FlowState™ Tumbler 40oz</div>
+                        <div class="product-category">Quencher Collection</div>
+                    </div>
+                    <div class="vote-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="vote-total">342 votes</div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank second">🥈</div>
+                    <div class="product-info">
+                        <div class="product-title">IceFlow™ Flip Straw Water Bottle 24oz</div>
+                        <div class="product-category">IceFlow Collection</div>
+                    </div>
+                    <div class="vote-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 87%"></div>
+                        </div>
+                        <div class="vote-total">298 votes</div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank third">🥉</div>
+                    <div class="product-info">
+                        <div class="product-title">IceFlow™ Flip Straw Tumbler 30oz</div>
+                        <div class="product-category">IceFlow Collection</div>
+                    </div>
+                    <div class="vote-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 55%"></div>
+                        </div>
+                        <div class="vote-total">187 votes</div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank">4</div>
+                    <div class="product-info">
+                        <div class="product-title">Quencher H2.0 FlowState™ Tumbler 64oz</div>
+                        <div class="product-category">Quencher Collection</div>
+                    </div>
+                    <div class="vote-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 46%"></div>
+                        </div>
+                        <div class="vote-total">156 votes</div>
+                    </div>
+                </div>
+
+                <div class="leaderboard-item">
+                    <div class="rank">5</div>
+                    <div class="product-info">
+                        <div class="product-title">The Everyday Tumbler 16oz</div>
+                        <div class="product-category">Everyday Collection</div>
+                    </div>
+                    <div class="vote-progress">
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 42%"></div>
+                        </div>
+                        <div class="vote-total">143 votes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="cta-title">Ready to Pre-Order DAMP?</h2>
+                <p class="cta-description">
+                    While you're voting for the next Stanley compatibility, secure your DAMP Smart Cup Accessory 
+                    and be among the first 500 to never lose your favorite drink again.
+                </p>
+                <a href="pre-sale-funnel.html" class="cta-button">Pre-Order DAMP Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>DAMP Smart Drinkware</h3>
+                    <p>Turn your favorite cup smart. Never lose your drink again.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="pre-sale-funnel.html">Pre-Order</a></li>
+                        <li><a href="support.html">Support</a></li>
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Compatibility</h4>
+                    <ul>
+                        <li><a href="damp-handle-v1.0-stanley.html">Stanley (Voting)</a></li>
+                        <li><a href="cup-sleeve-v1.0.html">Universal Sleeve</a></li>
+                        <li><a href="silicone-bottom-v1.0.html">Silicone Bottom</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 DAMP Smart Drinkware. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/scripts.js"></script>
+
+    <!-- Voting System JavaScript -->
+    <script>
+        class StanleyVotingSystem {
+            constructor() {
+                this.votes = this.loadVotes();
+                this.votedProducts = this.loadVotedProducts();
+                this.initializeVoting();
+                this.updateStats();
+            }
+
+            loadVotes() {
+                const saved = localStorage.getItem('stanley-votes');
+                return saved ? JSON.parse(saved) : {};
+            }
+
+            saveVotes() {
+                localStorage.setItem('stanley-votes', JSON.stringify(this.votes));
+            }
+
+            loadVotedProducts() {
+                const saved = localStorage.getItem('voted-products');
+                return saved ? JSON.parse(saved) : [];
+            }
+
+            saveVotedProducts() {
+                localStorage.setItem('voted-products', JSON.stringify(this.votedProducts));
+            }
+
+            initializeVoting() {
+                const voteButtons = document.querySelectorAll('.vote-btn');
+                
+                voteButtons.forEach(button => {
+                    const productId = button.dataset.product;
+                    
+                    // Initialize vote count if not exists
+                    if (!this.votes[productId]) {
+                        this.votes[productId] = parseInt(button.parentElement.querySelector('.vote-number').textContent);
+                    }
+                    
+                    // Update display
+                    button.parentElement.querySelector('.vote-number').textContent = this.votes[productId];
+                    
+                    // Check if already voted
+                    if (this.votedProducts.includes(productId)) {
+                        button.textContent = 'Voted';
+                        button.classList.add('voted');
+                        button.disabled = true;
+                    }
+                    
+                    // Add click event
+                    button.addEventListener('click', () => this.vote(productId, button));
+                });
+            }
+
+            vote(productId, button) {
+                // Prevent multiple votes for same product
+                if (this.votedProducts.includes(productId)) {
+                    return;
+                }
+
+                // Add vote
+                this.votes[productId] = (this.votes[productId] || 0) + 1;
+                this.votedProducts.push(productId);
+
+                // Update UI
+                const voteNumber = button.parentElement.querySelector('.vote-number');
+                voteNumber.textContent = this.votes[productId];
+                
+                // Animate button
+                button.classList.add('vote-animation');
+                setTimeout(() => button.classList.remove('vote-animation'), 300);
+                
+                // Update button state
+                button.textContent = 'Voted';
+                button.classList.add('voted');
+                button.disabled = true;
+
+                // Save data
+                this.saveVotes();
+                this.saveVotedProducts();
+                
+                // Update stats
+                this.updateStats();
+                
+                // Update leaderboard
+                this.updateLeaderboard();
+
+                // Track analytics
+                this.trackVote(productId);
+            }
+
+            updateStats() {
+                const totalVotes = Object.values(this.votes).reduce((sum, count) => sum + count, 0);
+                const activeVoters = this.votedProducts.length;
+                const productsTracked = document.querySelectorAll('.product-card').length;
+
+                document.getElementById('totalVotes').textContent = totalVotes.toLocaleString();
+                document.getElementById('activeVoters').textContent = activeVoters.toLocaleString();
+                document.getElementById('productsTracked').textContent = productsTracked;
+            }
+
+            updateLeaderboard() {
+                // Sort products by votes
+                const sortedProducts = Object.keys(this.votes)
+                    .map(productId => ({
+                        id: productId,
+                        votes: this.votes[productId],
+                        element: document.querySelector(`[data-product="${productId}"]`)
+                    }))
+                    .filter(item => item.element)
+                    .sort((a, b) => b.votes - a.votes);
+
+                // Update leaderboard (simplified - would need full product data in real implementation)
+                const leaderboardItems = document.querySelectorAll('.leaderboard-item');
+                sortedProducts.slice(0, 5).forEach((product, index) => {
+                    if (leaderboardItems[index]) {
+                        const voteTotal = leaderboardItems[index].querySelector('.vote-total');
+                        const progressFill = leaderboardItems[index].querySelector('.progress-fill');
+                        const maxVotes = sortedProducts[0].votes;
+                        const percentage = (product.votes / maxVotes) * 100;
+                        
+                        voteTotal.textContent = `${product.votes} votes`;
+                        progressFill.style.width = `${percentage}%`;
+                    }
+                });
+            }
+
+            trackVote(productId) {
+                // Analytics tracking
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'stanley_product_vote', {
+                        product_id: productId,
+                        vote_count: this.votes[productId],
+                        page_title: 'Stanley Voting Page'
+                    });
+                }
+
+                // Console log for debugging
+                console.log(`Vote recorded for ${productId}: ${this.votes[productId]} total votes`);
+            }
+
+            // Simulate some realistic vote growth
+            simulateGrowth() {
+                setInterval(() => {
+                    const products = Object.keys(this.votes);
+                    if (products.length > 0) {
+                        const randomProduct = products[Math.floor(Math.random() * products.length)];
+                        if (Math.random() < 0.1) { // 10% chance every interval
+                            this.votes[randomProduct]++;
+                            const button = document.querySelector(`[data-product="${randomProduct}"]`);
+                            if (button) {
+                                button.parentElement.querySelector('.vote-number').textContent = this.votes[randomProduct];
+                            }
+                            this.saveVotes();
+                            this.updateStats();
+                        }
+                    }
+                }, 30000); // Every 30 seconds
+            }
+        }
+
+        // Initialize voting system when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            const votingSystem = new StanleyVotingSystem();
+            
+            // Start simulated growth in development
+            if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                votingSystem.simulateGrowth();
+            }
+        });
+
+        // Add some interactive elements
+        document.addEventListener('DOMContentLoaded', () => {
+            // Smooth scrolling for internal links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Product card hover effects
+            document.querySelectorAll('.product-card').forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
+
+    <!-- Analytics -->
+    <script>
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                page_title: 'Stanley Voting Page',
+                page_location: window.location.href
+            });
+        }
+    </script>
+</body>
+</html>

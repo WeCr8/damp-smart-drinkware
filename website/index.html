@@ -96,7 +96,7 @@
     }
     </script>
 
-    <!-- Hero Animation - FIXED with Security -->
+    <!-- FIXED: Hero Animation - Only play once, not on every reload -->
     <script>
         // Secure initialization with error handling
         function initializeHeroAnimation() {
@@ -104,17 +104,12 @@
             
             if (window.DAMPHeroAnimation) {
                 try {
-                    // Clear any existing animation state securely
-                    if (window.DAMPHeroAnimation.reset) {
-                        window.DAMPHeroAnimation.reset();
-                    }
-                    
                     new DAMPHeroAnimation({
                         duration: 8000,              // 8 seconds for full sequence
-                        playOnEveryLoad: true,       // CRITICAL: Always play on page load/reload
+                        playOnEveryLoad: false,      // FIXED: Don't replay on page reload
                         allowSkip: true,             // Allow skipping with click/key/touch
-                        playOnlyOnce: false,         // CRITICAL: Don't limit to once
-                        skipIfReturningUser: false,  // CRITICAL: Don't skip for returning users
+                        playOnlyOnce: true,          // FIXED: Only play once per session
+                        skipIfReturningUser: true,   // FIXED: Skip for returning users
                         fadeOutDuration: 1000        // Professional fade out timing
                     });
                 } catch (error) {
@@ -131,12 +126,6 @@
             }
         }
 
-        // FIXED: Force animation on every page load
-        // Clear any existing animation state to ensure fresh start
-        if (typeof window.DAMPHeroAnimation !== 'undefined' && window.DAMPHeroAnimation.reset) {
-            window.DAMPHeroAnimation.reset();
-        }
-
         // Initialize based on DOM readiness
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', initializeHeroAnimation);
@@ -151,7 +140,7 @@
     <damp-header></damp-header>
 
     <!-- Hero Section - SIMPLIFIED for Pre-Sale -->
-    <section class="hero-section">
+    <section class="hero-section" id="main-content">
         <div class="container">
             <div class="hero-content animate-fade-in-up">
                 <!-- Primary Hook - MORE DIRECT -->
@@ -403,7 +392,7 @@
         </div>
     </section>
 
-    <!-- Pre-Order Form Section - REPLACE Final CTA -->
+    <!-- Pre-Order Form Section - FIXED -->
     <section class="preorder-form-section" id="preorder-form">
         <div class="container">
             <div class="preorder-content animate-fade-in-up">
@@ -439,7 +428,7 @@
                     </div>
                 </div>
                 
-                <!-- Contact Form -->
+                <!-- FIXED: Contact Form with proper preventDefault -->
                 <form id="preorderForm" class="preorder-form animate-fade-in-up animate-delay-200">
                     <div class="form-row">
                         <input type="text" id="name" name="name" placeholder="Your Name*" required>
@@ -453,7 +442,7 @@
                 </div>
                 
                 <div class="payment-section animate-fade-in-up animate-delay-400">
-                    <button id="checkoutButton" class="btn btn-primary btn-xl">
+                    <button id="checkoutButton" class="btn btn-primary btn-xl" onclick="handleCheckout()">
                         <span class="btn-text">Pre-Order Now (Secure Payment)</span>
                         <span class="btn-subtext">Powered by Stripe</span>
                     </button>
@@ -511,14 +500,14 @@
         </div>
     </footer>
 
-    <!-- Scripts - Enhanced Security -->
+    <!-- FIXED: Scripts - Clean and organized -->
     <script src="assets/js/components/favicon-setup.js"></script>
     <script src="assets/js/components/hero-animation.js"></script>
     <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/navigation.js"></script>
     <script src="assets/js/scripts.js"></script>
+    <script src="assets/js/pre-order.js"></script>
     
-    <!-- Enhanced Analytics with Consent -->
+    <!-- FIXED: Enhanced Analytics with Consent -->
     <script>
         // Track page view only if analytics consent given
         document.addEventListener('DOMContentLoaded', () => {
@@ -558,14 +547,61 @@
         }
     </script>
 
+    <!-- FIXED: Core functionality scripts -->
     <script>
-        // Scroll to pre-order function
+        // FIXED: Proper scroll to pre-order function
         function scrollToPreorder() {
-            document.getElementById('preorder-form').scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
+            const preorderSection = document.getElementById('preorder-form');
+            if (preorderSection) {
+                preorderSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         }
+        
+        // FIXED: Proper checkout handling
+        function handleCheckout() {
+            // Check if any products are selected
+            const selectedProducts = document.querySelectorAll('input[name="products"]:checked');
+            
+            if (selectedProducts.length === 0) {
+                alert('Please select at least one product to pre-order.');
+                return;
+            }
+            
+            // Navigate to checkout page
+            window.location.href = 'pages/pre-order.html';
+        }
+        
+        // FIXED: Proper form handling with preventDefault
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle waitlist form submission
+            const preorderForm = document.getElementById('preorderForm');
+            if (preorderForm) {
+                preorderForm.addEventListener('submit', function(e) {
+                    e.preventDefault(); // CRITICAL: Prevent page reload
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    
+                    if (name && email) {
+                        // Show success message
+                        alert(`Thank you ${name}! You've been added to our waitlist. We'll email you at ${email} when DAMP is ready.`);
+                        
+                        // Clear form
+                        preorderForm.reset();
+                        
+                        // In production, this would send to your backend
+                        console.log('Waitlist signup:', { name, email });
+                    }
+                });
+            }
+            
+            // Initialize other functionality
+            initCountdown();
+            setTimeout(animateProgress, 1000);
+        });
         
         // Countdown timer
         function initCountdown() {
@@ -580,9 +616,13 @@
                 const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours;
-                document.getElementById('minutes').textContent = minutes;
+                const daysEl = document.getElementById('days');
+                const hoursEl = document.getElementById('hours');
+                const minutesEl = document.getElementById('minutes');
+                
+                if (daysEl) daysEl.textContent = days;
+                if (hoursEl) hoursEl.textContent = hours;
+                if (minutesEl) minutesEl.textContent = minutes;
             }
             
             updateCountdown();
@@ -592,6 +632,8 @@
         // Progress bar animation
         function animateProgress() {
             const progressBar = document.getElementById('progressBar');
+            if (!progressBar) return;
+            
             const targetWidth = 49.4; // 247/500 * 100
             let currentWidth = 0;
             
@@ -604,312 +646,6 @@
                 }
             }, 20);
         }
-        
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            initCountdown();
-            setTimeout(animateProgress, 1000); // Start after 1 second
-            
-            // Connect to existing pre-order.js functionality
-            if (typeof initPreOrderForm === 'function') {
-                initPreOrderForm();
-            }
-        });
-    </script>
-
-    <script>
-        // Real-time campaign status tracking
-        class DAMPCampaignTracker {
-            constructor() {
-                this.updateInterval = 30000; // Update every 30 seconds
-                this.countAnimationDuration = 2000; // 2 seconds for count animation
-                this.lastKnownCount = 247; // Starting count for smooth animation
-                this.intervalId = null;
-            }
-            
-            async init() {
-                await this.updateCampaignStatus();
-                this.startPeriodicUpdates();
-                this.initCountAnimation();
-            }
-            
-            async updateCampaignStatus() {
-                try {
-                    const response = await fetch('/api/campaign-status');
-                    const data = await response.json();
-                    
-                    this.updateCounts(data.counts);
-                    this.updateCountdown(data.timing.time_remaining);
-                    this.updateUrgencyMessaging(data.urgency);
-                    this.updateSocialProof(data.social_proof);
-                    this.updateProgressBar(data.counts.progress_percentage);
-                    
-                } catch (error) {
-                    console.error('Error fetching campaign status:', error);
-                    // Fallback to static data
-                    this.useFallbackData();
-                }
-            }
-            
-            updateCounts(counts) {
-                // Animate count change
-                if (counts.current !== this.lastKnownCount) {
-                    this.animateCountChange('preorderCount', this.lastKnownCount, counts.current);
-                    this.animateCountChange('unitsSold', this.lastKnownCount, counts.current);
-                    this.lastKnownCount = counts.current;
-                }
-                
-                // Update goal (in case it changes)
-                const goalElement = document.getElementById('goalUnits');
-                if (goalElement) goalElement.textContent = counts.goal;
-                
-                // Update remaining count messaging
-                const remaining = counts.remaining;
-                if (remaining <= 50) {
-                    this.addScarcityMessage(`Only ${remaining} spots left!`);
-                } else if (remaining <= 100) {
-                    this.addScarcityMessage(`Less than ${Math.round(remaining/10)*10} spots remaining`);
-                }
-            }
-            
-            animateCountChange(elementId, fromValue, toValue) {
-                const element = document.getElementById(elementId);
-                if (!element) return;
-                
-                const increment = (toValue - fromValue) / (this.countAnimationDuration / 50);
-                let currentValue = fromValue;
-                
-                const timer = setInterval(() => {
-                    currentValue += increment;
-                    if ((increment > 0 && currentValue >= toValue) || 
-                        (increment < 0 && currentValue <= toValue)) {
-                        currentValue = toValue;
-                        clearInterval(timer);
-                    }
-                    element.textContent = Math.round(currentValue);
-                }, 50);
-            }
-            
-            updateProgressBar(percentage) {
-                const progressBar = document.getElementById('progressBar');
-                if (progressBar) {
-                    progressBar.style.width = `${percentage}%`;
-                    
-                    // Add visual feedback for milestones
-                    if (percentage >= 90) {
-                        progressBar.classList.add('milestone-critical');
-                    } else if (percentage >= 75) {
-                        progressBar.classList.add('milestone-high');
-                    } else if (percentage >= 50) {
-                        progressBar.classList.add('milestone-medium');
-                    }
-                }
-            }
-            
-            updateCountdown(timeRemaining) {
-                const days = timeRemaining.days;
-                const hours = timeRemaining.hours;
-                const minutes = timeRemaining.minutes;
-                
-                document.getElementById('days').textContent = days;
-                document.getElementById('hours').textContent = hours;
-                document.getElementById('minutes').textContent = minutes;
-                
-                // Update urgency based on time remaining
-                if (days === 0 && hours < 24) {
-                    this.addUrgencyPulse();
-                }
-            }
-            
-            updateUrgencyMessaging(urgency) {
-                const badgeElement = document.querySelector('.presale-badge');
-                const textElement = document.querySelector('.presale-text');
-                
-                if (urgency.level === 'critical') {
-                    if (badgeElement) badgeElement.textContent = '🔥 FINAL HOURS';
-                    if (textElement) textElement.textContent = urgency.message;
-                    this.addCriticalUrgencyStyles();
-                } else if (urgency.level === 'high') {
-                    if (badgeElement) badgeElement.textContent = '⚡ ALMOST GONE';
-                    if (textElement) textElement.textContent = urgency.message;
-                }
-            }
-            
-            updateSocialProof(socialProof) {
-                // Update recent activity message
-                const testimonialElement = document.querySelector('.progress-description');
-                if (testimonialElement && socialProof.recent_activity) {
-                    const originalText = testimonialElement.textContent;
-                    testimonialElement.innerHTML = `
-                        ${originalText}<br>
-                        <small style="color: #00ff88; font-weight: bold;">
-                            ${socialProof.recent_activity}
-                        </small>
-                    `;
-                }
-                
-                // Add milestone celebration
-                if (socialProof.milestone_reached) {
-                    this.celebrateMilestone();
-                }
-            }
-            
-            addScarcityMessage(message) {
-                const progressSection = document.querySelector('.preorder-progress');
-                let scarcityEl = progressSection.querySelector('.scarcity-message');
-                
-                if (!scarcityEl) {
-                    scarcityEl = document.createElement('div');
-                    scarcityEl.className = 'scarcity-message';
-                    scarcityEl.style.cssText = `
-                        background: linear-gradient(135deg, #ff4757, #ff6348);
-                        color: white;
-                        padding: 10px 20px;
-                        border-radius: 25px;
-                        text-align: center;
-                        font-weight: bold;
-                        margin-top: 15px;
-                        animation: pulse 2s infinite;
-                    `;
-                    progressSection.appendChild(scarcityEl);
-                }
-                
-                scarcityEl.textContent = message;
-            }
-            
-            addUrgencyPulse() {
-                const countdownTimer = document.getElementById('countdownTimer');
-                if (countdownTimer && !countdownTimer.classList.contains('urgent-pulse')) {
-                    countdownTimer.classList.add('urgent-pulse');
-                    countdownTimer.style.cssText += `
-                        animation: urgentPulse 1s infinite;
-                        border: 2px solid #ff4757;
-                    `;
-                }
-            }
-            
-            celebrateMilestone() {
-                // Add celebration animation
-                const progressBar = document.getElementById('progressBar');
-                if (progressBar) {
-                    progressBar.style.animation = 'celebrate 3s ease-in-out';
-                    setTimeout(() => {
-                        progressBar.style.animation = '';
-                    }, 3000);
-                }
-            }
-            
-            startPeriodicUpdates() {
-                this.intervalId = setInterval(() => {
-                    this.updateCampaignStatus();
-                }, this.updateInterval);
-            }
-            
-            useFallbackData() {
-                // Use static fallback data if API fails
-                this.updateCounts({
-                    current: 247,
-                    goal: 500,
-                    remaining: 253,
-                    progress_percentage: 49.4
-                });
-            }
-            
-            destroy() {
-                if (this.intervalId) {
-                    clearInterval(this.intervalId);
-                }
-            }
-        }
-        
-        // Enhanced Copy Updates Based on Real Data
-        function updateCopyBasedOnData(data) {
-            // Update headline copy based on count
-            const count = data.counts.current;
-            const headline = document.querySelector('.hero-main-title');
-            
-            if (count >= 400) {
-                headline.textContent = "Join 400+ Smart People Who Pre-Ordered DAMP";
-            } else if (count >= 300) {
-                headline.textContent = "Join 300+ Early Adopters - DAMP Pre-Sale";
-            } else if (count >= 200) {
-                headline.textContent = "Join 200+ People Who Pre-Ordered DAMP";
-            }
-            
-            // Update urgency messaging
-            const remaining = data.counts.remaining;
-            const ctaButton = document.querySelector('.btn-primary .btn-subtext');
-            if (remaining <= 100) {
-                ctaButton.textContent = `Only ${remaining} spots left`;
-            }
-        }
-        
-        // Add required CSS animations
-        const urgencyStyles = document.createElement('style');
-        urgencyStyles.textContent = `
-            @keyframes urgentPulse {
-                0%, 100% { transform: scale(1); }
-                50% { transform: scale(1.05); }
-            }
-            
-            @keyframes celebrate {
-                0% { background: linear-gradient(90deg, #00ff88, #0066ff); }
-                25% { background: linear-gradient(90deg, #ff4757, #ff6348); }
-                50% { background: linear-gradient(90deg, #ffa502, #ffb142); }
-                75% { background: linear-gradient(90deg, #00ff88, #0066ff); }
-                100% { background: linear-gradient(90deg, #0066ff, #00ff88); }
-            }
-            
-            .milestone-critical {
-                background: linear-gradient(90deg, #ff4757, #ff6348) !important;
-                box-shadow: 0 0 20px rgba(255, 71, 87, 0.5) !important;
-            }
-            
-            .milestone-high {
-                background: linear-gradient(90deg, #ffa502, #ffb142) !important;
-            }
-            
-            .milestone-medium {
-                background: linear-gradient(90deg, #0066ff, #00ff88) !important;
-            }
-            
-            .scarcity-message {
-                animation: pulse 2s infinite;
-            }
-            
-            @keyframes pulse {
-                0% { opacity: 1; transform: scale(1); }
-                50% { opacity: 0.8; transform: scale(1.02); }
-                100% { opacity: 1; transform: scale(1); }
-            }
-        `;
-        document.head.appendChild(urgencyStyles);
-        
-        // Initialize campaign tracker
-        let campaignTracker;
-        
-        // Updated initialization
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize existing functions
-            initCountdown();
-            setTimeout(animateProgress, 1000);
-            
-            // Initialize campaign tracker for real-time updates
-            campaignTracker = new DAMPCampaignTracker();
-            campaignTracker.init();
-            
-            // Connect to existing pre-order.js functionality
-            if (typeof initPreOrderForm === 'function') {
-                initPreOrderForm();
-            }
-        });
-        
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            if (campaignTracker) {
-                campaignTracker.destroy();
-            }
-        });
     </script>
 </body>
 </html>

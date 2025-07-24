@@ -447,6 +447,218 @@
             font-size: 0.95rem;
         }
         
+        /* Subscription Preview Section */
+        .subscription-preview-section {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .subscription-preview-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .subscription-preview-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subscription-preview-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        
+        .subscription-preview-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 212, 255, 0.3);
+            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.15);
+        }
+        
+        .subscription-preview-card.popular {
+            border-color: var(--secondary-color);
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.05));
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, var(--secondary-color), #00cc6a);
+            color: var(--bg-primary);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .tier-header {
+            margin-bottom: 1.5rem;
+        }
+        
+        .tier-name {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .tier-price {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--text-primary);
+        }
+        
+        .subscription-preview-card .price-amount {
+            color: var(--secondary-color);
+        }
+        
+        .price-period {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+        
+        .tier-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+        
+        .tier-features {
+            list-style: none;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        
+        .tier-features li {
+            padding: 0.6rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .tier-features li:last-child {
+            border-bottom: none;
+        }
+        
+        .tier-features li::before {
+            content: "✓";
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 0.8rem;
+            font-size: 1rem;
+        }
+        
+        .tier-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            align-items: center;
+        }
+        
+        .btn-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-link:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+        
+        .subscription-cta {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .subscription-cta h3 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        
+        .subscription-cta p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .btn-large {
+            padding: 20px 40px;
+            font-size: 1.2rem;
+        }
+        
+        /* Subscription Preview Mobile Responsive */
+        @media (max-width: 768px) {
+            .subscription-preview-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .subscription-preview-card {
+                padding: 1.5rem;
+            }
+            
+            .tier-name {
+                font-size: 1.3rem;
+            }
+            
+            .price-amount {
+                font-size: 2rem;
+            }
+            
+            .subscription-cta {
+                padding: 1.5rem;
+                margin-top: 2rem;
+            }
+            
+            .subscription-cta h3 {
+                font-size: 1.5rem;
+            }
+            
+            .btn-large {
+                padding: 15px 30px;
+                font-size: 1.1rem;
+            }
+        }
+
         /* Voting Section */
         .voting-section {
             background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 71, 87, 0.1));
@@ -891,6 +1103,91 @@
                         <a href="pages/baby-bottle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
                     </div>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subscription Tiers Section -->
+    <section class="section subscription-preview-section">
+        <div class="container">
+            <h2 class="section-title">Choose Your DAMP Plan</h2>
+            <p class="section-subtitle">
+                From free trials to unlimited family plans, we have the perfect tier for your smart drinkware needs.
+            </p>
+            
+            <div class="subscription-preview-grid">
+                <!-- Free Tier -->
+                <div class="subscription-preview-card">
+                    <div class="tier-header">
+                        <h3 class="tier-name">DAMP Free</h3>
+                        <div class="tier-price">
+                            <span class="price-amount">$0</span>
+                            <span class="price-period">Forever</span>
+                        </div>
+                    </div>
+                    <div class="tier-description">Perfect for trying out DAMP Smart Drinkware</div>
+                    <ul class="tier-features">
+                        <li>1 Connected Device</li>
+                        <li>2 Safe Zones</li>
+                        <li>Basic Notifications</li>
+                        <li>Mobile App Access</li>
+                    </ul>
+                    <div class="tier-actions">
+                        <a href="pages/subscription.html?plan=free" class="btn btn-secondary">Get Started Free</a>
+                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- DAMP+ Tier -->
+                <div class="subscription-preview-card popular">
+                    <div class="popular-badge">Most Popular</div>
+                    <div class="tier-header">
+                        <h3 class="tier-name">DAMP+</h3>
+                        <div class="tier-price">
+                            <span class="price-amount">$2.99</span>
+                            <span class="price-period">per month</span>
+                        </div>
+                    </div>
+                    <div class="tier-description">Enhanced features for power users</div>
+                    <ul class="tier-features">
+                        <li>3 Connected Devices</li>
+                        <li>5 Safe Zones</li>
+                        <li>Standard Notifications</li>
+                        <li>Priority Support</li>
+                    </ul>
+                    <div class="tier-actions">
+                        <a href="pages/subscription.html?plan=damp_plus" class="btn btn-primary">Upgrade to DAMP+</a>
+                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
+                    </div>
+                </div>
+
+                <!-- DAMP Family Tier -->
+                <div class="subscription-preview-card">
+                    <div class="tier-header">
+                        <h3 class="tier-name">DAMP Family</h3>
+                        <div class="tier-price">
+                            <span class="price-amount">$5.99</span>
+                            <span class="price-period">per month</span>
+                        </div>
+                    </div>
+                    <div class="tier-description">Complete solution for families and teams</div>
+                    <ul class="tier-features">
+                        <li>10 Connected Devices</li>
+                        <li>Unlimited Safe Zones</li>
+                        <li>Custom Notifications</li>
+                        <li>Family Sharing</li>
+                    </ul>
+                    <div class="tier-actions">
+                        <a href="pages/subscription.html?plan=damp_family" class="btn btn-secondary">Go Family Plan</a>
+                        <a href="pages/subscription.html" class="btn-link">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="subscription-cta">
+                <h3>Ready to Never Leave Your Drink Behind?</h3>
+                <p>Start with our free tier or choose the perfect plan for your needs.</p>
+                <a href="pages/subscription.html" class="btn btn-primary btn-large">View All Plans & Features</a>
             </div>
         </div>
     </section>

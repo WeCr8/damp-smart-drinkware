@@ -395,6 +395,22 @@
     box-shadow: 0 12px 30px rgba(0, 212, 255, 0.5) !important;
 }
 
+/* Mobile Subscription Button Styling */
+.mobile-nav-subscription {
+    background: linear-gradient(45deg, #6a4c93, #9b59b6) !important;
+    color: white !important;
+    border-color: #6a4c93 !important;
+    font-weight: 700 !important;
+    margin-top: 5px;
+}
+
+.mobile-nav-subscription:hover,
+.mobile-nav-subscription:focus {
+    background: linear-gradient(45deg, #9b59b6, #6a4c93) !important;
+    transform: translateY(-3px) scale(1.05) !important;
+    box-shadow: 0 12px 30px rgba(106, 76, 147, 0.5) !important;
+}
+
 /* Universal Menu Footer with Safe Area */
 .mobile-menu-footer {
     padding: 20px;

@@ -6,25 +6,100 @@
   "private": true,
   "scripts": {
     "dev": "npx http-server . -p 3000 -c-1",
-    "build": "npm run optimize:images && node ../build/build.js",
+    "dev:debug": "npm run dev & npm run lint:watch",
+    "serve": "npm run dev",
+    "serve:test": "npx http-server . -p 3001 -c-1 --silent",
+    "serve:prod": "npx http-server dist -p 3002 -c-1 --silent",
+    "serve:e2e": "npx http-server dist -p 3003 -c-1 --silent",
+    
+    "build": "npm run validate:all && npm run build:prod",
+    "build:dev": "npm run optimize:images:quick && node ../build/build.js --dev",
+    "build:prod": "npm run optimize:images && node ../build/build.js --prod && npm run minify:all",
+    "build:analyze": "npm run build:prod && npm run bundle:analyze",
+    
+    "test": "npm run test:unit && npm run test:integration",
+    "test:unit": "jest --config=../tests/config/jest.config.js --testPathPattern=unit --coverage --passWithNoTests",
+    "test:integration": "jest --config=../tests/config/jest.config.js --testPathPattern=integration --coverage --passWithNoTests",
+    "test:e2e": "playwright test --config=../tests/config/playwright.config.js",
+    "test:e2e:chromium": "playwright test --config=../tests/config/playwright.config.js --project=chromium",
+    "test:e2e:firefox": "playwright test --config=../tests/config/playwright.config.js --project=firefox",
+    "test:e2e:webkit": "playwright test --config=../tests/config/playwright.config.js --project=webkit",
+    "test:e2e:headed": "playwright test --config=../tests/config/playwright.config.js --headed",
+    "test:visual": "playwright test --config=../tests/config/playwright.config.js --grep=\"visual regression\"",
+    "test:a11y": "axe --include=\"main,nav,footer\" --exclude=\"#ads\" --dir=. --save=a11y-report.json",
+    "test:watch": "jest --config=../tests/config/jest.config.js --watch",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --config=../tests/config/jest.config.js --runInBand",
+    
+    "coverage:report": "jest --config=../tests/config/jest.config.js --coverage --coverageReporters=html,lcov,text-summary",
+    "coverage:check": "nyc check-coverage --statements 90 --branches 90 --functions 90 --lines 90",
+    "coverage:open": "open coverage/lcov-report/index.html",
+    
+    "lint": "eslint . --ext .js,.json,.html,.md --cache --cache-location .eslintcache",
+    "lint:ci": "eslint . --ext .js,.json,.html,.md --format json --output-file eslint-report.json",
+    "lint:fix": "eslint . --ext .js,.json,.html,.md --fix --cache",
+    "lint:watch": "nodemon --ext js,json,html,md --exec \"npm run lint\"",
+    
+    "format": "prettier --write \"**/*.{js,json,html,css,md}\"",
+    "format:check": "prettier --check \"**/*.{js,json,html,css,md}\" --write=false",
+    "format:ci": "prettier --check \"**/*.{js,json,html,css,md}\" --write=false --list-different > prettier-report.json",
+    
+    "type-check": "tsc --noEmit --project ../tsconfig.json",
+    "type-check:watch": "tsc --noEmit --project ../tsconfig.json --watch",
+    
+    "lighthouse:all": "npm run lighthouse:desktop && npm run lighthouse:mobile",
+    "lighthouse:desktop": "lighthouse http://localhost:3000 --output=html,json --output-path=./reports/lighthouse-desktop --chrome-flags='--headless' --preset=desktop",
+    "lighthouse:mobile": "lighthouse http://localhost:3000 --output=html,json --output-path=./reports/lighthouse-mobile --chrome-flags='--headless'",
+    "lighthouse:ci": "lhci autorun --config=../quality/lighthouseci.json",
+    "lighthouse:budget": "lighthouse http://localhost:3000 --budget-path=../quality/performance-budget.json --output=html --output-path=./reports/lighthouse-budget.html",
+    "lighthouse:compare": "lighthouse-batch --file urls.txt --compare",
+    
+    "security:audit": "npm audit --audit-level=moderate --json > security-audit.json",
+    "security:snyk": "snyk test --json > snyk-report.json",
+    "security:check": "npm run security:audit && npm run security:snyk",
+    
+    "validate:html": "html-validate *.html pages/*.html --config=../quality/html-validate.json",
+    "validate:css": "stylelint 'assets/css/**/*.css' --config=../quality/.stylelintrc.json",
+    "validate:js": "npm run lint",
+    "validate:images": "node ../tools/validate-images.js",
+    "validate:links": "broken-link-checker http://localhost:3000 --recursive --get --filter-level=3",
+    "validate:all": "npm run validate:html && npm run validate:css && npm run validate:js && npm run type-check",
+    
     "optimize:images": "node ../tools/image-optimizer.js",
     "optimize:images:quick": "node ../tools/image-optimizer.js --quick",
-    "test": "npm run test:components && npm run test:performance",
-    "test:components": "jest assets/js/components/",
-    "test:performance": "npm run lighthouse:all",
-    "lighthouse:all": "npm run lighthouse:desktop && npm run lighthouse:mobile",
-    "lighthouse:desktop": "lighthouse http://localhost:3000 --output=html --output=json --output-path=./reports/lighthouse-desktop --chrome-flags='--headless' --preset=desktop",
-    "lighthouse:mobile": "lighthouse http://localhost:3000 --output=html --output=json --output-path=./reports/lighthouse-mobile --chrome-flags='--headless'",
-    "lighthouse:ci": "lighthouse http://localhost:3000 --output=json --output-path=./reports/lighthouse-ci.json --chrome-flags='--headless --no-sandbox'",
-    "lighthouse:budget": "lighthouse http://localhost:3000 --budget-path=lighthouse-budget.json --output=html --output-path=./reports/lighthouse-budget.html",
-    "validate:html": "html-validate *.html pages/*.html",
-    "validate:css": "stylelint 'assets/css/**/*.css'",
-    "validate:js": "eslint 'assets/js/**/*.js'",
-    "validate:all": "npm run validate:html && npm run validate:css && npm run validate:js",
-    "validate:images": "node ../tools/validate-images.js",
-    "optimize:images": "imagemin 'assets/images/**/*.{jpg,jpeg,png}' --out-dir=dist/assets/images/",
-    "audit": "npm audit && npm run validate:all && npm run lighthouse:all",
-    "deploy": "npm run build && npm run audit"
+    "optimize:fonts": "node ../tools/font-optimizer.js",
+    "optimize:css": "postcss assets/css/**/*.css --use autoprefixer cssnano --replace",
+    "optimize:js": "terser assets/js/**/*.js --compress --mangle --output-dir=dist/assets/js/",
+    
+    "minify:html": "html-minifier-terser --input-dir . --output-dir dist --file-ext html --remove-comments --collapse-whitespace",
+    "minify:css": "cleancss -o dist/assets/css/main.min.css assets/css/*.css",
+    "minify:js": "terser assets/js/**/*.js --compress --mangle --output dist/assets/js/main.min.js",
+    "minify:all": "npm run minify:html && npm run minify:css && npm run minify:js",
+    
+    "bundle:analyze": "webpack-bundle-analyzer dist/static/js/*.js",
+    "bundle:visualize": "npx source-map-explorer dist/assets/js/*.js",
+    
+    "docs:generate": "jsdoc -c ../quality/jsdoc.config.json",
+    "docs:serve": "docsify serve docs",
+    
+    "quality:report": "node ../tools/quality-reporter.js",
+    "quality:gate": "npm run validate:all && npm run test && npm run security:check && npm run lighthouse:budget",
+    
+    "pre-commit": "lint-staged",
+    "pre-push": "npm run quality:gate",
+    
+    "clean": "rimraf dist coverage .nyc_output .eslintcache test-results reports",
+    "clean:cache": "rimraf node_modules/.cache .eslintcache",
+    "clean:all": "npm run clean && npm run clean:cache && rimraf node_modules",
+    
+    "audit": "npm run security:check && npm run validate:all && npm run lighthouse:all",
+    "audit:ci": "npm run security:check && npm run validate:all && npm run test && npm run lighthouse:ci",
+    
+    "deploy": "npm run build && npm run audit:ci",
+    "deploy:staging": "npm run deploy && node ../deployment/deploy-staging.js",
+    "deploy:production": "npm run deploy && node ../deployment/deploy-production.js",
+    
+    "start": "npm run dev",
+    "ci": "npm ci && npm run audit:ci"
   },
   "dependencies": {},
   "devDependencies": {

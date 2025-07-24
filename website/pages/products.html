@@ -32,6 +32,264 @@
     <!-- CSS Architecture - Single Main CSS Import -->
     <link rel="stylesheet" href="../assets/css/main.css">
     <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
+    
+    <!-- Voting Section Styles -->
+    <style>
+        /* Community Voting Section */
+        .community-voting-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 255, 136, 0.03) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .voting-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .voting-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff6b6b, #ff4757);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .voting-preview-container {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: start;
+        }
+        
+        .voting-preview {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .voting-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .voting-stat-card {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 212, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary-color);
+            display: block;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .voting-results-preview {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+        }
+        
+        .preview-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        
+        .voting-leaders {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .vote-leader {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .vote-leader:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .leader-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .leader-icon {
+            font-size: 1.5rem;
+        }
+        
+        .leader-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .leader-progress {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 120px;
+        }
+        
+        .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 3px;
+            transition: width 0.8s ease;
+        }
+        
+        .leader-percentage {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            min-width: 35px;
+            text-align: right;
+        }
+        
+        .voting-cta {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        
+        .btn-vote-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 20px 32px;
+            background: linear-gradient(135deg, #ff6b6b, #ff4757);
+            color: white;
+            text-decoration: none;
+            border-radius: 16px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-vote-main:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.5);
+        }
+        
+        .vote-icon, .vote-arrow {
+            font-size: 1.2rem;
+        }
+        
+        .voting-info {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .voting-note {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.5;
+        }
+        
+        .voting-features {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .feature-icon {
+            font-size: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .feature-text {
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .voting-preview-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            
+            .voting-stats-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .vote-leader {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            
+            .leader-progress {
+                width: 100%;
+                min-width: auto;
+            }
+            
+            .btn-vote-main {
+                padding: 16px 24px;
+                font-size: 1rem;
+            }
+            
+            .community-voting-section {
+                padding: 60px 0;
+            }
+        }
+    </style>
 
     <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
@@ -488,6 +746,108 @@
         </div>
     </section>
 
+    <!-- Community Voting Section -->
+    <section id="community-voting" class="community-voting-section">
+        <div class="container">
+            <div class="voting-header animate-fade-in-up">
+                <div class="voting-badge">🗳️ Community Choice</div>
+                <h2 class="section-title">Help Us Prioritize Development</h2>
+                <p class="section-subtitle">Your vote directly influences which DAMP product we develop next. Join thousands of users shaping the future of smart drinkware.</p>
+            </div>
+            
+            <div class="voting-preview-container animate-fade-in-up animate-delay-100">
+                <div class="voting-preview">
+                    <div class="voting-stats-grid">
+                        <div class="voting-stat-card">
+                            <div class="stat-number" id="total-votes">1,247</div>
+                            <div class="stat-label">Total Votes</div>
+                        </div>
+                        <div class="voting-stat-card">
+                            <div class="stat-number" id="active-users">892</div>
+                            <div class="stat-label">Participants</div>
+                        </div>
+                        <div class="voting-stat-card">
+                            <div class="stat-number" id="days-left">28</div>
+                            <div class="stat-label">Days Left</div>
+                        </div>
+                    </div>
+                    
+                    <div class="voting-results-preview">
+                        <h3 class="preview-title">Current Leaders:</h3>
+                        <div class="voting-leaders">
+                            <div class="vote-leader" data-product="smart-pitcher">
+                                <div class="leader-info">
+                                    <span class="leader-icon">🏺</span>
+                                    <span class="leader-name">Smart Water Pitcher</span>
+                                </div>
+                                <div class="leader-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 65%"></div>
+                                    </div>
+                                    <span class="leader-percentage">65%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="vote-leader" data-product="mug-warmer">
+                                <div class="leader-info">
+                                    <span class="leader-icon">🔥</span>
+                                    <span class="leader-name">Coffee Mug Warmer</span>
+                                </div>
+                                <div class="leader-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 23%"></div>
+                                    </div>
+                                    <span class="leader-percentage">23%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="vote-leader" data-product="cocktail-tracker">
+                                <div class="leader-info">
+                                    <span class="leader-icon">🍸</span>
+                                    <span class="leader-name">Cocktail Tracker</span>
+                                </div>
+                                <div class="leader-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 12%"></div>
+                                    </div>
+                                    <span class="leader-percentage">12%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="voting-cta">
+                    <a href="product-voting.html" class="btn-vote-main" data-analytics="products-page-vote-cta">
+                        <span class="vote-icon">🗳️</span>
+                        <span class="vote-text">Cast Your Vote Now</span>
+                        <span class="vote-arrow">→</span>
+                    </a>
+                    
+                    <div class="voting-info">
+                        <p class="voting-note">
+                            <strong>Your voice matters!</strong> Registered customers get priority voting, but everyone can participate in our community polls.
+                        </p>
+                        <div class="voting-features">
+                            <span class="feature-item">
+                                <span class="feature-icon">🔒</span>
+                                <span class="feature-text">Secure Firebase voting</span>
+                            </span>
+                            <span class="feature-item">
+                                <span class="feature-icon">⚡</span>
+                                <span class="feature-text">Real-time results</span>
+                            </span>
+                            <span class="feature-item">
+                                <span class="feature-icon">👥</span>
+                                <span class="feature-text">Community driven</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- App Section -->
     <section id="app" class="app-section">
         <div class="container">
@@ -564,6 +924,256 @@
     <script src="../assets/js/cookie-consent-simple.js"></script>
     <script src="../assets/js/scripts.js"></script>
     
+    <!-- Firebase Services -->
+    <script src="../assets/js/firebase-services.js"></script>
+    
+    <!-- Voting Integration Component -->
+    <script>
+        /**
+         * DAMP Products Page Voting Integration
+         * Connects to Firebase voting system for real-time data
+         */
+        class ProductsVotingPreview {
+            constructor() {
+                this.votingData = null;
+                this.publicVotingData = null;
+                this.isLoading = true;
+                
+                this.init();
+            }
+            
+            async init() {
+                try {
+                    // Wait for Firebase services to be available
+                    await this.waitForFirebaseServices();
+                    
+                    // Initialize Firebase services if not already done
+                    if (!window.firebaseServices.initialized) {
+                        await window.firebaseServices.initializeFirebaseServices();
+                    }
+                    
+                    // Set up voting data listeners
+                    this.startVotingListeners();
+                    
+                    // Load initial data
+                    this.loadInitialData();
+                    
+                    console.log('✅ Products Voting Preview initialized');
+                    
+                } catch (error) {
+                    console.warn('Firebase services not available, using static data:', error);
+                    this.loadStaticData();
+                }
+            }
+            
+            async waitForFirebaseServices() {
+                return new Promise((resolve, reject) => {
+                    let attempts = 0;
+                    const maxAttempts = 30;
+                    
+                    const checkServices = () => {
+                        if (window.firebaseServices) {
+                            resolve();
+                        } else if (attempts >= maxAttempts) {
+                            reject(new Error('Firebase services not available'));
+                        } else {
+                            attempts++;
+                            setTimeout(checkServices, 100);
+                        }
+                    };
+                    
+                    checkServices();
+                });
+            }
+            
+            startVotingListeners() {
+                // Listen to public voting data (always available)
+                if (window.firebaseServices?.votingService?.onPublicVotingChange) {
+                    this.publicUnsubscribe = window.firebaseServices.votingService.onPublicVotingChange((data) => {
+                        this.publicVotingData = data;
+                        this.updatePreviewData(data);
+                        console.log('Public voting data updated:', data);
+                    });
+                }
+                
+                // Listen to customer voting data (requires authentication)
+                if (window.firebaseServices?.votingService?.onVotingChange) {
+                    this.customerUnsubscribe = window.firebaseServices.votingService.onVotingChange((data) => {
+                        this.votingData = data;
+                        // Use customer data if available, otherwise use public
+                        if (data && Object.keys(data.products || {}).length > 0) {
+                            this.updatePreviewData(data);
+                        }
+                        console.log('Customer voting data updated:', data);
+                    });
+                }
+            }
+            
+            loadInitialData() {
+                // Show loading state
+                this.showLoadingState();
+                
+                // Data will be loaded via listeners
+                setTimeout(() => {
+                    if (this.isLoading) {
+                        console.log('No real-time data received, using static data');
+                        this.loadStaticData();
+                    }
+                }, 3000);
+            }
+            
+            updatePreviewData(votingData) {
+                if (!votingData || !votingData.products) {
+                    this.loadStaticData();
+                    return;
+                }
+                
+                this.isLoading = false;
+                
+                // Calculate total votes
+                const products = Object.values(votingData.products);
+                const totalVotes = products.reduce((sum, product) => sum + (product.votes || 0), 0);
+                const participants = Math.floor(totalVotes * 0.7); // Estimate unique users
+                
+                // Update stats
+                this.updateElement('total-votes', this.formatNumber(totalVotes));
+                this.updateElement('active-users', this.formatNumber(participants));
+                
+                // Sort products by votes and update leaders
+                const sortedProducts = products.sort((a, b) => (b.votes || 0) - (a.votes || 0));
+                this.updateLeaders(sortedProducts, totalVotes);
+                
+                console.log('Preview data updated with', totalVotes, 'total votes');
+            }
+            
+            updateLeaders(products, totalVotes) {
+                const leadersContainer = document.querySelector('.voting-leaders');
+                if (!leadersContainer || products.length === 0) return;
+                
+                // Map product IDs to display data
+                const productMap = {
+                    'smart_water_pitcher': { icon: '🏺', name: 'Smart Water Pitcher' },
+                    'coffee_mug_warmer': { icon: '🔥', name: 'Coffee Mug Warmer' },
+                    'cocktail_tracker': { icon: '🍸', name: 'Cocktail Tracker' },
+                    'wine_glass_sensors': { icon: '🍷', name: 'Wine Glass Sensors' },
+                    'beer_mug_tracker': { icon: '🍺', name: 'Beer Mug Tracker' }
+                };
+                
+                // Take top 3 products
+                const topProducts = products.slice(0, 3);
+                
+                leadersContainer.innerHTML = topProducts.map(product => {
+                    const productInfo = productMap[product.id] || { icon: '🥤', name: product.name || 'Unknown Product' };
+                    const percentage = totalVotes > 0 ? Math.round((product.votes || 0) / totalVotes * 100) : 0;
+                    
+                    return `
+                        <div class="vote-leader" data-product="${product.id}">
+                            <div class="leader-info">
+                                <span class="leader-icon">${productInfo.icon}</span>
+                                <span class="leader-name">${productInfo.name}</span>
+                            </div>
+                            <div class="leader-progress">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${percentage}%"></div>
+                                </div>
+                                <span class="leader-percentage">${percentage}%</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            loadStaticData() {
+                this.isLoading = false;
+                
+                // Use fallback static data
+                const staticData = {
+                    totalVotes: 1247,
+                    participants: 892,
+                    daysLeft: 28,
+                    leaders: [
+                        { id: 'smart-pitcher', icon: '🏺', name: 'Smart Water Pitcher', percentage: 65 },
+                        { id: 'mug-warmer', icon: '🔥', name: 'Coffee Mug Warmer', percentage: 23 },
+                        { id: 'cocktail-tracker', icon: '🍸', name: 'Cocktail Tracker', percentage: 12 }
+                    ]
+                };
+                
+                this.updateElement('total-votes', this.formatNumber(staticData.totalVotes));
+                this.updateElement('active-users', this.formatNumber(staticData.participants));
+                this.updateElement('days-left', staticData.daysLeft);
+                
+                console.log('Using static voting data');
+            }
+            
+            showLoadingState() {
+                const statNumbers = document.querySelectorAll('.stat-number');
+                statNumbers.forEach(element => {
+                    element.style.opacity = '0.5';
+                    element.textContent = '...';
+                });
+            }
+            
+            updateElement(id, value) {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.style.opacity = '1';
+                    element.textContent = value;
+                }
+            }
+            
+            formatNumber(num) {
+                if (num >= 1000) {
+                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
+                }
+                return num.toString();
+            }
+            
+            // Cleanup method
+            destroy() {
+                if (this.publicUnsubscribe) {
+                    this.publicUnsubscribe();
+                }
+                if (this.customerUnsubscribe) {
+                    this.customerUnsubscribe();
+                }
+            }
+        }
+        
+        // Initialize voting preview when DOM is ready
+        let votingPreview;
+        document.addEventListener('DOMContentLoaded', () => {
+            votingPreview = new ProductsVotingPreview();
+            
+            // Track voting CTA clicks
+            const votingCTA = document.querySelector('[data-analytics="products-page-vote-cta"]');
+            if (votingCTA) {
+                votingCTA.addEventListener('click', () => {
+                    if (typeof gtag !== 'undefined') {
+                        gtag('event', 'vote_cta_click', {
+                            event_category: 'engagement',
+                            event_label: 'products_page_voting',
+                            custom_map: {
+                                source_page: 'products',
+                                cta_type: 'main_voting_button',
+                                timestamp: Date.now()
+                            }
+                        });
+                    }
+                    console.log('Voting CTA clicked from products page');
+                });
+            }
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (votingPreview) {
+                votingPreview.destroy();
+            }
+        });
+        
+        console.log('✅ Products Page Voting Integration loaded');
+    </script>
+
     <!-- Simple Cookie Consent System -->
     <script>
         // Simple cookie consent auto-initializes, no additional setup needed

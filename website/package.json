@@ -99,7 +99,9 @@
     "deploy:production": "npm run deploy && node ../deployment/deploy-production.js",
     
     "start": "npm run dev",
-    "ci": "npm ci && npm run audit:ci"
+    "ci": "npm ci && npm run audit:ci",
+    "analyze": "npx webpack-bundle-analyzer dist/static/js/*.js",
+    "build:analyze": "npm run build && npm run analyze"
   },
   "dependencies": {},
   "devDependencies": {

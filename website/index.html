@@ -54,8 +54,12 @@
     <!-- Preconnect -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
     
-    <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/main.css">
+    <!-- Load critical animation CSS first -->
+    <link rel="stylesheet" href="assets/css/critical-animation.css">
+    
+    <!-- Preload non-critical CSS -->
+    <link rel="preload" href="assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="assets/css/main.css"></noscript>
     
     <!-- Enhanced Visual Styles with Animations -->
     <style>
@@ -1530,6 +1534,30 @@
                 transform: translateX(0);
             }
         }
+
+        /* Prevent layout shifts during animation */
+        body.page-loading {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        body.page-loading .hero-section,
+        body.page-loading main,
+        body.page-loading section:not(.hero-animation-overlay) {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            transform: translateY(0) !important; /* Prevent transform shifts */
+        }
+
+        /* Reserve space for content to prevent shifts */
+        .hero-section { min-height: 100vh; }
+        .section { min-height: 50vh; }
+
+        /* Optimize animations for performance */
+        .fade-in-up, .pulse, .glow-text {
+            will-change: transform, opacity;
+            transform: translateZ(0); /* Force hardware acceleration */
+        }
     </style>
     
     <!-- Error Handler -->
@@ -2340,534 +2368,36 @@
         });
     </script>
 
-    <!-- Hero Animation (Load First) -->
-    <script src="assets/js/components/hero-animation.js" 
-            onerror="console.error('❌ Failed to load hero-animation.js'); window.heroAnimationFailed = true;" 
-            onload="console.log('✅ hero-animation.js loaded successfully')"></script>
-    
-    <!-- Hero Animation Completion Handler -->
-    <script>
-        // Debug: Check if hero animation script loaded
-        console.log('🎬 Hero animation script section loaded');
-        
-        // Ensure content is shown if animation doesn't load properly
-        window.addEventListener('load', () => {
-            console.log('🔄 Window load event fired, checking animation status...');
-            setTimeout(() => {
-                if (!document.body.classList.contains('animation-complete')) {
-                    console.log('⏰ DAMP: Fallback - showing content after 12 seconds');
-                    showMainContent();
-                }
-            }, 12000); // Fallback after 12 seconds
-        });
-        
-        // Function to show main content (called by hero animation or fallback)
-        function showMainContent() {
-            console.log('✅ DAMP: showMainContent() called');
-            document.body.classList.add('animation-complete');
-            document.body.style.overflow = 'auto';
-            document.body.style.height = 'auto';
-            
-            // Ensure all main content is visible
-            const allContent = document.querySelectorAll('body > *:not(.hero-animation-overlay)');
-            console.log(`📄 Making ${allContent.length} content elements visible`);
-            allContent.forEach(element => {
-                element.style.opacity = '1';
-                element.style.transition = 'opacity 0.5s ease';
-            });
-            
-            console.log('🎉 DAMP: Main content is now visible');
-        }
-        
-        // Make showMainContent available globally for hero animation
-        window.showMainContent = showMainContent;
-        
-        // Handle reduced motion preferences
-        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('♿ DAMP: Reduced motion detected, skipping hero animation');
-                showMainContent();
-            });
-        }
-        
-        // Skip animation on small screens for better UX
-        if (window.innerWidth < 480 || window.innerHeight < 600) {
-            document.addEventListener('DOMContentLoaded', () => {
-                console.log('📱 DAMP: Small screen detected, skipping hero animation');
-                showMainContent();
-            });
-        }
-        
-        // Additional debugging - check if animation class exists
-        document.addEventListener('DOMContentLoaded', () => {
-            console.log('🔍 DOM loaded, checking for DAMPHeroAnimation...');
-            
-            if (window.heroAnimationFailed) {
-                console.error('💥 Hero animation script failed to load, showing content immediately');
-                showMainContent();
-                return;
-            }
-            
-            if (window.DAMPHeroAnimation) {
-                console.log('✅ DAMPHeroAnimation class found');
-            } else {
-                console.error('❌ DAMPHeroAnimation class not found - hero-animation.js may not have loaded');
-                // Fallback - show content immediately
-                setTimeout(() => showMainContent(), 1000);
-            }
-        });
-        
-        // Emergency fallback if nothing works after 5 seconds
-        setTimeout(() => {
-            if (!document.body.classList.contains('animation-complete')) {
-                console.warn('🚨 Emergency fallback: Showing content after 5 seconds');
-                showMainContent();
-            }
-        }, 5000);
-    </script>
-    
-    <!-- Scripts -->
-    <script>
-        // Debug: Check script loading
-        console.log('📦 Loading Google-level systems...');
-    </script>
-    
-    <!-- Google-Level Performance & Error Management Systems -->
-    <script src="assets/js/performance/google-level-performance.js" defer onerror="console.error('❌ Failed to load google-level-performance.js')" onload="console.log('✅ Google-level performance system loaded')"></script>
-    <script src="assets/js/error-management/google-level-error-boundary.js" defer onerror="console.error('❌ Failed to load google-level-error-boundary.js')" onload="console.log('✅ Google-level error boundary loaded')"></script>
-    <script src="assets/js/performance/critical-path-optimizer.js" defer onerror="console.error('❌ Failed to load critical-path-optimizer.js')" onload="console.log('✅ Critical path optimizer loaded')"></script>
-    
-    <!-- System Integration Manager -->
-    <script src="assets/js/google-level-integration.js" defer onerror="console.error('❌ Failed to load google-level-integration.js')" onload="console.log('✅ Google-level integration manager loaded')"></script>
-    
-    <!-- Core Application Scripts -->
-    <script>
-        console.log('📦 Loading main application scripts...');
-    </script>
-    <script src="assets/js/components/header.js" onerror="console.error('❌ Failed to load header.js')" onload="console.log('✅ header.js loaded successfully')"></script>
-    <script src="assets/js/scripts.js" onerror="console.error('❌ Failed to load scripts.js')" onload="console.log('✅ scripts.js loaded successfully')"></script>
-    
-    <!-- Backup Navigation (if header.js fails) -->
-    <script>
-        // Fallback if custom header doesn't load
-        setTimeout(() => {
-            const headerElement = document.querySelector('damp-header');
-            if (!headerElement || !headerElement.innerHTML.trim()) {
-                console.warn('⚠️ DAMP Header not loaded, injecting fallback navigation');
-                const fallbackNav = document.createElement('nav');
-                fallbackNav.innerHTML = `
-                    <div style="position: fixed; top: 0; left: 0; right: 0; background: var(--bg-secondary); border-bottom: 1px solid var(--border-color); padding: 15px 20px; z-index: 1000; display: flex; justify-content: space-between; align-items: center;">
-                        <div style="display: flex; align-items: center; gap: 10px;">
-                            <img src="assets/images/logo/icon.png" alt="DAMP" style="width: 30px; height: 30px;">
-                            <span style="color: var(--primary-color); font-weight: 700; font-size: 1.2rem;">DAMP</span>
-                        </div>
-                        <div style="display: flex; gap: 20px;">
-                            <a href="pages/products.html" style="color: var(--text-secondary); text-decoration: none;">Products</a>
-                            <a href="pages/how-it-works.html" style="color: var(--text-secondary); text-decoration: none;">How It Works</a>
-                            <a href="pages/pre-sale-funnel.html" style="background: var(--primary-color); color: white; padding: 8px 20px; border-radius: 20px; text-decoration: none; font-weight: 600;">Pre-Order</a>
-                        </div>
-                    </div>
-                `;
-                document.body.insertBefore(fallbackNav, document.body.firstChild);
-                
-                // Add top padding to body to account for fixed nav
-                document.body.style.paddingTop = '80px';
-            }
-        }, 2000);
-    </script>
-    
-    <!-- Enhanced Page Scripts -->
-    <script>
-        // Initialize page functionality
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initialize error handler
-            if (window.DAMP && window.DAMP.ErrorHandler) {
-                console.log('✅ DAMP Error Handler initialized');
-            }
-            
-            // Initialize FAQ functionality
-            initializeFAQ();
-            
-            // Initialize newsletter form
-            initializeNewsletterForm();
-            
-            // Smooth scrolling for internal anchor links only
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                const href = anchor.getAttribute('href');
-                // Only apply to anchor links that actually exist on this page
-                const target = document.querySelector(href);
-                if (target) {
-                    anchor.addEventListener('click', function (e) {
-                        e.preventDefault();
-                        target.scrollIntoView({
-                            behavior: 'smooth',
-                            block: 'start'
-                        });
-                    });
-                }
-            });
-            
-            // Initialize scroll animations
-            initializeScrollAnimations();
-            
-            // Animate statistics
-            animateStats();
-            
-            // Track engagement
-            trackEngagement();
-            
-            // Initialize voting preview updates
-            initializeVotingPreview();
-        });
-        
-        // Voting Preview Integration
-        function initializeVotingPreview() {
-            // Try to load voting data from Firebase or localStorage
-            try {
-                // Check if Firebase services are available
-                if (window.firebaseServices && window.firebaseServices.votingService) {
-                    // Listen for real-time voting updates
-                    window.firebaseServices.votingService.onPublicVotingChange((data) => {
-                        updateVotingPreview(data);
-                    });
-                } else {
-                    // Use static fallback data if Firebase isn't available
-                    updateVotingPreview({
-                        totalVotes: 2847,
-                        leadingProduct: 'Handle',
-                        participationRate: 68
-                    });
-                }
-            } catch (error) {
-                console.log('Voting preview using static data');
-                // Use fallback static data
-                updateVotingPreview({
-                    totalVotes: 2847,
-                    leadingProduct: 'Handle',
-                    participationRate: 68
-                });
-            }
-        }
-        
-        function updateVotingPreview(data) {
-            // Update total votes
-            const totalVotesEl = document.getElementById('preview-total-votes');
-            if (totalVotesEl && data.totalVotes) {
-                totalVotesEl.textContent = data.totalVotes.toLocaleString();
-            }
-            
-            // Update leading product
-            const leadingEl = document.getElementById('preview-leading');
-            if (leadingEl && data.leadingProduct) {
-                leadingEl.textContent = data.leadingProduct;
-            }
-            
-            // Update participation rate
-            const participationEl = document.getElementById('preview-participation');
-            if (participationEl && data.participationRate) {
-                participationEl.textContent = data.participationRate + '%';
-            }
-            
-            console.log('Voting preview updated:', data);
-        }
-        
-        function initializeFAQ() {
-            const faqItems = document.querySelectorAll('.faq-item');
-            
-            faqItems.forEach(item => {
-                const question = item.querySelector('.faq-question');
-                
-                question.addEventListener('click', () => {
-                    const isActive = item.classList.contains('active');
-                    
-                    // Close all other FAQ items
-                    faqItems.forEach(otherItem => {
-                        otherItem.classList.remove('active');
-                    });
-                    
-                    // Toggle current item
-                    if (!isActive) {
-                        item.classList.add('active');
-                    }
-                    
-                    // Track FAQ interaction
-                    if (window.gtag) {
-                        gtag('event', 'faq_interaction', {
-                            event_category: 'engagement',
-                            event_label: item.querySelector('.faq-question span').textContent
-                        });
-                    }
-                });
-            });
-        }
-        
-        function initializeNewsletterForm() {
-            const form = document.getElementById('newsletterForm');
-            
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-                    
-                    const email = form.querySelector('.newsletter-input').value;
-                    const button = form.querySelector('.newsletter-button');
-                    
-                    // Validate email
-                    if (!isValidEmail(email)) {
-                        showNotification('Please enter a valid email address', 'error');
-                        return;
-                    }
-                    
-                    // Update button state
-                    button.textContent = 'Subscribing...';
-                    button.disabled = true;
-                    
-                    // Simulate API call
-                    setTimeout(() => {
-                        showNotification('Successfully subscribed! Welcome to the DAMP community.', 'success');
-                        form.reset();
-                        button.textContent = 'Subscribe';
-                        button.disabled = false;
-                        
-                        // Track subscription
-                        if (window.gtag) {
-                            gtag('event', 'newsletter_signup', {
-                                event_category: 'conversion',
-                                event_label: 'homepage_newsletter'
-                            });
-                        }
-                    }, 2000);
-                });
-            }
-        }
-        
-        function isValidEmail(email) {
-            return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-        }
-        
-        function showNotification(message, type) {
-            const notification = document.createElement('div');
-            notification.className = `notification notification-${type}`;
-            notification.textContent = message;
-            notification.style.cssText = `
-                position: fixed;
-                top: 20px;
-                right: 20px;
-                background: ${type === 'success' ? 'var(--secondary-color)' : 'var(--accent-color)'};
-                color: var(--bg-primary);
-                padding: 15px 25px;
-                border-radius: 10px;
-                font-weight: 600;
-                z-index: 10000;
-                transform: translateX(100%);
-                transition: transform 0.3s ease;
-                max-width: 300px;
-            `;
-            
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateX(0)';
-            }, 100);
-            
-            setTimeout(() => {
-                notification.style.transform = 'translateX(100%)';
-                setTimeout(() => {
-                    if (notification.parentNode) {
-                        notification.parentNode.removeChild(notification);
-                    }
-                }, 300);
-            }, 4000);
-        }
-        
-        function initializeScrollAnimations() {
-            const observerOptions = {
-                threshold: 0.1,
-                rootMargin: '0px 0px -50px 0px'
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = '1';
-                        entry.target.style.transform = 'translateY(0)';
-                        
-                        // Trigger fade-in-up animations for child elements
-                        const fadeElements = entry.target.querySelectorAll('.fade-in-up');
-                        fadeElements.forEach((element, index) => {
-                            setTimeout(() => {
-                                element.style.opacity = '1';
-                                element.style.transform = 'translateY(0)';
-                            }, index * 100);
-                        });
-                    }
-                });
-            }, observerOptions);
-            
-            // Observe all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(30px)';
-                section.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
-                observer.observe(section);
-            });
-            
-            // Initialize fade-in-up elements
-            document.querySelectorAll('.fade-in-up').forEach(element => {
-                element.style.opacity = '0';
-                element.style.transform = 'translateY(40px)';
-                element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            });
-        }
-        
-        function animateStats() {
-            const stats = document.querySelectorAll('.stat-number, .pain-stat-number, .vote-stat-number');
-            
-            stats.forEach(stat => {
-                const finalValue = stat.textContent;
-                if (!isNaN(parseFloat(finalValue))) {
-                    const numericValue = parseFloat(finalValue);
-                    let currentValue = 0;
-                    const increment = numericValue / 50;
-                    
-                    const timer = setInterval(() => {
-                        currentValue += increment;
-                        if (currentValue >= numericValue) {
-                            stat.textContent = finalValue;
-                            clearInterval(timer);
-                        } else {
-                            stat.textContent = Math.floor(currentValue).toLocaleString();
-                        }
-                    }, 40);
-                }
-            });
-        }
-        
-        function trackEngagement() {
-            let timeOnPage = 0;
-            const milestones = [30, 60, 120];
-            let milestoneIndex = 0;
-            
-            const interval = setInterval(() => {
-                timeOnPage += 10;
-                
-                if (milestoneIndex < milestones.length && timeOnPage >= milestones[milestoneIndex]) {
-                    if (window.gtag) {
-                        gtag('event', 'engagement', {
-                            event_category: 'time_on_page',
-                            event_label: `${milestones[milestoneIndex]}_seconds`
-                        });
-                    }
-                    milestoneIndex++;
-                }
-                
-                if (timeOnPage >= 300) {
-                    clearInterval(interval);
-                }
-            }, 10000);
-        }
-        
-        // Track CTA clicks
-        document.addEventListener('click', function(e) {
-            const button = e.target.closest('.btn-primary, .btn-vote, .btn-secondary');
-            if (button) {
-                const buttonText = button.textContent.trim();
-                const section = button.closest('.section')?.id || 'unknown';
-                
-                if (window.gtag) {
-                    gtag('event', 'cta_click', {
-                        event_category: 'engagement',
-                        event_label: buttonText,
-                        custom_parameter_1: section
-                    });
-                }
-            }
-        });
-    </script>
+    <!-- Phase 1: Critical animation only -->
+    <script src="assets/js/components/hero-animation.js" defer></script>
 
-    <!-- Clean Cookie Banner -->
-    <div id="cookieBanner" style="position: fixed; top: 15px; right: 15px; background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 15px; color: var(--text-primary); font-size: 0.85rem; z-index: 9999; display: none; max-width: 280px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span>🍪</span>
-            <span style="flex: 1;">We use cookies for analytics</span>
-            <button onclick="handleCookieChoice(true)" style="background: var(--secondary-color); color: var(--bg-primary); border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 5px;">Yes</button>
-            <button onclick="handleCookieChoice(false)" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">No</button>
-        </div>
-    </div>
-
+    <!-- Phase 2: Load after animation starts (not blocks) -->
     <script>
-        // Auto-approve cookies by default for smooth experience
-        let cookiesAutoApproved = true;
-        
-        function handleCookieChoice(approved) {
-            const banner = document.getElementById('cookieBanner');
-            if (banner) {
-                banner.style.opacity = '0';
-                banner.style.transform = 'translateX(100%)';
-                setTimeout(() => banner.style.display = 'none', 300);
-            }
+    document.addEventListener('DOMContentLoaded', () => {
+        // Start loading secondary scripts after animation begins
+        setTimeout(() => {
+            const secondaryScripts = [
+                'assets/js/lazy-dependencies.js',
+                'assets/js/performance/critical-path-optimizer.js'
+            ];
             
-            localStorage.setItem('cookieChoice', approved ? 'accepted' : 'declined');
-            
-            if (approved && window.gtag) {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted',
-                    'functionality_storage': 'granted'
-                });
-                console.log('✅ Analytics cookies approved');
-            } else if (!approved) {
-                console.log('⚠️ Analytics cookies declined');
-            }
-        }
+            secondaryScripts.forEach(src => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.async = true;
+                document.head.appendChild(script);
+            });
+        }, 1000); // After animation starts
         
-        // Initialize cookie consent
-        function initializeCookieConsent() {
-            const existingChoice = localStorage.getItem('cookieChoice');
-            
-            if (!existingChoice) {
-                // Auto-approve for better UX, but show banner for user choice
-                if (cookiesAutoApproved) {
-                    if (window.gtag) {
-                        gtag('consent', 'update', {
-                            'analytics_storage': 'granted',
-                            'functionality_storage': 'granted'
-                        });
-                    }
-                    console.log('✅ Cookies auto-approved for optimal experience');
-                }
-                
-                // Show small banner after page loads
-                setTimeout(() => {
-                    const banner = document.getElementById('cookieBanner');
-                    if (banner) {
-                        banner.style.display = 'block';
-                        banner.style.opacity = '0';
-                        banner.style.transform = 'translateX(100%)';
-                        banner.style.transition = 'all 0.3s ease';
-                        
-                        setTimeout(() => {
-                            banner.style.opacity = '1';
-                            banner.style.transform = 'translateX(0)';
-                        }, 100);
-                        
-                        // Auto-hide after 8 seconds if no action
-                        setTimeout(() => {
-                            if (banner.style.display !== 'none') {
-                                handleCookieChoice(true); // Default to yes
-                            }
-                        }, 8000);
-                    }
-                }, 3000); // Show after 3 seconds
-                
-            } else if (existingChoice === 'accepted' && window.gtag) {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted',
-                    'functionality_storage': 'granted'
-                });
+        // Load heavy dependencies only when needed
+        document.addEventListener('heroAnimationComplete', () => {
+            if (window.lazyLoader) {
+                // Preload but don't block
+                window.lazyLoader.loadFirebase();
+                window.lazyLoader.loadStripe();
             }
-        }
-        
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', initializeCookieConsent);
+        });
+    });
     </script>
 </body>
 </html>

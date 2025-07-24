@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- Security Meta Tags -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://api.stripe.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Optimized Icon Loading -->
+    <link rel="icon" type="image/x-icon" href="assets/images/logo/favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/logo/icon-180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="assets/images/logo/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="assets/images/logo/icon-512.png">
+    
+    <!-- PWA Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="DAMP">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="msapplication-TileColor" content="#1a1a2e">
+    <meta name="msapplication-tap-highlight" content="no">
+    
+    <!-- SEO Meta Tags -->
+    <title>DAMP - Never Leave Your Drink Behind | Smart Drinkware Technology</title>
+    <meta name="description" content="Revolutionary smart drinkware technology that alerts you when you're about to leave your beverage behind. Works with any cup or bottle.">
+    <meta name="keywords" content="smart drinkware, drink alert, BLE tracking, never leave drink, smart cup">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://dampdrink.com/">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/">
+    <meta property="og:title" content="DAMP - Never Leave Your Drink Behind">
+    <meta property="og:description" content="Revolutionary smart drinkware technology that alerts you when you're about to leave your beverage behind.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://www.gstatic.com">
+    <link rel="dns-prefetch" href="https://js.stripe.com">
+    
+    <!-- CRITICAL: Load animation CSS first -->
+    <link rel="stylesheet" href="assets/css/critical-animation.css">
+    
+    <!-- OPTIMIZED: Preload main CSS, load non-blocking -->
+    <link rel="preload" href="assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="assets/css/main.css"></noscript>
+    
+    <!-- Preload critical hero animation script -->
+    <link rel="preload" href="assets/js/components/hero-animation.js" as="script">
+</head>
+
+<body class="page-loading">
+    <!-- Hero Animation Overlay (Load First) -->
+    <div class="hero-animation-overlay" id="heroAnimationOverlay">
+        <!-- Skip Animation Button -->
+        <button class="animation-skip-button" onclick="skipHeroAnimation()" aria-label="Skip animation">
+            Skip Animation
+        </button>
+        
+        <!-- Animation Container (content filled by hero-animation.js) -->
+        <div class="bubbles-container" id="bubblesContainer"></div>
+        <div class="massive-logo-background" id="massiveLogoBackground">
+            <img class="massive-reveal-logo" src="assets/images/logo/icon.png" alt="DAMP Logo" id="massiveLogo">
+            <h1 class="damp-brand-text" id="dampBrandText">DAMP</h1>
+        </div>
+    </div>
+
+    <!-- Navigation (Enhanced Universal Navigation) -->
+    <nav class="damp-nav" id="dampNav">
+        <div class="nav-container safe-area-container">
+            <a href="/" class="logo" aria-label="DAMP Smart Drinkware Home">
+                <img src="assets/images/logo/icon.png" alt="DAMP Logo" width="32" height="32">
+                <span class="logo-text">DAMP</span>
+            </a>
+
+            <!-- Universal Hamburger Menu (Works on All Devices) -->
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+
+        <!-- Enhanced Universal Menu -->
+        <div class="safe-area-mobile-menu" id="mobileMenu" role="navigation" aria-label="Main navigation">
+            <div class="mobile-menu-header safe-area-padding-top">
+                <div class="mobile-logo">
+                    <img src="assets/images/logo/icon.png" alt="DAMP Logo" width="32" height="32">
+                    <span>DAMP Smart Drinkware</span>
+                </div>
+                <button class="mobile-close" id="mobileCloseBtn" aria-label="Close menu">×</button>
+            </div>
+
+            <nav class="mobile-nav-content">
+                <!-- Core Navigation -->
+                <div class="mobile-nav-section">
+                    <a href="/" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🏠</span>
+                        <span class="mobile-nav-text">Home</span>
+                    </a>
+                    <a href="pages/products.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">📱</span>
+                        <span class="mobile-nav-text">Products</span>
+                    </a>
+                    <a href="pages/how-it-works.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">⚡</span>
+                        <span class="mobile-nav-text">How It Works</span>
+                    </a>
+                    <a href="pages/product-voting.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🗳️</span>
+                        <span class="mobile-nav-text">Vote on Products</span>
+                    </a>
+                </div>
+
+                <!-- Product Links -->
+                <div class="mobile-nav-section">
+                    <h3 class="mobile-nav-section-title">Products</h3>
+                    <a href="pages/damp-handle-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🔗</span>
+                        <span class="mobile-nav-text">DAMP Handle</span>
+                    </a>
+                    <a href="pages/silicone-bottom-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">⚪</span>
+                        <span class="mobile-nav-text">Silicone Bottom</span>
+                    </a>
+                    <a href="pages/cup-sleeve-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🥤</span>
+                        <span class="mobile-nav-text">Cup Sleeve</span>
+                    </a>
+                    <a href="pages/baby-bottle-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🍼</span>
+                        <span class="mobile-nav-text">Baby Bottle</span>
+                    </a>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="mobile-nav-cta-section">
+                    <a href="pages/pre-sale-funnel.html" class="mobile-nav-cta">
+                        <span class="mobile-nav-icon">🚀</span>
+                        <span class="mobile-nav-text">Pre-Order Now</span>
+                    </a>
+                    <a href="pages/cart.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🛒</span>
+                        <span class="mobile-nav-text">Cart</span>
+                    </a>
+                </div>
+
+                <!-- Support Links -->
+                <div class="mobile-nav-section">
+                    <h3 class="mobile-nav-section-title">Support</h3>
+                    <a href="pages/about.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">ℹ️</span>
+                        <span class="mobile-nav-text">About</span>
+                    </a>
+                    <a href="pages/support.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">💬</span>
+                        <span class="mobile-nav-text">Support</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Social Proof in Menu -->
+            <div class="mobile-nav-social-proof">
+                <div class="social-proof-item">
+                    <span class="proof-icon">👥</span>
+                    <div class="proof-content">
+                        <span class="proof-number">2,847</span>
+                        <span class="proof-label">Pre-Orders</span>
+                    </div>
+                </div>
+                <div class="social-proof-item">
+                    <span class="proof-icon">⭐</span>
+                    <div class="proof-content">
+                        <span class="proof-number">4.9</span>
+                        <span class="proof-label">Rating</span>
+                    </div>
+                </div>
+                <div class="social-proof-item">
+                    <span class="proof-icon">🚀</span>
+                    <div class="proof-content">
+                        <span class="proof-number">Q2</span>
+                        <span class="proof-label">Launch</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content (Your existing beautiful content) -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="hero-section" id="heroSection">
+            <!-- Your existing hero content here -->
+        </section>
+
+        <!-- All your existing sections go here -->
+        <!-- The rest of your beautiful content from the original index.html -->
+    </main>
+
+    <!-- PERFORMANCE OPTIMIZATION: Critical Scripts Load First -->
+    
+    <!-- 1. Hero Animation (Critical - Load Immediately) -->
+    <script src="assets/js/components/hero-animation.js" async
+            onerror="console.error('❌ Hero animation failed'); showMainContent();" 
+            onload="console.log('✅ Hero animation loaded')"></script>
+    
+    <!-- 2. Lazy Dependency Loader (Load Early) -->
+    <script src="assets/js/lazy-dependencies.js" async></script>
+    
+    <!-- 3. Navigation System (Load Early) -->
+    <script src="assets/js/navigation.js" async></script>
+    
+    <!-- 4. Animation Completion Handler -->
+    <script>
+        // Global function to skip/complete animation
+        function skipHeroAnimation() {
+            console.log('🏃 User skipped hero animation');
+            showMainContent();
+        }
+        
+        function showMainContent() {
+            console.log('✅ Showing main content');
+            document.body.classList.remove('page-loading');
+            document.body.classList.add('animation-complete');
+            document.body.style.overflow = 'auto';
+            
+            // Hide animation overlay
+            const overlay = document.getElementById('heroAnimationOverlay');
+            if (overlay) {
+                overlay.classList.add('fade-out');
+                setTimeout(() => {
+                    overlay.style.display = 'none';
+                }, 1000);
+            }
+            
+            // Trigger event for other scripts
+            document.dispatchEvent(new CustomEvent('heroAnimationComplete'));
+        }
+        
+        // Make globally available
+        window.showMainContent = showMainContent;
+        
+        // Emergency fallback
+        setTimeout(() => {
+            if (document.body.classList.contains('page-loading')) {
+                console.warn('⏰ Emergency fallback: Showing 

@@ -399,6 +399,63 @@
             50% { transform: translateX(-50%) translateY(-5px); }
         }
         
+        /* Voting Mode Toggle */
+        .voting-mode-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 0;
+            margin: 30px 0;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .mode-toggle-btn {
+            flex: 1;
+            max-width: 200px;
+            background: transparent;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            font-family: inherit;
+        }
+        
+        .mode-toggle-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        .mode-toggle-btn.active {
+            background: linear-gradient(45deg, var(--vote-liquid-color), #0099cc);
+            color: white;
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.3);
+        }
+        
+        .mode-icon {
+            font-size: 1.5rem;
+            margin-bottom: 2px;
+        }
+        
+        .mode-text {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        
+        .mode-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
         /* Voting Status Indicator */
         .voting-status {
             text-align: center;
@@ -507,6 +564,25 @@
                 padding: 12px;
                 font-size: 0.9rem;
             }
+            
+            .voting-mode-toggle {
+                flex-direction: column;
+                gap: 5px;
+                margin: 20px 0;
+            }
+            
+            .mode-toggle-btn {
+                max-width: none;
+                padding: 12px 15px;
+            }
+            
+            .mode-text {
+                font-size: 0.9rem;
+            }
+            
+            .mode-desc {
+                font-size: 0.7rem;
+            }
         }
     </style>
     
@@ -529,9 +605,9 @@
 
     <!-- Hero Section -->
     <section class="voting-hero">
-        <div class="hero-content">
+                    <div class="hero-content">
             <div class="voting-badge">
-                🗳️ COMMUNITY CHOICE
+                🗳️ COMMUNITY VOICE
             </div>
             
             <h1 class="hero-title">
@@ -539,9 +615,23 @@
             </h1>
             
             <p class="hero-subtitle">
-                Help us prioritize development! Vote for the DAMP Smart Drinkware product you're most excited about. 
+                Help us prioritize development! Choose between customer insights from verified users or join the open community vote. 
                 Watch the glasses fill up as votes pour in!
             </p>
+            
+            <!-- Voting Mode Toggle -->
+            <div class="voting-mode-toggle">
+                <button class="mode-toggle-btn active" id="customerModeBtn" onclick="switchVotingMode('customer')">
+                    <span class="mode-icon">🔐</span>
+                    <span class="mode-text">Customer Vote</span>
+                    <span class="mode-desc">Verified DAMP users</span>
+                </button>
+                <button class="mode-toggle-btn" id="publicModeBtn" onclick="switchVotingMode('public')">
+                    <span class="mode-icon">🌍</span>
+                    <span class="mode-text">Public Vote</span>
+                    <span class="mode-desc">Open community</span>
+                </button>
+            </div>
             
             <div class="vote-target-info">
                 <div class="target-display" id="voteTarget">100</div>
@@ -559,8 +649,9 @@
         <!-- Voting Controls -->
         <div class="voting-controls">
             <button class="control-button" onclick="exportResults()">📊 Export Results</button>
-            <button class="control-button admin-only" onclick="resetVotes()" style="display: none;">🔄 Reset All Votes</button>
-            <button class="control-button admin-only" onclick="toggleVotingStatus()" style="display: none;">⏸️ Toggle Voting</button>
+            <button class="control-button admin-only" onclick="resetVotes()" style="display: none;">🔄 Reset Current Mode</button>
+            <button class="control-button admin-only" onclick="resetAllVotes()" style="display: none;">🔄🔄 Reset Both Systems</button>
+            <button class="control-button admin-only" onclick="toggleVotingStatus()" style="display: none;">⏸️ Toggle Current Mode</button>
             <button class="control-button admin-only" onclick="adjustTarget()" style="display: none;">🎯 Adjust Target</button>
         </div>
         
@@ -684,11 +775,17 @@
                 
                 this.currentUser = null;
                 this.userVote = null;
+                this.publicVote = null;
                 this.votingData = null;
+                this.publicVotingData = null;
                 this.isVotingActive = true;
+                this.isPublicVotingActive = true;
                 this.isAdmin = false;
                 this.unsubscribe = null;
+                this.publicUnsubscribe = null;
                 this.authUnsubscribe = null;
+                this.currentMode = 'customer'; // 'customer' or 'public'
+                this.browserFingerprint = null;
                 
                 this.init();
             }
@@ -703,11 +800,18 @@
                         await window.firebaseServices.initializeFirebaseServices();
                     }
                     
+                    // Generate browser fingerprint for public voting
+                    this.browserFingerprint = window.firebaseServices.votingService.generateBrowserFingerprint();
+                    
                     // Set up authentication listener
                     this.setupAuthListener();
                     
-                    // Set up voting data listener
+                    // Set up voting data listeners
                     this.startVotingListener();
+                    this.startPublicVotingListener();
+                    
+                    // Check public vote status
+                    this.checkPublicVoteStatus();
                     
                     console.log('Firebase Voting System initialized');
                     
@@ -774,16 +878,43 @@
                     this.unsubscribe = window.firebaseServices.votingService.onVotingChange((data) => {
                         this.votingData = data;
                         this.isVotingActive = data.isActive;
-                        this.updateProductsFromFirebase(data);
-                        this.renderProducts();
-                        this.updateStats();
                         
-                        console.log('Voting data updated:', data);
+                        if (this.currentMode === 'customer') {
+                            this.updateProductsFromFirebase(data, 'customer');
+                            this.renderProducts();
+                            this.updateStats();
+                        }
+                        
+                        console.log('Customer voting data updated:', data);
                     });
                 }
             }
             
-            updateProductsFromFirebase(votingData) {
+            startPublicVotingListener() {
+                if (window.firebaseServices?.votingService?.onPublicVotingChange) {
+                    this.publicUnsubscribe = window.firebaseServices.votingService.onPublicVotingChange((data) => {
+                        this.publicVotingData = data;
+                        this.isPublicVotingActive = data.isActive;
+                        
+                        if (this.currentMode === 'public') {
+                            this.updateProductsFromFirebase(data, 'public');
+                            this.renderProducts();
+                            this.updateStats();
+                        }
+                        
+                        console.log('Public voting data updated:', data);
+                    });
+                }
+            }
+            
+            async checkPublicVoteStatus() {
+                if (window.firebaseServices?.votingService?.getPublicVote) {
+                    this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
+                    console.log('Public vote status:', this.publicVote);
+                }
+            }
+            
+            updateProductsFromFirebase(votingData, mode) {
                 if (votingData.products) {
                     this.products.forEach(product => {
                         const firebaseProduct = votingData.products[product.id];
@@ -796,7 +927,30 @@
                     // Update vote target based on highest vote count
                     const maxVotes = Math.max(...this.products.map(p => p.votes));
                     this.voteTarget = Math.max(100, Math.ceil(maxVotes * 1.2 / 50) * 50);
+                    
+                    console.log(`Products updated from ${mode} voting data`);
                 }
+            }
+            
+            // Switch between customer and public voting modes
+            async switchMode(mode) {
+                if (this.currentMode === mode) return;
+                
+                this.currentMode = mode;
+                
+                // Update active voting data and products
+                if (mode === 'customer' && this.votingData) {
+                    this.updateProductsFromFirebase(this.votingData, 'customer');
+                } else if (mode === 'public' && this.publicVotingData) {
+                    this.updateProductsFromFirebase(this.publicVotingData, 'public');
+                }
+                
+                // Re-render with new mode
+                this.renderProducts();
+                this.updateStats();
+                this.updateAdminControls();
+                
+                console.log(`Switched to ${mode} voting mode`);
             }
             
             updateAdminControls() {
@@ -856,32 +1010,57 @@
                     
                     const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                     
-                    // Check if user has voted (Firebase-based)
-                    const hasUserVoted = this.userVote && this.userVote.hasVoted;
-                    const userVotedForThis = hasUserVoted && this.userVote.productId === product.id;
+                    // Determine button state based on current mode
+                    let buttonText, buttonClass, buttonDisabled, userVotedForThis = false;
                     
-                    // Determine button state
-                    let buttonText, buttonClass, buttonDisabled;
-                    if (userVotedForThis) {
-                        buttonText = '✓ Your Vote';
-                        buttonClass = 'voted';
-                        buttonDisabled = 'disabled';
-                    } else if (hasUserVoted) {
-                        buttonText = '✓ Already Voted';
-                        buttonClass = 'voted';
-                        buttonDisabled = 'disabled';
-                    } else if (!this.currentUser) {
-                        buttonText = '🔐 Sign In to Vote';
-                        buttonClass = 'auth-required';
-                        buttonDisabled = '';
-                    } else if (!this.isVotingActive) {
-                        buttonText = '🚫 Voting Disabled';
-                        buttonClass = 'disabled';
-                        buttonDisabled = 'disabled';
+                    if (this.currentMode === 'customer') {
+                        // Customer voting logic
+                        const hasUserVoted = this.userVote && this.userVote.hasVoted;
+                        userVotedForThis = hasUserVoted && this.userVote.productId === product.id;
+                        
+                        if (userVotedForThis) {
+                            buttonText = '✓ Your Vote';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (hasUserVoted) {
+                            buttonText = '✓ Already Voted';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (!this.currentUser) {
+                            buttonText = '🔐 Sign In to Vote';
+                            buttonClass = 'auth-required';
+                            buttonDisabled = '';
+                        } else if (!this.isVotingActive) {
+                            buttonText = '🚫 Voting Disabled';
+                            buttonClass = 'disabled';
+                            buttonDisabled = 'disabled';
+                        } else {
+                            buttonText = '🗳️ Vote';
+                            buttonClass = '';
+                            buttonDisabled = '';
+                        }
                     } else {
-                        buttonText = '🗳️ Vote';
-                        buttonClass = '';
-                        buttonDisabled = '';
+                        // Public voting logic
+                        const hasPublicVoted = this.publicVote && this.publicVote.hasVoted;
+                        userVotedForThis = hasPublicVoted && this.publicVote.productId === product.id;
+                        
+                        if (userVotedForThis) {
+                            buttonText = '✓ Your Vote';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (hasPublicVoted) {
+                            buttonText = '✓ Already Voted';
+                            buttonClass = 'voted';
+                            buttonDisabled = 'disabled';
+                        } else if (!this.isPublicVotingActive) {
+                            buttonText = '🚫 Voting Disabled';
+                            buttonClass = 'disabled';
+                            buttonDisabled = 'disabled';
+                        } else {
+                            buttonText = '🌍 Vote';
+                            buttonClass = '';
+                            buttonDisabled = '';
+                        }
                     }
                     
                     return `
@@ -928,32 +1107,53 @@
             updateVotingStatus() {
                 const statusIndicator = document.querySelector('.voting-status');
                 if (statusIndicator) {
-                    if (!this.isVotingActive) {
-                        statusIndicator.innerHTML = '🚫 Voting is currently disabled by administrators';
-                        statusIndicator.className = 'voting-status disabled';
-                    } else if (!this.currentUser) {
-                        statusIndicator.innerHTML = '🔐 Sign in to participate in voting';
-                        statusIndicator.className = 'voting-status auth-required';
-                    } else if (this.userVote && this.userVote.hasVoted) {
-                        statusIndicator.innerHTML = `✓ You voted for ${this.userVote.productId}`;
-                        statusIndicator.className = 'voting-status voted';
+                    if (this.currentMode === 'customer') {
+                        if (!this.isVotingActive) {
+                            statusIndicator.innerHTML = '🚫 Customer voting is currently disabled by administrators';
+                            statusIndicator.className = 'voting-status disabled';
+                        } else if (!this.currentUser) {
+                            statusIndicator.innerHTML = '🔐 Sign in to participate in customer voting';
+                            statusIndicator.className = 'voting-status auth-required';
+                        } else if (this.userVote && this.userVote.hasVoted) {
+                            statusIndicator.innerHTML = `✓ You voted for ${this.userVote.productId} (Customer Vote)`;
+                            statusIndicator.className = 'voting-status voted';
+                        } else {
+                            statusIndicator.innerHTML = '🗳️ Customer voting is active - Verified users only!';
+                            statusIndicator.className = 'voting-status active';
+                        }
                     } else {
-                        statusIndicator.innerHTML = '🗳️ Voting is active - Choose your favorite product!';
-                        statusIndicator.className = 'voting-status active';
+                        if (!this.isPublicVotingActive) {
+                            statusIndicator.innerHTML = '🚫 Public voting is currently disabled by administrators';
+                            statusIndicator.className = 'voting-status disabled';
+                        } else if (this.publicVote && this.publicVote.hasVoted) {
+                            statusIndicator.innerHTML = `✓ This device voted for ${this.publicVote.productId} (Public Vote)`;
+                            statusIndicator.className = 'voting-status voted';
+                        } else {
+                            statusIndicator.innerHTML = '🌍 Public voting is active - Everyone can participate!';
+                            statusIndicator.className = 'voting-status active';
+                        }
                     }
                 }
             }
             
             async vote(productId) {
-                // Check if voting is active
+                if (this.currentMode === 'customer') {
+                    return this.submitCustomerVote(productId);
+                } else {
+                    return this.submitPublicVote(productId);
+                }
+            }
+            
+            async submitCustomerVote(productId) {
+                // Check if customer voting is active
                 if (!this.isVotingActive) {
-                    alert('🚫 Voting is currently disabled by administrators.');
+                    alert('🚫 Customer voting is currently disabled by administrators.');
                     return;
                 }
                 
                 // Check if user is authenticated
                 if (!this.currentUser) {
-                    alert('🔐 Please sign in to vote! Authentication is required to prevent duplicate votes.');
+                    alert('🔐 Please sign in to vote! Authentication is required for customer voting to prevent duplicate votes.');
                     return;
                 }
                 
@@ -971,11 +1171,11 @@
                         button.disabled = true;
                     }
                     
-                    // Submit vote to Firebase
+                    // Submit authenticated vote to Firebase
                     await window.firebaseServices.votingService.submitVote(productId, this.currentUser);
                     
                     // Track vote in analytics
-                    this.trackVote(productId);
+                    this.trackVote(productId, 'customer');
                     
                     // Show success feedback
                     this.showVoteSuccess(productId);
@@ -983,10 +1183,10 @@
                     // Update user vote status
                     this.userVote = await window.firebaseServices.votingService.getUserVote(this.currentUser);
                     
-                    console.log(`Vote submitted successfully for: ${productId}`);
+                    console.log(`Customer vote submitted successfully for: ${productId}`);
                     
                 } catch (error) {
-                    console.error('Vote submission error:', error);
+                    console.error('Customer vote submission error:', error);
                     
                     // Reset button state
                     const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
@@ -996,7 +1196,57 @@
                     }
                     
                     // Show error message
-                    alert(`❌ Voting failed: ${error.message}`);
+                    alert(`❌ Customer voting failed: ${error.message}`);
+                }
+            }
+            
+            async submitPublicVote(productId) {
+                // Check if public voting is active
+                if (!this.isPublicVotingActive) {
+                    alert('🚫 Public voting is currently disabled by administrators.');
+                    return;
+                }
+                
+                // Check if device has already voted
+                if (this.publicVote && this.publicVote.hasVoted) {
+                    alert(`✓ This device already voted for ${this.publicVote.productId}! Only one vote per device is allowed.`);
+                    return;
+                }
+                
+                try {
+                    // Show loading state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '⏳ Voting...';
+                        button.disabled = true;
+                    }
+                    
+                    // Submit public vote to Firebase
+                    await window.firebaseServices.votingService.submitPublicVote(productId, this.browserFingerprint);
+                    
+                    // Track vote in analytics
+                    this.trackVote(productId, 'public');
+                    
+                    // Show success feedback
+                    this.showVoteSuccess(productId);
+                    
+                    // Update public vote status
+                    this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
+                    
+                    console.log(`Public vote submitted successfully for: ${productId}`);
+                    
+                } catch (error) {
+                    console.error('Public vote submission error:', error);
+                    
+                    // Reset button state
+                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                    if (button) {
+                        button.textContent = '🗳️ Vote';
+                        button.disabled = false;
+                    }
+                    
+                    // Show error message
+                    alert(`❌ Public voting failed: ${error.message}`);
                 }
             }
             
@@ -1026,14 +1276,16 @@
                 document.getElementById('participantCount').textContent = this.userVotes.size;
             }
             
-            trackVote(productId) {
+            trackVote(productId, voteType) {
                 try {
                     if (window.gtag) {
                         gtag('event', 'product_vote', {
                             product_id: productId,
                             event_category: 'voting',
-                            event_label: productId,
-                            user_id: this.currentUser?.uid
+                            event_label: `${productId}_${voteType}`,
+                            vote_type: voteType,
+                            user_id: this.currentUser?.uid,
+                            session_id: voteType === 'public' ? this.browserFingerprint : undefined
                         });
                     }
                 } catch (error) {
@@ -1046,6 +1298,11 @@
                 if (this.unsubscribe) {
                     this.unsubscribe();
                     this.unsubscribe = null;
+                }
+                
+                if (this.publicUnsubscribe) {
+                    this.publicUnsubscribe();
+                    this.publicUnsubscribe = null;
                 }
                 
                 if (this.authUnsubscribe) {
@@ -1081,13 +1338,64 @@
                 }
                 
                 try {
-                    await window.firebaseServices.votingService.toggleVotingStatus(this.currentUser);
-                    const newStatus = !this.isVotingActive;
-                    alert(`✅ Voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
-                    console.log(`Admin toggled voting to: ${newStatus}`);
+                    const newStatus = await window.firebaseServices.votingService.toggleVotingStatus(this.currentUser);
+                    alert(`✅ Customer voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
+                    console.log(`Admin toggled customer voting to: ${newStatus}`);
                 } catch (error) {
-                    console.error('Toggle voting status error:', error);
-                    alert(`❌ Failed to toggle voting status: ${error.message}`);
+                    console.error('Toggle customer voting status error:', error);
+                    alert(`❌ Failed to toggle customer voting status: ${error.message}`);
+                }
+            }
+            
+            async resetPublicVotes() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Are you sure you want to reset ALL PUBLIC votes? This will:\n\n• Delete all public votes\n• Reset all public product counts to 0\n• This action cannot be undone\n\nProceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetPublicVoting(this.currentUser);
+                        alert('✅ All public votes have been reset successfully.');
+                        console.log('Admin reset all public votes');
+                    } catch (error) {
+                        console.error('Reset public votes error:', error);
+                        alert(`❌ Failed to reset public votes: ${error.message}`);
+                    }
+                }
+            }
+            
+            async resetAllVotes() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Are you sure you want to reset ALL VOTES (Customer + Public)? This will:\n\n• Delete all customer votes\n• Delete all public votes\n• Reset all product counts to 0\n• This action cannot be undone\n\nProceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetAllVoting(this.currentUser);
+                        alert('✅ All votes (customer + public) have been reset successfully.');
+                        console.log('Admin reset all votes (both systems)');
+                    } catch (error) {
+                        console.error('Reset all votes error:', error);
+                        alert(`❌ Failed to reset all votes: ${error.message}`);
+                    }
+                }
+            }
+            
+            async togglePublicVotingStatus() {
+                if (!this.isAdmin) {
+                    alert('🚫 Admin access required to toggle voting status.');
+                    return;
+                }
+                
+                try {
+                    const newStatus = await window.firebaseServices.votingService.togglePublicVotingStatus(this.currentUser);
+                    alert(`✅ Public voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
+                    console.log(`Admin toggled public voting to: ${newStatus}`);
+                } catch (error) {
+                    console.error('Toggle public voting status error:', error);
+                    alert(`❌ Failed to toggle public voting status: ${error.message}`);
                 }
             }
             
@@ -1154,16 +1462,53 @@
             }
         });
         
+        // Global mode switching function
+        function switchVotingMode(mode) {
+            if (votingSystem) {
+                votingSystem.switchMode(mode);
+                
+                // Update UI toggle buttons
+                const customerBtn = document.getElementById('customerModeBtn');
+                const publicBtn = document.getElementById('publicModeBtn');
+                
+                if (mode === 'customer') {
+                    customerBtn.classList.add('active');
+                    publicBtn.classList.remove('active');
+                } else {
+                    publicBtn.classList.add('active');
+                    customerBtn.classList.remove('active');
+                }
+                
+                console.log(`UI switched to ${mode} mode`);
+            }
+        }
+
         // Global functions for buttons
         function resetVotes() {
             if (votingSystem) {
-                votingSystem.resetVotes();
+                const mode = votingSystem.currentMode;
+                if (mode === 'customer') {
+                    votingSystem.resetVotes();
+                } else {
+                    votingSystem.resetPublicVotes();
+                }
+            }
+        }
+        
+        function resetAllVotes() {
+            if (votingSystem) {
+                votingSystem.resetAllVotes();
             }
         }
         
         function toggleVotingStatus() {
             if (votingSystem) {
-                votingSystem.toggleVotingStatus();
+                const mode = votingSystem.currentMode;
+                if (mode === 'customer') {
+                    votingSystem.toggleVotingStatus();
+                } else {
+                    votingSystem.togglePublicVotingStatus();
+                }
             }
         }
         

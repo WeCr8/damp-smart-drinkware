@@ -212,14 +212,17 @@ export const statsService = {
   }
 };
 
-// Voting System Services
+// Dual Voting System Services (Authenticated + Public)
 export const votingService = {
-  // Initialize voting data
+  // Initialize authenticated customer voting data
   async initializeVoting() {
     try {
       const votingDoc = await getDoc(doc(db, 'voting', 'products'));
       if (!votingDoc.exists()) {
         await setDoc(doc(db, 'voting', 'products'), {
+          type: 'authenticated',
+          title: 'Customer Product Preferences',
+          description: 'Authenticated votes from DAMP users and customers',
           products: {
             handle: {
               name: 'DAMP Handle',
@@ -252,11 +255,56 @@ export const votingService = {
         });
       }
     } catch (error) {
-      console.error('Initialize voting error:', error);
+      console.error('Initialize authenticated voting error:', error);
     }
   },
 
-  // Get real-time voting data
+  // Initialize public voting data
+  async initializePublicVoting() {
+    try {
+      const publicVotingDoc = await getDoc(doc(db, 'voting', 'public'));
+      if (!publicVotingDoc.exists()) {
+        await setDoc(doc(db, 'voting', 'public'), {
+          type: 'public',
+          title: 'Community Product Demand',
+          description: 'Open public voting for broader market insights',
+          products: {
+            handle: {
+              name: 'DAMP Handle',
+              description: 'Universal clip-on handle for any drinkware',
+              votes: 2891,
+              percentage: 41.2
+            },
+            siliconeBottom: {
+              name: 'Silicone Bottom',
+              description: 'Non-slip smart base for bottles and tumblers',
+              votes: 1654,
+              percentage: 23.6
+            },
+            cupSleeve: {
+              name: 'Cup Sleeve',
+              description: 'Adjustable smart sleeve with thermal insulation',
+              votes: 1432,
+              percentage: 20.4
+            },
+            babyBottle: {
+              name: 'Baby Bottle',
+              description: 'Smart baby bottle with feeding tracking',
+              votes: 1042,
+              percentage: 14.8
+            }
+          },
+          totalVotes: 7019,
+          lastUpdated: serverTimestamp(),
+          isActive: true
+        });
+      }
+    } catch (error) {
+      console.error('Initialize public voting error:', error);
+    }
+  },
+
+  // Get real-time authenticated voting data
   onVotingChange(callback) {
     return onSnapshot(doc(db, 'voting', 'products'), (doc) => {
       if (doc.exists()) {
@@ -265,7 +313,30 @@ export const votingService = {
     });
   },
 
-  // Submit a vote (requires authentication)
+  // Get real-time public voting data
+  onPublicVotingChange(callback) {
+    return onSnapshot(doc(db, 'voting', 'public'), (doc) => {
+      if (doc.exists()) {
+        callback(doc.data());
+      }
+    });
+  },
+
+  // Get both voting datasets for comparison
+  onBothVotingChange(callback) {
+    const authenticatedUnsubscribe = onSnapshot(doc(db, 'voting', 'products'), (authDoc) => {
+      const publicUnsubscribe = onSnapshot(doc(db, 'voting', 'public'), (publicDoc) => {
+        callback({
+          authenticated: authDoc.exists() ? authDoc.data() : null,
+          public: publicDoc.exists() ? publicDoc.data() : null
+        });
+      });
+    });
+    
+    return authenticatedUnsubscribe; // Return function to unsubscribe from both
+  },
+
+  // Submit authenticated vote (requires authentication)
   async submitVote(productId, user) {
     if (!user) {
       throw new Error('Authentication required to vote');
@@ -286,7 +357,8 @@ export const votingService = {
         productId: productId,
         hasVoted: true,
         votedAt: serverTimestamp(),
-        userEmail: user.email
+        userEmail: user.email,
+        voteType: 'authenticated'
       });
 
       // Update voting totals
@@ -306,18 +378,101 @@ export const votingService = {
       // Recalculate percentages
       await this.recalculatePercentages();
 
-      logEvent(analytics, 'vote_submitted', { 
+      logEvent(analytics, 'authenticated_vote_submitted', { 
         product: productId,
         user_id: user.uid
       });
 
     } catch (error) {
-      console.error('Submit vote error:', error);
+      console.error('Submit authenticated vote error:', error);
       throw error;
     }
   },
 
-  // Check if user has voted
+  // Submit public vote (no authentication required, uses browser fingerprinting)
+  async submitPublicVote(productId, browserFingerprint) {
+    try {
+      // Create unique session identifier
+      const sessionId = browserFingerprint || this.generateBrowserFingerprint();
+      
+      // Check if this browser/session has already voted
+      const publicVoteDoc = await getDoc(doc(db, 'publicVotes', sessionId));
+      if (publicVoteDoc.exists() && publicVoteDoc.data().hasVoted) {
+        throw new Error('This device has already submitted a vote. Only one vote per device is allowed.');
+      }
+
+      // Use batch to ensure atomicity
+      const batch = writeBatch(db);
+
+      // Record public vote
+      batch.set(doc(db, 'publicVotes', sessionId), {
+        productId: productId,
+        hasVoted: true,
+        votedAt: serverTimestamp(),
+        sessionId: sessionId,
+        voteType: 'public',
+        userAgent: navigator.userAgent,
+        timestamp: Date.now()
+      });
+
+      // Update public voting totals
+      batch.update(doc(db, 'voting', 'public'), {
+        [`products.${productId}.votes`]: increment(1),
+        totalVotes: increment(1),
+        lastUpdated: serverTimestamp()
+      });
+
+      await batch.commit();
+
+      // Recalculate public percentages
+      await this.recalculatePublicPercentages();
+
+      logEvent(analytics, 'public_vote_submitted', { 
+        product: productId,
+        session_id: sessionId
+      });
+
+      // Store vote in localStorage for immediate UI feedback
+      localStorage.setItem('damp_public_vote', JSON.stringify({
+        productId,
+        votedAt: Date.now(),
+        sessionId
+      }));
+
+    } catch (error) {
+      console.error('Submit public vote error:', error);
+      throw error;
+    }
+  },
+
+  // Generate browser fingerprint for public voting
+  generateBrowserFingerprint() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('DAMP Browser Fingerprint', 2, 2);
+    
+    const fingerprint = [
+      navigator.userAgent,
+      navigator.language,
+      screen.width + 'x' + screen.height,
+      new Date().getTimezoneOffset(),
+      canvas.toDataURL()
+    ].join('|');
+    
+    // Create hash of fingerprint
+    let hash = 0;
+    for (let i = 0; i < fingerprint.length; i++) {
+      const char = fingerprint.charCodeAt(i);
+      hash = ((hash << 5) - hash) + char;
+      hash = hash & hash; // Convert to 32-bit integer
+    }
+    
+    return 'pub_' + Math.abs(hash).toString(36);
+  },
+
+  // Check if user has voted (authenticated)
   async hasUserVoted(user) {
     if (!user) return false;
     
@@ -325,12 +480,12 @@ export const votingService = {
       const userVoteDoc = await getDoc(doc(db, 'userVotes', user.uid));
       return userVoteDoc.exists() && userVoteDoc.data().hasVoted;
     } catch (error) {
-      console.error('Check vote status error:', error);
+      console.error('Check authenticated vote status error:', error);
       return false;
     }
   },
 
-  // Get user's vote
+  // Get user's vote (authenticated)
   async getUserVote(user) {
     if (!user) return null;
     
@@ -338,12 +493,67 @@ export const votingService = {
       const userVoteDoc = await getDoc(doc(db, 'userVotes', user.uid));
       return userVoteDoc.exists() ? userVoteDoc.data() : null;
     } catch (error) {
-      console.error('Get user vote error:', error);
+      console.error('Get authenticated user vote error:', error);
       return null;
     }
   },
 
-  // Recalculate vote percentages
+  // Check if device has voted (public)
+  async hasPublicVoted(browserFingerprint) {
+    try {
+      const sessionId = browserFingerprint || this.generateBrowserFingerprint();
+      
+      // Check localStorage first for immediate feedback
+      const localVote = localStorage.getItem('damp_public_vote');
+      if (localVote) {
+        try {
+          const voteData = JSON.parse(localVote);
+          // Check if vote is recent (within 24 hours to prevent stale data)
+          if (Date.now() - voteData.votedAt < 24 * 60 * 60 * 1000) {
+            return true;
+          }
+        } catch (e) {
+          localStorage.removeItem('damp_public_vote');
+        }
+      }
+      
+      // Check Firebase
+      const publicVoteDoc = await getDoc(doc(db, 'publicVotes', sessionId));
+      return publicVoteDoc.exists() && publicVoteDoc.data().hasVoted;
+    } catch (error) {
+      console.error('Check public vote status error:', error);
+      return false;
+    }
+  },
+
+  // Get public vote data
+  async getPublicVote(browserFingerprint) {
+    try {
+      const sessionId = browserFingerprint || this.generateBrowserFingerprint();
+      
+      // Check localStorage first
+      const localVote = localStorage.getItem('damp_public_vote');
+      if (localVote) {
+        try {
+          const voteData = JSON.parse(localVote);
+          if (Date.now() - voteData.votedAt < 24 * 60 * 60 * 1000) {
+            return { ...voteData, source: 'local' };
+          }
+        } catch (e) {
+          localStorage.removeItem('damp_public_vote');
+        }
+      }
+      
+      // Check Firebase
+      const publicVoteDoc = await getDoc(doc(db, 'publicVotes', sessionId));
+      return publicVoteDoc.exists() ? { ...publicVoteDoc.data(), source: 'firebase' } : null;
+    } catch (error) {
+      console.error('Get public vote error:', error);
+      return null;
+    }
+  },
+
+  // Recalculate authenticated vote percentages
   async recalculatePercentages() {
     try {
       const votingDoc = await getDoc(doc(db, 'voting', 'products'));
@@ -367,11 +577,39 @@ export const votingService = {
       });
 
     } catch (error) {
-      console.error('Recalculate percentages error:', error);
+      console.error('Recalculate authenticated percentages error:', error);
     }
   },
 
-  // Admin: Reset voting (requires admin)
+  // Recalculate public vote percentages
+  async recalculatePublicPercentages() {
+    try {
+      const publicVotingDoc = await getDoc(doc(db, 'voting', 'public'));
+      if (!publicVotingDoc.exists()) return;
+
+      const data = publicVotingDoc.data();
+      const totalVotes = data.totalVotes || 0;
+      
+      if (totalVotes === 0) return;
+
+      const updates = {};
+      Object.keys(data.products).forEach(productId => {
+        const votes = data.products[productId].votes || 0;
+        const percentage = ((votes / totalVotes) * 100).toFixed(1);
+        updates[`products.${productId}.percentage`] = parseFloat(percentage);
+      });
+
+      await updateDoc(doc(db, 'voting', 'public'), {
+        ...updates,
+        lastUpdated: serverTimestamp()
+      });
+
+    } catch (error) {
+      console.error('Recalculate public percentages error:', error);
+    }
+  },
+
+  // Admin: Reset authenticated voting (requires admin)
   async resetVoting(user) {
     const isAdmin = await authService.isAdmin(user);
     if (!isAdmin) {
@@ -379,7 +617,7 @@ export const votingService = {
     }
 
     try {
-      // Reset voting data
+      // Reset authenticated voting data
       await updateDoc(doc(db, 'voting', 'products'), {
         'products.handle.votes': 0,
         'products.siliconeBottom.votes': 0,
@@ -389,7 +627,7 @@ export const votingService = {
         lastUpdated: serverTimestamp()
       });
 
-      // Clear all user votes
+      // Clear all authenticated user votes
       const userVotesQuery = query(collection(db, 'userVotes'));
       const userVotesSnapshot = await getDocs(userVotesQuery);
       
@@ -401,17 +639,83 @@ export const votingService = {
 
       await this.recalculatePercentages();
 
-      logEvent(analytics, 'admin_voting_reset', { 
-        admin_uid: user.uid
+      logEvent(analytics, 'admin_authenticated_voting_reset', { 
+        admin_uid: user.uid,
+        vote_type: 'authenticated'
       });
 
     } catch (error) {
-      console.error('Reset voting error:', error);
+      console.error('Reset authenticated voting error:', error);
       throw error;
     }
   },
 
-  // Admin: Toggle voting status
+  // Admin: Reset public voting (requires admin)
+  async resetPublicVoting(user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      // Reset public voting data
+      await updateDoc(doc(db, 'voting', 'public'), {
+        'products.handle.votes': 0,
+        'products.siliconeBottom.votes': 0,
+        'products.cupSleeve.votes': 0,
+        'products.babyBottle.votes': 0,
+        totalVotes: 0,
+        lastUpdated: serverTimestamp()
+      });
+
+      // Clear all public votes
+      const publicVotesQuery = query(collection(db, 'publicVotes'));
+      const publicVotesSnapshot = await getDocs(publicVotesQuery);
+      
+      const batch = writeBatch(db);
+      publicVotesSnapshot.docs.forEach(doc => {
+        batch.delete(doc.ref);
+      });
+      await batch.commit();
+
+      await this.recalculatePublicPercentages();
+
+      logEvent(analytics, 'admin_public_voting_reset', { 
+        admin_uid: user.uid,
+        vote_type: 'public'
+      });
+
+    } catch (error) {
+      console.error('Reset public voting error:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Reset both voting systems (requires admin)
+  async resetAllVoting(user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      await Promise.all([
+        this.resetVoting(user),
+        this.resetPublicVoting(user)
+      ]);
+
+      logEvent(analytics, 'admin_all_voting_reset', { 
+        admin_uid: user.uid,
+        vote_type: 'both'
+      });
+
+    } catch (error) {
+      console.error('Reset all voting error:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Toggle authenticated voting status
   async toggleVotingStatus(user) {
     const isAdmin = await authService.isAdmin(user);
     if (!isAdmin) {
@@ -427,13 +731,79 @@ export const votingService = {
         lastUpdated: serverTimestamp()
       });
 
-      logEvent(analytics, 'admin_voting_toggle', { 
+      logEvent(analytics, 'admin_authenticated_voting_toggle', { 
         admin_uid: user.uid,
-        new_status: !currentStatus
+        new_status: !currentStatus,
+        vote_type: 'authenticated'
       });
 
+      return !currentStatus;
+
     } catch (error) {
-      console.error('Toggle voting status error:', error);
+      console.error('Toggle authenticated voting status error:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Toggle public voting status
+  async togglePublicVotingStatus(user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      const publicVotingDoc = await getDoc(doc(db, 'voting', 'public'));
+      const currentStatus = publicVotingDoc.exists() ? publicVotingDoc.data().isActive : true;
+
+      await updateDoc(doc(db, 'voting', 'public'), {
+        isActive: !currentStatus,
+        lastUpdated: serverTimestamp()
+      });
+
+      logEvent(analytics, 'admin_public_voting_toggle', { 
+        admin_uid: user.uid,
+        new_status: !currentStatus,
+        vote_type: 'public'
+      });
+
+      return !currentStatus;
+
+    } catch (error) {
+      console.error('Toggle public voting status error:', error);
+      throw error;
+    }
+  },
+
+  // Admin: Toggle both voting systems
+  async toggleAllVotingStatus(user, newStatus) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      await Promise.all([
+        updateDoc(doc(db, 'voting', 'products'), {
+          isActive: newStatus,
+          lastUpdated: serverTimestamp()
+        }),
+        updateDoc(doc(db, 'voting', 'public'), {
+          isActive: newStatus,
+          lastUpdated: serverTimestamp()
+        })
+      ]);
+
+      logEvent(analytics, 'admin_all_voting_toggle', { 
+        admin_uid: user.uid,
+        new_status: newStatus,
+        vote_type: 'both'
+      });
+
+      return newStatus;
+
+    } catch (error) {
+      console.error('Toggle all voting status error:', error);
       throw error;
     }
   }
@@ -502,7 +872,8 @@ export const initializeFirebaseServices = async () => {
   try {
     await Promise.all([
       statsService.initializeStats(),
-      votingService.initializeVoting()
+      votingService.initializeVoting(),
+      votingService.initializePublicVoting()
     ]);
     console.log('Firebase services initialized successfully');
   } catch (error) {

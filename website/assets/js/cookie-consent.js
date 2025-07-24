@@ -28,7 +28,7 @@ class DAMPCookieConsent {
             analytics: false,   // User preference
             marketing: false,   // User preference
             timestamp: null,
-            version: '1.0.0'
+            version: '2.0.0'
         };
 
         this.cookieTypes = {

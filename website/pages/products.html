@@ -31,6 +31,7 @@
     
     <!-- CSS Architecture - Single Main CSS Import -->
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
 
     <!-- Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
@@ -473,6 +474,31 @@
     <script src="../assets/js/components/safe-area-wrapper.js"></script>
     <script src="../assets/js/components/favicon-setup.js"></script>
     <script src="../assets/js/components/header.js"></script>
+    <script src="../assets/js/cookie-consent.js"></script>
     <script src="../assets/js/scripts.js"></script>
+    
+    <!-- Professional Cookie Consent System -->
+    <script>
+        // Initialize professional cookie consent when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Legacy compatibility function
+            window.acceptCookies = function() {
+                if (window.dampCookieConsent) {
+                    window.dampCookieConsent.acceptAll();
+                }
+            };
+            
+            // Initialize with your preferred settings
+            if (window.DAMPCookieConsent) {
+                window.dampCookieConsent = new DAMPCookieConsent({
+                    enableAnalytics: true,
+                    enableMarketing: false,
+                    enableFunctional: true,
+                    autoShow: true,
+                    theme: 'professional'
+                });
+            }
+        });
+    </script>
 </body>
 </html> 

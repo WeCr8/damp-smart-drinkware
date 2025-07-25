@@ -1,17 +1,38 @@
 {
-  "name": "DAMP Smart Drinkware",
+  "name": "DAMP Smart Drinkware - Never Leave Your Drink Behind",
   "short_name": "DAMP",
-  "description": "Revolutionary smart drinkware technology with temperature control, health monitoring, and leak protection",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#1a1a2e",
-  "theme_color": "#667eea",
-  "orientation": "portrait-primary",
+  "description": "Revolutionary smart drinkware technology that alerts you when you're about to leave your beverage behind. Transform any cup into a smart device with BLE technology.",
+  "start_url": "/?utm_source=pwa&utm_medium=launch",
   "scope": "/",
+  "display": "standalone",
+  "display_override": ["window-controls-overlay", "standalone", "minimal-ui", "browser"],
+  "background_color": "#1a1a2e",
+  "theme_color": "#00d4ff",
+  "orientation": "any",
   "lang": "en-US",
   "dir": "ltr",
-  "categories": ["lifestyle", "health", "shopping", "productivity"],
+  "categories": ["lifestyle", "health", "shopping", "productivity", "utilities"],
+  "iarc_rating_id": "e84b072d-71b3-4d3e-86ae-31a8ce4e53b7",
+  "id": "com.dampdrink.pwa",
   "icons": [
+    {
+      "src": "/assets/images/logo/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/logo/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/logo/icon-48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
       "src": "/assets/images/logo/icon-72.png",
       "sizes": "72x72",
@@ -67,29 +88,87 @@
       "sizes": "1280x720",
       "type": "image/png",
       "form_factor": "wide",
-      "label": "DAMP homepage showing product lineup and features"
+      "label": "DAMP homepage showing product lineup and smart drinkware features with floating bubble animations"
     },
     {
       "src": "/assets/images/screenshots/mobile-products.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Product catalog on mobile with smart features"
+      "label": "Product catalog showcasing DAMP Handle, Silicone Bottom, Cup Sleeve, and Baby Bottle"
     },
     {
       "src": "/assets/images/screenshots/mobile-cart.png",
       "sizes": "390x844",
       "type": "image/png",
       "form_factor": "narrow",
-      "label": "Shopping cart with promo codes and dynamic pricing"
+      "label": "Pre-order checkout with dynamic pricing and smart device selection"
+    }
+  ],
+  
+  "launch_images": [
+    {
+      "src": "/assets/images/logo/splash/splash-iphone-8.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "media": "(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-iphone-8-plus.png",
+      "sizes": "1242x2208",
+      "type": "image/png",
+      "media": "(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-iphone-x.png",
+      "sizes": "1125x2436",
+      "type": "image/png",
+      "media": "(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-iphone-xr.png",
+      "sizes": "828x1792",
+      "type": "image/png",
+      "media": "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-iphone-xs-max.png",
+      "sizes": "1242x2688",
+      "type": "image/png",
+      "media": "(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-ipad.png",
+      "sizes": "1536x2048",
+      "type": "image/png",
+      "media": "(device-width: 768px) and (device-height: 1024px) and (-webkit-device-pixel-ratio: 2)"
+    },
+    {
+      "src": "/assets/images/logo/splash/splash-ipad-pro.png",
+      "sizes": "2048x2732",
+      "type": "image/png",
+      "media": "(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2)"
     }
   ],
   "shortcuts": [
     {
-      "name": "Products",
+      "name": "Pre-Order Now",
+      "short_name": "Pre-Order",
+      "description": "Start your DAMP pre-order with early bird pricing",
+      "url": "/pages/pre-sale-funnel.html?utm_source=pwa&utm_medium=shortcut",
+      "icons": [
+        {
+          "src": "/assets/images/logo/icon-96.png",
+          "sizes": "96x96",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "All Products",
       "short_name": "Products",
-      "description": "Browse DAMP smart drinkware products",
-      "url": "/pages/products.html",
+      "description": "Browse DAMP Handle, Silicone Bottom, Cup Sleeve & Baby Bottle",
+      "url": "/pages/products.html?utm_source=pwa&utm_medium=shortcut",
       "icons": [
         {
           "src": "/assets/images/logo/icon-96.png",
@@ -99,10 +178,10 @@
       ]
     },
     {
-      "name": "Cart",
-      "short_name": "Cart",
-      "description": "View shopping cart and checkout",
-      "url": "/pages/cart.html",
+      "name": "Product Voting",
+      "short_name": "Vote",
+      "description": "Vote for which DAMP product to develop first",
+      "url": "/pages/product-voting.html?utm_source=pwa&utm_medium=shortcut",
       "icons": [
         {
           "src": "/assets/images/logo/icon-96.png",
@@ -112,10 +191,10 @@
       ]
     },
     {
-      "name": "Support",
+      "name": "Get Support",
       "short_name": "Support",
-      "description": "Get help and customer support",
-      "url": "/pages/support.html",
+      "description": "Get help with your DAMP smart drinkware",
+      "url": "/pages/support.html?utm_source=pwa&utm_medium=shortcut",
       "icons": [
         {
           "src": "/assets/images/logo/icon-96.png",
@@ -138,14 +217,20 @@
     }
   ],
   "prefer_related_applications": false,
+  
   "protocol_handlers": [
     {
       "protocol": "web+damp",
-      "url": "/deeplink?url=%s"
+      "url": "/deeplink?action=%s"
+    },
+    {
+      "protocol": "mailto",
+      "url": "/pages/support.html?contact=%s"
     }
   ],
+  
   "share_target": {
-    "action": "/share-target",
+    "action": "/pages/share-target.html",
     "method": "POST",
     "enctype": "multipart/form-data",
     "params": {
@@ -154,28 +239,55 @@
       "url": "url",
       "files": [
         {
-          "name": "file",
-          "accept": ["image/*", "video/*"]
+          "name": "images",
+          "accept": ["image/*"]
         }
       ]
     }
   },
+  
   "file_handlers": [
     {
-      "action": "/handle-file",
+      "action": "/pages/handle-file.html",
       "accept": {
-        "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp"],
-        "video/*": [".mp4", ".webm"]
-      }
+        "image/*": [".png", ".jpg", ".jpeg", ".gif", ".webp", ".svg"],
+        "text/plain": [".txt"],
+        "application/pdf": [".pdf"]
+      },
+      "launch_type": "single-client"
     }
   ],
+  
   "edge_side_panel": {
     "preferred_width": 400
   },
+  
   "launch_handler": {
     "client_mode": "navigate-existing"
   },
+  
   "handle_links": "preferred",
-  "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
-  "id": "damp-smart-drinkware-pwa"
+  
+  "capture_links": "existing-client-navigate",
+  
+  "scope_extensions": [
+    {"origin": "*.dampdrink.com"}
+  ],
+  
+  "note_taking": {
+    "new_note_url": "/pages/notes.html"
+  },
+  
+  "tab_strip": {
+    "home_tab": {
+      "scope": "/",
+      "icons": [
+        {
+          "src": "/assets/images/logo/icon-32.png",
+          "sizes": "32x32",
+          "type": "image/png"
+        }
+      ]
+    }
+  }
 } 

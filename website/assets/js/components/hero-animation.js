@@ -265,7 +265,7 @@ class DAMPHeroAnimation {
     }
 
     showContent() {
-        console.log('DAMP: Showing main content');
+        console.log('DAMP: Animation completed, showing main content');
         // Remove animation overlay
         if (this.animationContainer) {
             this.animationContainer.style.animation = 'fadeOut 1s ease-out forwards';
@@ -275,12 +275,20 @@ class DAMPHeroAnimation {
             }, 1000);
         }
         
-        // Show main content
-        document.body.style.overflow = 'auto';
-        const mainContent = document.querySelector('main, .main-content, body > *:not(.hero-animation-overlay)');
-        if (mainContent) {
-            mainContent.style.opacity = '1';
-            mainContent.style.animation = 'fadeIn 1s ease-out forwards';
+        // Call global showMainContent function for consistency
+        if (window.showMainContent) {
+            window.showMainContent();
+        } else {
+            // Fallback if global function not available
+            document.body.classList.add('animation-complete');
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            
+            const allContent = document.querySelectorAll('body > *:not(.hero-animation-overlay)');
+            allContent.forEach(element => {
+                element.style.opacity = '1';
+                element.style.transition = 'opacity 0.5s ease';
+            });
         }
     }
 
@@ -337,17 +345,26 @@ class DAMPHeroAnimation {
     }
 
     skipAnimation() {
-        console.log('DAMP: Skipping animation');
+        console.log('DAMP: Animation skipped by user');
         if (this.animationContainer) {
             this.animationContainer.remove();
             this.hasPlayed = true;
         }
         
-        // Show main content immediately
-        document.body.style.overflow = 'auto';
-        const mainContent = document.querySelector('main, .main-content, body > *:not(.hero-animation-overlay)');
-        if (mainContent) {
-            mainContent.style.opacity = '1';
+        // Call global showMainContent function for consistency
+        if (window.showMainContent) {
+            window.showMainContent();
+        } else {
+            // Fallback if global function not available
+            document.body.classList.add('animation-complete');
+            document.body.style.overflow = 'auto';
+            document.body.style.height = 'auto';
+            
+            const allContent = document.querySelectorAll('body > *:not(.hero-animation-overlay)');
+            allContent.forEach(element => {
+                element.style.opacity = '1';
+                element.style.transition = 'opacity 0.5s ease';
+            });
         }
     }
 }

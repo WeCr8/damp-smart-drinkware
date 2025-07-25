@@ -34,99 +34,23 @@ import {
 import { auth, db, storage, analytics } from './firebase-config.js';
 import { logEvent } from 'firebase/analytics';
 
-// Authentication Services
-export const authService = {
-  // Sign up new user
-  async signUp(email, password, displayName) {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      await updateProfile(userCredential.user, { displayName });
-      
-      // Create user document in Firestore
-      await setDoc(doc(db, 'users', userCredential.user.uid), {
-        uid: userCredential.user.uid,
-        email: userCredential.user.email,
-        displayName: displayName,
-        createdAt: serverTimestamp(),
-        role: 'user',
-        stats: {
-          devicesConnected: 0,
-          safeZonesCreated: 0,
-          votesSubmitted: 0
-        }
-      });
-      
-      logEvent(analytics, 'sign_up', { method: 'email' });
-      return userCredential.user;
-    } catch (error) {
-      console.error('Sign up error:', error);
-      throw error;
-    }
-  },
+// Import authentication service
+import DAMPAuthService from '../assets/js/auth-service.js';
 
-  // Sign in user
-  async signIn(email, password) {
-    try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      logEvent(analytics, 'login', { method: 'email' });
-      return userCredential.user;
-    } catch (error) {
-      console.error('Sign in error:', error);
-      throw error;
-    }
-  },
+// Initialize authentication service
+export const authService = new DAMPAuthService(auth, db, analytics);
 
-  // Sign out user
-  async signOut() {
-    try {
-      await signOut(auth);
-      logEvent(analytics, 'logout');
-    } catch (error) {
-      console.error('Sign out error:', error);
-      throw error;
-    }
-  },
-
-  // Reset password
-  async resetPassword(email) {
-    try {
-      await sendPasswordResetEmail(auth, email);
-    } catch (error) {
-      console.error('Password reset error:', error);
-      throw error;
-    }
-  },
-
-  // Check if user is admin
-  async isAdmin(user) {
-    if (!user) return false;
-    try {
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      return userDoc.exists() && userDoc.data().role === 'admin';
-    } catch (error) {
-      console.error('Admin check error:', error);
-      return false;
-    }
-  },
-
-  // Get current user data
-  async getCurrentUserData() {
-    const user = auth.currentUser;
-    if (!user) return null;
-    
-    try {
-      const userDoc = await getDoc(doc(db, 'users', user.uid));
-      return userDoc.exists() ? userDoc.data() : null;
-    } catch (error) {
-      console.error('Get user data error:', error);
-      return null;
-    }
-  },
-
-  // Listen to auth state changes
-  onAuthStateChanged(callback) {
-    return onAuthStateChanged(auth, callback);
-  }
+// Global services object for easy access
+const firebaseServices = {
+  auth,
+  db,
+  analytics,
+  functions,
+  storage,
+  
+  // Services will be added below after they are defined
+  authService,
+  initializeFirebaseServices
 };
 
 // Real-time Stats Services
@@ -1220,6 +1144,412 @@ export const safeZoneService = {
   }
 };
 
+// Email & Newsletter Services
+export const emailService = {
+  // Subscribe to newsletter
+  async subscribeToNewsletter(email, preferences = {}) {
+    try {
+      // Validate email format
+      if (!this.isValidEmail(email)) {
+        throw new Error('Please enter a valid email address');
+      }
+
+      // Check if email already exists
+      const existingSubscription = await this.getSubscriberByEmail(email);
+      if (existingSubscription && existingSubscription.status === 'active') {
+        throw new Error('This email is already subscribed to our newsletter');
+      }
+
+      const subscriptionData = {
+        email: email.toLowerCase().trim(),
+        subscribedAt: serverTimestamp(),
+        source: preferences.source || 'homepage',
+        status: 'active',
+        preferences: {
+          productUpdates: preferences.productUpdates !== false,
+          launchAlerts: preferences.launchAlerts !== false,
+          marketingEmails: preferences.marketingEmails !== false,
+          weeklyDigest: preferences.weeklyDigest !== false
+        },
+        metadata: {
+          userAgent: navigator.userAgent,
+          referrer: document.referrer,
+          timestamp: Date.now(),
+          ipAddress: null, // Would be set server-side
+          location: preferences.location || null
+        },
+        engagement: {
+          subscriptionScore: 100,
+          lastEngagement: serverTimestamp(),
+          engagementHistory: []
+        },
+        tags: preferences.tags || []
+      };
+
+      // If resubscribing, update existing record
+      if (existingSubscription) {
+        await updateDoc(doc(db, 'newsletter_subscribers', existingSubscription.id), {
+          ...subscriptionData,
+          resubscribedAt: serverTimestamp(),
+          previousUnsubscribeReason: existingSubscription.unsubscribeReason || null
+        });
+        
+        logEvent(analytics, 'newsletter_resubscribe', {
+          email_domain: email.split('@')[1],
+          source: preferences.source || 'homepage'
+        });
+        
+        return { id: existingSubscription.id, action: 'resubscribed' };
+      } else {
+        // Create new subscription
+        const docRef = await addDoc(collection(db, 'newsletter_subscribers'), subscriptionData);
+        
+        // Update global stats
+        await updateDoc(doc(db, 'stats', 'global'), {
+          newsletterSubscribers: increment(1),
+          lastUpdated: serverTimestamp()
+        });
+        
+        logEvent(analytics, 'newsletter_subscribe', {
+          email_domain: email.split('@')[1],
+          source: preferences.source || 'homepage',
+          product_updates: subscriptionData.preferences.productUpdates,
+          launch_alerts: subscriptionData.preferences.launchAlerts
+        });
+        
+        return { id: docRef.id, action: 'subscribed' };
+      }
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      
+      // Log error for analytics
+      logEvent(analytics, 'newsletter_subscribe_error', {
+        error_message: error.message,
+        source: preferences.source || 'homepage'
+      });
+      
+      throw error;
+    }
+  },
+
+  // Get subscriber by email
+  async getSubscriberByEmail(email) {
+    try {
+      const q = query(
+        collection(db, 'newsletter_subscribers'),
+        where('email', '==', email.toLowerCase().trim()),
+        limit(1)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      
+      if (!querySnapshot.empty) {
+        const doc = querySnapshot.docs[0];
+        return { id: doc.id, ...doc.data() };
+      }
+      
+      return null;
+    } catch (error) {
+      console.error('Get subscriber by email error:', error);
+      return null;
+    }
+  },
+
+  // Unsubscribe from newsletter
+  async unsubscribeFromNewsletter(email, reason = 'user_request') {
+    try {
+      const subscriber = await this.getSubscriberByEmail(email);
+      
+      if (!subscriber) {
+        throw new Error('Email address not found in our newsletter list');
+      }
+      
+      if (subscriber.status === 'unsubscribed') {
+        throw new Error('This email is already unsubscribed');
+      }
+      
+      await updateDoc(doc(db, 'newsletter_subscribers', subscriber.id), {
+        status: 'unsubscribed',
+        unsubscribedAt: serverTimestamp(),
+        unsubscribeReason: reason,
+        lastUpdated: serverTimestamp()
+      });
+      
+      // Update global stats
+      await updateDoc(doc(db, 'stats', 'global'), {
+        newsletterSubscribers: increment(-1),
+        lastUpdated: serverTimestamp()
+      });
+      
+      logEvent(analytics, 'newsletter_unsubscribe', {
+        email_domain: email.split('@')[1],
+        reason: reason
+      });
+      
+      return { success: true, message: 'Successfully unsubscribed from newsletter' };
+    } catch (error) {
+      console.error('Newsletter unsubscribe error:', error);
+      throw error;
+    }
+  },
+
+  // Update subscriber preferences
+  async updateSubscriberPreferences(email, newPreferences) {
+    try {
+      const subscriber = await this.getSubscriberByEmail(email);
+      
+      if (!subscriber) {
+        throw new Error('Email address not found in our newsletter list');
+      }
+      
+      await updateDoc(doc(db, 'newsletter_subscribers', subscriber.id), {
+        preferences: {
+          ...subscriber.preferences,
+          ...newPreferences
+        },
+        lastUpdated: serverTimestamp()
+      });
+      
+      logEvent(analytics, 'newsletter_preferences_update', {
+        email_domain: email.split('@')[1],
+        preferences_updated: Object.keys(newPreferences)
+      });
+      
+      return { success: true, message: 'Preferences updated successfully' };
+    } catch (error) {
+      console.error('Update subscriber preferences error:', error);
+      throw error;
+    }
+  },
+
+  // Get newsletter statistics (admin only)
+  async getNewsletterStats(user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      // Get total subscribers
+      const subscribersQuery = query(
+        collection(db, 'newsletter_subscribers'),
+        where('status', '==', 'active')
+      );
+      const subscribersSnapshot = await getDocs(subscribersQuery);
+
+      // Get recent subscriptions (last 30 days)
+      const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+      const recentQuery = query(
+        collection(db, 'newsletter_subscribers'),
+        where('subscribedAt', '>=', thirtyDaysAgo),
+        where('status', '==', 'active')
+      );
+      const recentSnapshot = await getDocs(recentQuery);
+
+      // Analyze subscription sources
+      const sources = {};
+      subscribersSnapshot.docs.forEach(doc => {
+        const source = doc.data().source || 'unknown';
+        sources[source] = (sources[source] || 0) + 1;
+      });
+
+      return {
+        totalSubscribers: subscribersSnapshot.size,
+        recentSubscribers: recentSnapshot.size,
+        sources: sources,
+        lastUpdated: new Date().toISOString()
+      };
+    } catch (error) {
+      console.error('Get newsletter stats error:', error);
+      throw error;
+    }
+  },
+
+  // Bulk email operations (admin only)
+  async sendBulkEmail(subject, content, targetSegment, user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      // Create email campaign record
+      const campaignData = {
+        subject,
+        content,
+        targetSegment,
+        createdBy: user.uid,
+        createdAt: serverTimestamp(),
+        status: 'queued',
+        stats: {
+          sent: 0,
+          delivered: 0,
+          opened: 0,
+          clicked: 0,
+          bounced: 0
+        }
+      };
+
+      const campaignRef = await addDoc(collection(db, 'email_campaigns'), campaignData);
+      
+      // In a real implementation, this would trigger a cloud function
+      // to actually send the emails via a service like SendGrid, Mailgun, etc.
+      
+      logEvent(analytics, 'bulk_email_campaign_created', {
+        campaign_id: campaignRef.id,
+        target_segment: targetSegment,
+        admin_uid: user.uid
+      });
+
+      return { campaignId: campaignRef.id, status: 'queued' };
+    } catch (error) {
+      console.error('Send bulk email error:', error);
+      throw error;
+    }
+  },
+
+  // Email validation utility
+  isValidEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email) && email.length <= 254;
+  },
+
+  // Sanitize email
+  sanitizeEmail(email) {
+    return email.toLowerCase().trim();
+  },
+
+  // Check if email is from a disposable email service
+  async isDisposableEmail(email) {
+    const domain = email.split('@')[1];
+    const disposableDomains = [
+      'tempmail.org', '10minutemail.com', 'guerrillamail.com', 
+      'mailinator.com', 'yopmail.com', 'throwaway.email'
+    ];
+    return disposableDomains.includes(domain);
+  },
+
+  // Email engagement tracking
+  async trackEmailEngagement(email, action, details = {}) {
+    try {
+      const subscriber = await this.getSubscriberByEmail(email);
+      if (!subscriber) return;
+
+      const engagementData = {
+        action,
+        timestamp: serverTimestamp(),
+        details
+      };
+
+      await updateDoc(doc(db, 'newsletter_subscribers', subscriber.id), {
+        'engagement.lastEngagement': serverTimestamp(),
+        'engagement.engagementHistory': [...(subscriber.engagement?.engagementHistory || []), engagementData].slice(-50) // Keep last 50 engagements
+      });
+
+      logEvent(analytics, 'email_engagement', {
+        action,
+        email_domain: email.split('@')[1],
+        ...details
+      });
+    } catch (error) {
+      console.error('Track email engagement error:', error);
+    }
+  },
+
+  // Export subscribers (admin only)
+  async exportSubscribers(format = 'json', user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      const subscribersQuery = query(
+        collection(db, 'newsletter_subscribers'),
+        where('status', '==', 'active'),
+        orderBy('subscribedAt', 'desc')
+      );
+      
+      const subscribersSnapshot = await getDocs(subscribersQuery);
+      const subscribers = subscribersSnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        subscribedAt: doc.data().subscribedAt?.toDate?.()?.toISOString() || null
+      }));
+
+      logEvent(analytics, 'newsletter_export', {
+        format,
+        count: subscribers.length,
+        admin_uid: user.uid
+      });
+
+      return {
+        data: subscribers,
+        count: subscribers.length,
+        exportedAt: new Date().toISOString(),
+        format
+      };
+    } catch (error) {
+      console.error('Export subscribers error:', error);
+      throw error;
+    }
+  }
+};
+
+// Contact Form Services
+export const contactService = {
+  // Submit contact form
+  async submitContactForm(formData) {
+    try {
+      const contactData = {
+        ...formData,
+        submittedAt: serverTimestamp(),
+        status: 'new',
+        source: formData.source || 'contact_form',
+        metadata: {
+          userAgent: navigator.userAgent,
+          referrer: document.referrer,
+          timestamp: Date.now()
+        }
+      };
+
+      const docRef = await addDoc(collection(db, 'contact_submissions'), contactData);
+      
+      logEvent(analytics, 'contact_form_submit', {
+        source: formData.source || 'contact_form',
+        subject_category: formData.category || 'general'
+      });
+
+      return { id: docRef.id, status: 'submitted' };
+    } catch (error) {
+      console.error('Submit contact form error:', error);
+      throw error;
+    }
+  },
+
+  // Get contact submissions (admin only)
+  async getContactSubmissions(user) {
+    const isAdmin = await authService.isAdmin(user);
+    if (!isAdmin) {
+      throw new Error('Unauthorized: Admin access required');
+    }
+
+    try {
+      const q = query(
+        collection(db, 'contact_submissions'),
+        orderBy('submittedAt', 'desc'),
+        limit(100)
+      );
+      
+      const querySnapshot = await getDocs(q);
+      return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    } catch (error) {
+      console.error('Get contact submissions error:', error);
+      throw error;
+    }
+  }
+};
+
 // Storage Services
 export const storageService = {
   // Upload file
@@ -1245,4 +1575,20 @@ export const storageService = {
       throw error;
     }
   }
-}; 
+};
+
+// Add all services to the global object
+firebaseServices.analyticsService = analyticsService;
+firebaseServices.statsService = statsService;
+firebaseServices.votingService = votingService;
+firebaseServices.adminService = adminService;
+firebaseServices.emailService = emailService;
+firebaseServices.contactService = contactService;
+firebaseServices.deviceService = deviceService;
+firebaseServices.storageService = storageService;
+
+// Make Firebase services available globally
+window.firebaseServices = firebaseServices;
+
+// Also export for module usage
+export default firebaseServices; 

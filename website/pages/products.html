@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
-    <!-- Prevent PWA installation prompts -->
-    <meta name="mobile-web-app-capable" content="no">
-    <meta name="apple-mobile-web-app-capable" content="no">
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
     <!-- SEO Meta Tags -->
     <title>DAMP Smart Drinkware Products - Complete Product Ecosystem | Smart BLE Tracking</title>
@@ -22,864 +25,786 @@
     <meta property="og:url" content="https://dampdrink.com/pages/products.html">
     <meta property="og:title" content="DAMP Smart Drinkware Products - Complete Product Ecosystem">
     <meta property="og:description" content="Explore our complete DAMP Smart Drinkware ecosystem with universal compatibility for all your favorite cups and bottles.">
-    <meta property="og:image" content="https://dampdrink.com/assets/images/og-image.jpg">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-products.jpg">
     <meta property="og:site_name" content="DAMP Smart Drinkware">
     
-    <!-- Preconnect to external domains -->
+    <!-- PERFORMANCE OPTIMIZATION: Resource Hints -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://www.gstatic.com">
     
-    <!-- CSS Architecture - Single Main CSS Import -->
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
-    
-    <!-- Voting Section Styles -->
+    <!-- PERFORMANCE OPTIMIZATION: Critical CSS Inline -->
     <style>
-        /* Community Voting Section */
-        .community-voting-section {
-            padding: 80px 0;
-            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 255, 136, 0.03) 100%);
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        :root {
+            --primary-color: #00d4ff;
+            --primary-dark: #0099cc;
+            --secondary-color: #00ff88;
+            --bg-primary: #0f0f23;
+            --bg-secondary: #1a1a2e;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.85);
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --border-color: rgba(255, 255, 255, 0.15);
         }
         
-        .voting-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        .voting-badge {
-            display: inline-block;
-            background: linear-gradient(45deg, #ff6b6b, #ff4757);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 25px;
-            font-size: 0.9rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
-        }
-        
-        .voting-preview-container {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 40px;
-            align-items: start;
-        }
-        
-        .voting-preview {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 16px;
-            padding: 32px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .voting-stats-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 32px;
-        }
-        
-        .voting-stat-card {
-            text-align: center;
-            padding: 20px;
-            background: rgba(0, 212, 255, 0.05);
-            border-radius: 12px;
-            border: 1px solid rgba(0, 212, 255, 0.1);
-        }
-        
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--primary-color);
-            display: block;
-            margin-bottom: 8px;
-        }
-        
-        .stat-label {
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        
-        .voting-results-preview {
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 24px;
-        }
-        
-        .preview-title {
-            font-size: 1.1rem;
-            font-weight: 600;
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
             color: var(--text-primary);
-            margin-bottom: 20px;
+            line-height: 1.6;
+            padding-top: 80px;
         }
         
-        .voting-leaders {
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-        }
+        .page-loading { opacity: 0; transition: opacity 0.3s ease; }
+        .page-ready { opacity: 1; }
         
-        .vote-leader {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 16px;
-            background: rgba(255, 255, 255, 0.02);
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s ease;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
         
-        .vote-leader:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(0, 212, 255, 0.3);
-        }
-        
-        .leader-info {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .leader-icon {
-            font-size: 1.5rem;
-        }
-        
-        .leader-name {
-            font-size: 0.95rem;
-            font-weight: 500;
-            color: var(--text-primary);
-        }
-        
-        .leader-progress {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            min-width: 120px;
-        }
-        
-        .progress-bar {
-            flex: 1;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-            border-radius: 3px;
-            transition: width 0.8s ease;
-        }
-        
-        .leader-percentage {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            min-width: 35px;
-            text-align: right;
-        }
-        
-        .voting-cta {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-        
-        .btn-vote-main {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            padding: 20px 32px;
-            background: linear-gradient(135deg, #ff6b6b, #ff4757);
-            color: white;
+        .skip-to-content {
+            position: absolute;
+            top: -40px;
+            left: 0;
+            background: var(--primary-color);
+            color: #000;
+            padding: 8px;
             text-decoration: none;
-            border-radius: 16px;
-            font-size: 1.1rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10000;
+        }
+        .skip-to-content:focus { top: 0; }
+    </style>
+    
+    <!-- PERFORMANCE OPTIMIZATION: CSS Loading -->
+    <link rel="preload" href="../assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="../assets/css/navigation.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="../assets/css/main.css">
+        <link rel="stylesheet" href="../assets/css/navigation.css">
+    </noscript>
+    
+    <!-- Page Specific Optimized Styles -->
+    <style>
+        .products-hero {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 120px 0 80px;
+            text-align: center;
             position: relative;
             overflow: hidden;
         }
         
-        .btn-vote-main:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.5);
+        .products-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+            pointer-events: none;
         }
         
-        .vote-icon, .vote-arrow {
-            font-size: 1.2rem;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 0 auto;
         }
         
-        .voting-info {
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        .hero-content h1 {
+            font-size: clamp(3rem, 6vw, 4rem);
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, var(--text-primary), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
-        .voting-note {
-            font-size: 0.95rem;
+        .hero-subtitle {
+            font-size: 1.3rem;
             color: var(--text-secondary);
-            margin-bottom: 16px;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+        
+        .products-section {
+            padding: 80px 0;
+            background: rgba(26, 26, 46, 0.3);
+        }
+        
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+            will-change: transform;
+            overflow: hidden;
+        }
+        
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        
+        .product-card:hover::before {
+            left: 100%;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+            border-color: rgba(0, 212, 255, 0.3);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(45deg, var(--secondary-color), #00cc6a);
+            color: var(--bg-primary);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .product-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
             line-height: 1.5;
         }
         
-        .voting-features {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        .product-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
         }
         
-        .feature-item {
+        .product-features {
+            list-style: none;
+            margin-bottom: 30px;
+            text-align: left;
+            max-width: 220px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .product-features li {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .product-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+        
+        .product-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            will-change: transform;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+        
+        .btn-secondary:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-2px);
+        }
+        
+        .btn-small {
+            padding: 12px 20px;
+            font-size: 0.9rem;
+        }
+        
+        /* Navigation Styles */
+        .damp-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            transition: transform 0.3s ease;
         }
         
-        .feature-icon {
-            font-size: 1rem;
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        .logo img {
+            width: 32px;
+            height: 32px;
+            filter: brightness(0) invert(1);
+        }
+        
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+            padding: 12px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .hamburger:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: scale(1.05);
+        }
+        
+        .hamburger-line {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: all 0.3s ease;
+            border-radius: 2px;
+            display: block;
+            transform-origin: center;
+        }
+        
+        /* Footer Styles */
+        .footer {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 80px 0 40px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-section h3 {
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        
+        .footer-section a {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 10px;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
             color: var(--primary-color);
         }
         
-        .feature-text {
-            font-weight: 500;
+        .footer-bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 30px;
+            text-align: center;
+            color: var(--text-muted);
         }
         
-        /* Responsive Design */
+        .footer-logo {
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo img {
+            width: 50px;
+            height: 50px;
+        }
+        
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .voting-preview-container {
+            .products-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
+                margin: 60px 0;
             }
             
-            .voting-stats-grid {
+            .product-actions {
                 grid-template-columns: 1fr;
-                gap: 16px;
             }
             
-            .vote-leader {
+            .voting-actions {
                 flex-direction: column;
-                align-items: flex-start;
-                gap: 12px;
+                align-items: center;
             }
             
-            .leader-progress {
-                width: 100%;
-                min-width: auto;
+            .voting-stats {
+                gap: 20px;
             }
             
-            .btn-vote-main {
-                padding: 16px 24px;
-                font-size: 1rem;
+            .btn-vote {
+                font-size: 1.1rem;
+                padding: 15px 35px;
             }
             
-            .community-voting-section {
-                padding: 60px 0;
+            .products-hero {
+                padding: 100px 0 60px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            .product-card {
+                padding: 30px 20px;
+            }
+            
+            .product-image {
+                width: 150px;
+                height: 150px;
+            }
+        }
+        
+        /* Reduced motion support */
+        @media (prefers-reduced-motion: reduce) {
+            .product-card,
+            .btn-primary,
+            .btn-secondary,
+            .btn-vote,
+            .vote-stat {
+                transition-duration: 0.1s !important;
+            }
+            
+            .product-card::before {
+                display: none;
             }
         }
     </style>
-
-    <!-- Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      // Set consent defaults (GDPR compliant)
-      gtag('consent', 'default', {
-        'ad_storage': 'denied',
-        'ad_user_data': 'denied', 
-        'ad_personalization': 'denied',
-        'analytics_storage': 'denied', // Will be updated based on cookie consent
-        'wait_for_update': 500
-      });
-
-      // Configure Google Analytics
-      gtag('config', 'G-YW2BN4SVPQ', {
-        'send_page_view': true,
-        'allow_google_signals': true,
-        'allow_ad_personalization_signals': false,
-        'cookie_domain': 'auto',
-        'cookie_expires': 63072000, // 2 years
-        'anonymize_ip': true // Privacy protection
-      });
-
-      // Check for existing cookie consent and update accordingly
-      (function() {
-        try {
-          const consentData = localStorage.getItem('damp_cookie_consent');
-          if (consentData) {
-            const consent = JSON.parse(consentData);
-            gtag('consent', 'update', {
-              'analytics_storage': consent.analytics ? 'granted' : 'denied',
-              'ad_storage': consent.marketing ? 'granted' : 'denied',
-              'ad_user_data': consent.marketing ? 'granted' : 'denied',
-              'ad_personalization': consent.marketing ? 'granted' : 'denied'
-            });
-            console.log('✅ Analytics consent loaded from storage');
-          }
-        } catch (error) {
-          console.warn('Could not load cookie consent:', error);
-        }
-      })();
-
-      // Listen for consent updates
-      window.addEventListener('cookieConsentUpdated', function(event) {
-        if (event.detail) {
-          gtag('consent', 'update', {
-            'analytics_storage': event.detail.analytics ? 'granted' : 'denied',
-            'ad_storage': event.detail.marketing ? 'granted' : 'denied',
-            'ad_user_data': event.detail.marketing ? 'granted' : 'denied',
-            'ad_personalization': event.detail.marketing ? 'granted' : 'denied'
-          });
-          console.log('🍪 Analytics consent updated:', event.detail);
-        }
-      });
-
-      // Enhanced page view tracking for products page
-      function trackProductsPageView() {
-        gtag('event', 'page_view', {
-          'page_title': 'DAMP Smart Drinkware - Products',
-          'page_location': window.location.href,
-          'content_group1': 'products',
-          'custom_map': {
-            'device_category': window.innerWidth < 768 ? 'mobile' : window.innerWidth < 1024 ? 'tablet' : 'desktop',
-            'viewport_size': window.innerWidth + 'x' + window.innerHeight,
-            'referrer_domain': document.referrer ? new URL(document.referrer).hostname : 'direct',
-            'page_type': 'product_listing'
-          }
-        });
-      }
-
-      // Track page view when gtag is ready
-      setTimeout(trackProductsPageView, 100);
-
-      // Track product interactions
-      document.addEventListener('click', function(event) {
-        const element = event.target.closest('[data-analytics]');
-        if (element) {
-          const analyticsData = element.dataset.analytics;
-          const elementType = element.tagName.toLowerCase();
-          
-          gtag('event', 'click', {
-            'event_category': 'engagement',
-            'event_label': analyticsData,
-            'custom_map': {
-              'element_type': elementType,
-              'element_text': element.textContent?.trim()?.substring(0, 50) || '',
-              'element_id': element.id || 'no_id',
-              'page_section': 'products'
-            }
-          });
-        }
-      });
-
-      console.log('✅ DAMP Analytics initialized for Products Page');
-    </script>
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "DAMP Smart Drinkware",
-        "url": "https://dampdrink.com",
-        "logo": "https://dampdrink.com/assets/images/logo/icon.png",
-        "description": "Revolutionary smart drinkware with BLE technology that prevents you from leaving your beverages behind.",
-        "contactPoint": {
-            "@type": "ContactPoint",
-            "telephone": "+1-555-DAMP-DRINK",
-            "contactType": "customer service"
-        }
-    }
-    </script>
+    
+    <!-- PERFORMANCE OPTIMIZATION: Preload Navigation Script -->
+    <link rel="preload" href="../assets/js/navigation.js" as="script">
 </head>
-<body>
+
+<body class="page-loading">
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
     <!-- Navigation Header -->
-    <damp-header></damp-header>
+    <nav class="damp-nav" id="dampNav">
+        <div class="nav-container">
+            <a href="../index.html" class="logo" aria-label="DAMP Smart Drinkware Home">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo" width="32" height="32" loading="eager" decoding="async">
+                <span class="logo-text">DAMP</span>
+            </a>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container">
-            <div class="hero-content animate-fade-in-up">
-                <!-- Attention-Grabbing Hook -->
-                <div class="hero-hook animate-fade-in-up">
-                    <span class="hero-hook-stat">97%</span>
-                    <span class="hero-hook-text">of people have left their favorite drink behind</span>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="safe-area-mobile-menu" id="mobileMenu" role="navigation" aria-label="Main navigation">
+            <div class="mobile-menu-header">
+                <div class="mobile-logo">
+                    <img src="../assets/images/logo/icon.png" alt="DAMP Logo" width="32" height="32">
+                    <span>DAMP Smart Drinkware</span>
                 </div>
-                
-                <!-- Emotional Connection -->
-                <div class="hero-emotional animate-fade-in-up animate-delay-50">
-                    <p class="hero-emotional-text">Have you ever lost your favorite cup? That special mug you got for your birthday? <strong>Your go-to coffee companion?</strong></p>
-                </div>
-                
-                <h1 class="hero-title animate-fade-in-up animate-delay-100">Never Leave Your Drink Behind</h1>
-                <p class="hero-subtitle animate-fade-in-up animate-delay-200">Make it <strong>DAMP Smart in just minutes</strong> with our various models for Yeti, Stanley, Hydro Flask, and more! Revolutionary BLE technology meets elegant design.</p>
-                
-                <!-- Value Proposition -->
-                <div class="hero-value-props animate-fade-in-up animate-delay-300">
-                    <div class="value-prop">
-                        <span class="value-prop-icon">🔔</span>
-                        <span class="value-prop-text">Instant Alerts</span>
-                    </div>
-                    <div class="value-prop">
-                        <span class="value-prop-icon">🌡️</span>
-                        <span class="value-prop-text">Temperature Tracking</span>
-                    </div>
-                    <div class="value-prop">
-                        <span class="value-prop-icon">📊</span>
-                        <span class="value-prop-text">Hydration Analytics</span>
-                    </div>
-                </div>
-                
-                <!-- Urgency & Action -->
-                <div class="hero-urgency animate-fade-in-up animate-delay-400">
-                    <span class="hero-urgency-badge">Early Bird Special</span>
-                    <span class="hero-urgency-text">Transform your favorite cup into smart drinkware - Save up to $30 on pre-orders</span>
-                </div>
-                
-                <div class="hero-buttons animate-fade-in-up animate-delay-500">
-                    <a href="#products" class="btn btn-primary btn-lg">
-                        <span class="btn-text">Pre-Order Now</span>
-                        <span class="btn-subtext">Starting at $29.99</span>
+                <button class="mobile-close" id="mobileCloseBtn" aria-label="Close menu">×</button>
+            </div>
+
+            <nav class="mobile-nav-content">
+                <!-- Core Navigation -->
+                <div class="mobile-nav-section">
+                    <a href="../index.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🏠</span>
+                        <span class="mobile-nav-text">Home</span>
                     </a>
-                    <a href="#features" class="btn btn-secondary btn-lg">
-                        <span class="btn-text">See How It Works</span>
-                        <span class="btn-subtext">60 second demo</span>
+                    <a href="products.html" class="mobile-nav-link" aria-current="page">
+                        <span class="mobile-nav-icon">📱</span>
+                        <span class="mobile-nav-text">Products</span>
+                    </a>
+                    <a href="how-it-works.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">⚡</span>
+                        <span class="mobile-nav-text">How It Works</span>
+                    </a>
+                    <a href="product-voting.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🗳️</span>
+                        <span class="mobile-nav-text">Vote on Products</span>
                     </a>
                 </div>
-                
-                <!-- Social Proof -->
-                <div class="hero-social-proof animate-fade-in-up animate-delay-600">
-                    <div class="social-proof-stats">
-                        <div class="stat">
-                            <span class="stat-number">5,000+</span>
-                            <span class="stat-label">Pre-orders</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">4.9★</span>
-                            <span class="stat-label">Rating</span>
-                        </div>
-                        <div class="stat">
-                            <span class="stat-number">50+</span>
-                            <span class="stat-label">Countries</span>
-                        </div>
-                    </div>
-                    <p class="social-proof-text">Join thousands who've made their favorite Yeti, Stanley, Hydro Flask, and other cups smart in minutes</p>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Enhanced Floating Background Elements -->
-        <div class="floating-elements">
-            <div class="floating-circle floating-circle-primary"></div>
-            <div class="floating-circle floating-circle-secondary"></div>
-            <div class="floating-circle floating-circle-accent"></div>
-            <div class="floating-bubble floating-bubble-1"></div>
-            <div class="floating-bubble floating-bubble-2"></div>
-            <div class="floating-bubble floating-bubble-3"></div>
-        </div>
-    </section>
 
-    <!-- Universal Compatibility Section -->
-    <section class="compatibility-section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">The Right DAMP for Every Drinkware</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">From your favorite coffee mug to that aluminum can - we've got the perfect smart solution</p>
-            
-            <div class="compatibility-grid">
-                <!-- DAMP Handle with Ring -->
-                <div class="compatibility-card animate-fade-in-up animate-delay-200">
-                    <div class="compatibility-icon">
-                        <div class="icon-ring">🔗</div>
-                    </div>
-                    <h3 class="compatibility-title">DAMP Handle with Ring</h3>
-                    <p class="compatibility-description">Perfect for any cup without a handle. Universal ring design adapts to virtually any mug or tumbler.</p>
-                    <div class="compatibility-examples">
-                        <div class="example-item">Coffee Mugs</div>
-                        <div class="example-item">Tea Cups</div>
-                        <div class="example-item">Ceramic Tumblers</div>
-                        <div class="example-item">Glass Drinkware</div>
-                    </div>
-                    <div class="compatibility-features">
-                        <span class="feature-tag">Universal Fit</span>
-                        <span class="feature-tag">Instant Setup</span>
-                    </div>
-                </div>
-
-                <!-- Brand-Specific Handles -->
-                <div class="compatibility-card animate-fade-in-up animate-delay-300">
-                    <div class="compatibility-icon">
-                        <div class="icon-brand">🎯</div>
-                    </div>
-                    <h3 class="compatibility-title">Brand-Specific Handles</h3>
-                    <p class="compatibility-description">Precision-engineered for Stanley, Yeti, and other major brands. Multiple colors to match your style.</p>
-                    <div class="compatibility-examples">
-                        <div class="example-item">Stanley Tumblers</div>
-                        <div class="example-item">Yeti Ramblers</div>
-                        <div class="example-item">Hydro Flask</div>
-                        <div class="example-item">Contigo Bottles</div>
-                    </div>
-                    <div class="compatibility-features">
-                        <span class="feature-tag">Perfect Fit</span>
-                        <span class="feature-tag">Color Options</span>
-                        <span class="feature-tag">Licensed Design</span>
-                    </div>
-                </div>
-
-                <!-- Silicone Bottom -->
-                <div class="compatibility-card animate-fade-in-up animate-delay-400">
-                    <div class="compatibility-icon">
-                        <div class="icon-bottom">🔄</div>
-                    </div>
-                    <h3 class="compatibility-title">DAMP Silicone Bottom</h3>
-                    <p class="compatibility-description">Secure attachment to bottles and cups. Multiple sizes and colors for every drinkware type.</p>
-                    <div class="compatibility-examples">
-                        <div class="example-item">Water Bottles</div>
-                        <div class="example-item">Wine Glasses</div>
-                        <div class="example-item">Beer Bottles</div>
-                        <div class="example-item">Tall Tumblers</div>
-                    </div>
-                    <div class="compatibility-features">
-                        <span class="feature-tag">Multiple Sizes</span>
-                        <span class="feature-tag">Non-Slip Grip</span>
-                    </div>
-                </div>
-
-                <!-- Silicone Strap -->
-                <div class="compatibility-card animate-fade-in-up animate-delay-500">
-                    <div class="compatibility-icon">
-                        <div class="icon-strap">🌟</div>
-                    </div>
-                    <h3 class="compatibility-title">DAMP Silicone Strap</h3>
-                    <p class="compatibility-description">The ultimate universal solution. Attaches to absolutely anything you drink from - even aluminum cans!</p>
-                    <div class="compatibility-examples">
-                        <div class="example-item">Aluminum Cans</div>
-                        <div class="example-item">Plastic Bottles</div>
-                        <div class="example-item">Oddly-Shaped Containers</div>
-                        <div class="example-item">Anything Else!</div>
-                    </div>
-                    <div class="compatibility-features">
-                        <span class="feature-tag">Ultra Universal</span>
-                        <span class="feature-tag">Adjustable</span>
-                        <span class="feature-tag">Can Smart!</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Call to Action -->
-            <div class="compatibility-cta animate-fade-in-up animate-delay-600">
-                <h3 class="cta-title">Ready to Make Your Drinkware Smart?</h3>
-                <p class="cta-description">Choose your perfect DAMP solution and transform any drink container in minutes</p>
-                <div class="cta-buttons">
-                    <a href="#products" class="btn btn-primary btn-lg">
-                        <span class="btn-text">Find Your Perfect Match</span>
-                        <span class="btn-subtext">See all models & colors</span>
+                <!-- Product Links -->
+                <div class="mobile-nav-section">
+                    <h3 class="mobile-nav-section-title">Products</h3>
+                    <a href="damp-handle-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🔗</span>
+                        <span class="mobile-nav-text">DAMP Handle</span>
                     </a>
-                    <a href="#features" class="btn btn-secondary btn-lg">
-                        <span class="btn-text">How It Works</span>
-                        <span class="btn-subtext">Quick demo</span>
+                    <a href="silicone-bottom-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">⚪</span>
+                        <span class="mobile-nav-text">Silicone Bottom</span>
+                    </a>
+                    <a href="cup-sleeve-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🥤</span>
+                        <span class="mobile-nav-text">Cup Sleeve</span>
+                    </a>
+                    <a href="baby-bottle-v1.0.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🍼</span>
+                        <span class="mobile-nav-text">Baby Bottle</span>
                     </a>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Features Section -->
-    <section id="features" class="section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">Smart Features</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">Experience the future of beverage tracking</p>
-            
-            <div class="features-grid">
-                <div class="feature-card animate-fade-in-up animate-delay-200">
-                    <div class="feature-icon">📱</div>
-                    <h3>BLE Connectivity</h3>
-                    <p>Seamlessly connects to your smartphone via Bluetooth Low Energy for real-time tracking.</p>
-                </div>
-                
-                <div class="feature-card animate-fade-in-up animate-delay-300">
-                    <div class="feature-icon">🔔</div>
-                    <h3>Smart Notifications</h3>
-                    <p>Get instant alerts when you're about to leave your drink behind.</p>
-                </div>
-                
-                <div class="feature-card animate-fade-in-up animate-delay-400">
-                    <div class="feature-icon">🔋</div>
-                    <h3>Long Battery Life</h3>
-                    <p>Up to 6 months of battery life with low-power design.</p>
-                </div>
-                
-                <div class="feature-card animate-fade-in-up animate-delay-500">
-                    <div class="feature-icon">🌡️</div>
-                    <h3>Temperature Monitoring</h3>
-                    <p>Track your drink temperature and get optimal drinking alerts.</p>
-                </div>
-                
-                <div class="feature-card animate-fade-in-up animate-delay-600">
-                    <div class="feature-icon">📊</div>
-                    <h3>Hydration Analytics</h3>
-                    <p>Monitor your daily hydration habits and set personalized goals.</p>
-                </div>
-                
-                <div class="feature-card animate-fade-in-up animate-delay-700">
-                    <div class="feature-icon">🎯</div>
-                    <h3>Precision Tracking</h3>
-                    <p>Advanced sensors ensure accurate beverage detection and monitoring.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Products Section -->
-    <section id="products" class="section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">Our Products</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">Choose the perfect smart drinkware for your lifestyle</p>
-            
-            <div class="product-grid">
-                <div class="product-card animate-fade-in-up animate-delay-200">
-                    <div class="product-badge early-bird">Early Bird</div>
-                    <div class="product-image">
-                        <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">DAMP Handle v1.0</h3>
-                    <div class="product-price">
-                        $49.99
-                        <span class="product-price-original">$79.99</span>
-                    </div>
-                    <div class="product-savings">Save $30.00</div>
-                    <ul class="product-features">
-                        <li>Universal attachment for any mug</li>
-                        <li>6-month battery life</li>
-                        <li>Temperature monitoring</li>
-                        <li>BLE connectivity</li>
-                    </ul>
-                    <div class="product-buttons">
-                        <a href="pre-order.html?product=damp-handle-v1.0" class="btn btn-primary">Pre-Order Now</a>
-                        <a href="damp-handle-v1.0.html" class="btn btn-secondary">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="product-card animate-fade-in-up animate-delay-300">
-                    <div class="product-badge early-bird">Early Bird</div>
-                    <div class="product-image">
-                        <img src="../assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Silicone Bottom v1.0</h3>
-                    <div class="product-price">
-                        $39.99
-                        <span class="product-price-original">$59.99</span>
-                    </div>
-                    <div class="product-savings">Save $20.00</div>
-                    <ul class="product-features">
-                        <li>Non-slip silicone base</li>
-                        <li>Wireless charging compatible</li>
-                        <li>Water-resistant design</li>
-                        <li>Smart grip detection</li>
-                    </ul>
-                    <div class="product-buttons">
-                        <a href="pre-order.html?product=silicone-bottom-v1.0" class="btn btn-primary">Pre-Order Now</a>
-                        <a href="silicone-bottom-v1.0.html" class="btn btn-secondary">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="product-card animate-fade-in-up animate-delay-400">
-                    <div class="product-badge launch">Launch Special</div>
-                    <div class="product-image">
-                        <img src="../assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Cup Sleeve v1.0</h3>
-                    <div class="product-price">
-                        $29.99
-                        <span class="product-price-original">$44.99</span>
-                    </div>
-                    <div class="product-savings">Save $15.00</div>
-                    <ul class="product-features">
-                        <li>Adjustable fit for most cups</li>
-                        <li>Insulation properties</li>
-                        <li>Easy installation</li>
-                        <li>Dishwasher safe</li>
-                    </ul>
-                    <div class="product-buttons">
-                        <a href="pre-order.html?product=cup-sleeve-v1.0" class="btn btn-primary">Pre-Order Now</a>
-                        <a href="cup-sleeve-v1.0.html" class="btn btn-secondary">Learn More</a>
-                    </div>
-                </div>
-                
-                <div class="product-card animate-fade-in-up animate-delay-500">
-                    <div class="product-badge launch">Launch Special</div>
-                    <div class="product-image">
-                        <img src="../assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle v1.0" loading="lazy">
-                    </div>
-                    <h3 class="product-name">Baby Bottle v1.0</h3>
-                    <div class="product-price">
-                        $59.99
-                        <span class="product-price-original">$89.99</span>
-                    </div>
-                    <div class="product-savings">Save $30.00</div>
-                    <ul class="product-features">
-                        <li>BPA-free materials</li>
-                        <li>Feeding time tracking</li>
-                        <li>Temperature alerts</li>
-                        <li>Parent app integration</li>
-                    </ul>
-                    <div class="product-buttons">
-                        <a href="pre-order.html?product=baby-bottle-v1.0" class="btn btn-primary">Pre-Order Now</a>
-                        <a href="baby-bottle-v1.0.html" class="btn btn-secondary">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Community Voting Section -->
-    <section id="community-voting" class="community-voting-section">
-        <div class="container">
-            <div class="voting-header animate-fade-in-up">
-                <div class="voting-badge">🗳️ Community Choice</div>
-                <h2 class="section-title">Help Us Prioritize Development</h2>
-                <p class="section-subtitle">Your vote directly influences which DAMP product we develop next. Join thousands of users shaping the future of smart drinkware.</p>
-            </div>
-            
-            <div class="voting-preview-container animate-fade-in-up animate-delay-100">
-                <div class="voting-preview">
-                    <div class="voting-stats-grid">
-                        <div class="voting-stat-card">
-                            <div class="stat-number" id="total-votes">1,247</div>
-                            <div class="stat-label">Total Votes</div>
-                        </div>
-                        <div class="voting-stat-card">
-                            <div class="stat-number" id="active-users">892</div>
-                            <div class="stat-label">Participants</div>
-                        </div>
-                        <div class="voting-stat-card">
-                            <div class="stat-number" id="days-left">28</div>
-                            <div class="stat-label">Days Left</div>
-                        </div>
-                    </div>
-                    
-                    <div class="voting-results-preview">
-                        <h3 class="preview-title">Current Leaders:</h3>
-                        <div class="voting-leaders">
-                            <div class="vote-leader" data-product="smart-pitcher">
-                                <div class="leader-info">
-                                    <span class="leader-icon">🏺</span>
-                                    <span class="leader-name">Smart Water Pitcher</span>
-                                </div>
-                                <div class="leader-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 65%"></div>
-                                    </div>
-                                    <span class="leader-percentage">65%</span>
-                                </div>
-                            </div>
-                            
-                            <div class="vote-leader" data-product="mug-warmer">
-                                <div class="leader-info">
-                                    <span class="leader-icon">🔥</span>
-                                    <span class="leader-name">Coffee Mug Warmer</span>
-                                </div>
-                                <div class="leader-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 23%"></div>
-                                    </div>
-                                    <span class="leader-percentage">23%</span>
-                                </div>
-                            </div>
-                            
-                            <div class="vote-leader" data-product="cocktail-tracker">
-                                <div class="leader-info">
-                                    <span class="leader-icon">🍸</span>
-                                    <span class="leader-name">Cocktail Tracker</span>
-                                </div>
-                                <div class="leader-progress">
-                                    <div class="progress-bar">
-                                        <div class="progress-fill" style="width: 12%"></div>
-                                    </div>
-                                    <span class="leader-percentage">12%</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="voting-cta">
-                    <a href="product-voting.html" class="btn-vote-main" data-analytics="products-page-vote-cta">
-                        <span class="vote-icon">🗳️</span>
-                        <span class="vote-text">Cast Your Vote Now</span>
-                        <span class="vote-arrow">→</span>
+                <!-- CTA Section -->
+                <div class="mobile-nav-cta-section">
+                    <a href="pre-sale-funnel.html" class="mobile-nav-cta">
+                        <span class="mobile-nav-icon">🚀</span>
+                        <span class="mobile-nav-text">Pre-Order Now</span>
                     </a>
-                    
-                    <div class="voting-info">
-                        <p class="voting-note">
-                            <strong>Your voice matters!</strong> Registered customers get priority voting, but everyone can participate in our community polls.
-                        </p>
-                        <div class="voting-features">
-                            <span class="feature-item">
-                                <span class="feature-icon">🔒</span>
-                                <span class="feature-text">Secure Firebase voting</span>
-                            </span>
-                            <span class="feature-item">
-                                <span class="feature-icon">⚡</span>
-                                <span class="feature-text">Real-time results</span>
-                            </span>
-                            <span class="feature-item">
-                                <span class="feature-icon">👥</span>
-                                <span class="feature-text">Community driven</span>
-                            </span>
-                        </div>
+                    <a href="cart.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">🛒</span>
+                        <span class="mobile-nav-text">Cart</span>
+                    </a>
+                </div>
+
+                <!-- Support Links -->
+                <div class="mobile-nav-section">
+                    <h3 class="mobile-nav-section-title">Support</h3>
+                    <a href="about.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">ℹ️</span>
+                        <span class="mobile-nav-text">About</span>
+                    </a>
+                    <a href="support.html" class="mobile-nav-link">
+                        <span class="mobile-nav-icon">💬</span>
+                        <span class="mobile-nav-text">Support</span>
+                    </a>
+                </div>
+            </nav>
+
+            <!-- Social Proof -->
+            <div class="mobile-nav-social-proof">
+                <div class="social-proof-item">
+                    <span class="proof-icon">👥</span>
+                    <div class="proof-content">
+                        <span class="proof-number">2,847</span>
+                        <span class="proof-label">Pre-Orders</span>
+                    </div>
+                </div>
+                <div class="social-proof-item">
+                    <span class="proof-icon">⭐</span>
+                    <div class="proof-content">
+                        <span class="proof-number">4.9</span>
+                        <span class="proof-label">Rating</span>
+                    </div>
+                </div>
+                <div class="social-proof-item">
+                    <span class="proof-icon">🚀</span>
+                    <div class="proof-content">
+                        <span class="proof-number">Q2</span>
+                        <span class="proof-label">Launch</span>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </nav>
 
-    <!-- App Section -->
-    <section id="app" class="app-section">
-        <div class="container">
-            <h2 class="section-title animate-fade-in-up">DAMP Mobile App</h2>
-            <p class="section-subtitle animate-fade-in-up animate-delay-100">Control your smart drinkware from your phone</p>
-            
-            <div class="app-buttons animate-fade-in-up animate-delay-200">
-                <a href="#" class="app-btn">
-                    <div class="app-icon">📱</div>
-                    <div class="app-btn-text">
-                        <div class="app-btn-label">Download on the</div>
-                        <div class="app-btn-title">App Store</div>
-                    </div>
-                </a>
-                
-                <a href="#" class="app-btn">
-                    <div class="app-icon">🤖</div>
-                    <div class="app-btn-text">
-                        <div class="app-btn-label">Get it on</div>
-                        <div class="app-btn-title">Google Play</div>
-                    </div>
-                </a>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="products-hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>DAMP Smart Drinkware Products</h1>
+                    <p class="hero-subtitle">Complete ecosystem of smart drinkware solutions with universal compatibility for your favorite cups and bottles</p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
+
+        <!-- Products Section -->
+        <section class="products-section">
+            <div class="container">
+                <h2 class="section-title">Complete Product Ecosystem</h2>
+                <p class="section-subtitle">
+                    Choose from our range of smart drinkware solutions designed to work with any cup, bottle, or tumbler you already love.
+                </p>
+                
+                <div class="products-grid">
+                    <!-- DAMP Handle -->
+                    <div class="product-card">
+                        <div class="product-badge">Most Popular</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle v1.0" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="product-name">DAMP Handle v1.0</h3>
+                        <p class="product-description">Universal handle attachment with BLE tracking for any drinkware. Perfect for Stanley, Yeti, and Hydro Flask tumblers.</p>
+                        <div class="product-price">$69.99</div>
+                        <ul class="product-features">
+                            <li>Universal compatibility</li>
+                            <li>6-month battery life</li>
+                            <li>Waterproof IP67 rating</li>
+                            <li>Instant phone alerts</li>
+                            <li>Temperature monitoring</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                            <a href="damp-handle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Silicone Bottom -->
+                    <div class="product-card">
+                        <div class="product-badge">Best Value</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/silicone-bottom/silicone-bottom.png" alt="DAMP Silicone Bottom v1.0" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="product-name">Silicone Bottom v1.0</h3>
+                        <p class="product-description">Smart silicone base that transforms any cup into a trackable smart drinkware device with non-slip grip.</p>
+                        <div class="product-price">$59.99</div>
+                        <ul class="product-features">
+                            <li>Food-grade silicone</li>
+                            <li>Anti-slip design</li>
+                            <li>Easy cleaning</li>
+                            <li>Wireless charging compatible</li>
+                            <li>Multiple sizes available</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                            <a href="silicone-bottom-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Cup Sleeve -->
+                    <div class="product-card">
+                        <div class="product-badge">Versatile</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/cup-sleeve/cup-sleeve.png" alt="DAMP Cup Sleeve v1.0" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="product-name">Cup Sleeve v1.0</h3>
+                        <p class="product-description">Insulated smart sleeve with built-in DAMP technology for coffee cups and tumblers with thermal protection.</p>
+                        <div class="product-price">$49.99</div>
+                        <ul class="product-features">
+                            <li>Thermal insulation</li>
+                            <li>Grip enhancement</li>
+                            <li>Adjustable fit</li>
+                            <li>Machine washable</li>
+                            <li>Spill-resistant design</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                            <a href="cup-sleeve-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Baby Bottle -->
+                    <div class="product-card">
+                        <div class="product-badge">Premium</div>
+                        <div class="product-image">
+                            <img src="../assets/images/products/baby-bottle/baby-bottle.png" alt="DAMP Baby Bottle v1.0" loading="lazy" decoding="async">
+                        </div>
+                        <h3 class="product-name">Baby Bottle v1.0</h3>
+                        <p class="product-description">Smart baby bottle with feeding tracking, temperature monitoring, and safety alerts for new parents.</p>
+                        <div class="product-price">$79.99</div>
+                        <ul class="product-features">
+                            <li>BPA-free materials</li>
+                            <li>Temperature monitoring</li>
+                            <li>Feeding time tracker</li>
+                            <li>Parent app integration</li>
+                            <li>Safety alert system</li>
+                        </ul>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn btn-primary btn-small">Pre-Order</a>
+                            <a href="baby-bottle-v1.0.html" class="btn btn-secondary btn-small">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Universal Compatibility Section -->
+                <div style="text-align: center; margin: 80px 0;">
+                    <h3 style="font-size: 2rem; margin-bottom: 20px; color: var(--primary-color);">Universal Compatibility</h3>
+                    <p style="font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        All DAMP products work seamlessly with your favorite drinkware brands
+                    </p>
+                    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: center;">
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Stanley</span>
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Yeti</span>
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Hydro Flask</span>
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Contigo</span>
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Klean Kanteen</span>
+                        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">And More</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Voting Section -->
+        <section class="community-voting-section">
+            <div class="container">
+                <div class="voting-header">
+                    <h2>Community-Driven Development</h2>
+                    <p>Your voice shapes our product roadmap! Join thousands of DAMP users voting on which smart drinkware we develop next.</p>
+                </div>
+                
+                <div class="voting-stats">
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="total-votes">2,847</span>
+                        <span class="vote-stat-label">Total Votes</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="leading-product">Handle</span>
+                        <span class="vote-stat-label">Currently Leading</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="participation-rate">68%</span>
+                        <span class="vote-stat-label">Participation Rate</span>
+                    </div>
+                </div>
+                
+                <div class="voting-actions">
+                    <a href="product-voting.html" class="btn-vote">🗳️ Cast Your Vote</a>
+                    <a href="product-voting.html" class="btn btn-secondary" style="padding: 20px 50px; font-size: 1.3rem;">View Live Results</a>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="../assets/images/logo/logo.png" alt="DAMP Logo" loading="lazy">
+                    </div>
+                    <h3>DAMP Smart Drinkware</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 20px;">
+                        Never leave your drink behind with revolutionary BLE technology that keeps you connected to your favorite beverage.
+                    </p>
+                </div>
+                
+                <div class="footer-section">
                     <h3>Products</h3>
+                    <a href="products.html">All Products</a>
                     <a href="damp-handle-v1.0.html">DAMP Handle</a>
                     <a href="silicone-bottom-v1.0.html">Silicone Bottom</a>
                     <a href="cup-sleeve-v1.0.html">Cup Sleeve</a>
@@ -887,297 +812,138 @@
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Support</h3>
-                    <a href="support.html">Help Center</a>
-                    <a href="support.html#setup">Setup Guide</a>
-                    <a href="support.html#faq">FAQ</a>
-                    <a href="support.html#contact">Contact Us</a>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Company</h3>
+                    <h3>Community</h3>
+                    <a href="product-voting.html">Product Voting</a>
+                    <a href="pre-sale-funnel.html">Pre-Sale Funnel</a>
+                    <a href="how-it-works.html">How It Works</a>
+                    <a href="support.html">Support Center</a>
                     <a href="about.html">About Us</a>
-                    <a href="privacy.html">Privacy Policy</a>
-                    <a href="support.html">Terms of Service</a>
-                    <a href="support.html#contact">Contact</a>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Connect</h3>
-                    <a href="#" target="_blank" rel="noopener">Twitter</a>
-                    <a href="#" target="_blank" rel="noopener">Facebook</a>
-                    <a href="#" target="_blank" rel="noopener">Instagram</a>
-                    <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+                    <h3>Legal & Support</h3>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="cookie-policy.html">Cookie Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="support.html#contact">Contact Us</a>
+                    <a href="support.html#warranty">Warranty</a>
                 </div>
             </div>
             
-            <div class="text-center text-secondary">
+            <div class="footer-bottom">
                 <p>&copy; 2025 WeCr8 Solutions LLC. All rights reserved.</p>
+                <p style="margin-top: 15px; font-size: 0.9rem; opacity: 0.8;">
+                    DAMP - Drink Abandonment Monitoring Protocol™
+                </p>
             </div>
         </div>
     </footer>
 
-    <!-- Scripts - Updated with SafeAreaWrapper -->
-    <script src="../assets/js/components/safe-area-wrapper.js"></script>
-    <script src="../assets/js/components/favicon-setup.js"></script>
-    <script src="../assets/js/components/header.js"></script>
-    <script src="../assets/js/cookie-consent-simple.js"></script>
-    <script src="../assets/js/scripts.js"></script>
-    
-    <!-- Firebase Services -->
-    <script src="../assets/js/firebase-services.js"></script>
-    
-    <!-- Voting Integration Component -->
+    <!-- PERFORMANCE OPTIMIZATION: Progressive Script Loading -->
     <script>
-        /**
-         * DAMP Products Page Voting Integration
-         * Connects to Firebase voting system for real-time data
-         */
-        class ProductsVotingPreview {
-            constructor() {
-                this.votingData = null;
-                this.publicVotingData = null;
-                this.isLoading = true;
-                
-                this.init();
-            }
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.remove('page-loading');
+            document.body.classList.add('page-ready');
             
-            async init() {
-                try {
-                    // Wait for Firebase services to be available
-                    await this.waitForFirebaseServices();
-                    
-                    // Initialize Firebase services if not already done
-                    if (!window.firebaseServices.initialized) {
-                        await window.firebaseServices.initializeFirebaseServices();
-                    }
-                    
-                    // Set up voting data listeners
-                    this.startVotingListeners();
-                    
-                    // Load initial data
-                    this.loadInitialData();
-                    
-                    console.log('✅ Products Voting Preview initialized');
-                    
-                } catch (error) {
-                    console.warn('Firebase services not available, using static data:', error);
-                    this.loadStaticData();
-                }
-            }
+            // Load core scripts progressively
+            loadCoreScripts();
             
-            async waitForFirebaseServices() {
-                return new Promise((resolve, reject) => {
-                    let attempts = 0;
-                    const maxAttempts = 30;
-                    
-                    const checkServices = () => {
-                        if (window.firebaseServices) {
-                            resolve();
-                        } else if (attempts >= maxAttempts) {
-                            reject(new Error('Firebase services not available'));
-                        } else {
-                            attempts++;
-                            setTimeout(checkServices, 100);
-                        }
-                    };
-                    
-                    checkServices();
-                });
-            }
+            // Load voting data
+            setTimeout(updateVotingStats, 1000);
             
-            startVotingListeners() {
-                // Listen to public voting data (always available)
-                if (window.firebaseServices?.votingService?.onPublicVotingChange) {
-                    this.publicUnsubscribe = window.firebaseServices.votingService.onPublicVotingChange((data) => {
-                        this.publicVotingData = data;
-                        this.updatePreviewData(data);
-                        console.log('Public voting data updated:', data);
-                    });
-                }
-                
-                // Listen to customer voting data (requires authentication)
-                if (window.firebaseServices?.votingService?.onVotingChange) {
-                    this.customerUnsubscribe = window.firebaseServices.votingService.onVotingChange((data) => {
-                        this.votingData = data;
-                        // Use customer data if available, otherwise use public
-                        if (data && Object.keys(data.products || {}).length > 0) {
-                            this.updatePreviewData(data);
-                        }
-                        console.log('Customer voting data updated:', data);
-                    });
-                }
-            }
+            // Initialize FAQ if present
+            initializeFAQ();
+        });
+        
+        function loadCoreScripts() {
+            const scripts = [
+                '../assets/js/navigation.js',
+                '../assets/js/cookie-policy.js'
+            ];
             
-            loadInitialData() {
-                // Show loading state
-                this.showLoadingState();
-                
-                // Data will be loaded via listeners
+            scripts.forEach((src, index) => {
                 setTimeout(() => {
-                    if (this.isLoading) {
-                        console.log('No real-time data received, using static data');
-                        this.loadStaticData();
-                    }
-                }, 3000);
-            }
-            
-            updatePreviewData(votingData) {
-                if (!votingData || !votingData.products) {
-                    this.loadStaticData();
-                    return;
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.async = true;
+                    script.onload = () => console.log(`✅ Loaded: ${src}`);
+                    script.onerror = () => console.error(`❌ Failed: ${src}`);
+                    document.head.appendChild(script);
+                }, index * 100);
+            });
+        }
+        
+        function updateVotingStats() {
+            // Update with real-time data if available
+            try {
+                if (window.firebaseServices && window.firebaseServices.votingService) {
+                    window.firebaseServices.votingService.onPublicVotingChange(updateVotingDisplay);
                 }
-                
-                this.isLoading = false;
-                
-                // Calculate total votes
-                const products = Object.values(votingData.products);
-                const totalVotes = products.reduce((sum, product) => sum + (product.votes || 0), 0);
-                const participants = Math.floor(totalVotes * 0.7); // Estimate unique users
-                
-                // Update stats
-                this.updateElement('total-votes', this.formatNumber(totalVotes));
-                this.updateElement('active-users', this.formatNumber(participants));
-                
-                // Sort products by votes and update leaders
-                const sortedProducts = products.sort((a, b) => (b.votes || 0) - (a.votes || 0));
-                this.updateLeaders(sortedProducts, totalVotes);
-                
-                console.log('Preview data updated with', totalVotes, 'total votes');
-            }
-            
-            updateLeaders(products, totalVotes) {
-                const leadersContainer = document.querySelector('.voting-leaders');
-                if (!leadersContainer || products.length === 0) return;
-                
-                // Map product IDs to display data
-                const productMap = {
-                    'smart_water_pitcher': { icon: '🏺', name: 'Smart Water Pitcher' },
-                    'coffee_mug_warmer': { icon: '🔥', name: 'Coffee Mug Warmer' },
-                    'cocktail_tracker': { icon: '🍸', name: 'Cocktail Tracker' },
-                    'wine_glass_sensors': { icon: '🍷', name: 'Wine Glass Sensors' },
-                    'beer_mug_tracker': { icon: '🍺', name: 'Beer Mug Tracker' }
-                };
-                
-                // Take top 3 products
-                const topProducts = products.slice(0, 3);
-                
-                leadersContainer.innerHTML = topProducts.map(product => {
-                    const productInfo = productMap[product.id] || { icon: '🥤', name: product.name || 'Unknown Product' };
-                    const percentage = totalVotes > 0 ? Math.round((product.votes || 0) / totalVotes * 100) : 0;
-                    
-                    return `
-                        <div class="vote-leader" data-product="${product.id}">
-                            <div class="leader-info">
-                                <span class="leader-icon">${productInfo.icon}</span>
-                                <span class="leader-name">${productInfo.name}</span>
-                            </div>
-                            <div class="leader-progress">
-                                <div class="progress-bar">
-                                    <div class="progress-fill" style="width: ${percentage}%"></div>
-                                </div>
-                                <span class="leader-percentage">${percentage}%</span>
-                            </div>
-                        </div>
-                    `;
-                }).join('');
-            }
-            
-            loadStaticData() {
-                this.isLoading = false;
-                
-                // Use fallback static data
-                const staticData = {
-                    totalVotes: 1247,
-                    participants: 892,
-                    daysLeft: 28,
-                    leaders: [
-                        { id: 'smart-pitcher', icon: '🏺', name: 'Smart Water Pitcher', percentage: 65 },
-                        { id: 'mug-warmer', icon: '🔥', name: 'Coffee Mug Warmer', percentage: 23 },
-                        { id: 'cocktail-tracker', icon: '🍸', name: 'Cocktail Tracker', percentage: 12 }
-                    ]
-                };
-                
-                this.updateElement('total-votes', this.formatNumber(staticData.totalVotes));
-                this.updateElement('active-users', this.formatNumber(staticData.participants));
-                this.updateElement('days-left', staticData.daysLeft);
-                
+            } catch (error) {
                 console.log('Using static voting data');
-            }
-            
-            showLoadingState() {
-                const statNumbers = document.querySelectorAll('.stat-number');
-                statNumbers.forEach(element => {
-                    element.style.opacity = '0.5';
-                    element.textContent = '...';
-                });
-            }
-            
-            updateElement(id, value) {
-                const element = document.getElementById(id);
-                if (element) {
-                    element.style.opacity = '1';
-                    element.textContent = value;
-                }
-            }
-            
-            formatNumber(num) {
-                if (num >= 1000) {
-                    return (num / 1000).toFixed(1).replace(/\.0$/, '') + 'K';
-                }
-                return num.toString();
-            }
-            
-            // Cleanup method
-            destroy() {
-                if (this.publicUnsubscribe) {
-                    this.publicUnsubscribe();
-                }
-                if (this.customerUnsubscribe) {
-                    this.customerUnsubscribe();
-                }
             }
         }
         
-        // Initialize voting preview when DOM is ready
-        let votingPreview;
-        document.addEventListener('DOMContentLoaded', () => {
-            votingPreview = new ProductsVotingPreview();
+        function updateVotingDisplay(data) {
+            const totalVotesEl = document.getElementById('total-votes');
+            const leadingEl = document.getElementById('leading-product');
+            const participationEl = document.getElementById('participation-rate');
             
-            // Track voting CTA clicks
-            const votingCTA = document.querySelector('[data-analytics="products-page-vote-cta"]');
-            if (votingCTA) {
-                votingCTA.addEventListener('click', () => {
-                    if (typeof gtag !== 'undefined') {
-                        gtag('event', 'vote_cta_click', {
-                            event_category: 'engagement',
-                            event_label: 'products_page_voting',
-                            custom_map: {
-                                source_page: 'products',
-                                cta_type: 'main_voting_button',
-                                timestamp: Date.now()
-                            }
+            if (totalVotesEl) totalVotesEl.textContent = data.totalVotes?.toLocaleString() || '2,847';
+            if (leadingEl) leadingEl.textContent = data.leadingProduct || 'Handle';
+            if (participationEl) participationEl.textContent = (data.participationRate || 68) + '%';
+        }
+        
+        function initializeFAQ() {
+            // Initialize FAQ functionality if FAQ items exist on page
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                if (question) {
+                    question.addEventListener('click', () => {
+                        const isActive = item.classList.contains('active');
+                        
+                        // Close all other FAQ items
+                        faqItems.forEach(otherItem => {
+                            otherItem.classList.remove('active');
                         });
-                    }
-                    console.log('Voting CTA clicked from products page');
+                        
+                        // Toggle current item
+                        if (!isActive) {
+                            item.classList.add('active');
+                        }
+                    });
+                }
+            });
+        }
+        
+        // Track page analytics
+        function trackPageView() {
+            if (window.gtag) {
+                gtag('event', 'page_view', {
+                    page_title: 'Products Page',
+                    page_location: window.location.href,
+                    custom_map: { dimension1: 'products_catalog' }
                 });
             }
-        });
+        }
         
-        // Cleanup on page unload
-        window.addEventListener('beforeunload', () => {
-            if (votingPreview) {
-                votingPreview.destroy();
-            }
-        });
-        
-        console.log('✅ Products Page Voting Integration loaded');
+        // Call analytics tracking
+        setTimeout(trackPageView, 2000);
     </script>
 
-    <!-- Simple Cookie Consent System -->
+    <!-- Load Analytics Last -->
     <script>
-        // Simple cookie consent auto-initializes, no additional setup needed
-        console.log('Products page: Simple cookie consent loaded');
+        setTimeout(() => {
+            const script = document.createElement('script');
+            script.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+            script.async = true;
+            document.head.appendChild(script);
+        }, 3000);
     </script>
+
+    <!-- Cookie Policy System loaded via cookie-policy.js -->
 </body>
-</html> 
+</html>

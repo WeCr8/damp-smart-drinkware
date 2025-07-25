@@ -22,6 +22,7 @@ class DAMPHeader extends HTMLElement {
         this.setupAnalytics();
         this.setupAccessibility();
         this.setupMobileSafeAreas();
+        this.initializeDynamicUpdates();
         
         // Log successful initialization
         this.securityLog('DAMP Navigation initialized successfully');
@@ -98,8 +99,28 @@ class DAMPHeader extends HTMLElement {
                     
                     <!-- Primary Navigation -->
                     <nav class="mobile-nav" role="navigation">
+                        <!-- Quick Actions (Most Important) -->
+                        <div class="mobile-nav-section featured-section">
+                            <h3 class="mobile-nav-section-title">🚀 Get Started</h3>
+                            <a href="${this.basePath}pages/pre-sale-funnel.html" class="mobile-nav-cta-primary" data-analytics="mobile-nav-preorder-main">
+                                <span class="mobile-nav-icon">🛒</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Pre-Order Now</span>
+                                    <span class="mobile-nav-subtitle">Starting $29.99 • Early Bird Pricing</span>
+                                </div>
+                            </a>
+                            <a href="${this.basePath}pages/product-voting.html" data-analytics="mobile-nav-voting-main">
+                                <span class="mobile-nav-icon">🗳️</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Vote Next Product</span>
+                                    <span class="mobile-nav-subtitle">Help us prioritize development</span>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Main Navigation -->
                         <div class="mobile-nav-section">
-                            <h3 class="mobile-nav-section-title">Main</h3>
+                            <h3 class="mobile-nav-section-title">📍 Navigate</h3>
                             <a href="${homeHref}" data-analytics="mobile-nav-home">
                                 <span class="mobile-nav-icon">🏠</span>
                                 <span class="mobile-nav-text">Home</span>
@@ -110,84 +131,146 @@ class DAMPHeader extends HTMLElement {
                             </a>
                             <a href="${this.basePath}pages/products.html" data-analytics="mobile-nav-products">
                                 <span class="mobile-nav-icon">📦</span>
-                                <span class="mobile-nav-text">Products</span>
+                                <span class="mobile-nav-text">All Products</span>
+                            </a>
+                            <a href="${this.basePath}pages/about.html" data-analytics="mobile-nav-about">
+                                <span class="mobile-nav-icon">ℹ️</span>
+                                <span class="mobile-nav-text">About DAMP</span>
                             </a>
                         </div>
                         
-                        <!-- Product-Specific Links (from sitemap) -->
+                        <!-- Smart Drinkware Products -->
                         <div class="mobile-nav-section">
-                            <h3 class="mobile-nav-section-title">Products</h3>
+                            <h3 class="mobile-nav-section-title">🥤 Smart Products</h3>
                             <a href="${this.basePath}pages/damp-handle-v1.0.html" data-analytics="mobile-nav-handle">
                                 <span class="mobile-nav-icon">🔗</span>
-                                <span class="mobile-nav-text">DAMP Handle</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">DAMP Handle</span>
+                                    <span class="mobile-nav-subtitle">Universal clip-on • $49.99</span>
+                                </div>
                             </a>
                             <a href="${this.basePath}pages/silicone-bottom-v1.0.html" data-analytics="mobile-nav-silicone">
                                 <span class="mobile-nav-icon">⚪</span>
-                                <span class="mobile-nav-text">Silicone Bottom</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Silicone Bottom</span>
+                                    <span class="mobile-nav-subtitle">Non-slip base • $29.99</span>
+                                </div>
                             </a>
                             <a href="${this.basePath}pages/cup-sleeve-v1.0.html" data-analytics="mobile-nav-sleeve">
                                 <span class="mobile-nav-icon">🥤</span>
-                                <span class="mobile-nav-text">Cup Sleeve</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Cup Sleeve</span>
+                                    <span class="mobile-nav-subtitle">Adjustable fit • $39.99</span>
+                                </div>
                             </a>
                             <a href="${this.basePath}pages/baby-bottle-v1.0.html" data-analytics="mobile-nav-baby">
                                 <span class="mobile-nav-icon">🍼</span>
-                                <span class="mobile-nav-text">Baby Bottle</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Baby Bottle</span>
+                                    <span class="mobile-nav-subtitle">Smart feeding tracker • $79.99</span>
+                                </div>
                             </a>
                         </div>
                         
-                        <!-- Community & Engagement -->
+                        <!-- Stanley Collection -->
                         <div class="mobile-nav-section">
-                            <h3 class="mobile-nav-section-title">Community</h3>
-                            <a href="${this.basePath}pages/product-voting.html" data-analytics="mobile-nav-voting">
-                                <span class="mobile-nav-icon">🗳️</span>
-                                <span class="mobile-nav-text">Vote Next Product</span>
+                            <h3 class="mobile-nav-section-title">⭐ Stanley Collection</h3>
+                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley.html" data-analytics="mobile-nav-stanley-general">
+                                <span class="mobile-nav-icon">🏆</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Stanley Compatible</span>
+                                    <span class="mobile-nav-subtitle">All Stanley models</span>
+                                </div>
+                            </a>
+                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley-Quencher-H2.0.html" data-analytics="mobile-nav-stanley-quencher">
+                                <span class="mobile-nav-icon">🥤</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Stanley Quencher H2.0</span>
+                                    <span class="mobile-nav-subtitle">Perfect fit design</span>
+                                </div>
+                            </a>
+                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley-IceFlow.html" data-analytics="mobile-nav-stanley-iceflow">
+                                <span class="mobile-nav-icon">🧊</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Stanley IceFlow</span>
+                                    <span class="mobile-nav-subtitle">Cold drink specialist</span>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Shopping & Account -->
+                        <div class="mobile-nav-section">
+                            <h3 class="mobile-nav-section-title">🛒 Shopping</h3>
+                            <a href="${this.basePath}pages/cart.html" data-analytics="mobile-nav-cart">
+                                <span class="mobile-nav-icon">🛒</span>
+                                <span class="mobile-nav-text">View Cart</span>
+                                <span class="cart-badge" id="mobile-cart-badge">0</span>
                             </a>
                             <a href="${this.basePath}pages/waitlist.html" data-analytics="mobile-nav-waitlist">
                                 <span class="mobile-nav-icon">📝</span>
                                 <span class="mobile-nav-text">Join Waitlist</span>
                             </a>
-                            <a href="${this.basePath}pages/pre-sale-funnel.html" data-analytics="mobile-nav-presale">
-                                <span class="mobile-nav-icon">🎯</span>
-                                <span class="mobile-nav-text">Pre-Sale Info</span>
+                            <a href="${this.basePath}pages/subscription.html" data-analytics="mobile-nav-subscription">
+                                <span class="mobile-nav-icon">🔄</span>
+                                <span class="mobile-nav-text">Subscriptions</span>
                             </a>
                         </div>
                         
-                        <!-- Support & Info -->
+                        <!-- Support & Help -->
                         <div class="mobile-nav-section">
-                            <h3 class="mobile-nav-section-title">Support</h3>
+                            <h3 class="mobile-nav-section-title">💬 Support</h3>
                             <a href="${this.basePath}pages/support.html" data-analytics="mobile-nav-support">
-                                <span class="mobile-nav-icon">💬</span>
-                                <span class="mobile-nav-text">Support</span>
+                                <span class="mobile-nav-icon">🎧</span>
+                                <span class="mobile-nav-text">Help Center</span>
                             </a>
-                            <a href="${this.basePath}pages/about.html" data-analytics="mobile-nav-about">
-                                <span class="mobile-nav-icon">ℹ️</span>
-                                <span class="mobile-nav-text">About</span>
+                            <a href="${this.basePath}pages/support.html#contact" data-analytics="mobile-nav-contact">
+                                <span class="mobile-nav-icon">📧</span>
+                                <span class="mobile-nav-text">Contact Us</span>
+                            </a>
+                            <a href="${this.basePath}pages/support.html#warranty" data-analytics="mobile-nav-warranty">
+                                <span class="mobile-nav-icon">🛡️</span>
+                                <span class="mobile-nav-text">Warranty Info</span>
                             </a>
                         </div>
                     </nav>
                     
-                    <!-- Action Buttons Section -->
-                    <div class="mobile-nav-actions">
-                        <a href="${this.basePath}pages/pre-order.html" class="mobile-nav-cta btn-preorder" data-analytics="mobile-nav-preorder">
-                            <span class="mobile-nav-icon">🚀</span>
-                            <span class="mobile-nav-text">Pre-Order Now</span>
-                        </a>
-                        <a href="${this.basePath}pages/cart.html" class="mobile-nav-cart" data-analytics="mobile-nav-cart">
-                            <span class="mobile-nav-icon">🛒</span>
-                            <span class="mobile-nav-text">View Cart</span>
-                            <span class="cart-count" id="mobile-cart-count">0</span>
-                        </a>
+                    <!-- Quick Social Proof -->
+                    <div class="mobile-nav-social-proof">
+                        <div class="social-proof-item">
+                            <span class="proof-icon">👥</span>
+                            <div class="proof-content">
+                                <span class="proof-number" id="mobile-preorder-live">5,247+</span>
+                                <span class="proof-label">Pre-Orders</span>
+                            </div>
+                        </div>
+                        <div class="social-proof-item">
+                            <span class="proof-icon">⭐</span>
+                            <div class="proof-content">
+                                <span class="proof-number">4.9★</span>
+                                <span class="proof-label">Rating</span>
+                            </div>
+                        </div>
+                        <div class="social-proof-item">
+                            <span class="proof-icon">🌍</span>
+                            <div class="proof-content">
+                                <span class="proof-number">50+</span>
+                                <span class="proof-label">Countries</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 
                 <div class="mobile-menu-footer safe-area-bottom">
-                    <div class="mobile-social-proof">
-                        <span class="social-stat" id="mobile-preorder-count">247+ Pre-Orders</span>
-                        <span class="social-rating">4.9★ Rating</span>
-                    </div>
                     <div class="mobile-legal-links">
-                        <a href="${this.basePath}pages/privacy.html" data-analytics="mobile-nav-privacy">Privacy</a>
+                        <a href="${this.basePath}pages/privacy.html" data-analytics="mobile-nav-privacy">Privacy Policy</a>
+                        <span class="legal-separator">•</span>
+                        <a href="${this.basePath}pages/terms.html" data-analytics="mobile-nav-terms">Terms</a>
+                        <span class="legal-separator">•</span>
                         <a href="${this.basePath}pages/cookie-policy.html" data-analytics="mobile-nav-cookies">Cookies</a>
+                    </div>
+                    <div class="mobile-footer-brand">
+                        <span class="footer-copyright">© 2025 WeCr8 Solutions LLC</span>
+                        <span class="footer-tagline">DAMP - Never Leave Your Drink Behind™</span>
                     </div>
                 </div>
             </div>
@@ -678,6 +761,77 @@ class DAMPHeader extends HTMLElement {
         };
     }
 
+    // Update cart badge count
+    updateCartBadge(count = 0) {
+        const cartBadge = this.querySelector('#mobile-cart-badge');
+        if (cartBadge) {
+            cartBadge.textContent = count;
+            cartBadge.style.display = count > 0 ? 'flex' : 'none';
+        }
+    }
+    
+    // Update live statistics
+    updateLiveStats(preOrders = null, rating = null) {
+        const preOrderElement = this.querySelector('#mobile-preorder-live');
+        if (preOrderElement && preOrders) {
+            // Animate number change
+            this.animateNumberChange(preOrderElement, preOrders);
+        }
+    }
+    
+    // Animate number changes for live stats
+    animateNumberChange(element, newValue) {
+        const currentText = element.textContent;
+        const currentNumber = parseInt(currentText.replace(/[^0-9]/g, '')) || 0;
+        const targetNumber = typeof newValue === 'string' ? 
+            parseInt(newValue.replace(/[^0-9]/g, '')) || 0 : newValue;
+        
+        if (currentNumber === targetNumber) return;
+        
+        const duration = 1000; // 1 second
+        const steps = 30;
+        const increment = (targetNumber - currentNumber) / steps;
+        let step = 0;
+        
+        const timer = setInterval(() => {
+            step++;
+            const currentValue = Math.round(currentNumber + (increment * step));
+            
+            if (step >= steps) {
+                element.textContent = this.formatStatNumber(targetNumber);
+                clearInterval(timer);
+            } else {
+                element.textContent = this.formatStatNumber(currentValue);
+            }
+        }, duration / steps);
+    }
+    
+    // Format statistics numbers
+    formatStatNumber(num) {
+        if (num >= 1000) {
+            return Math.floor(num / 1000) + ',' + (num % 1000).toString().padStart(3, '0') + '+';
+        }
+        return num + '+';
+    }
+    
+    // Initialize dynamic updates
+    initializeDynamicUpdates() {
+        // Simulate live updates (in real app, this would come from API)
+        setTimeout(() => {
+            this.updateLiveStats('5,289'); // Increase pre-orders
+        }, 30000); // After 30 seconds
+        
+        // Listen for cart updates from other components
+        window.addEventListener('cart:updated', (e) => {
+            this.updateCartBadge(e.detail.count);
+        });
+        
+        // Listen for stats updates
+        window.addEventListener('stats:updated', (e) => {
+            this.updateLiveStats(e.detail.preOrders, e.detail.rating);
+        });
+    }
+
     disconnectedCallback() {
         // Cleanup when component is removed
         this.removeAllEventListeners();
@@ -714,6 +868,39 @@ window.debugNavigation = function() {
                 right: header.getSafeAreaValue('right')
             }
         });
+    }
+};
+
+// Global helper functions for integration with other components
+window.updateCartBadge = function(count) {
+    const header = document.querySelector('damp-header');
+    if (header) {
+        header.updateCartBadge(count);
+    }
+    
+    // Dispatch event for other components that might need to know
+    window.dispatchEvent(new CustomEvent('cart:updated', {
+        detail: { count }
+    }));
+};
+
+window.updateLiveStats = function(preOrders, rating) {
+    const header = document.querySelector('damp-header');
+    if (header) {
+        header.updateLiveStats(preOrders, rating);
+    }
+    
+    // Dispatch event for other components
+    window.dispatchEvent(new CustomEvent('stats:updated', {
+        detail: { preOrders, rating }
+    }));
+};
+
+// Helper to close mobile menu from external scripts
+window.closeMobileMenu = function() {
+    const header = document.querySelector('damp-header');
+    if (header && header.isMenuOpen) {
+        header.closeMobileMenu();
     }
 };
 

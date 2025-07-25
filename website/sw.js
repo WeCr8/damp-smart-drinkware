@@ -1,74 +1,47 @@
-// DAMP Service Worker - Google Engineering Best Practices
-// Implements caching strategies, offline support, and performance optimization
+// DAMP Smart Drinkware - Advanced Service Worker
+// Google Engineering Standards with Hot Module Replacement & Intelligent Caching
+// Copyright 2025 WeCr8 Solutions LLC
 
-const CACHE_NAME = 'damp-v1.2.0';
-const CACHE_STATIC_NAME = 'damp-static-v1.2.0';
-const CACHE_DYNAMIC_NAME = 'damp-dynamic-v1.2.0';
-const CACHE_IMAGES_NAME = 'damp-images-v1.2.0';
+const CACHE_NAME = 'damp-v2.1.0';
+const CACHE_STRATEGY_VERSION = '2.1.0';
+const HOT_RELOAD_CHANNEL = 'damp-hot-reload';
+const PERFORMANCE_CHANNEL = 'damp-performance';
 
-// Files to cache immediately (App Shell)
-const STATIC_FILES = [
-    '/',
-    '/index.html',
-    '/assets/css/styles.css',
-    '/assets/css/navigation.css',
-    '/assets/css/pricing-system.css',
-    '/assets/js/scripts.js',
-    '/assets/js/navigation.js',
-    '/assets/js/lazy-loading.js',
-    '/assets/js/performance-monitor.js',
-    '/assets/images/logo/icon.png',
-    '/assets/images/logo/icon-192.png',
-    '/assets/images/logo/icon-512.png',
-    '/pages/about.html',
-    '/pages/support.html',
-    '/pages/privacy.html',
-    '/offline.html'
-];
-
-// Files to cache on demand
-const DYNAMIC_CACHE_ROUTES = [
-    '/pages/',
-    '/api/',
-    '/assets/images/products/',
-    '/assets/images/hero/'
-];
-
-// Cache strategies
+// Google-level caching strategies
 const CACHE_STRATEGIES = {
-    // Critical files - Cache First
-    static: {
-        pattern: /\.(css|js|woff|woff2|ttf|eot)$/,
-        strategy: 'cacheFirst',
-        maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
+    CRITICAL: 'critical-resources',     // HTML, critical CSS/JS
+    STATIC: 'static-assets',           // Images, fonts, non-critical CSS/JS
+    API: 'api-responses',              // API calls with TTL
+    DYNAMIC: 'dynamic-content',        // User-generated content
+    OFFLINE: 'offline-fallbacks'       // Offline pages and assets
+};
+
+// Cache configurations with Google-optimized TTL
+const CACHE_CONFIGS = {
+    [CACHE_STRATEGIES.CRITICAL]: {
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60 * 24,        // 24 hours
+        strategy: 'NetworkFirst'
     },
-    
-    // Images - Cache First with fallback
-    images: {
-        pattern: /\.(jpg|jpeg|png|gif|svg|webp|ico)$/,
-        strategy: 'cacheFirst',
-        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days
+    [CACHE_STRATEGIES.STATIC]: {
+        maxEntries: 200,
+        maxAgeSeconds: 60 * 60 * 24 * 30,   // 30 days
+        strategy: 'CacheFirst'
     },
-    
-    // HTML pages - Network First
-    pages: {
-        pattern: /\.html$/,
-        strategy: 'networkFirst',
-        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    [CACHE_STRATEGIES.API]: {
+        maxEntries: 100,
+        maxAgeSeconds: 60 * 5,              // 5 minutes
+        strategy: 'NetworkFirst'
     },
-    
-    // API calls - Network First
-    api: {
-        pattern: /\/api\//,
-        strategy: 'networkFirst',
-        maxAge: 5 * 60 * 1000 // 5 minutes
+    [CACHE_STRATEGIES.DYNAMIC]: {
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60,             // 1 hour
+        strategy: 'StaleWhileRevalidate'
     },
-    
-    // External resources - Stale While Revalidate
-    external: {
-        pattern: /^https?:\/\//,
-        strategy: 'staleWhileRevalidate',
-        maxAge: 24 * 60 * 60 * 1000 // 1 day
+    [CACHE_STRATEGIES.OFFLINE]: {
+        maxEntries: 10,
+        maxAgeSeconds: 60 * 60 * 24 * 365,  // 1 year
+        strategy: 'CacheOnly'
     }
 };
 
@@ -77,525 +50,518 @@ let performanceMetrics = {
     cacheHits: 0,
     cacheMisses: 0,
     networkRequests: 0,
-    offlineRequests: 0,
-    lastUpdated: Date.now()
+    failedRequests: 0,
+    backgroundSyncJobs: 0,
+    hotReloads: 0
 };
 
-// Install event - Cache static assets
-self.addEventListener('install', (event) => {
-    console.log('Service Worker: Installing...');
-    
-    event.waitUntil(
-        Promise.all([
-            caches.open(CACHE_STATIC_NAME).then((cache) => {
-                console.log('Service Worker: Caching static files');
-                return cache.addAll(STATIC_FILES);
-            }),
-            createOfflinePage()
-        ])
-    );
-    
-    // Force activation of new service worker
-    self.skipWaiting();
-});
+// Hot Module Replacement state
+let hmrEnabled = false;
+let hmrClients = new Set();
 
-// Activate event - Clean up old caches
-self.addEventListener('activate', (event) => {
-    console.log('Service Worker: Activating...');
-    
-    event.waitUntil(
-        Promise.all([
-            // Clean up old caches
-            caches.keys().then((cacheNames) => {
-                return Promise.all(
-                    cacheNames.map((cacheName) => {
-                        if (cacheName !== CACHE_STATIC_NAME && 
-                            cacheName !== CACHE_DYNAMIC_NAME &&
-                            cacheName !== CACHE_IMAGES_NAME) {
-                            console.log('Service Worker: Removing old cache', cacheName);
-                            return caches.delete(cacheName);
-                        }
-                    })
-                );
-            }),
-            
-            // Claim all clients
-            self.clients.claim()
-        ])
-    );
-});
-
-// Fetch event - Handle all network requests
-self.addEventListener('fetch', (event) => {
-    const request = event.request;
-    const url = new URL(request.url);
-    
-    // Skip non-GET requests
-    if (request.method !== 'GET') {
-        return;
+class DAMPServiceWorker {
+    constructor() {
+        this.initializeEventListeners();
+        this.setupPerformanceMonitoring();
+        this.enableHotModuleReplacement();
     }
-    
-    // Skip Chrome extension requests
-    if (url.protocol === 'chrome-extension:') {
-        return;
-    }
-    
-    // Determine cache strategy
-    const strategy = getCacheStrategy(request);
-    
-    event.respondWith(
-        handleRequest(request, strategy)
-            .catch(() => {
-                // Fallback to offline page for navigation requests
-                if (request.mode === 'navigate') {
-                    return caches.match('/offline.html');
-                }
-                
-                // Fallback for images
-                if (request.destination === 'image') {
-                    return createFallbackImage();
-                }
-                
-                // Generic fallback
-                return new Response('Network error occurred', {
-                    status: 408,
-                    headers: { 'Content-Type': 'text/plain' }
-                });
-            })
-    );
-});
 
-// Determine cache strategy for request
-function getCacheStrategy(request) {
-    const url = request.url;
-    
-    // Check each strategy pattern
-    for (const [name, config] of Object.entries(CACHE_STRATEGIES)) {
-        if (config.pattern.test(url)) {
-            return { ...config, name };
-        }
+    initializeEventListeners() {
+        self.addEventListener('install', this.handleInstall.bind(this));
+        self.addEventListener('activate', this.handleActivate.bind(this));
+        self.addEventListener('fetch', this.handleFetch.bind(this));
+        self.addEventListener('message', this.handleMessage.bind(this));
+        self.addEventListener('sync', this.handleBackgroundSync.bind(this));
+        self.addEventListener('push', this.handlePush.bind(this));
+        self.addEventListener('notificationclick', this.handleNotificationClick.bind(this));
     }
-    
-    // Default strategy
-    return {
-        name: 'networkFirst',
-        strategy: 'networkFirst',
-        maxAge: 60 * 60 * 1000 // 1 hour
-    };
-}
 
-// Handle request based on strategy
-async function handleRequest(request, strategy) {
-    const cacheName = getCacheName(strategy.name);
-    
-    switch (strategy.strategy) {
-        case 'cacheFirst':
-            return cacheFirst(request, cacheName, strategy);
+    async handleInstall(event) {
+        console.log('[DAMP SW] Installing advanced service worker v' + CACHE_STRATEGY_VERSION);
         
-        case 'networkFirst':
-            return networkFirst(request, cacheName, strategy);
-        
-        case 'staleWhileRevalidate':
-            return staleWhileRevalidate(request, cacheName, strategy);
-        
-        default:
-            return networkFirst(request, cacheName, strategy);
-    }
-}
-
-// Cache First Strategy
-async function cacheFirst(request, cacheName, strategy) {
-    const cache = await caches.open(cacheName);
-    const cachedResponse = await cache.match(request);
-    
-    if (cachedResponse) {
-        // Check if cached response is expired
-        const cacheDate = new Date(cachedResponse.headers.get('sw-cache-date') || 0);
-        const isExpired = Date.now() - cacheDate.getTime() > strategy.maxAge;
-        
-        if (!isExpired) {
-            performanceMetrics.cacheHits++;
-            return cachedResponse;
-        }
-    }
-    
-    // Fetch from network
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok) {
-            const responseToCache = networkResponse.clone();
-            responseToCache.headers.set('sw-cache-date', new Date().toISOString());
-            cache.put(request, responseToCache);
-            performanceMetrics.networkRequests++;
-            return networkResponse;
-        }
-    } catch (error) {
-        console.warn('Network fetch failed:', error);
-    }
-    
-    // Return cached response even if expired
-    if (cachedResponse) {
-        performanceMetrics.cacheHits++;
-        return cachedResponse;
-    }
-    
-    performanceMetrics.cacheMisses++;
-    throw new Error('No cached response available');
-}
-
-// Network First Strategy
-async function networkFirst(request, cacheName, strategy) {
-    const cache = await caches.open(cacheName);
-    
-    try {
-        const networkResponse = await fetch(request);
-        
-        if (networkResponse.ok) {
-            const responseToCache = networkResponse.clone();
-            responseToCache.headers.set('sw-cache-date', new Date().toISOString());
-            cache.put(request, responseToCache);
-            performanceMetrics.networkRequests++;
-            return networkResponse;
-        }
-    } catch (error) {
-        console.warn('Network fetch failed, trying cache:', error);
-    }
-    
-    // Fallback to cache
-    const cachedResponse = await cache.match(request);
-    if (cachedResponse) {
-        performanceMetrics.cacheHits++;
-        return cachedResponse;
-    }
-    
-    performanceMetrics.cacheMisses++;
-    performanceMetrics.offlineRequests++;
-    throw new Error('No network or cached response available');
-}
-
-// Stale While Revalidate Strategy
-async function staleWhileRevalidate(request, cacheName, strategy) {
-    const cache = await caches.open(cacheName);
-    const cachedResponse = await cache.match(request);
-    
-    // Start network request (don't wait for it)
-    const networkResponsePromise = fetch(request)
-        .then(networkResponse => {
-            if (networkResponse.ok) {
-                const responseToCache = networkResponse.clone();
-                responseToCache.headers.set('sw-cache-date', new Date().toISOString());
-                cache.put(request, responseToCache);
-                performanceMetrics.networkRequests++;
-            }
-            return networkResponse;
-        })
-        .catch(error => {
-            console.warn('Background network fetch failed:', error);
-            return null;
-        });
-    
-    // Return cached response immediately if available
-    if (cachedResponse) {
-        performanceMetrics.cacheHits++;
-        return cachedResponse;
-    }
-    
-    // Wait for network response if no cache
-    const networkResponse = await networkResponsePromise;
-    if (networkResponse && networkResponse.ok) {
-        return networkResponse;
-    }
-    
-    performanceMetrics.cacheMisses++;
-    throw new Error('No response available');
-}
-
-// Get appropriate cache name for strategy
-function getCacheName(strategyName) {
-    switch (strategyName) {
-        case 'static':
-            return CACHE_STATIC_NAME;
-        case 'images':
-            return CACHE_IMAGES_NAME;
-        default:
-            return CACHE_DYNAMIC_NAME;
-    }
-}
-
-// Create offline page
-async function createOfflinePage() {
-    const offlineHTML = `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>DAMP - Offline</title>
-            <style>
-                body {
-                    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    background: linear-gradient(135deg, #1a1a2e, #16213e);
-                    color: white;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    min-height: 100vh;
-                    text-align: center;
-                }
-                .offline-container {
-                    max-width: 500px;
-                    padding: 2rem;
-                }
-                .offline-icon {
-                    font-size: 4rem;
-                    margin-bottom: 1rem;
-                    opacity: 0.7;
-                }
-                .offline-title {
-                    font-size: 2rem;
-                    margin-bottom: 1rem;
-                    font-weight: 300;
-                }
-                .offline-message {
-                    font-size: 1.1rem;
-                    line-height: 1.6;
-                    margin-bottom: 2rem;
-                    opacity: 0.9;
-                }
-                .offline-button {
-                    background: linear-gradient(135deg, #667eea, #764ba2);
-                    color: white;
-                    padding: 1rem 2rem;
-                    border: none;
-                    border-radius: 30px;
-                    font-size: 1rem;
-                    cursor: pointer;
-                    transition: transform 0.3s ease;
-                }
-                .offline-button:hover {
-                    transform: translateY(-2px);
-                }
-            </style>
-        </head>
-        <body>
-            <div class="offline-container">
-                <div class="offline-icon">📱</div>
-                <h1 class="offline-title">You're offline</h1>
-                <p class="offline-message">
-                    No internet connection found. Some features may be limited, 
-                    but you can still browse previously visited pages.
-                </p>
-                <button class="offline-button" onclick="window.location.reload()">
-                    Try Again
-                </button>
-            </div>
-        </body>
-        </html>
-    `;
-    
-    const cache = await caches.open(CACHE_STATIC_NAME);
-    await cache.put('/offline.html', new Response(offlineHTML, {
-        headers: { 'Content-Type': 'text/html' }
-    }));
-}
-
-// Create fallback image
-function createFallbackImage() {
-    const svg = `
-        <svg width="400" height="300" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#16213e;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <rect width="400" height="300" fill="url(#grad)"/>
-            <text x="200" y="150" text-anchor="middle" fill="white" font-family="Arial" font-size="16">
-                Image unavailable
-            </text>
-        </svg>
-    `;
-    
-    return new Response(svg, {
-        headers: { 'Content-Type': 'image/svg+xml' }
-    });
-}
-
-// Background sync for offline actions
-self.addEventListener('sync', (event) => {
-    if (event.tag === 'background-sync') {
-        event.waitUntil(handleBackgroundSync());
-    }
-});
-
-// Handle background sync
-async function handleBackgroundSync() {
-    try {
-        // Process any queued offline actions
-        console.log('Processing background sync...');
-        
-        // Example: Sync analytics data
-        if ('indexedDB' in self) {
-            // Process offline analytics queue
-            await processOfflineAnalytics();
-        }
-        
-        // Example: Sync form submissions
-        await processOfflineFormSubmissions();
-        
-        console.log('Background sync completed');
-    } catch (error) {
-        console.error('Background sync failed:', error);
-    }
-}
-
-// Process offline analytics
-async function processOfflineAnalytics() {
-    // Implementation for offline analytics sync
-    console.log('Processing offline analytics...');
-}
-
-// Process offline form submissions
-async function processOfflineFormSubmissions() {
-    // Implementation for offline form sync
-    console.log('Processing offline form submissions...');
-}
-
-// Push notification handling
-self.addEventListener('push', (event) => {
-    const options = {
-        body: event.data ? event.data.text() : 'New update available',
-        icon: '/assets/images/logo/icon-192.png',
-        badge: '/assets/images/logo/icon-192.png',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1
-        },
-        actions: [
-            {
-                action: 'explore',
-                title: 'View Details',
-                icon: '/assets/images/logo/icon-192.png'
-            },
-            {
-                action: 'close',
-                title: 'Close',
-                icon: '/assets/images/logo/icon-192.png'
-            }
-        ]
-    };
-    
-    event.waitUntil(
-        self.registration.showNotification('DAMP Smart Drinkware', options)
-    );
-});
-
-// Notification click handling
-self.addEventListener('notificationclick', (event) => {
-    event.notification.close();
-    
-    if (event.action === 'explore') {
         event.waitUntil(
-            clients.openWindow('/')
+            this.preloadCriticalResources()
+                .then(() => {
+                    console.log('[DAMP SW] Critical resources preloaded');
+                    return self.skipWaiting();
+                })
+                .catch(error => {
+                    console.error('[DAMP SW] Installation failed:', error);
+                    // Don't fail installation completely
+                    return self.skipWaiting();
+                })
         );
     }
-});
 
-// Performance monitoring message handling
-self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'GET_PERFORMANCE_METRICS') {
-        event.ports[0].postMessage({
-            type: 'PERFORMANCE_METRICS',
-            metrics: {
-                ...performanceMetrics,
-                cacheSize: getCacheSize(),
-                lastUpdated: Date.now()
+    async handleActivate(event) {
+        console.log('[DAMP SW] Activating advanced service worker');
+        
+        event.waitUntil(
+            Promise.all([
+                this.cleanupOldCaches(),
+                this.initializeBackgroundSync(),
+                self.clients.claim()
+            ]).then(() => {
+                console.log('[DAMP SW] Activation complete');
+                this.notifyClients('sw-activated', { version: CACHE_STRATEGY_VERSION });
+            })
+        );
+    }
+
+    async handleFetch(event) {
+        const { request } = event;
+        const url = new URL(request.url);
+        
+        // Skip non-HTTP requests
+        if (!url.protocol.startsWith('http')) return;
+        
+        // Skip Hot Module Replacement requests
+        if (this.isHMRRequest(request)) {
+            return this.handleHMRRequest(event);
+        }
+
+        // Route to appropriate caching strategy
+        const strategy = this.getCachingStrategy(request);
+        
+        event.respondWith(
+            this.executeStrategy(request, strategy)
+                .then(response => {
+                    this.trackPerformance('cacheHit', request.url);
+                    return response;
+                })
+                .catch(error => {
+                    this.trackPerformance('cacheMiss', request.url);
+                    return this.handleFetchError(request, error);
+                })
+        );
+    }
+
+    async handleMessage(event) {
+        const { type, payload } = event.data || {};
+        
+        switch (type) {
+            case 'HMR_ENABLE':
+                this.enableHMR(event.source);
+                break;
+            case 'HMR_DISABLE':
+                this.disableHMR(event.source);
+                break;
+            case 'GET_PERFORMANCE':
+                event.ports[0].postMessage(performanceMetrics);
+                break;
+            case 'CLEAR_CACHE':
+                await this.clearSpecificCache(payload.cacheName);
+                event.ports[0].postMessage({ success: true });
+                break;
+            case 'PREFETCH_RESOURCES':
+                await this.prefetchResources(payload.urls);
+                break;
+            default:
+                console.log('[DAMP SW] Unknown message type:', type);
+        }
+    }
+
+    async handleBackgroundSync(event) {
+        console.log('[DAMP SW] Background sync triggered:', event.tag);
+        
+        switch (event.tag) {
+            case 'analytics-sync':
+                event.waitUntil(this.syncAnalytics());
+                break;
+            case 'form-submission':
+                event.waitUntil(this.syncFormSubmissions());
+                break;
+            case 'preorder-sync':
+                event.waitUntil(this.syncPreorders());
+                break;
+            default:
+                console.log('[DAMP SW] Unknown sync tag:', event.tag);
+        }
+    }
+
+    async handlePush(event) {
+        const options = {
+            body: event.data ? event.data.text() : 'New update available!',
+            icon: '/assets/images/logo/icon.png',
+            badge: '/assets/images/logo/icon.png',
+            tag: 'damp-notification',
+            actions: [
+                { action: 'view', title: 'View Update' },
+                { action: 'dismiss', title: 'Dismiss' }
+            ]
+        };
+
+        event.waitUntil(
+            self.registration.showNotification('DAMP Smart Drinkware', options)
+        );
+    }
+
+    getCachingStrategy(request) {
+        const url = new URL(request.url);
+        const pathname = url.pathname;
+        
+        // Critical resources (HTML, critical CSS/JS)
+        if (pathname.endsWith('.html') || 
+            pathname.includes('critical') || 
+            pathname.includes('main.css') ||
+            pathname.includes('header.js')) {
+            return CACHE_STRATEGIES.CRITICAL;
+        }
+        
+        // Static assets (images, fonts, etc.)
+        if (pathname.match(/\.(png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|otf)$/)) {
+            return CACHE_STRATEGIES.STATIC;
+        }
+        
+        // API calls
+        if (pathname.includes('/api/') || url.hostname !== location.hostname) {
+            return CACHE_STRATEGIES.API;
+        }
+        
+        // Dynamic content
+        if (pathname.includes('/pages/') || request.method === 'POST') {
+            return CACHE_STRATEGIES.DYNAMIC;
+        }
+        
+        // Default to critical for unknown resources
+        return CACHE_STRATEGIES.CRITICAL;
+    }
+
+    async executeStrategy(request, strategyName) {
+        const config = CACHE_CONFIGS[strategyName];
+        
+        switch (config.strategy) {
+            case 'NetworkFirst':
+                return this.networkFirst(request, strategyName);
+            case 'CacheFirst':
+                return this.cacheFirst(request, strategyName);
+            case 'StaleWhileRevalidate':
+                return this.staleWhileRevalidate(request, strategyName);
+            case 'CacheOnly':
+                return this.cacheOnly(request, strategyName);
+            default:
+                return this.networkFirst(request, strategyName);
+        }
+    }
+
+    async networkFirst(request, cacheName) {
+        try {
+            const networkResponse = await fetch(request);
+            
+            if (networkResponse.ok) {
+                const cache = await caches.open(cacheName);
+                cache.put(request, networkResponse.clone());
+            }
+            
+            return networkResponse;
+        } catch (error) {
+            const cachedResponse = await caches.match(request);
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            
+            return this.getOfflineFallback(request);
+        }
+    }
+
+    async cacheFirst(request, cacheName) {
+        const cachedResponse = await caches.match(request);
+        
+        if (cachedResponse) {
+            // Optionally refresh cache in background
+            this.refreshCacheInBackground(request, cacheName);
+            return cachedResponse;
+        }
+        
+        try {
+            const networkResponse = await fetch(request);
+            
+            if (networkResponse.ok) {
+                const cache = await caches.open(cacheName);
+                cache.put(request, networkResponse.clone());
+            }
+            
+            return networkResponse;
+        } catch (error) {
+            return this.getOfflineFallback(request);
+        }
+    }
+
+    async staleWhileRevalidate(request, cacheName) {
+        const cachedResponse = await caches.match(request);
+        
+        // Always try to refresh from network
+        const networkPromise = fetch(request).then(networkResponse => {
+            if (networkResponse.ok) {
+                const cache = caches.open(cacheName);
+                cache.then(c => c.put(request, networkResponse.clone()));
+            }
+            return networkResponse;
+        }).catch(() => null);
+        
+        // Return cached version immediately if available
+        if (cachedResponse) {
+            return cachedResponse;
+        }
+        
+        // Otherwise wait for network
+        const networkResponse = await networkPromise;
+        return networkResponse || this.getOfflineFallback(request);
+    }
+
+    async cacheOnly(request, cacheName) {
+        return await caches.match(request) || this.getOfflineFallback(request);
+    }
+
+    async preloadCriticalResources() {
+        const criticalResources = [
+            '/',
+            '/assets/css/main.css',
+            '/assets/js/components/header.js',
+            '/assets/js/scripts.js',
+            '/assets/images/logo/icon.png',
+            '/manifest.json'
+        ];
+
+        const cache = await caches.open(CACHE_STRATEGIES.CRITICAL);
+        
+        const promises = criticalResources.map(async (url) => {
+            try {
+                const response = await fetch(url);
+                if (response.ok) {
+                    await cache.put(url, response);
+                }
+            } catch (error) {
+                console.warn(`[DAMP SW] Failed to preload: ${url}`, error);
             }
         });
+
+        await Promise.allSettled(promises);
     }
-    
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting();
+
+    async cleanupOldCaches() {
+        const cacheNames = await caches.keys();
+        const oldCaches = cacheNames.filter(name => 
+            name.startsWith('damp-') && name !== CACHE_NAME
+        );
+
+        await Promise.all(
+            oldCaches.map(name => caches.delete(name))
+        );
+
+        console.log(`[DAMP SW] Cleaned up ${oldCaches.length} old caches`);
     }
-    
-    if (event.data && event.data.type === 'CLEAR_CACHE') {
-        event.waitUntil(clearAllCaches());
+
+    // Hot Module Replacement Implementation
+    enableHotModuleReplacement() {
+        if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
+            hmrEnabled = true;
+            console.log('[DAMP SW] Hot Module Replacement enabled for development');
+        }
     }
+
+    isHMRRequest(request) {
+        return hmrEnabled && request.url.includes('/__hmr__');
+    }
+
+    async handleHMRRequest(event) {
+        // Handle hot reload requests
+        performanceMetrics.hotReloads++;
+        
+        event.respondWith(
+            fetch(event.request).then(response => {
+                if (response.ok) {
+                    this.broadcastHMRUpdate(event.request.url);
+                }
+                return response;
+            })
+        );
+    }
+
+    enableHMR(client) {
+        hmrClients.add(client);
+        client.postMessage({ type: 'HMR_ENABLED' });
+    }
+
+    disableHMR(client) {
+        hmrClients.delete(client);
+    }
+
+    broadcastHMRUpdate(url) {
+        const message = {
+            type: 'HMR_UPDATE',
+            url: url,
+            timestamp: Date.now()
+        };
+
+        hmrClients.forEach(client => {
+            client.postMessage(message);
+        });
+
+        // Also notify via broadcast channel
+        if (self.BroadcastChannel) {
+            const channel = new BroadcastChannel(HOT_RELOAD_CHANNEL);
+            channel.postMessage(message);
+        }
+    }
+
+    // Performance monitoring
+    setupPerformanceMonitoring() {
+        // Report performance metrics every 5 minutes
+        setInterval(() => {
+            this.reportPerformanceMetrics();
+        }, 5 * 60 * 1000);
+    }
+
+    trackPerformance(type, url) {
+        performanceMetrics[type]++;
+        
+        // Sample detailed tracking (10% of requests)
+        if (Math.random() < 0.1) {
+            this.reportDetailedMetric(type, url);
+        }
+    }
+
+    reportPerformanceMetrics() {
+        if (self.BroadcastChannel) {
+            const channel = new BroadcastChannel(PERFORMANCE_CHANNEL);
+            channel.postMessage({
+                type: 'SW_PERFORMANCE',
+                metrics: { ...performanceMetrics },
+                timestamp: Date.now()
+            });
+        }
+    }
+
+    // Background sync handlers
+    async syncAnalytics() {
+        // Sync queued analytics events
+        try {
+            const analyticsData = await this.getStoredData('analytics-queue');
+            if (analyticsData && analyticsData.length > 0) {
+                await this.sendAnalytics(analyticsData);
+                await this.clearStoredData('analytics-queue');
+            }
+            performanceMetrics.backgroundSyncJobs++;
+        } catch (error) {
+            console.error('[DAMP SW] Analytics sync failed:', error);
+        }
+    }
+
+    async syncFormSubmissions() {
+        // Sync queued form submissions
+        try {
+            const formData = await this.getStoredData('form-queue');
+            if (formData && formData.length > 0) {
+                await this.sendFormData(formData);
+                await this.clearStoredData('form-queue');
+            }
+            performanceMetrics.backgroundSyncJobs++;
+        } catch (error) {
+            console.error('[DAMP SW] Form sync failed:', error);
+        }
+    }
+
+    async syncPreorders() {
+        // Sync queued preorders
+        try {
+            const preorderData = await this.getStoredData('preorder-queue');
+            if (preorderData && preorderData.length > 0) {
+                await this.sendPreorderData(preorderData);
+                await this.clearStoredData('preorder-queue');
+            }
+            performanceMetrics.backgroundSyncJobs++;
+        } catch (error) {
+            console.error('[DAMP SW] Preorder sync failed:', error);
+        }
+    }
+
+    // Utility methods
+    async getOfflineFallback(request) {
+        const url = new URL(request.url);
+        
+        if (request.destination === 'document') {
+            return caches.match('/offline.html') || 
+                   new Response('Offline', { status: 503 });
+        }
+        
+        if (url.pathname.includes('images/')) {
+            return caches.match('/assets/images/offline-placeholder.png') ||
+                   new Response('', { status: 503 });
+        }
+        
+        return new Response('Service Unavailable', { status: 503 });
+    }
+
+    async refreshCacheInBackground(request, cacheName) {
+        try {
+            const response = await fetch(request);
+            if (response.ok) {
+                const cache = await caches.open(cacheName);
+                cache.put(request, response);
+            }
+        } catch (error) {
+            // Silent fail for background refresh
+        }
+    }
+
+    notifyClients(type, data) {
+        self.clients.matchAll().then(clients => {
+            clients.forEach(client => {
+                client.postMessage({ type, data });
+            });
+        });
+    }
+
+    async getStoredData(key) {
+        // Implementation would use IndexedDB or similar
+        return [];
+    }
+
+    async clearStoredData(key) {
+        // Implementation would clear IndexedDB data
+    }
+
+    async sendAnalytics(data) {
+        // Send analytics data to server
+        return fetch('/api/analytics', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    async sendFormData(data) {
+        // Send form data to server
+        return fetch('/api/forms', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+
+    async sendPreorderData(data) {
+        // Send preorder data to server
+        return fetch('/api/preorders', {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+}
+
+// Initialize the advanced service worker
+new DAMPServiceWorker();
+
+// Global error handler
+self.addEventListener('error', (event) => {
+    console.error('[DAMP SW] Service Worker Error:', event.error);
+    performanceMetrics.failedRequests++;
 });
 
-// Get cache size
-async function getCacheSize() {
-    const cacheNames = await caches.keys();
-    let totalSize = 0;
-    
-    for (const cacheName of cacheNames) {
-        const cache = await caches.open(cacheName);
-        const requests = await cache.keys();
-        
-        for (const request of requests) {
-            const response = await cache.match(request);
-            if (response) {
-                const blob = await response.blob();
-                totalSize += blob.size;
-            }
-        }
-    }
-    
-    return totalSize;
-}
+self.addEventListener('unhandledrejection', (event) => {
+    console.error('[DAMP SW] Unhandled Promise Rejection:', event.reason);
+    performanceMetrics.failedRequests++;
+});
 
-// Clear all caches
-async function clearAllCaches() {
-    const cacheNames = await caches.keys();
-    await Promise.all(
-        cacheNames.map(cacheName => caches.delete(cacheName))
-    );
-    
-    // Reset performance metrics
-    performanceMetrics = {
-        cacheHits: 0,
-        cacheMisses: 0,
-        networkRequests: 0,
-        offlineRequests: 0,
-        lastUpdated: Date.now()
-    };
-}
-
-// Update cache statistics
-function updateCacheStats() {
-    performanceMetrics.lastUpdated = Date.now();
-}
-
-// Periodic cache cleanup
-setInterval(async () => {
-    try {
-        const cacheNames = await caches.keys();
-        
-        for (const cacheName of cacheNames) {
-            const cache = await caches.open(cacheName);
-            const requests = await cache.keys();
-            
-            for (const request of requests) {
-                const response = await cache.match(request);
-                if (response) {
-                    const cacheDate = new Date(response.headers.get('sw-cache-date') || 0);
-                    const maxAge = 7 * 24 * 60 * 60 * 1000; // 7 days default
-                    
-                    if (Date.now() - cacheDate.getTime() > maxAge) {
-                        await cache.delete(request);
-                    }
-                }
-            }
-        }
-        
-        updateCacheStats();
-    } catch (error) {
-        console.error('Cache cleanup failed:', error);
-    }
-}, 60 * 60 * 1000); // Run every hour
-
-console.log('DAMP Service Worker loaded successfully'); 
+console.log('[DAMP SW] Advanced Service Worker loaded successfully'); 

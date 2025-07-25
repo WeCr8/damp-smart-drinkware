@@ -9,8 +9,10 @@
     "build": "npm run parse && npm run validate"
   },
   "dependencies": {
+    "glob": "^11.0.3",
     "gray-matter": "^4.0.3",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.1.0",
+    "sharp": "^0.34.3"
   },
   "keywords": [
     "damp",
@@ -19,4 +21,4 @@
   ],
   "author": "DAMP Team",
   "license": "MIT"
-} 
+}

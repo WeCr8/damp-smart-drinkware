@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
-    <!-- Security Meta Tags -->
+    <!-- Security Headers -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://api.stripe.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
@@ -30,11 +30,6 @@
     <!-- Critical PWA Icons Only -->
     <link rel="icon" type="image/png" sizes="192x192" href="assets/images/logo/icon-192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="assets/images/logo/icon-512.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="assets/images/logo/icon-152.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="assets/images/logo/icon-144.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="assets/images/logo/icon-128.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="assets/images/logo/icon-96.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="assets/images/logo/icon-72.png">
     
     <!-- SEO Meta Tags -->
     <title>DAMP - Never Leave Your Drink Behind | Smart Drinkware Technology</title>
@@ -81,6 +76,8 @@
             --bubble-color-1: rgba(0, 212, 255, 0.3);
             --bubble-color-2: rgba(0, 255, 136, 0.2);
             --bubble-color-3: rgba(255, 71, 87, 0.2);
+            --pain-color: #ff4757;
+            --solution-color: #00ff88;
         }
         
         /* Ensure page loads without flash */
@@ -193,7 +190,7 @@
             color: white;
         }
         
-                /* Hero Animation Support */
+        /* Hero Animation Support */
         .hero-animation-overlay {
             position: fixed;
             top: 0;
@@ -284,6 +281,225 @@
             transition: opacity 0.5s ease;
         }
         
+        /* Section Styles */
+        .section {
+            padding: 80px 0;
+            position: relative;
+        }
+        
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+        }
+        
+        .section-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Pain Points Section - Red Theme */
+        .pain-points-section {
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1) 0%, rgba(255, 71, 87, 0.05) 100%);
+            border-top: 2px solid rgba(255, 71, 87, 0.3);
+            border-bottom: 2px solid rgba(255, 71, 87, 0.3);
+        }
+        
+        .pain-points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .pain-point-card {
+            background: rgba(255, 71, 87, 0.1);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .pain-point-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 71, 87, 0.2);
+        }
+        
+        .pain-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .pain-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--pain-color);
+            margin-bottom: 15px;
+        }
+        
+        /* Features Section */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .feature-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        /* Products Section */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .product-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        .product-image {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+        }
+        
+        /* Testimonials Section */
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+        
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+        
+        .testimonial-text {
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        
+        .testimonial-author {
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+            border-top: 2px solid rgba(0, 212, 255, 0.3);
+            text-align: center;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 60px 0;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            display: block;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
         /* Mobile optimizations */
         @media (max-width: 768px) {
             .hero-section {
@@ -293,6 +509,18 @@
                 display: block;
                 margin: 10px auto;
                 text-align: center;
+            }
+            
+            .section {
+                padding: 60px 0;
+            }
+            
+            .pain-points-grid,
+            .features-grid,
+            .products-grid,
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
             }
             
             /* Reduce bubble effects on mobile for performance */
@@ -338,19 +566,237 @@
             </div>
         </section>
 
-        <!-- Continue with all your existing content sections -->
-        <!-- (All existing sections will be preserved) -->
+        <!-- Pain Points Section (Red Theme) -->
+        <section class="section pain-points-section">
+            <div class="container">
+                <h2 class="section-title">We Know the Frustration</h2>
+                <p class="section-subtitle">
+                    Every coffee lover, office worker, and busy parent has been there. Don't let these moments ruin your day.
+                </p>
+                
+                <div class="pain-points-grid">
+                    <div class="pain-point-card">
+                        <span class="pain-icon">😫</span>
+                        <h3 class="pain-title">Left Coffee at Home</h3>
+                        <p>Rushing out the door, only to realize your full mug is sitting on the kitchen counter getting cold.</p>
+                    </div>
+                    
+                    <div class="pain-point-card">
+                        <span class="pain-icon">💸</span>
+                        <h3 class="pain-title">Wasted Money</h3>
+                        <p>That $6 specialty drink forgotten in the conference room. Again. Your wallet feels the pain every time.</p>
+                    </div>
+                    
+                    <div class="pain-point-card">
+                        <span class="pain-icon">🏃‍♂️</span>
+                        <h3 class="pain-title">The Panic Run</h3>
+                        <p>Sprinting back to retrieve your drink, hoping it's still there and hasn't been thrown away.</p>
+                    </div>
+                    
+                    <div class="pain-point-card">
+                        <span class="pain-icon">🤦‍♀️</span>
+                        <h3 class="pain-title">Meeting Room Mishaps</h3>
+                        <p>Walking into the next meeting only to realize your drink is still in the previous room.</p>
+                    </div>
+                    
+                    <div class="pain-point-card">
+                        <span class="pain-icon">😴</span>
+                        <h3 class="pain-title">Afternoon Crash</h3>
+                        <p>Missing your afternoon caffeine boost because you forgot where you left your energy drink.</p>
+                    </div>
+                    
+                    <div class="pain-point-card">
+                        <span class="pain-icon">🚗</span>
+                        <h3 class="pain-title">Car Cup Casualties</h3>
+                        <p>Leaving your travel mug in the car cupholder, discovering it hours later when it's too late.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Smart Solution, Simple Setup</h2>
+                <p class="section-subtitle">
+                    DAMP uses advanced BLE technology to keep you connected to your favorite beverages. Never experience drink abandonment again.
+                </p>
+                
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <span class="feature-icon">📱</span>
+                        <h3 class="feature-title">Instant Phone Alerts</h3>
+                        <p>Get immediate notifications when you move too far from your drink. Customizable distance settings.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🔋</span>
+                        <h3 class="feature-title">6-Month Battery Life</h3>
+                        <p>Long-lasting battery with low-power BLE technology. Charge once, forget for months.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">💧</span>
+                        <h3 class="feature-title">Waterproof Design</h3>
+                        <p>IP67 rated protection. Works perfectly with hot drinks, cold beverages, and dishwasher safe.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🌍</span>
+                        <h3 class="feature-title">Universal Compatibility</h3>
+                        <p>Works with any cup, mug, or bottle. Stanley, Yeti, Hydro Flask - attach to anything.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">🎯</span>
+                        <h3 class="feature-title">Smart Detection</h3>
+                        <p>Advanced sensors know when you're intentionally leaving vs. accidentally forgetting your drink.</p>
+                    </div>
+                    
+                    <div class="feature-card">
+                        <span class="feature-icon">📊</span>
+                        <h3 class="feature-title">Hydration Tracking</h3>
+                        <p>Monitor your daily fluid intake and build healthy drinking habits with detailed analytics.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">Choose Your DAMP Device</h2>
+                <p class="section-subtitle">
+                    Four different form factors to match your lifestyle and drinkware preferences.
+                </p>
+                
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle" loading="lazy">
+                        </div>
+                        <h3 class="product-name">DAMP Handle</h3>
+                        <div class="product-price">$49.99</div>
+                        <p>Universal handle attachment. Perfect for Stanley, Yeti, and most travel mugs.</p>
+                        <a href="pages/damp-handle-v1.0.html" class="btn btn-primary btn-small">Learn More</a>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="assets/images/products/silicone-bottom/silicone-bottom.png" alt="Silicone Bottom" loading="lazy">
+                        </div>
+                        <h3 class="product-name">Silicone Bottom</h3>
+                        <div class="product-price">$29.99</div>
+                        <p>Non-slip silicone base that makes any cup smart. Dishwasher safe and durable.</p>
+                        <a href="pages/silicone-bottom-v1.0.html" class="btn btn-primary btn-small">Learn More</a>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="assets/images/products/cup-sleeve/cup-sleeve.png" alt="Cup Sleeve" loading="lazy">
+                        </div>
+                        <h3 class="product-name">Cup Sleeve</h3>
+                        <div class="product-price">$39.99</div>
+                        <p>Adjustable sleeve with thermal insulation. Great for coffee cups and standard mugs.</p>
+                        <a href="pages/cup-sleeve-v1.0.html" class="btn btn-primary btn-small">Learn More</a>
+                    </div>
+                    
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="assets/images/products/baby-bottle/baby-bottle.png" alt="Baby Bottle" loading="lazy">
+                        </div>
+                        <h3 class="product-name">Baby Bottle</h3>
+                        <div class="product-price">$79.99</div>
+                        <p>Smart baby bottle with feeding tracking and temperature monitoring for parents.</p>
+                        <a href="pages/baby-bottle-v1.0.html" class="btn btn-primary btn-small">Learn More</a>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="pages/products.html" class="btn btn-secondary">View All Products</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="section">
+            <div class="container">
+                <h2 class="section-title">What Early Users Say</h2>
+                <p class="section-subtitle">
+                    Join thousands of satisfied customers who never leave their drink behind anymore.
+                </p>
+                
+                <div class="testimonials-grid">
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "I used to lose my coffee at least twice a week. DAMP has completely solved this problem. The alerts are perfect - not too aggressive, but I never miss them."
+                        </p>
+                        <div class="testimonial-author">- Sarah M., Software Engineer</div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "As a busy mom, I'm constantly forgetting my coffee around the house. DAMP helps me stay caffeinated and saves me money on reheating or making new cups."
+                        </p>
+                        <div class="testimonial-author">- Jennifer K., Parent</div>
+                    </div>
+                    
+                    <div class="testimonial-card">
+                        <p class="testimonial-text">
+                            "The Stanley model fits perfectly on my Quencher. Battery life is amazing - I charge it maybe once every few months. Highly recommend!"
+                        </p>
+                        <div class="testimonial-author">- Mike R., College Student</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="section cta-section">
+            <div class="container">
+                <h2 class="section-title">Ready to Never Lose Your Drink Again?</h2>
+                <p class="section-subtitle">
+                    Join thousands of users who've eliminated drink abandonment from their daily routine.
+                </p>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <span class="stat-number">5,247</span>
+                        <span class="stat-label">Pre-Orders</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">4.9★</span>
+                        <span class="stat-label">User Rating</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">$50</span>
+                        <span class="stat-label">Avg. Monthly Savings</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">99%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                </div>
+                
+                <div style="text-align: center; margin-top: 40px;">
+                    <a href="pages/pre-sale-funnel.html" class="btn btn-primary" style="font-size: 1.3rem; padding: 20px 50px;">
+                        🚀 Pre-Order Now - Early Bird Pricing
+                    </a>
+                    <p style="margin-top: 20px; color: var(--text-muted);">
+                        30-day money-back guarantee • Free shipping • 2-year warranty
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- Load Core Scripts Immediately -->
     <script src="assets/js/components/header.js"></script>
-    <script src="assets/js/navigation.js"></script>
-    <script src="assets/js/scripts.js"></script>
     
     <!-- Load Hero Animation -->
     <script src="assets/js/components/hero-animation.js"></script>
     
-        <!-- Performance Optimized Loading -->
+    <!-- Performance Optimized Loading -->
     <script>
         // Global function for hero animation completion
         window.showMainContent = function() {
@@ -365,13 +811,6 @@
                 mainContent.style.opacity = '1';
                 mainContent.style.transition = 'opacity 0.5s ease';
             }
-            
-            // Initialize navigation after animation
-            setTimeout(() => {
-                if (window.initNavigation) {
-                    initNavigation();
-                }
-            }, 100);
         };
         
         // Ensure page loads immediately
@@ -401,10 +840,10 @@
         
         function loadAdditionalScripts() {
             const additionalScripts = [
+                'assets/js/navigation.js',
                 'assets/js/cookie-policy.js',
                 'assets/js/lazy-loading.js',
-                'assets/js/performance-monitor.js',
-                'assets/js/critical-css.js'
+                'assets/js/performance-monitor.js'
             ];
             
             additionalScripts.forEach((src, index) => {
@@ -415,7 +854,7 @@
                     script.onload = () => console.log(`✅ Loaded: ${src}`);
                     script.onerror = () => console.warn(`⚠️ Optional script failed: ${src}`);
                     document.head.appendChild(script);
-                }, index * 200); // Stagger loading
+                }, index * 200);
             });
         }
     </script>

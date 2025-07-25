@@ -77,10 +77,10 @@
     
     <!-- PERFORMANCE OPTIMIZATION: CSS Loading -->
     <link rel="preload" href="../assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="../assets/css/components/cookie-consent.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="../assets/css/navigation.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
     <noscript>
         <link rel="stylesheet" href="../assets/css/main.css">
-        <link rel="stylesheet" href="../assets/css/components/cookie-consent.css">
+        <link rel="stylesheet" href="../assets/css/navigation.css">
     </noscript>
     
     <!-- Page Specific Optimized Styles -->
@@ -858,7 +858,7 @@
         function loadCoreScripts() {
             const scripts = [
                 '../assets/js/navigation.js',
-                '../assets/js/components/safe-area-wrapper.js'
+                '../assets/js/cookie-policy.js'
             ];
             
             scripts.forEach((src, index) => {
@@ -944,74 +944,6 @@
         }, 3000);
     </script>
 
-    <!-- Cookie Consent -->
-    <div id="cookieBanner" style="position: fixed; top: 15px; right: 15px; background: var(--card-bg); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 10px; padding: 12px 15px; color: var(--text-primary); font-size: 0.85rem; z-index: 9999; display: none; max-width: 280px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);">
-        <div style="display: flex; align-items: center; gap: 10px;">
-            <span>🍪</span>
-            <span style="flex: 1;">We use cookies for analytics</span>
-            <button onclick="handleCookieChoice(true)" style="background: var(--secondary-color); color: var(--bg-primary); border: none; padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; margin-right: 5px;">Yes</button>
-            <button onclick="handleCookieChoice(false)" style="background: transparent; color: var(--text-muted); border: 1px solid var(--border-color); padding: 4px 10px; border-radius: 6px; cursor: pointer; font-size: 0.8rem;">No</button>
-        </div>
-    </div>
-
-    <script>
-        function handleCookieChoice(approved) {
-            const banner = document.getElementById('cookieBanner');
-            if (banner) {
-                banner.style.opacity = '0';
-                banner.style.transform = 'translateX(100%)';
-                setTimeout(() => banner.style.display = 'none', 300);
-            }
-            
-            localStorage.setItem('cookieChoice', approved ? 'accepted' : 'declined');
-            
-            if (approved && window.gtag) {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted',
-                    'functionality_storage': 'granted'
-                });
-                console.log('✅ Analytics cookies approved');
-            }
-        }
-        
-        // Initialize cookie consent
-        function initializeCookieConsent() {
-            const existingChoice = localStorage.getItem('cookieChoice');
-            
-            if (!existingChoice) {
-                // Show banner after page loads
-                setTimeout(() => {
-                    const banner = document.getElementById('cookieBanner');
-                    if (banner) {
-                        banner.style.display = 'block';
-                        banner.style.opacity = '0';
-                        banner.style.transform = 'translateX(100%)';
-                        banner.style.transition = 'all 0.3s ease';
-                        
-                        setTimeout(() => {
-                            banner.style.opacity = '1';
-                            banner.style.transform = 'translateX(0)';
-                        }, 100);
-                        
-                        // Auto-approve after 8 seconds if no action
-                        setTimeout(() => {
-                            if (banner.style.display !== 'none') {
-                                handleCookieChoice(true);
-                            }
-                        }, 8000);
-                    }
-                }, 3000);
-                
-            } else if (existingChoice === 'accepted' && window.gtag) {
-                gtag('consent', 'update', {
-                    'analytics_storage': 'granted',
-                    'functionality_storage': 'granted'
-                });
-            }
-        }
-        
-        // Initialize when DOM is ready
-        document.addEventListener('DOMContentLoaded', initializeCookieConsent);
-    </script>
+    <!-- Cookie Policy System loaded via cookie-policy.js -->
 </body>
 </html>

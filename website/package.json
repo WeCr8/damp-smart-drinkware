@@ -98,9 +98,9 @@
     "deploy:staging": "npm run deploy && node ../deployment/deploy-staging.js",
     "deploy:production": "npm run deploy && node ../deployment/deploy-production.js",
     
-    "start": "npm run dev",
+    "start": "http-server --no-cache --cors -a 0.0.0.0 -p 3000 .",
     "ci": "npm ci && npm run audit:ci",
-    "analyze": "npx webpack-bundle-analyzer dist/static/js/*.js",
+    "analyze": "webpack-bundle-analyzer dist/assets/js/*.js --mode static --open",
     "build:analyze": "npm run build && npm run analyze"
   },
   "dependencies": {},

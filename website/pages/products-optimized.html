@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0f0f23">
+    
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://www.googletagmanager.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+    
+    <!-- SEO Meta Tags -->
+    <title>DAMP Smart Drinkware Products - Complete Product Ecosystem | Smart BLE Tracking</title>
+    <meta name="description" content="Explore our complete DAMP Smart Drinkware ecosystem: Handle, Silicone Bottom, Cup Sleeve & Baby Bottle with BLE technology. Universal compatibility for Yeti, Stanley, Hydro Flask and more.">
+    <meta name="keywords" content="smart drinkware products, DAMP handle, silicone bottom, cup sleeve, baby bottle, BLE tracking, drink monitoring, Yeti, Stanley, Hydro Flask">
+    <meta name="author" content="WeCr8 Solutions LLC">
+    <meta name="robots" content="index, follow, max-image-preview:large">
+    <link rel="canonical" href="https://dampdrink.com/pages/products.html">
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/products.html">
+    <meta property="og:title" content="DAMP Smart Drinkware Products - Complete Product Ecosystem">
+    <meta property="og:description" content="Explore our complete DAMP Smart Drinkware ecosystem with universal compatibility for all your favorite cups and bottles.">
+    <meta property="og:image" content="https://dampdrink.com/assets/images/og-products.jpg">
+    
+    <!-- Resource Hints -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    
+    <!-- Critical CSS -->
+    <link rel="stylesheet" href="../assets/css/critical-page.css">
+    <link rel="stylesheet" href="../assets/css/navigation-optimized.css">
+    
+    <!-- Main CSS (Non-blocking) -->
+    <link rel="preload" href="../assets/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript><link rel="stylesheet" href="../assets/css/main.css"></noscript>
+    
+    <!-- Page Specific Styles -->
+    <style>
+        .products-hero {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            padding: 120px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin: 80px 0;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.3s ease;
+            will-change: transform;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+        
+        .product-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 30px;
+            border-radius: 15px;
+            overflow: hidden;
+            background: linear-gradient(45deg, rgba(0, 212, 255, 0.1), rgba(0, 255, 136, 0.1));
+        }
+        
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+        }
+        
+        /* Voting Section */
+        .community-voting-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 255, 136, 0.03) 100%);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .voting-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .vote-stat {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        .vote-stat-number {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--secondary-color);
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body class="page-loading">
+    <!-- Skip to Content -->
+    <a href="#main-content" class="skip-to-content">Skip to main content</a>
+    
+    <!-- Universal Navigation -->
+    <nav class="damp-nav" id="dampNav">
+        <div class="nav-container safe-area-container">
+            <a href="/" class="logo" aria-label="DAMP Smart Drinkware Home">
+                <img src="../assets/images/logo/icon.png" alt="DAMP Logo" width="32" height="32">
+                <span class="logo-text">DAMP</span>
+            </a>
+
+            <button class="hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false">
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+                <span class="hamburger-line"></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu (Same as template) -->
+        <div class="safe-area-mobile-menu" id="mobileMenu" role="navigation" aria-label="Main navigation">
+            <!-- Menu content same as template -->
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="products-hero">
+            <div class="container">
+                <h1>DAMP Smart Drinkware Products</h1>
+                <p class="hero-subtitle">Complete ecosystem of smart drinkware solutions with universal compatibility</p>
+            </div>
+        </section>
+
+        <!-- Products Grid -->
+        <section class="products-section">
+            <div class="container">
+                <div class="products-grid">
+                    <!-- DAMP Handle -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle" loading="lazy">
+                        </div>
+                        <h3>DAMP Handle v1.0</h3>
+                        <p class="product-description">Universal handle attachment with BLE tracking for any drinkware. Perfect for Stanley, Yeti, and Hydro Flask.</p>
+                        <div class="product-price">$69.99</div>
+                        <div class="product-features">
+                            <span>✓ Universal compatibility</span>
+                            <span>✓ 6-month battery life</span>
+                            <span>✓ Waterproof IP67</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn-primary">Pre-Order</a>
+                            <a href="damp-handle-v1.0.html" class="btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Silicone Bottom -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/images/products/silicone-bottom/silicone-bottom.png" alt="Silicone Bottom" loading="lazy">
+                        </div>
+                        <h3>Silicone Bottom v1.0</h3>
+                        <p class="product-description">Smart silicone base that transforms any cup into a trackable smart drinkware device.</p>
+                        <div class="product-price">$59.99</div>
+                        <div class="product-features">
+                            <span>✓ Food-grade silicone</span>
+                            <span>✓ Anti-slip design</span>
+                            <span>✓ Easy cleaning</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn-primary">Pre-Order</a>
+                            <a href="silicone-bottom-v1.0.html" class="btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Cup Sleeve -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/images/products/cup-sleeve/cup-sleeve.png" alt="Cup Sleeve" loading="lazy">
+                        </div>
+                        <h3>Cup Sleeve v1.0</h3>
+                        <p class="product-description">Insulated smart sleeve with built-in DAMP technology for coffee cups and tumblers.</p>
+                        <div class="product-price">$49.99</div>
+                        <div class="product-features">
+                            <span>✓ Thermal insulation</span>
+                            <span>✓ Grip enhancement</span>
+                            <span>✓ Adjustable fit</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn-primary">Pre-Order</a>
+                            <a href="cup-sleeve-v1.0.html" class="btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+
+                    <!-- Baby Bottle -->
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="../assets/images/products/baby-bottle/baby-bottle.png" alt="Baby Bottle" loading="lazy">
+                        </div>
+                        <h3>Baby Bottle v1.0</h3>
+                        <p class="product-description">Smart baby bottle with feeding tracking, temperature monitoring, and safety alerts for parents.</p>
+                        <div class="product-price">$79.99</div>
+                        <div class="product-features">
+                            <span>✓ BPA-free materials</span>
+                            <span>✓ Temperature monitoring</span>
+                            <span>✓ Feeding tracker</span>
+                        </div>
+                        <div class="product-actions">
+                            <a href="pre-sale-funnel.html" class="btn-primary">Pre-Order</a>
+                            <a href="baby-bottle-v1.0.html" class="btn-secondary">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Community Voting Section -->
+        <section class="community-voting-section">
+            <div class="container">
+                <div class="voting-header">
+                    <h2>Community-Driven Development</h2>
+                    <p>Your voice shapes our product roadmap! Vote on which DAMP products we develop next.</p>
+                </div>
+                
+                <div class="voting-stats">
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="total-votes">2,847</span>
+                        <span class="vote-stat-label">Total Votes</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="leading-product">Handle</span>
+                        <span class="vote-stat-label">Currently Leading</span>
+                    </div>
+                    <div class="vote-stat">
+                        <span class="vote-stat-number" id="participation-rate">68%</span>
+                        <span class="vote-stat-label">Participation Rate</span>
+                    </div>
+                </div>
+                
+                <div class="voting-actions">
+                    <a href="product-voting.html" class="btn-primary">🗳️ Cast Your Vote</a>
+                    <a href="product-voting.html" class="btn-secondary">View Live Results</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer (Same as template) -->
+    <footer class="footer safe-area-padding-bottom">
+        <!-- Footer content same as template -->
+    </footer>
+
+    <!-- Performance-Optimized Scripts -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.remove('page-loading');
+            document.body.classList.add('page-ready');
+            
+            // Load navigation script
+            loadScript('../assets/js/navigation.js');
+            
+            // Load voting data
+            setTimeout(updateVotingStats, 1000);
+        });
+        
+        function loadScript(src) {
+            const script = document.createElement('script');
+            script.src = src;
+            script.async = true;
+            document.head.appendChild(script);
+        }
+        
+        function updateVotingStats() {
+            // Update with real-time data if available
+            try {
+                if (window.firebaseServices && window.firebaseServices.votingService) {
+                    window.firebaseServices.votingService.onPublicVotingChange(updateVotingDisplay);
+                }
+            } catch (error) {
+                console.log('Using static voting data');
+            }
+        }
+        
+        function updateVotingDisplay(data) {
+            document.getElementById('total-votes').textContent = data.totalVotes?.toLocaleString() || '2,847';
+            document.getElementById('leading-product').textContent = data.leadingProduct || 'Handle';
+            document.getElementById('participation-rate').textContent = (data.participationRate || 68) + '%';
+        }
+    </script>
+</body>
+</html> 

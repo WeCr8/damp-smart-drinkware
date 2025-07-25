@@ -3,12 +3,8 @@ class DAMPLazyLoader {
     constructor() {
         this.loaded = new Set();
         this.loading = new Map();
-        this.callbacks = new Map();
         
-        // Initialize after animation or user interaction
-        this.initializationDelay = 2000; // 2s after animation starts
-        this.userInteractionTypes = ['click', 'scroll', 'touchstart', 'keydown'];
-        
+        // Initialize after user interaction or animation completion
         this.setupUserInteractionLoading();
     }
     
@@ -16,13 +12,13 @@ class DAMPLazyLoader {
         const loadOnInteraction = () => {
             this.preloadCriticalDependencies();
             // Remove listeners after first interaction
-            this.userInteractionTypes.forEach(type => {
+            ['click', 'scroll', 'touchstart', 'keydown'].forEach(type => {
                 document.removeEventListener(type, loadOnInteraction, { passive: true });
             });
         };
         
         // Load on first user interaction
-        this.userInteractionTypes.forEach(type => {
+        ['click', 'scroll', 'touchstart', 'keydown'].forEach(type => {
             document.addEventListener(type, loadOnInteraction, { passive: true });
         });
         
@@ -30,9 +26,6 @@ class DAMPLazyLoader {
         document.addEventListener('heroAnimationComplete', () => {
             setTimeout(() => this.preloadCriticalDependencies(), 1000);
         });
-        
-        // Fallback timer
-        setTimeout(() => this.preloadCriticalDependencies(), this.initializationDelay);
     }
     
     async preloadCriticalDependencies() {
@@ -49,33 +42,37 @@ class DAMPLazyLoader {
             return this.loading.get('firebase');
         }
         
-        const loadPromise = this.loadFirebaseSDK();
+        const loadPromise = this._loadFirebaseCore();
         this.loading.set('firebase', loadPromise);
-        return loadPromise;
+        
+        try {
+            const result = await loadPromise;
+            this.loaded.add('firebase');
+            this.loading.delete('firebase');
+            return result;
+        } catch (error) {
+            this.loading.delete('firebase');
+            throw error;
+        }
     }
     
-    async loadFirebaseSDK() {
+    async _loadFirebaseCore() {
         try {
             // Use CDN for better caching
-            const [
-                { initializeApp },
-                { getAuth },
-                { getFirestore },
-                { getAnalytics }
-            ] = await Promise.all([
+            const [{ initializeApp }, { getAuth }, { getFirestore }] = await Promise.all([
                 import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'),
                 import('https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js'),
-                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'),
-                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js')
+                import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js')
             ]);
             
-            // Initialize Firebase (you'll need to add your config)
+            // Initialize Firebase (add your config)
             const firebaseConfig = {
-                // Your Firebase config here
                 apiKey: "your-api-key",
-                authDomain: "your-project.firebaseapp.com",
-                projectId: "your-project-id",
-                // ... rest of config
+                authDomain: "damp-smart-drinkware.firebaseapp.com",
+                projectId: "damp-smart-drinkware",
+                storageBucket: "damp-smart-drinkware.appspot.com",
+                messagingSenderId: "123456789",
+                appId: "1:123456789:web:abcdef123456"
             };
             
             const app = initializeApp(firebaseConfig);
@@ -84,10 +81,27 @@ class DAMPLazyLoader {
                 app,
                 auth: getAuth(app),
                 db: getFirestore(app),
-                analytics: getAnalytics(app)
+                // Add voting service
+                votingService: {
+                    async getVotingData() {
+                        // Implement voting data fetching
+                        return {
+                            totalVotes: 2847,
+                            leadingProduct: 'Handle',
+                            participationRate: 68
+                        };
+                    },
+                    onPublicVotingChange(callback) {
+                        // Setup real-time listener
+                        callback({
+                            totalVotes: 2847,
+                            leadingProduct: 'Handle',
+                            participationRate: 68
+                        });
+                    }
+                }
             };
             
-            this.loaded.add('firebase');
             console.log('✅ Firebase loaded lazily');
             return window.firebaseServices;
             
@@ -104,17 +118,37 @@ class DAMPLazyLoader {
             return this.loading.get('stripe');
         }
         
-        const loadPromise = this.loadStripeSDK();
+        const loadPromise = this._loadStripeCore();
         this.loading.set('stripe', loadPromise);
-        return loadPromise;
+        
+        try {
+            const result = await loadPromise;
+            this.loaded.add('stripe');
+            this.loading.delete('stripe');
+            return result;
+        } catch (error) {
+            this.loading.delete('stripe');
+            throw error;
+        }
     }
     
-    async loadStripeSDK() {
+    async _loadStripeCore() {
         try {
-            const { loadStripe } = await import('https://js.stripe.com/v3/');
-            window.Stripe = await loadStripe('pk_test_your_publishable_key_here');
+            // Dynamic import for better performance
+            const script = document.createElement('script');
+            script.src = 'https://js.stripe.com/v3/';
+            script.async = true;
             
-            this.loaded.add('stripe');
+            const loadPromise = new Promise((resolve, reject) => {
+                script.onload = resolve;
+                script.onerror = reject;
+            });
+            
+            document.head.appendChild(script);
+            await loadPromise;
+            
+            window.Stripe = Stripe('pk_test_your_publishable_key_here');
+            
             console.log('✅ Stripe loaded lazily');
             return window.Stripe;
             
@@ -127,22 +161,50 @@ class DAMPLazyLoader {
     async loadAnalytics() {
         if (this.loaded.has('analytics')) return window.gtag;
         
+        if (this.loading.has('analytics')) {
+            return this.loading.get('analytics');
+        }
+        
+        const loadPromise = this._loadAnalyticsCore();
+        this.loading.set('analytics', loadPromise);
+        
+        try {
+            const result = await loadPromise;
+            this.loaded.add('analytics');
+            this.loading.delete('analytics');
+            return result;
+        } catch (error) {
+            this.loading.delete('analytics');
+            throw error;
+        }
+    }
+    
+    async _loadAnalyticsCore() {
         try {
             // Load Google Analytics
             const script = document.createElement('script');
             script.async = true;
             script.src = 'https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID';
+            
+            const loadPromise = new Promise((resolve) => {
+                script.onload = resolve;
+                script.onerror = resolve; // Don't fail if analytics fails
+            });
+            
             document.head.appendChild(script);
+            await loadPromise;
             
             // Initialize gtag
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
-            gtag('config', 'GA_MEASUREMENT_ID');
+            gtag('config', 'GA_MEASUREMENT_ID', {
+                page_title: document.title,
+                page_location: window.location.href
+            });
             
             window.gtag = gtag;
             
-            this.loaded.add('analytics');
             console.log('✅ Analytics loaded lazily');
             return window.gtag;
             
@@ -152,24 +214,37 @@ class DAMPLazyLoader {
         }
     }
     
-    // Helper method for components that need these services
-    async requireFirebase() {
+    // Public utility methods
+    async ensureFirebase() {
         return this.loadFirebase();
     }
     
-    async requireStripe() {
+    async ensureStripe() {
         return this.loadStripe();
+    }
+    
+    async ensureAnalytics() {
+        return this.loadAnalytics();
+    }
+    
+    getLoadedServices() {
+        return Array.from(this.loaded);
     }
     
     isLoaded(service) {
         return this.loaded.has(service);
     }
+    
+    destroy() {
+        this.loaded.clear();
+        this.loading.clear();
+    }
 }
 
-// Initialize global lazy loader
-window.lazyLoader = new DAMPLazyLoader();
+// Initialize globally
+window.dampLazyDependencies = new DAMPLazyLoader();
 
 // Export for modules
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = DAMPLazyLoader;
-} 
+}

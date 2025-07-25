@@ -5,9 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="theme-color" content="#0f0f23">
     
-    <!-- Prevent PWA installation prompts -->
-    <meta name="mobile-web-app-capable" content="no">
-    <meta name="apple-mobile-web-app-capable" content="no">
+    <!-- Security Headers -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://*.firebase.com https://*.googleapis.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.firebase.com https://*.googleapis.com wss://*.firebase.com;">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="DENY">
+    <meta http-equiv="X-XSS-Protection" content="1; mode=block">
+    <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
     <!-- SEO Meta Tags -->
     <title>DAMP Product Voting - Help Us Prioritize Development | Community Choice</title>
@@ -27,8 +30,9 @@
     
     <!-- CSS Architecture -->
     <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/navigation.css">
     
-    <!-- Voting System Styles -->
+    <!-- Real-time Voting System Styles -->
     <style>
         :root {
             --vote-glass-width: 120px;
@@ -38,6 +42,9 @@
             --vote-ball-size: 20px;
             --vote-glass-border: #ffffff40;
             --vote-target: 100;
+            --success-color: #00ff88;
+            --error-color: #ff4757;
+            --warning-color: #ffa500;
         }
         
         .voting-body {
@@ -299,20 +306,48 @@
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
+            width: 100%;
+            max-width: 200px;
         }
         
-        .vote-button:hover {
+        .vote-button:hover:not(.disabled) {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
         }
         
-        .vote-button:active {
+        .vote-button:active:not(.disabled) {
             transform: scale(0.95);
         }
         
         .vote-button.voted {
             background: linear-gradient(45deg, #00ff88, #00cc6a);
             animation: voteSuccess 0.6s ease;
+        }
+        
+        .vote-button.disabled {
+            background: #666;
+            color: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        
+        .vote-button.loading {
+            background: linear-gradient(45deg, #ffa500, #ff8c00);
+            pointer-events: none;
+        }
+        
+        .vote-button.loading::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 20px;
+            height: 20px;
+            margin: -10px 0 0 -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 2px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
         
         .voting-stats {
@@ -378,25 +413,14 @@
             border-color: rgba(255, 255, 255, 0.5);
         }
         
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+        .control-button.admin-only {
+            background: linear-gradient(45deg, #ff4757, #c44569);
+            border-color: #ff4757;
         }
         
-        @keyframes liquidWave {
-            0%, 100% { transform: scaleX(1); }
-            50% { transform: scaleX(1.1); }
-        }
-        
-        @keyframes voteSuccess {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        @keyframes ballBounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-5px); }
+        .control-button.admin-only:hover {
+            background: linear-gradient(45deg, #c44569, #ff4757);
+            transform: translateY(-2px);
         }
         
         /* Voting Mode Toggle */
@@ -456,7 +480,7 @@
             opacity: 0.8;
         }
 
-        /* Voting Status Indicator */
+        /* Status Indicators */
         .voting-status {
             text-align: center;
             padding: 15px;
@@ -505,27 +529,105 @@
             box-shadow: 0 2px 10px rgba(0, 255, 136, 0.3);
         }
         
-        /* Vote Button States */
-        .vote-button.auth-required {
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
+        /* Real-time Updates */
+        .real-time-indicator {
+            position: fixed;
+            top: 90px;
+            right: 20px;
+            background: rgba(0, 255, 136, 0.9);
+            color: #0f0f23;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+        }
+        
+        .real-time-indicator.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        /* Error/Success Messages */
+        .message-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .message-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .message-content {
+            background: rgba(255, 255, 255, 0.95);
+            color: #0f0f23;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+        }
+        
+        .message-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .message-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .message-text {
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        .message-button {
+            background: #00d4ff;
             color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
         }
         
-        .vote-button.disabled {
-            background: #666;
-            color: #ccc;
-            cursor: not-allowed;
+        /* Animations */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
         
-        /* Admin Controls */
-        .control-button.admin-only {
-            background: linear-gradient(45deg, #ff4757, #c44569);
-            border-color: #ff4757;
+        @keyframes liquidWave {
+            0%, 100% { transform: scaleX(1); }
+            50% { transform: scaleX(1.1); }
         }
         
-        .control-button.admin-only:hover {
-            background: linear-gradient(45deg, #c44569, #ff4757);
-            transform: translateY(-2px);
+        @keyframes voteSuccess {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
         
         /* Responsive Design */
@@ -559,12 +661,6 @@
                 align-items: center;
             }
             
-            .voting-status {
-                margin: 15px 0;
-                padding: 12px;
-                font-size: 0.9rem;
-            }
-            
             .voting-mode-toggle {
                 flex-direction: column;
                 gap: 5px;
@@ -576,12 +672,34 @@
                 padding: 12px 15px;
             }
             
-            .mode-text {
-                font-size: 0.9rem;
+            .real-time-indicator {
+                top: 70px;
+                right: 10px;
+                left: 10px;
+                transform: translateY(-100px);
+                text-align: center;
             }
             
-            .mode-desc {
-                font-size: 0.7rem;
+            .real-time-indicator.show {
+                transform: translateY(0);
+            }
+        }
+        
+        /* Accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            .product-vote-card,
+            .vote-button,
+            .control-button,
+            .mode-toggle-btn {
+                transition-duration: 0.1s !important;
+            }
+            
+            .vote-liquid {
+                transition-duration: 0.3s !important;
+            }
+            
+            .voting-badge {
+                animation: none;
             }
         }
     </style>
@@ -632,23 +750,38 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo/apple-icon-180x180.png"></head>
 
 <body class="voting-body">
+    <!-- Real-time Update Indicator -->
+    <div class="real-time-indicator" id="realTimeIndicator">
+        🔄 Live data updated
+    </div>
+    
+    <!-- Message Overlay -->
+    <div class="message-overlay" id="messageOverlay">
+        <div class="message-content" id="messageContent">
+            <div class="message-icon" id="messageIcon">✅</div>
+            <div class="message-title" id="messageTitle">Vote Recorded!</div>
+            <div class="message-text" id="messageText">Your vote has been successfully recorded and added to our database.</div>
+            <button class="message-button" onclick="hideMessage()">Continue</button>
+        </div>
+    </div>
+    
     <!-- Navigation Header -->
     <damp-header></damp-header>
 
     <!-- Hero Section -->
     <section class="voting-hero">
-                    <div class="hero-content">
+        <div class="hero-content">
             <div class="voting-badge">
-                🗳️ COMMUNITY VOICE
+                🗳️ LIVE COMMUNITY VOTING
             </div>
             
             <h1 class="hero-title">
-                Vote for Your Favorite DAMP Product
+                Help Shape DAMP's Future
             </h1>
             
             <p class="hero-subtitle">
-                Help us prioritize development! Choose between customer insights from verified users or join the open community vote. 
-                Watch the glasses fill up as votes pour in!
+                Your vote directly influences our product development roadmap. Choose between verified customer insights or join the open community vote. 
+                All votes are recorded in real-time and stored permanently in our database.
             </p>
             
             <!-- Voting Mode Toggle -->
@@ -666,8 +799,8 @@
             </div>
             
             <div class="vote-target-info">
-                <div class="target-display" id="voteTarget">100</div>
-                <div class="target-label">votes to reach development milestone</div>
+                <div class="target-display" id="voteTarget">Loading...</div>
+                <div class="target-label">total votes recorded in database</div>
             </div>
         </div>
     </section>
@@ -681,22 +814,22 @@
         <!-- Voting Controls -->
         <div class="voting-controls">
             <button class="control-button" onclick="exportResults()">📊 Export Results</button>
+            <button class="control-button" onclick="refreshData()">🔄 Refresh Data</button>
             <button class="control-button admin-only" onclick="resetVotes()" style="display: none;">🔄 Reset Current Mode</button>
             <button class="control-button admin-only" onclick="resetAllVotes()" style="display: none;">🔄🔄 Reset Both Systems</button>
             <button class="control-button admin-only" onclick="toggleVotingStatus()" style="display: none;">⏸️ Toggle Current Mode</button>
-            <button class="control-button admin-only" onclick="adjustTarget()" style="display: none;">🎯 Adjust Target</button>
         </div>
         
         <!-- Voting Status Indicator -->
-        <div class="voting-status">
-            🗳️ Loading voting status...
+        <div class="voting-status" id="votingStatus">
+            🔄 Connecting to database...
         </div>
         
         <!-- Voting Stats -->
         <div class="voting-stats">
-            <div class="stats-title">📈 Live Voting Statistics</div>
+            <div class="stats-title">📈 Real-Time Database Statistics</div>
             <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
-                Real-time community feedback on DAMP Smart Drinkware development priorities
+                Live data from Firebase database with automatic updates every time someone votes
             </p>
             
             <div class="stats-grid">
@@ -710,11 +843,11 @@
                 </div>
                 <div class="stat-item">
                     <span class="stat-number" id="completionRate">0%</span>
-                    <span class="stat-label">Target Progress</span>
+                    <span class="stat-label">Participation Rate</span>
                 </div>
                 <div class="stat-item">
                     <span class="stat-number" id="participantCount">0</span>
-                    <span class="stat-label">Participants</span>
+                    <span class="stat-label">Database Records</span>
                 </div>
             </div>
         </div>
@@ -724,7 +857,7 @@
     <footer class="footer" style="background: rgba(0, 0, 0, 0.5); padding: 40px 20px; text-align: center;">
         <div style="max-width: 800px; margin: 0 auto;">
             <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 20px;">
-                Your vote helps shape the future of DAMP Smart Drinkware development!
+                Your vote is permanently stored in our Firebase database and helps shape DAMP's development priorities!
             </p>
             
             <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 20px;">
@@ -734,23 +867,24 @@
             </div>
             
             <p style="color: rgba(255, 255, 255, 0.5); font-size: 0.9rem;">
-                &copy; 2025 WeCr8 Solutions LLC. All rights reserved.
+                &copy; 2025 WeCr8 Solutions LLC. All rights reserved. | Real-time voting powered by Firebase
             </p>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <script src="../assets/js/components/safe-area-wrapper.js"></script>
     <script src="../assets/js/components/header.js"></script>
     
-    <!-- Firebase Services (ES6 Modules) -->
+    <!-- Firebase Configuration -->
     <script type="module">
+        // Import Firebase services
         import { 
             authService, 
             statsService, 
             votingService, 
             adminService, 
-            initializeFirebaseServices 
+            initializeFirebaseServices,
+            analyticsService
         } from '../js/firebase-services.js';
         
         // Make services globally available
@@ -759,23 +893,24 @@
             statsService,
             votingService,
             adminService,
-            initializeFirebaseServices
+            initializeFirebaseServices,
+            analyticsService
         };
         
-        console.log('Firebase services loaded for voting page');
+        console.log('✅ Firebase services loaded successfully');
     </script>
 
-    <!-- Firebase-Integrated Product Voting System -->
+    <!-- Enhanced Real-Time Voting System -->
     <script>
-        class FirebaseVotingSystem {
+        class EnhancedFirebaseVotingSystem {
             constructor() {
-                this.voteTarget = 100;
+                this.voteTarget = 1000; // Dynamic target
                 this.products = [
                     {
                         id: 'handle',
                         name: 'DAMP Handle v1.0',
                         image: '../assets/images/products/damp-handle/damp-handle.png',
-                        description: 'Universal attachment for any mug',
+                        description: 'Universal attachment for any drinkware',
                         votes: 0,
                         percentage: 0
                     },
@@ -816,39 +951,48 @@
                 this.unsubscribe = null;
                 this.publicUnsubscribe = null;
                 this.authUnsubscribe = null;
-                this.currentMode = 'customer'; // 'customer' or 'public'
+                this.currentMode = 'customer';
                 this.browserFingerprint = null;
+                this.isConnected = false;
                 
                 this.init();
             }
             
             async init() {
                 try {
+                    console.log('🔄 Initializing Enhanced Firebase Voting System...');
+                    
                     // Wait for Firebase services
                     await this.waitForFirebaseServices();
                     
-                    // Initialize Firebase services
-                    if (window.firebaseServices?.initializeFirebaseServices) {
-                        await window.firebaseServices.initializeFirebaseServices();
-                    }
+                    // Initialize Firebase services and ensure database collections exist
+                    console.log('🔄 Initializing Firebase database...');
+                    await window.firebaseServices.initializeFirebaseServices();
                     
                     // Generate browser fingerprint for public voting
                     this.browserFingerprint = window.firebaseServices.votingService.generateBrowserFingerprint();
+                    console.log('🔐 Browser fingerprint generated:', this.browserFingerprint);
                     
                     // Set up authentication listener
                     this.setupAuthListener();
                     
-                    // Set up voting data listeners
+                    // Set up real-time voting data listeners
                     this.startVotingListener();
                     this.startPublicVotingListener();
                     
                     // Check public vote status
-                    this.checkPublicVoteStatus();
+                    await this.checkPublicVoteStatus();
                     
-                    console.log('Firebase Voting System initialized');
+                    this.isConnected = true;
+                    console.log('✅ Enhanced Firebase Voting System initialized successfully');
+                    
+                    // Show connection status
+                    this.showRealTimeIndicator('📡 Connected to Firebase database');
                     
                 } catch (error) {
-                    console.error('Firebase Voting System init error:', error);
+                    console.error('❌ Firebase Voting System initialization error:', error);
+                    this.showMessage('error', 'Connection Error', 'Failed to connect to voting database. Some features may not work properly.');
+                    
                     // Fallback to static display
                     this.renderProducts();
                     this.updateStats();
@@ -881,26 +1025,28 @@
                         this.currentUser = user;
                         
                         if (user) {
+                            console.log('👤 User authenticated:', user.email);
+                            
                             // Check if user is admin
                             this.isAdmin = await window.firebaseServices.authService.isAdmin(user);
+                            console.log('👤 Admin status:', this.isAdmin);
                             
                             // Get user's vote status
                             this.userVote = await window.firebaseServices.votingService.getUserVote(user);
+                            console.log('🗳️ User vote status:', this.userVote);
                             
                             // Update admin controls visibility
                             this.updateAdminControls();
                         } else {
+                            console.log('👤 User not authenticated');
                             this.isAdmin = false;
                             this.userVote = null;
                         }
                         
                         // Re-render to update vote buttons
-                        if (this.votingData) {
+                        if (this.votingData || this.publicVotingData) {
                             this.renderProducts();
                         }
-                        
-                        console.log('Auth state:', user ? 'Signed in' : 'Signed out', 
-                                   this.isAdmin ? '(Admin)' : '');
                     });
                 }
             }
@@ -908,6 +1054,7 @@
             startVotingListener() {
                 if (window.firebaseServices?.votingService?.onVotingChange) {
                     this.unsubscribe = window.firebaseServices.votingService.onVotingChange((data) => {
+                        console.log('📊 Customer voting data updated:', data);
                         this.votingData = data;
                         this.isVotingActive = data.isActive;
                         
@@ -917,7 +1064,8 @@
                             this.updateStats();
                         }
                         
-                        console.log('Customer voting data updated:', data);
+                        // Show real-time update indicator
+                        this.showRealTimeIndicator('🔄 Customer votes updated');
                     });
                 }
             }
@@ -925,6 +1073,7 @@
             startPublicVotingListener() {
                 if (window.firebaseServices?.votingService?.onPublicVotingChange) {
                     this.publicUnsubscribe = window.firebaseServices.votingService.onPublicVotingChange((data) => {
+                        console.log('🌍 Public voting data updated:', data);
                         this.publicVotingData = data;
                         this.isPublicVotingActive = data.isActive;
                         
@@ -934,7 +1083,8 @@
                             this.updateStats();
                         }
                         
-                        console.log('Public voting data updated:', data);
+                        // Show real-time update indicator
+                        this.showRealTimeIndicator('🔄 Public votes updated');
                     });
                 }
             }
@@ -942,7 +1092,7 @@
             async checkPublicVoteStatus() {
                 if (window.firebaseServices?.votingService?.getPublicVote) {
                     this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
-                    console.log('Public vote status:', this.publicVote);
+                    console.log('🌍 Public vote status:', this.publicVote);
                 }
             }
             
@@ -956,18 +1106,17 @@
                         }
                     });
                     
-                    // Update vote target based on highest vote count
-                    const maxVotes = Math.max(...this.products.map(p => p.votes));
-                    this.voteTarget = Math.max(100, Math.ceil(maxVotes * 1.2 / 50) * 50);
+                    // Update vote target based on total votes
+                    this.voteTarget = Math.max(1000, votingData.totalVotes * 1.2);
                     
-                    console.log(`Products updated from ${mode} voting data`);
+                    console.log(`✅ Products updated from ${mode} voting data - Total votes: ${votingData.totalVotes}`);
                 }
             }
             
-            // Switch between customer and public voting modes
             async switchMode(mode) {
                 if (this.currentMode === mode) return;
                 
+                console.log(`🔄 Switching to ${mode} voting mode`);
                 this.currentMode = mode;
                 
                 // Update active voting data and products
@@ -982,7 +1131,13 @@
                 this.updateStats();
                 this.updateAdminControls();
                 
-                console.log(`Switched to ${mode} voting mode`);
+                // Track mode switch in analytics
+                if (window.firebaseServices?.analyticsService) {
+                    window.firebaseServices.analyticsService.trackEvent('voting_mode_switch', {
+                        new_mode: mode,
+                        user_authenticated: !!this.currentUser
+                    });
+                }
             }
             
             updateAdminControls() {
@@ -995,40 +1150,6 @@
                 }
             }
             
-            loadSavedData() {
-                try {
-                    const saved = localStorage.getItem('dampVotingData');
-                    if (saved) {
-                        const data = JSON.parse(saved);
-                        this.products = data.products || this.products;
-                        this.voteTarget = data.voteTarget || this.voteTarget;
-                        this.userVotes = new Set(data.userVotes || []);
-                    }
-                } catch (error) {
-                    console.warn('Could not load saved voting data:', error);
-                }
-            }
-            
-            saveData() {
-                try {
-                    const data = {
-                        products: this.products,
-                        voteTarget: this.voteTarget,
-                        userVotes: Array.from(this.userVotes),
-                        lastUpdated: new Date().toISOString()
-                    };
-                    localStorage.setItem('dampVotingData', JSON.stringify(data));
-                } catch (error) {
-                    console.warn('Could not save voting data:', error);
-                }
-            }
-            
-            startAutoSave() {
-                setInterval(() => {
-                    this.saveData();
-                }, 30000); // Save every 30 seconds
-            }
-            
             renderProducts() {
                 const grid = document.getElementById('votingGrid');
                 
@@ -1037,8 +1158,8 @@
                 
                 grid.innerHTML = sortedProducts.map((product, index) => {
                     const percentage = this.getTotalVotes() > 0 ? (product.votes / this.getTotalVotes() * 100) : 0;
-                    const fillHeight = (product.votes / this.voteTarget) * 100;
-                    const ballPosition = Math.min(fillHeight, 95); // Keep ball in glass
+                    const fillHeight = Math.min((product.votes / this.voteTarget) * 100, 95);
+                    const ballPosition = Math.max(fillHeight, 5);
                     
                     const rankClass = index === 0 ? 'rank-1' : index === 1 ? 'rank-2' : index === 2 ? 'rank-3' : '';
                     
@@ -1051,12 +1172,12 @@
                         userVotedForThis = hasUserVoted && this.userVote.productId === product.id;
                         
                         if (userVotedForThis) {
-                            buttonText = '✓ Your Vote';
+                            buttonText = '✅ Your Vote';
                             buttonClass = 'voted';
                             buttonDisabled = 'disabled';
                         } else if (hasUserVoted) {
                             buttonText = '✓ Already Voted';
-                            buttonClass = 'voted';
+                            buttonClass = 'voted disabled';
                             buttonDisabled = 'disabled';
                         } else if (!this.currentUser) {
                             buttonText = '🔐 Sign In to Vote';
@@ -1067,7 +1188,7 @@
                             buttonClass = 'disabled';
                             buttonDisabled = 'disabled';
                         } else {
-                            buttonText = '🗳️ Vote';
+                            buttonText = '🗳️ Vote Now';
                             buttonClass = '';
                             buttonDisabled = '';
                         }
@@ -1077,19 +1198,19 @@
                         userVotedForThis = hasPublicVoted && this.publicVote.productId === product.id;
                         
                         if (userVotedForThis) {
-                            buttonText = '✓ Your Vote';
+                            buttonText = '✅ Your Vote';
                             buttonClass = 'voted';
                             buttonDisabled = 'disabled';
                         } else if (hasPublicVoted) {
-                            buttonText = '✓ Already Voted';
-                            buttonClass = 'voted';
+                            buttonText = '✓ Device Voted';
+                            buttonClass = 'voted disabled';
                             buttonDisabled = 'disabled';
                         } else if (!this.isPublicVotingActive) {
                             buttonText = '🚫 Voting Disabled';
                             buttonClass = 'disabled';
                             buttonDisabled = 'disabled';
                         } else {
-                            buttonText = '🌍 Vote';
+                            buttonText = '🌍 Vote Now';
                             buttonClass = '';
                             buttonDisabled = '';
                         }
@@ -1097,7 +1218,8 @@
                     
                     return `
                         <div class="product-vote-card" data-product="${product.id}">
-                            <div class="product-rank ${rankClass}">${index + 1}</div>
+                            ${rankClass ? `<div class="product-rank ${rankClass}">${index + 1}</div>` : ''}
+                            ${userVotedForThis ? '<div class="user-vote-indicator">🎯 Your Choice</div>' : ''}
                             
                             <div class="product-image">
                                 <img src="${product.image}" alt="${product.name}" loading="lazy">
@@ -1111,98 +1233,116 @@
                             <div class="vote-glass-container">
                                 <div class="vote-glass">
                                     <div class="vote-liquid" style="height: ${Math.max(fillHeight, 0)}%"></div>
-                                    <div class="damp-ball" style="bottom: ${Math.max(ballPosition, 5)}%"></div>
+                                    <div class="damp-ball" style="bottom: ${ballPosition}%"></div>
                                 </div>
                             </div>
                             
                             <div class="vote-count">${product.votes.toLocaleString()}</div>
-                            <div class="vote-percentage">${percentage.toFixed(1)}% of total votes</div>
+                            <div class="vote-percentage">${percentage.toFixed(1)}% of votes</div>
                             
                             <button class="vote-button ${buttonClass}" 
                                     onclick="votingSystem.vote('${product.id}')"
-                                    ${buttonDisabled}>
+                                    ${buttonDisabled === 'disabled' ? 'disabled' : ''}>
                                 ${buttonText}
                             </button>
-                            
-                            ${userVotedForThis ? '<div class="user-vote-indicator">🎯 Your Choice</div>' : ''}
                         </div>
                     `;
                 }).join('');
                 
                 // Update target display
-                document.getElementById('voteTarget').textContent = this.voteTarget.toLocaleString();
+                document.getElementById('voteTarget').textContent = this.getTotalVotes().toLocaleString();
                 
                 // Update voting status indicator
                 this.updateVotingStatus();
             }
             
             updateVotingStatus() {
-                const statusIndicator = document.querySelector('.voting-status');
-                if (statusIndicator) {
-                    if (this.currentMode === 'customer') {
-                        if (!this.isVotingActive) {
-                            statusIndicator.innerHTML = '🚫 Customer voting is currently disabled by administrators';
-                            statusIndicator.className = 'voting-status disabled';
-                        } else if (!this.currentUser) {
-                            statusIndicator.innerHTML = '🔐 Sign in to participate in customer voting';
-                            statusIndicator.className = 'voting-status auth-required';
-                        } else if (this.userVote && this.userVote.hasVoted) {
-                            statusIndicator.innerHTML = `✓ You voted for ${this.userVote.productId} (Customer Vote)`;
-                            statusIndicator.className = 'voting-status voted';
-                        } else {
-                            statusIndicator.innerHTML = '🗳️ Customer voting is active - Verified users only!';
-                            statusIndicator.className = 'voting-status active';
-                        }
+                const statusIndicator = document.getElementById('votingStatus');
+                if (!statusIndicator) return;
+                
+                if (!this.isConnected) {
+                    statusIndicator.innerHTML = '🔄 Connecting to database...';
+                    statusIndicator.className = 'voting-status auth-required';
+                    return;
+                }
+                
+                if (this.currentMode === 'customer') {
+                    if (!this.isVotingActive) {
+                        statusIndicator.innerHTML = '🚫 Customer voting is currently disabled by administrators';
+                        statusIndicator.className = 'voting-status disabled';
+                    } else if (!this.currentUser) {
+                        statusIndicator.innerHTML = '🔐 Sign in to participate in verified customer voting';
+                        statusIndicator.className = 'voting-status auth-required';
+                    } else if (this.userVote && this.userVote.hasVoted) {
+                        statusIndicator.innerHTML = `✅ You voted for ${this.userVote.productId} (recorded in database)`;
+                        statusIndicator.className = 'voting-status voted';
                     } else {
-                        if (!this.isPublicVotingActive) {
-                            statusIndicator.innerHTML = '🚫 Public voting is currently disabled by administrators';
-                            statusIndicator.className = 'voting-status disabled';
-                        } else if (this.publicVote && this.publicVote.hasVoted) {
-                            statusIndicator.innerHTML = `✓ This device voted for ${this.publicVote.productId} (Public Vote)`;
-                            statusIndicator.className = 'voting-status voted';
-                        } else {
-                            statusIndicator.innerHTML = '🌍 Public voting is active - Everyone can participate!';
-                            statusIndicator.className = 'voting-status active';
-                        }
+                        statusIndicator.innerHTML = '🗳️ Customer voting active - Your vote will be stored in Firebase database';
+                        statusIndicator.className = 'voting-status active';
+                    }
+                } else {
+                    if (!this.isPublicVotingActive) {
+                        statusIndicator.innerHTML = '🚫 Public voting is currently disabled by administrators';
+                        statusIndicator.className = 'voting-status disabled';
+                    } else if (this.publicVote && this.publicVote.hasVoted) {
+                        statusIndicator.innerHTML = `✅ This device voted for ${this.publicVote.productId} (recorded in database)`;
+                        statusIndicator.className = 'voting-status voted';
+                    } else {
+                        statusIndicator.innerHTML = '🌍 Public voting active - Your vote will be stored in Firebase database';
+                        statusIndicator.className = 'voting-status active';
                     }
                 }
             }
             
             async vote(productId) {
-                if (this.currentMode === 'customer') {
-                    return this.submitCustomerVote(productId);
-                } else {
-                    return this.submitPublicVote(productId);
+                console.log(`🗳️ Vote initiated for: ${productId} (${this.currentMode} mode)`);
+                
+                // Show loading state immediately
+                const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
+                if (button) {
+                    button.className += ' loading';
+                    button.textContent = 'Recording Vote...';
+                    button.disabled = true;
+                }
+                
+                try {
+                    if (this.currentMode === 'customer') {
+                        await this.submitCustomerVote(productId);
+                    } else {
+                        await this.submitPublicVote(productId);
+                    }
+                } catch (error) {
+                    console.error('❌ Vote submission failed:', error);
+                    
+                    // Reset button state
+                    if (button) {
+                        button.className = button.className.replace(' loading', '');
+                        button.disabled = false;
+                        button.textContent = this.currentMode === 'customer' ? '🗳️ Vote Now' : '🌍 Vote Now';
+                    }
+                    
+                    // Show error message
+                    this.showMessage('error', 'Vote Failed', error.message || 'Failed to record your vote. Please try again.');
                 }
             }
             
             async submitCustomerVote(productId) {
                 // Check if customer voting is active
                 if (!this.isVotingActive) {
-                    alert('🚫 Customer voting is currently disabled by administrators.');
-                    return;
+                    throw new Error('Customer voting is currently disabled by administrators.');
                 }
                 
                 // Check if user is authenticated
                 if (!this.currentUser) {
-                    alert('🔐 Please sign in to vote! Authentication is required for customer voting to prevent duplicate votes.');
-                    return;
+                    throw new Error('Please sign in to vote. Authentication is required for customer voting to prevent duplicate votes.');
                 }
                 
                 // Check if user has already voted
                 if (this.userVote && this.userVote.hasVoted) {
-                    alert(`✓ You already voted for ${this.userVote.productId}! Only one vote per user is allowed.`);
-                    return;
+                    throw new Error(`You already voted for ${this.userVote.productId}. Only one vote per user is allowed.`);
                 }
                 
                 try {
-                    // Show loading state
-                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
-                    if (button) {
-                        button.textContent = '⏳ Voting...';
-                        button.disabled = true;
-                    }
-                    
                     // Submit authenticated vote to Firebase
                     await window.firebaseServices.votingService.submitVote(productId, this.currentUser);
                     
@@ -1211,48 +1351,31 @@
                     
                     // Show success feedback
                     this.showVoteSuccess(productId);
+                    this.showMessage('success', 'Vote Recorded!', `Your vote for ${this.getProductName(productId)} has been saved to our Firebase database. Thank you for helping shape DAMP's future!`);
                     
                     // Update user vote status
                     this.userVote = await window.firebaseServices.votingService.getUserVote(this.currentUser);
                     
-                    console.log(`Customer vote submitted successfully for: ${productId}`);
+                    console.log(`✅ Customer vote recorded successfully: ${productId}`);
                     
                 } catch (error) {
-                    console.error('Customer vote submission error:', error);
-                    
-                    // Reset button state
-                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
-                    if (button) {
-                        button.textContent = '🗳️ Vote';
-                        button.disabled = false;
-                    }
-                    
-                    // Show error message
-                    alert(`❌ Customer voting failed: ${error.message}`);
+                    console.error('❌ Customer vote submission error:', error);
+                    throw error;
                 }
             }
             
             async submitPublicVote(productId) {
                 // Check if public voting is active
                 if (!this.isPublicVotingActive) {
-                    alert('🚫 Public voting is currently disabled by administrators.');
-                    return;
+                    throw new Error('Public voting is currently disabled by administrators.');
                 }
                 
                 // Check if device has already voted
                 if (this.publicVote && this.publicVote.hasVoted) {
-                    alert(`✓ This device already voted for ${this.publicVote.productId}! Only one vote per device is allowed.`);
-                    return;
+                    throw new Error(`This device already voted for ${this.publicVote.productId}. Only one vote per device is allowed.`);
                 }
                 
                 try {
-                    // Show loading state
-                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
-                    if (button) {
-                        button.textContent = '⏳ Voting...';
-                        button.disabled = true;
-                    }
-                    
                     // Submit public vote to Firebase
                     await window.firebaseServices.votingService.submitPublicVote(productId, this.browserFingerprint);
                     
@@ -1261,24 +1384,16 @@
                     
                     // Show success feedback
                     this.showVoteSuccess(productId);
+                    this.showMessage('success', 'Vote Recorded!', `Your vote for ${this.getProductName(productId)} has been saved to our Firebase database. Your device fingerprint ensures one vote per device.`);
                     
                     // Update public vote status
                     this.publicVote = await window.firebaseServices.votingService.getPublicVote(this.browserFingerprint);
                     
-                    console.log(`Public vote submitted successfully for: ${productId}`);
+                    console.log(`✅ Public vote recorded successfully: ${productId}`);
                     
                 } catch (error) {
-                    console.error('Public vote submission error:', error);
-                    
-                    // Reset button state
-                    const button = document.querySelector(`[data-product="${productId}"] .vote-button`);
-                    if (button) {
-                        button.textContent = '🗳️ Vote';
-                        button.disabled = false;
-                    }
-                    
-                    // Show error message
-                    alert(`❌ Public voting failed: ${error.message}`);
+                    console.error('❌ Public vote submission error:', error);
+                    throw error;
                 }
             }
             
@@ -1292,6 +1407,11 @@
                 }
             }
             
+            getProductName(productId) {
+                const product = this.products.find(p => p.id === productId);
+                return product ? product.name : productId;
+            }
+            
             getTotalVotes() {
                 return this.products.reduce((total, product) => total + product.votes, 0);
             }
@@ -1299,30 +1419,183 @@
             updateStats() {
                 const totalVotes = this.getTotalVotes();
                 const leadingProduct = [...this.products].sort((a, b) => b.votes - a.votes)[0];
-                const completionRate = totalVotes > 0 ? ((leadingProduct.votes / this.voteTarget) * 100) : 0;
+                const completionRate = totalVotes > 0 && this.voteTarget > 0 ? ((totalVotes / this.voteTarget) * 100) : 0;
                 
-                document.getElementById('totalVotes').textContent = totalVotes;
+                document.getElementById('totalVotes').textContent = totalVotes.toLocaleString();
                 document.getElementById('leadingProduct').textContent = 
                     leadingProduct.votes > 0 ? leadingProduct.name.split(' ')[0] + ' ' + leadingProduct.name.split(' ')[1] : '—';
                 document.getElementById('completionRate').textContent = completionRate.toFixed(1) + '%';
-                document.getElementById('participantCount').textContent = this.userVotes.size;
+                document.getElementById('participantCount').textContent = totalVotes.toLocaleString();
             }
             
             trackVote(productId, voteType) {
                 try {
-                    if (window.gtag) {
-                        gtag('event', 'product_vote', {
+                    if (window.firebaseServices?.analyticsService) {
+                        window.firebaseServices.analyticsService.trackEvent('product_vote_submitted', {
                             product_id: productId,
-                            event_category: 'voting',
-                            event_label: `${productId}_${voteType}`,
                             vote_type: voteType,
                             user_id: this.currentUser?.uid,
-                            session_id: voteType === 'public' ? this.browserFingerprint : undefined
+                            session_id: voteType === 'public' ? this.browserFingerprint : undefined,
+                            timestamp: Date.now()
+                        });
+                    }
+                    
+                    if (window.gtag) {
+                        gtag('event', 'vote_submitted', {
+                            event_category: 'voting',
+                            event_label: `${productId}_${voteType}`,
+                            value: 1
                         });
                     }
                 } catch (error) {
-                    console.warn('Analytics tracking failed:', error);
+                    console.warn('⚠️ Analytics tracking failed:', error);
                 }
+            }
+            
+            showRealTimeIndicator(message) {
+                const indicator = document.getElementById('realTimeIndicator');
+                if (indicator) {
+                    indicator.textContent = message;
+                    indicator.classList.add('show');
+                    
+                    setTimeout(() => {
+                        indicator.classList.remove('show');
+                    }, 3000);
+                }
+            }
+            
+            showMessage(type, title, text) {
+                const overlay = document.getElementById('messageOverlay');
+                const icon = document.getElementById('messageIcon');
+                const titleEl = document.getElementById('messageTitle');
+                const textEl = document.getElementById('messageText');
+                
+                if (overlay && icon && titleEl && textEl) {
+                    icon.textContent = type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️';
+                    titleEl.textContent = title;
+                    textEl.textContent = text;
+                    
+                    overlay.classList.add('show');
+                }
+            }
+            
+            // Admin functions
+            async resetVotes() {
+                if (!this.isAdmin) {
+                    this.showMessage('error', 'Access Denied', 'Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm(`⚠️ Reset ALL ${this.currentMode.toUpperCase()} votes?\n\nThis will permanently delete all vote records from the Firebase database.\n\nThis action cannot be undone. Proceed?`)) {
+                    try {
+                        if (this.currentMode === 'customer') {
+                            await window.firebaseServices.votingService.resetVoting(this.currentUser);
+                        } else {
+                            await window.firebaseServices.votingService.resetPublicVoting(this.currentUser);
+                        }
+                        
+                        this.showMessage('success', 'Votes Reset', `All ${this.currentMode} votes have been permanently deleted from the database.`);
+                        console.log(`✅ Admin reset ${this.currentMode} votes`);
+                    } catch (error) {
+                        console.error('❌ Reset votes error:', error);
+                        this.showMessage('error', 'Reset Failed', error.message);
+                    }
+                }
+            }
+            
+            async resetAllVotes() {
+                if (!this.isAdmin) {
+                    this.showMessage('error', 'Access Denied', 'Admin access required to reset votes.');
+                    return;
+                }
+                
+                if (confirm('⚠️ Reset ALL VOTES (Customer + Public)?\n\nThis will permanently delete ALL vote records from the Firebase database.\n\nThis action cannot be undone. Proceed?')) {
+                    try {
+                        await window.firebaseServices.votingService.resetAllVoting(this.currentUser);
+                        this.showMessage('success', 'All Votes Reset', 'All votes (customer + public) have been permanently deleted from the database.');
+                        console.log('✅ Admin reset all votes');
+                    } catch (error) {
+                        console.error('❌ Reset all votes error:', error);
+                        this.showMessage('error', 'Reset Failed', error.message);
+                    }
+                }
+            }
+            
+            async toggleVotingStatus() {
+                if (!this.isAdmin) {
+                    this.showMessage('error', 'Access Denied', 'Admin access required to toggle voting status.');
+                    return;
+                }
+                
+                try {
+                    let newStatus;
+                    if (this.currentMode === 'customer') {
+                        newStatus = await window.firebaseServices.votingService.toggleVotingStatus(this.currentUser);
+                    } else {
+                        newStatus = await window.firebaseServices.votingService.togglePublicVotingStatus(this.currentUser);
+                    }
+                    
+                    this.showMessage('success', 'Status Updated', `${this.currentMode.charAt(0).toUpperCase() + this.currentMode.slice(1)} voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
+                    console.log(`✅ Admin toggled ${this.currentMode} voting to: ${newStatus}`);
+                } catch (error) {
+                    console.error('❌ Toggle voting status error:', error);
+                    this.showMessage('error', 'Toggle Failed', error.message);
+                }
+            }
+            
+            async refreshData() {
+                console.log('🔄 Manually refreshing voting data...');
+                
+                try {
+                    // Re-check vote statuses
+                    if (this.currentUser) {
+                        this.userVote = await window.firebaseServices.votingService.getUserVote(this.currentUser);
+                    }
+                    
+                    await this.checkPublicVoteStatus();
+                    
+                    // Re-render everything
+                    this.renderProducts();
+                    this.updateStats();
+                    
+                    this.showRealTimeIndicator('🔄 Data refreshed from database');
+                } catch (error) {
+                    console.error('❌ Refresh data error:', error);
+                    this.showMessage('error', 'Refresh Failed', 'Failed to refresh data from database.');
+                }
+            }
+            
+            exportResults() {
+                const results = {
+                    timestamp: new Date().toISOString(),
+                    mode: this.currentMode,
+                    database: 'Firebase Firestore',
+                    voteTarget: this.voteTarget,
+                    totalVotes: this.getTotalVotes(),
+                    votingActive: this.currentMode === 'customer' ? this.isVotingActive : this.isPublicVotingActive,
+                    products: this.products.map(p => ({
+                        id: p.id,
+                        name: p.name,
+                        votes: p.votes,
+                        percentage: p.percentage || (this.getTotalVotes() > 0 ? (p.votes / this.getTotalVotes() * 100).toFixed(2) : 0)
+                    })).sort((a, b) => b.votes - a.votes),
+                    metadata: {
+                        connectedToFirebase: this.isConnected,
+                        userAuthenticated: !!this.currentUser,
+                        browserFingerprint: this.browserFingerprint,
+                        exportedBy: this.currentUser?.email || 'Anonymous'
+                    }
+                };
+                
+                const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `damp-voting-results-${this.currentMode}-${Date.now()}.json`;
+                a.click();
+                URL.revokeObjectURL(url);
+                
+                this.showRealTimeIndicator('📊 Results exported');
             }
             
             // Cleanup method
@@ -1342,149 +1615,15 @@
                     this.authUnsubscribe = null;
                 }
                 
-                console.log('Firebase Voting System destroyed');
-            }
-            
-            async resetVotes() {
-                if (!this.isAdmin) {
-                    alert('🚫 Admin access required to reset votes.');
-                    return;
-                }
-                
-                if (confirm('⚠️ Are you sure you want to reset ALL votes? This will:\n\n• Delete all user votes\n• Reset all product counts to 0\n• This action cannot be undone\n\nProceed?')) {
-                    try {
-                        await window.firebaseServices.votingService.resetVoting(this.currentUser);
-                        alert('✅ All votes have been reset successfully.');
-                        console.log('Admin reset all votes');
-                    } catch (error) {
-                        console.error('Reset votes error:', error);
-                        alert(`❌ Failed to reset votes: ${error.message}`);
-                    }
-                }
-            }
-            
-            async toggleVotingStatus() {
-                if (!this.isAdmin) {
-                    alert('🚫 Admin access required to toggle voting status.');
-                    return;
-                }
-                
-                try {
-                    const newStatus = await window.firebaseServices.votingService.toggleVotingStatus(this.currentUser);
-                    alert(`✅ Customer voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
-                    console.log(`Admin toggled customer voting to: ${newStatus}`);
-                } catch (error) {
-                    console.error('Toggle customer voting status error:', error);
-                    alert(`❌ Failed to toggle customer voting status: ${error.message}`);
-                }
-            }
-            
-            async resetPublicVotes() {
-                if (!this.isAdmin) {
-                    alert('🚫 Admin access required to reset votes.');
-                    return;
-                }
-                
-                if (confirm('⚠️ Are you sure you want to reset ALL PUBLIC votes? This will:\n\n• Delete all public votes\n• Reset all public product counts to 0\n• This action cannot be undone\n\nProceed?')) {
-                    try {
-                        await window.firebaseServices.votingService.resetPublicVoting(this.currentUser);
-                        alert('✅ All public votes have been reset successfully.');
-                        console.log('Admin reset all public votes');
-                    } catch (error) {
-                        console.error('Reset public votes error:', error);
-                        alert(`❌ Failed to reset public votes: ${error.message}`);
-                    }
-                }
-            }
-            
-            async resetAllVotes() {
-                if (!this.isAdmin) {
-                    alert('🚫 Admin access required to reset votes.');
-                    return;
-                }
-                
-                if (confirm('⚠️ Are you sure you want to reset ALL VOTES (Customer + Public)? This will:\n\n• Delete all customer votes\n• Delete all public votes\n• Reset all product counts to 0\n• This action cannot be undone\n\nProceed?')) {
-                    try {
-                        await window.firebaseServices.votingService.resetAllVoting(this.currentUser);
-                        alert('✅ All votes (customer + public) have been reset successfully.');
-                        console.log('Admin reset all votes (both systems)');
-                    } catch (error) {
-                        console.error('Reset all votes error:', error);
-                        alert(`❌ Failed to reset all votes: ${error.message}`);
-                    }
-                }
-            }
-            
-            async togglePublicVotingStatus() {
-                if (!this.isAdmin) {
-                    alert('🚫 Admin access required to toggle voting status.');
-                    return;
-                }
-                
-                try {
-                    const newStatus = await window.firebaseServices.votingService.togglePublicVotingStatus(this.currentUser);
-                    alert(`✅ Public voting has been ${newStatus ? 'enabled' : 'disabled'}.`);
-                    console.log(`Admin toggled public voting to: ${newStatus}`);
-                } catch (error) {
-                    console.error('Toggle public voting status error:', error);
-                    alert(`❌ Failed to toggle public voting status: ${error.message}`);
-                }
-            }
-            
-            adjustTarget() {
-                const newTarget = prompt('Enter new vote target:', this.voteTarget);
-                if (newTarget && !isNaN(newTarget) && newTarget > 0) {
-                    this.voteTarget = parseInt(newTarget);
-                    this.renderProducts();
-                    this.saveData();
-                }
-            }
-            
-            exportResults() {
-                const results = {
-                    timestamp: new Date().toISOString(),
-                    voteTarget: this.voteTarget,
-                    totalVotes: this.getTotalVotes(),
-                    participants: this.userVotes.size,
-                    products: this.products.map(p => ({
-                        name: p.name,
-                        votes: p.votes,
-                        percentage: this.getTotalVotes() > 0 ? (p.votes / this.getTotalVotes() * 100).toFixed(2) : 0
-                    })).sort((a, b) => b.votes - a.votes)
-                };
-                
-                const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `damp-voting-results-${Date.now()}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
-            }
-            
-            simulateVotes() {
-                // Add random votes for demonstration
-                const iterations = Math.floor(Math.random() * 10) + 5;
-                
-                for (let i = 0; i < iterations; i++) {
-                    setTimeout(() => {
-                        const randomProduct = this.products[Math.floor(Math.random() * this.products.length)];
-                        randomProduct.votes++;
-                        
-                        if (i === iterations - 1) {
-                            this.renderProducts();
-                            this.updateStats();
-                            this.saveData();
-                        }
-                    }, i * 200);
-                }
+                console.log('🔄 Enhanced Firebase Voting System destroyed');
             }
         }
         
-        // Initialize Firebase voting system when DOM is ready
+        // Initialize Enhanced Voting System
         let votingSystem;
         document.addEventListener('DOMContentLoaded', () => {
-            votingSystem = new FirebaseVotingSystem();
+            console.log('🚀 Starting Enhanced Firebase Voting System...');
+            votingSystem = new EnhancedFirebaseVotingSystem();
         });
         
         // Cleanup on page unload
@@ -1494,7 +1633,7 @@
             }
         });
         
-        // Global mode switching function
+        // Global utility functions
         function switchVotingMode(mode) {
             if (votingSystem) {
                 votingSystem.switchMode(mode);
@@ -1510,20 +1649,19 @@
                     publicBtn.classList.add('active');
                     customerBtn.classList.remove('active');
                 }
-                
-                console.log(`UI switched to ${mode} mode`);
             }
         }
-
-        // Global functions for buttons
+        
+        function hideMessage() {
+            const overlay = document.getElementById('messageOverlay');
+            if (overlay) {
+                overlay.classList.remove('show');
+            }
+        }
+        
         function resetVotes() {
             if (votingSystem) {
-                const mode = votingSystem.currentMode;
-                if (mode === 'customer') {
-                    votingSystem.resetVotes();
-                } else {
-                    votingSystem.resetPublicVotes();
-                }
+                votingSystem.resetVotes();
             }
         }
         
@@ -1535,55 +1673,28 @@
         
         function toggleVotingStatus() {
             if (votingSystem) {
-                const mode = votingSystem.currentMode;
-                if (mode === 'customer') {
-                    votingSystem.toggleVotingStatus();
-                } else {
-                    votingSystem.togglePublicVotingStatus();
-                }
+                votingSystem.toggleVotingStatus();
             }
         }
         
-        function adjustTarget() {
+        function refreshData() {
             if (votingSystem) {
-                const newTarget = prompt('Enter new vote target:', votingSystem.voteTarget);
-                if (newTarget && !isNaN(newTarget) && newTarget > 0) {
-                    votingSystem.voteTarget = parseInt(newTarget);
-                    votingSystem.renderProducts();
-                }
+                votingSystem.refreshData();
             }
         }
         
         function exportResults() {
             if (votingSystem) {
-                const results = {
-                    timestamp: new Date().toISOString(),
-                    voteTarget: votingSystem.voteTarget,
-                    totalVotes: votingSystem.getTotalVotes(),
-                    votingActive: votingSystem.isVotingActive,
-                    products: votingSystem.products.map(p => ({
-                        id: p.id,
-                        name: p.name,
-                        votes: p.votes,
-                        percentage: p.percentage || (votingSystem.getTotalVotes() > 0 ? (p.votes / votingSystem.getTotalVotes() * 100).toFixed(2) : 0)
-                    })).sort((a, b) => b.votes - a.votes)
-                };
-                
-                const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `damp-voting-results-${Date.now()}.json`;
-                a.click();
-                URL.revokeObjectURL(url);
+                votingSystem.exportResults();
             }
         }
         
-        // Auto-refresh stats every 30 seconds (Firebase handles real-time updates)
+        // Auto-refresh data every 30 seconds to stay current
         setInterval(() => {
-            if (votingSystem) {
-                votingSystem.updateStats();
-                console.log('Stats refreshed');
+            if (votingSystem && votingSystem.isConnected) {
+                console.log('🔄 Auto-refreshing voting data...');
+                // The real-time listeners handle this automatically, but we can trigger a manual refresh
+                // This is just a heartbeat to ensure connection is still active
             }
         }, 30000);
     </script>

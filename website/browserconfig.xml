@@ -1,10 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  DAMP browserconfig.xml
+  - Optimized for Microsoft ecosystem (Windows tiles, Edge, IE)
+  - Ensures best-in-class favicon and tile experience
+  - Maintained by WeCr8 Solutions LLC
+-->
 <browserconfig>
   <msapplication>
     <tile>
+      <!-- High-res tile icons for Windows Start Menu -->
       <square70x70logo src="/assets/images/logo/icon-72.png"/>
       <square150x150logo src="/assets/images/logo/icon-144.png"/>
+      <square310x310logo src="/assets/images/logo/icon-512.png"/>
+      <wide310x150logo src="/assets/images/logo/icon-wide-310x150.png"/>
       <TileColor>#1a1a2e</TileColor>
     </tile>
+    <!-- Favicon fallback for legacy Microsoft browsers -->
+    <favicon src="/assets/images/logo/favicon.ico"/>
   </msapplication>
 </browserconfig>

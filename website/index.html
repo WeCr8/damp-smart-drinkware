@@ -55,6 +55,7 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <link rel="stylesheet" href="assets/css/navigation.css">
     <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="assets/css/auth-styles.css">
     
     <!-- Enhanced Visual Styles with Animations -->
     <style>
@@ -500,6 +501,244 @@
             letter-spacing: 1px;
         }
         
+        /* Newsletter Section */
+        .newsletter-section {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.05) 0%, rgba(0, 255, 136, 0.05) 100%);
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .newsletter-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            margin-top: 60px;
+        }
+        
+        .newsletter-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+        
+        .benefit-icon {
+            font-size: 2rem;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            flex-shrink: 0;
+        }
+        
+        .benefit-item h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+        
+        .benefit-item p {
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .newsletter-form-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+        }
+        
+        .newsletter-badge {
+            background: linear-gradient(45deg, var(--secondary-color), var(--primary-color));
+            color: var(--bg-primary);
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+        }
+        
+        .newsletter-input-group {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+            flex: 1;
+        }
+        
+        .newsletter-input {
+            width: 100%;
+            padding: 18px 50px 18px 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .newsletter-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+        }
+        
+        .input-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            opacity: 0.6;
+        }
+        
+        .newsletter-button {
+            background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 18px 30px;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        
+        .newsletter-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .newsletter-button:active {
+            transform: scale(0.95);
+        }
+        
+        .newsletter-button.loading {
+            background: linear-gradient(45deg, #ffa500, #ff8c00);
+            pointer-events: none;
+        }
+        
+        .newsletter-button.loading .button-text {
+            opacity: 0.7;
+        }
+        
+        .newsletter-button.loading .button-icon {
+            animation: spin 1s linear infinite;
+        }
+        
+        .newsletter-options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+        
+        .checkbox-label input[type="checkbox"] {
+            display: none;
+        }
+        
+        .checkmark {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            transition: all 0.3s ease;
+            font-size: 12px;
+            color: transparent;
+        }
+        
+        .checkbox-label input[type="checkbox"]:checked + .checkmark {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border-color: var(--primary-color);
+            color: white;
+        }
+        
+        .newsletter-privacy {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            text-align: center;
+        }
+        
+        .newsletter-privacy a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .newsletter-privacy a:hover {
+            text-decoration: underline;
+        }
+        
+        .newsletter-success,
+        .newsletter-error {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .newsletter-success {
+            background: rgba(0, 255, 136, 0.1);
+            border: 2px solid rgba(0, 255, 136, 0.3);
+        }
+        
+        .newsletter-success .success-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .newsletter-success h3 {
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .newsletter-error {
+            background: rgba(255, 71, 87, 0.1);
+            border: 2px solid rgba(255, 71, 87, 0.3);
+        }
+        
+        .newsletter-error .error-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+        }
+        
+        .newsletter-error h3 {
+            color: var(--accent-color);
+            margin-bottom: 10px;
+        }
+
         /* Mobile optimizations */
         @media (max-width: 768px) {
             .hero-section {
@@ -521,6 +760,26 @@
             .testimonials-grid {
                 grid-template-columns: 1fr;
                 gap: 30px;
+            }
+            
+            /* Newsletter mobile optimizations */
+            .newsletter-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            
+            .newsletter-input-group {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .newsletter-button {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .newsletter-form-container {
+                padding: 30px 20px;
             }
             
             /* Reduce bubble effects on mobile for performance */
@@ -751,6 +1010,94 @@
             </div>
         </section>
 
+        <!-- Newsletter Section -->
+        <section class="section newsletter-section" id="newsletter">
+            <div class="container">
+                <h2 class="section-title">Stay in the Loop</h2>
+                <p class="section-subtitle">
+                    Get exclusive updates on DAMP development, early access to new products, and insider tips to never lose your drink again.
+                </p>
+                
+                <div class="newsletter-container">
+                    <div class="newsletter-benefits">
+                        <div class="benefit-item">
+                            <span class="benefit-icon">⚡</span>
+                            <h4>Early Access</h4>
+                            <p>Be first to know about new products and pre-order opportunities</p>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">💡</span>
+                            <h4>Insider Tips</h4>
+                            <p>Expert advice on smart drinkware and hydration habits</p>
+                        </div>
+                        <div class="benefit-item">
+                            <span class="benefit-icon">🎁</span>
+                            <h4>Exclusive Deals</h4>
+                            <p>Subscriber-only discounts and limited-time offers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="newsletter-form-container">
+                        <div class="newsletter-badge">
+                            <span class="badge-icon">📧</span>
+                            <span class="badge-text">Join 12,000+ DAMP enthusiasts</span>
+                        </div>
+                        
+                        <form class="newsletter-form" id="newsletterForm">
+                            <div class="form-group newsletter-input-group">
+                                <div class="input-wrapper">
+                                    <input type="email" 
+                                           class="newsletter-input" 
+                                           id="newsletterEmail"
+                                           name="email"
+                                           placeholder="Enter your email address"
+                                           required
+                                           aria-label="Email address for newsletter subscription">
+                                    <span class="input-icon">📧</span>
+                                </div>
+                                <button type="submit" class="newsletter-button">
+                                    <span class="button-text">Subscribe</span>
+                                    <span class="button-icon">→</span>
+                                </button>
+                            </div>
+                            
+                            <div class="newsletter-options">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="productUpdates" checked>
+                                    <span class="checkmark">✓</span>
+                                    Product development updates
+                                </label>
+                                <label class="checkbox-label">
+                                    <input type="checkbox" name="launchAlerts" checked>
+                                    <span class="checkmark">✓</span>
+                                    New product launch alerts
+                                </label>
+                            </div>
+                            
+                            <p class="newsletter-privacy">
+                                We respect your privacy. Unsubscribe at any time. 
+                                <a href="pages/privacy-policy.html">Privacy Policy</a>
+                            </p>
+                        </form>
+                        
+                        <!-- Success Message -->
+                        <div class="newsletter-success" id="newsletterSuccess" style="display: none;">
+                            <div class="success-icon">🎉</div>
+                            <h3>Welcome to the DAMP Community!</h3>
+                            <p>Thank you for subscribing! Check your email for a confirmation message and your exclusive welcome gift.</p>
+                        </div>
+                        
+                        <!-- Error Message -->
+                        <div class="newsletter-error" id="newsletterError" style="display: none;">
+                            <div class="error-icon">⚠️</div>
+                            <h3>Subscription Failed</h3>
+                            <p id="newsletterErrorText">Please try again or contact support if the problem persists.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- CTA Section -->
         <section class="section cta-section">
             <div class="container">
@@ -795,6 +1142,33 @@
     
     <!-- Load Hero Animation -->
     <script src="assets/js/components/hero-animation.js"></script>
+    
+    <!-- Load Newsletter System -->
+    <script src="assets/js/newsletter.js"></script>
+    
+    <!-- Firebase Services -->
+    <script type="module">
+        // Import Firebase services for newsletter functionality
+        import { 
+            emailService, 
+            analyticsService, 
+            initializeFirebaseServices
+        } from './js/firebase-services.js';
+        
+        // Make services globally available for newsletter system
+        window.firebaseServices = {
+            emailService,
+            analyticsService,
+            initializeFirebaseServices
+        };
+        
+        // Initialize services
+        initializeFirebaseServices().then(() => {
+            console.log('✅ Firebase services loaded for newsletter system');
+        }).catch(error => {
+            console.warn('⚠️ Firebase services failed to load:', error);
+        });
+    </script>
     
     <!-- Performance Optimized Loading -->
     <script>
@@ -872,6 +1246,9 @@
             });
         }
     </script>
+
+    <!-- Authentication Module -->
+    <script type="module" src="assets/js/auth-modal.js"></script>
 
     <!-- Analytics (Load Last) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>

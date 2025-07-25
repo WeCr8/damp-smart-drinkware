@@ -1,0 +1,27 @@
+{
+  "name": "damp-firebase-scripts",
+  "version": "1.0.0",
+  "description": "Firebase initialization and management scripts for DAMP Smart Drinkware",
+  "main": "firebase-init.js",
+  "scripts": {
+    "init": "node firebase-init.js",
+    "setup-database": "node firebase-init.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  },
+  "devDependencies": {},
+  "keywords": [
+    "firebase",
+    "firestore",
+    "initialization",
+    "database",
+    "damp"
+  ],
+  "author": "WeCr8 Solutions LLC",
+  "license": "ISC",
+  "engines": {
+    "node": ">=16.0.0"
+  }
+} 

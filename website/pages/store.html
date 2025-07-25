@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Store - Smart Drinkware Technology</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Shop DAMP smart drinkware devices. Pre-order the Handle, Silicone Bottom, Cup Sleeve, and Baby Bottle with advanced tracking technology.">
+    <meta name="keywords" content="DAMP, smart drinkware, tracking device, pre-order, handle, silicone bottom, cup sleeve, baby bottle">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="DAMP Store - Smart Drinkware Technology">
+    <meta property="og:description" content="Pre-order DAMP smart tracking devices for your drinks. Never lose your beverage again.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://dampdrink.com/pages/store.html">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="../assets/css/main.css">
+    <link rel="stylesheet" href="../assets/css/auth-styles.css">
+    
+    <style>
+        /* Store-specific styles */
+        .store-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 20px 40px;
+        }
+        
+        .store-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .store-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+        }
+        
+        .store-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-bottom: 60px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 24px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-color);
+        }
+        
+        .product-badge {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: var(--accent-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            margin-bottom: 24px;
+            border-radius: 8px;
+        }
+        
+        .product-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .product-description {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+        
+        .product-features {
+            list-style: none;
+            padding: 0;
+            margin: 16px 0;
+        }
+        
+        .product-features li {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .product-features li::before {
+            content: '✓';
+            color: var(--secondary-color);
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        .product-price {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 16px;
+        }
+        
+        .product-delivery {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .preorder-btn {
+            width: 100%;
+            padding: 16px 24px;
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .preorder-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+        }
+        
+        .preorder-btn.authenticated {
+            background: linear-gradient(135deg, var(--secondary-color), #00cc66);
+        }
+        
+        .btn-icon {
+            font-size: 1.2rem;
+        }
+        
+        .btn-text {
+            font-weight: 600;
+        }
+        
+        .btn-subtext {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-left: 4px;
+        }
+        
+        /* Personalized Recommendations */
+        .recommendations-section {
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            margin: 60px 0;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+        
+        .recommendations-section h3 {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .recommendations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+        
+        .recommendation-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .recommendation-card img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 12px;
+        }
+        
+        .recommendation-card h4 {
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-card .price {
+            color: var(--primary-color);
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        
+        .recommendation-card .reason {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        
+        /* Cart Summary */
+        .cart-summary {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: var(--bg-primary);
+            padding: 16px 20px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .cart-summary:hover {
+            transform: scale(1.05);
+        }
+        
+        .cart-count {
+            background: var(--accent-color);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        /* Account Benefits */
+        .account-benefits {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .account-benefits h3 {
+            color: var(--secondary-color);
+            margin-bottom: 16px;
+        }
+        
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+        }
+        
+        .benefit-icon {
+            font-size: 1.2rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .store-title {
+                font-size: 2rem;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            
+            .cart-summary {
+                bottom: 10px;
+                right: 10px;
+                padding: 12px 16px;
+            }
+            
+            .recommendations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="main-nav">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <img src="../assets/images/logo/logo-white.png" alt="DAMP Logo">
+            </a>
+            
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="store.html" class="active">Store</a>
+                <a href="product-voting.html">Vote</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            
+            <!-- Auth navigation will be inserted here by auth-modal.js -->
+        </div>
+    </nav>
+
+    <!-- Store Content -->
+    <div class="store-container">
+        <!-- Store Header -->
+        <div class="store-header">
+            <h1 class="store-title">DAMP Store</h1>
+            <p class="store-subtitle">
+                Pre-order your DAMP smart tracking devices and never lose your drink again. 
+                Each device includes advanced Bluetooth tracking, mobile app integration, and premium build quality.
+            </p>
+        </div>
+
+        <!-- Account Benefits (shown to non-authenticated users) -->
+        <div class="account-benefits" data-auth-hidden="true">
+            <h3>🎁 Create an account for exclusive benefits</h3>
+            <div class="benefits-list">
+                <div class="benefit">
+                    <span class="benefit-icon">📦</span>
+                    <span>Order tracking & updates</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">⚡</span>
+                    <span>Faster checkout</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">📱</span>
+                    <span>Device management</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🎯</span>
+                    <span>Personalized recommendations</span>
+                </div>
+            </div>
+            <button class="preorder-btn" data-auth="signup" style="max-width: 200px; margin: 16px auto 0;">
+                Create Free Account
+            </button>
+        </div>
+
+        <!-- Personalized Recommendations (shown to authenticated users) -->
+        <div id="personalizedRecommendations" data-auth-required="true">
+            <!-- Will be populated by store-auth.js -->
+        </div>
+
+        <!-- Products Grid -->
+        <div class="products-grid">
+            <!-- DAMP Handle -->
+            <div class="product-card">
+                <div class="product-badge">Most Popular</div>
+                <img src="../assets/images/products/damp-handle/damp-handle.png" alt="DAMP Handle" class="product-image">
+                
+                <h3 class="product-name">DAMP Handle</h3>
+                <p class="product-description">
+                    Universal smart handle that attaches to any cup, mug, or bottle. 
+                    Our flagship product with advanced tracking capabilities.
+                </p>
+                
+                <ul class="product-features">
+                    <li>Universal compatibility</li>
+                    <li>30-day battery life</li>
+                    <li>Precision tracking</li>
+                    <li>Waterproof design</li>
+                    <li>Mobile app integration</li>
+                </ul>
+                
+                <div class="product-price">$49.99</div>
+                <div class="product-delivery">Estimated delivery: June 2024</div>
+                
+                <button class="preorder-btn" 
+                        data-product-id="handle" 
+                        data-product-name="DAMP Handle" 
+                        data-product-price="49.99">
+                    <span class="btn-icon">🛒</span>
+                    <div>
+                        <div class="btn-text">Pre-Order Now</div>
+                        <div class="btn-subtext">Save your spot</div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Silicone Bottom -->
+            <div class="product-card">
+                <img src="../assets/images/products/silicone-bottom/silicone-bottom.png" alt="Silicone Bottom" class="product-image">
+                
+                <h3 class="product-name">Silicone Bottom</h3>
+                <p class="product-description">
+                    Smart silicone base that sticks to any flat-bottomed container. 
+                    Perfect for coffee mugs, water bottles, and glasses.
+                </p>
+                
+                <ul class="product-features">
+                    <li>Strong adhesive base</li>
+                    <li>Dishwasher safe</li>
+                    <li>Heat resistant silicone</li>
+                    <li>Long-range tracking</li>
+                    <li>Reusable design</li>
+                </ul>
+                
+                <div class="product-price">$29.99</div>
+                <div class="product-delivery">Estimated delivery: May 2024</div>
+                
+                <button class="preorder-btn" 
+                        data-product-id="siliconeBottom" 
+                        data-product-name="Silicone Bottom" 
+                        data-product-price="29.99">
+                    <span class="btn-icon">🛒</span>
+                    <div>
+                        <div class="btn-text">Pre-Order Now</div>
+                        <div class="btn-subtext">Early bird special</div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Cup Sleeve -->
+            <div class="product-card">
+                <img src="../assets/images/products/cup-sleeve/cup-sleeve.png" alt="Cup Sleeve" class="product-image">
+                
+                <h3 class="product-name">Cup Sleeve</h3>
+                <p class="product-description">
+                    Insulated sleeve with integrated tracking technology. 
+                    Keeps drinks at the perfect temperature while tracking location.
+                </p>
+                
+                <ul class="product-features">
+                    <li>Temperature control</li>
+                    <li>Adjustable sizing</li>
+                    <li>Premium insulation</li>
+                    <li>Stylish design</li>
+                    <li>All-day comfort</li>
+                </ul>
+                
+                <div class="product-price">$39.99</div>
+                <div class="product-delivery">Estimated delivery: July 2024</div>
+                
+                <button class="preorder-btn" 
+                        data-product-id="cupSleeve" 
+                        data-product-name="Cup Sleeve" 
+                        data-product-price="39.99">
+                    <span class="btn-icon">🛒</span>
+                    <div>
+                        <div class="btn-text">Pre-Order Now</div>
+                        <div class="btn-subtext">Limited edition</div>
+                    </div>
+                </button>
+            </div>
+
+            <!-- Baby Bottle -->
+            <div class="product-card">
+                <div class="product-badge">New</div>
+                <img src="../assets/images/products/baby-bottle/baby-bottle.png" alt="Baby Bottle" class="product-image">
+                
+                <h3 class="product-name">Smart Baby Bottle</h3>
+                <p class="product-description">
+                    Complete baby bottle with integrated tracking and temperature monitoring. 
+                    Perfect for parents who want peace of mind.
+                </p>
+                
+                <ul class="product-features">
+                    <li>Temperature monitoring</li>
+                    <li>BPA-free materials</li>
+                    <li>Easy-clean design</li>
+                    <li>Parent app integration</li>
+                    <li>Safety certified</li>
+                </ul>
+                
+                <div class="product-price">$79.99</div>
+                <div class="product-delivery">Estimated delivery: August 2024</div>
+                
+                <button class="preorder-btn" 
+                        data-product-id="babyBottle" 
+                        data-product-name="Smart Baby Bottle" 
+                        data-product-price="79.99">
+                    <span class="btn-icon">🛒</span>
+                    <div>
+                        <div class="btn-text">Pre-Order Now</div>
+                        <div class="btn-subtext">Parent's choice</div>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <!-- Why Choose DAMP Section -->
+        <div class="account-benefits">
+            <h3>Why Choose DAMP?</h3>
+            <div class="benefits-list">
+                <div class="benefit">
+                    <span class="benefit-icon">🔋</span>
+                    <span>Long battery life</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">📡</span>
+                    <span>Advanced Bluetooth 5.0</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">💧</span>
+                    <span>Waterproof design</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🛡️</span>
+                    <span>1-year warranty</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🚀</span>
+                    <span>Regular firmware updates</span>
+                </div>
+                <div class="benefit">
+                    <span class="benefit-icon">🌍</span>
+                    <span>Global tracking network</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cart Summary (floating) -->
+    <div class="cart-summary" onclick="window.location.href='cart.html'" style="display: none;">
+        <span class="cart-count">0</span>
+        <span>View Cart</span>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="../assets/js/auth-modal.js"></script>
+    <script type="module" src="../assets/js/store-auth.js"></script>
+    <script src="../js/firebase-services.js" type="module"></script>
+    
+    <script>
+        // Initialize store functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            // Update cart UI on page load
+            updateCartDisplay();
+            
+            // Listen for auth state changes to update product recommendations
+            if (window.firebaseServices?.authService) {
+                window.firebaseServices.authService.onAuthStateChange((user) => {
+                    if (user) {
+                        loadPersonalizedContent();
+                    }
+                });
+            }
+        });
+        
+        function updateCartDisplay() {
+            const cart = JSON.parse(localStorage.getItem('dampCart') || '[]');
+            const cartSummary = document.querySelector('.cart-summary');
+            const cartCount = document.querySelector('.cart-count');
+            
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            
+            if (totalItems > 0) {
+                cartCount.textContent = totalItems;
+                cartSummary.style.display = 'flex';
+            } else {
+                cartSummary.style.display = 'none';
+            }
+        }
+        
+        async function loadPersonalizedContent() {
+            // This will be handled by store-auth.js
+            if (window.dampStoreAuth) {
+                await window.dampStoreAuth.showPersonalizedRecommendations();
+            }
+        }
+        
+        // Track page view
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'page_view', {
+                page_title: 'Store',
+                page_location: window.location.href
+            });
+        }
+    </script>
+</body>
+</html> 

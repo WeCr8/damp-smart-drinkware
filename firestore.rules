@@ -4,6 +4,7 @@ service cloud.firestore {
     // Users can read and write their own data
     match /users/{userId} {
       allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if isAdmin();
     }
     
     // Device data - users can only access their own devices
@@ -14,12 +15,13 @@ service cloud.firestore {
     // Product data - public read access
     match /products/{productId} {
       allow read: if true;
-      allow write: if request.auth != null && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      allow write: if isAdmin();
     }
     
     // Pre-order data
     match /preorders/{preorderId} {
       allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow read: if isAdmin();
     }
     
     // Analytics data - authenticated users can write
@@ -32,6 +34,69 @@ service cloud.firestore {
     match /public/{document=**} {
       allow read: if true;
       allow write: if request.auth != null;
+    }
+    
+    // Public read access to voting data
+    match /voting/{document=**} {
+      allow read: if true;
+      allow write: if request.auth != null || isValidPublicVote();
+    }
+    
+    // Public read access to global stats
+    match /stats/global {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Newsletter subscribers - protected
+    match /newsletter_subscribers/{document} {
+      allow read, write: if isAdmin();
+      allow create: if isValidEmailSubscription();
+    }
+    
+    // User votes - protected
+    match /userVotes/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read: if isAdmin();
+    }
+    
+    // Public votes - browser fingerprint based
+    match /publicVotes/{sessionId} {
+      allow read, write: if true; // Controlled by client-side logic
+    }
+    
+    // Contact submissions - public create, admin read
+    match /contact_submissions/{document} {
+      allow create: if true;
+      allow read: if isAdmin();
+    }
+    
+    // Email campaigns - admin only
+    match /email_campaigns/{document} {
+      allow read, write: if isAdmin();
+    }
+    
+    // Safe zones - user-specific
+    match /safe_zones/{zoneId} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+    
+    // Admin functions
+    function isAdmin() {
+      return request.auth != null && 
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Validate email subscription
+    function isValidEmailSubscription() {
+      return request.resource.data.keys().hasAll(['email', 'subscribedAt', 'status']) &&
+             request.resource.data.email is string &&
+             request.resource.data.email.matches('.*@.*\\..*');
+    }
+    
+    // Validate public vote
+    function isValidPublicVote() {
+      return request.resource.data.keys().hasAll(['productId', 'hasVoted', 'votedAt']);
     }
   }
 } 

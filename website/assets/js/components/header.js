@@ -156,7 +156,7 @@ class DAMPHeader extends HTMLElement {
                                     <span class="mobile-nav-subtitle">Non-slip base • $29.99</span>
                                 </div>
                             </a>
-                            <a href="${this.basePath}pages/cup-sleeve-v1.0.html" data-analytics="mobile-nav-sleeve">
+                            <a href="${this.basePath}pages/cup-sleeve-v1.0.html" data-analytics="mobile-nav-cup">
                                 <span class="mobile-nav-icon">🥤</span>
                                 <div class="mobile-nav-content">
                                     <span class="mobile-nav-text">Cup Sleeve</span>
@@ -164,8 +164,6 @@ class DAMPHeader extends HTMLElement {
                                 </div>
                             </a>
                         </div>
-                        
-                        <!-- Removed Stanley Collection section entirely for trademark protection -->
                         
                         <!-- Shopping & Account -->
                         <div class="mobile-nav-section">

@@ -165,12 +165,6 @@ export const votingService = {
               description: 'Adjustable smart sleeve with thermal insulation',
               votes: 512,
               percentage: 18.0
-            },
-            babyBottle: {
-              name: 'Baby Bottle',
-              description: 'Smart baby bottle with feeding tracking',
-              votes: 267,
-              percentage: 9.4
             }
           },
           totalVotes: 2847,

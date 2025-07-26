@@ -1,1 +1,2490 @@
- 
+{
+  "products": [
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:25:46.861Z"
+    },
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:37:03.075Z"
+    },
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:42:03.834Z"
+    },
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:42:25.445Z"
+    },
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:42:58.954Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:25:46.862Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:36:38.055Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:37:03.076Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:41:33.191Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:42:03.835Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:42:18.062Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:42:25.446Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:42:44.160Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T08:42:58.954Z"
+    },
+    {
+      "product_id": "damp-handle-stanley",
+      "name": "DAMP Handle for Stanley",
+      "category": "damp-handle",
+      "variant": "stanley",
+      "status": "development",
+      "priority": 2,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "Stanley",
+        "description": "Precision-engineered for Stanley Tumbler series",
+        "models": [
+          "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+          "Stanley Classic Trigger Action (16oz, 20oz)",
+          "Stanley IceFlow Flip Straw (20oz, 30oz)"
+        ],
+        "size_range": "Stanley standard handle dimensions"
+      },
+      "pricing": {
+        "current": 54.99,
+        "original": 74.99,
+        "currency": "USD"
+      },
+      "inventory": 300,
+      "delivery": {
+        "preorder": "Q3 2025",
+        "standard": "Q4 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "2.8\" x 2.1\" x 0.8\"",
+        "weight": "52g",
+        "installation": "Stanley-specific precision mount"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/stanley.png",
+        "gallery": [
+          "assets/images/products/damp-handle/stanley-quencher.png",
+          "assets/images/products/damp-handle/stanley-classic.png",
+          "assets/images/products/damp-handle/stanley-installation.png"
+        ]
+      },
+      "features": [
+        "Custom-molded for Stanley handle geometry",
+        "Doesn't block flip straws or triggers",
+        "Locking mechanism prevents sliding",
+        "Available in Stanley-matching colors",
+        "Remove before dishwasher use"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+      "last_updated": "2025-07-26T09:07:54.732Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:25:46.858Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:36:38.052Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:37:03.071Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:41:33.190Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:42:03.831Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:42:18.061Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:42:25.443Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:42:44.159Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T08:42:58.952Z"
+    },
+    {
+      "product_id": "damp-handle-yeti",
+      "name": "DAMP Handle for YETI",
+      "category": "damp-handle",
+      "variant": "yeti",
+      "status": "development",
+      "priority": 3,
+      "compatibility": {
+        "type": "brand-specific",
+        "brand": "YETI",
+        "description": "Custom-fit for YETI Rambler series",
+        "models": [
+          "YETI Rambler 20oz Tumbler",
+          "YETI Rambler 30oz Tumbler",
+          "YETI Rambler 26oz Bottle",
+          "YETI Rambler Mug (14oz, 24oz)"
+        ],
+        "size_range": "YETI Rambler handle specifications"
+      },
+      "pricing": {
+        "current": 59.99,
+        "original": 79.99,
+        "currency": "USD"
+      },
+      "inventory": 250,
+      "delivery": {
+        "preorder": "Q4 2025",
+        "standard": "Q1 2026"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0"
+      },
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+      "last_updated": "2025-07-26T09:07:54.730Z"
+    },
+    {
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:36:38.053Z"
+    },
+    {
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:41:33.191Z"
+    },
+    {
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:42:18.061Z"
+    },
+    {
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T08:42:44.160Z"
+    },
+    {
+      "features": [],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-07-26T09:07:54.731Z"
+    }
+  ],
+  "categories": {
+    "damp-handle": [
+      {
+        "product_id": "damp-handle-universal",
+        "name": "DAMP Handle Universal",
+        "category": "damp-handle",
+        "variant": "universal",
+        "status": "development",
+        "priority": 1,
+        "compatibility": {
+          "type": "universal",
+          "brand": "Universal",
+          "description": "Adjustable fit for most cup and tumbler handles",
+          "models": [
+            "Most travel mugs with handles",
+            "Standard coffee mugs",
+            "Water bottles with handles",
+            "Generic tumblers"
+          ],
+          "size_range": "Handle width: 0.5\" - 2.0\""
+        },
+        "pricing": {
+          "current": 49.99,
+          "original": 69.99,
+          "currency": "USD"
+        },
+        "inventory": 500,
+        "delivery": {
+          "preorder": "Q2 2025",
+          "standard": "Q3 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "3.0\" x 2.2\" x 0.9\"",
+          "weight": "48g",
+          "installation": "Adjustable clamp system"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/damp-handle.png",
+          "gallery": [
+            "assets/images/products/damp-handle/universal-fit.png",
+            "assets/images/products/damp-handle/installation-guide.png"
+          ]
+        },
+        "features": [
+          "Accommodates 0.5\" - 2.0\" handle widths",
+          "Tension-based locking mechanism",
+          "Works with most popular brands",
+          "Tool-free attachment in seconds",
+          "Weather-resistant materials"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:25:46.861Z"
+      },
+      {
+        "product_id": "damp-handle-universal",
+        "name": "DAMP Handle Universal",
+        "category": "damp-handle",
+        "variant": "universal",
+        "status": "development",
+        "priority": 1,
+        "compatibility": {
+          "type": "universal",
+          "brand": "Universal",
+          "description": "Adjustable fit for most cup and tumbler handles",
+          "models": [
+            "Most travel mugs with handles",
+            "Standard coffee mugs",
+            "Water bottles with handles",
+            "Generic tumblers"
+          ],
+          "size_range": "Handle width: 0.5\" - 2.0\""
+        },
+        "pricing": {
+          "current": 49.99,
+          "original": 69.99,
+          "currency": "USD"
+        },
+        "inventory": 500,
+        "delivery": {
+          "preorder": "Q2 2025",
+          "standard": "Q3 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "3.0\" x 2.2\" x 0.9\"",
+          "weight": "48g",
+          "installation": "Adjustable clamp system"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/damp-handle.png",
+          "gallery": [
+            "assets/images/products/damp-handle/universal-fit.png",
+            "assets/images/products/damp-handle/installation-guide.png"
+          ]
+        },
+        "features": [
+          "Accommodates 0.5\" - 2.0\" handle widths",
+          "Tension-based locking mechanism",
+          "Works with most popular brands",
+          "Tool-free attachment in seconds",
+          "Weather-resistant materials"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:37:03.075Z"
+      },
+      {
+        "product_id": "damp-handle-universal",
+        "name": "DAMP Handle Universal",
+        "category": "damp-handle",
+        "variant": "universal",
+        "status": "development",
+        "priority": 1,
+        "compatibility": {
+          "type": "universal",
+          "brand": "Universal",
+          "description": "Adjustable fit for most cup and tumbler handles",
+          "models": [
+            "Most travel mugs with handles",
+            "Standard coffee mugs",
+            "Water bottles with handles",
+            "Generic tumblers"
+          ],
+          "size_range": "Handle width: 0.5\" - 2.0\""
+        },
+        "pricing": {
+          "current": 49.99,
+          "original": 69.99,
+          "currency": "USD"
+        },
+        "inventory": 500,
+        "delivery": {
+          "preorder": "Q2 2025",
+          "standard": "Q3 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "3.0\" x 2.2\" x 0.9\"",
+          "weight": "48g",
+          "installation": "Adjustable clamp system"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/damp-handle.png",
+          "gallery": [
+            "assets/images/products/damp-handle/universal-fit.png",
+            "assets/images/products/damp-handle/installation-guide.png"
+          ]
+        },
+        "features": [
+          "Accommodates 0.5\" - 2.0\" handle widths",
+          "Tension-based locking mechanism",
+          "Works with most popular brands",
+          "Tool-free attachment in seconds",
+          "Weather-resistant materials"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:42:03.834Z"
+      },
+      {
+        "product_id": "damp-handle-universal",
+        "name": "DAMP Handle Universal",
+        "category": "damp-handle",
+        "variant": "universal",
+        "status": "development",
+        "priority": 1,
+        "compatibility": {
+          "type": "universal",
+          "brand": "Universal",
+          "description": "Adjustable fit for most cup and tumbler handles",
+          "models": [
+            "Most travel mugs with handles",
+            "Standard coffee mugs",
+            "Water bottles with handles",
+            "Generic tumblers"
+          ],
+          "size_range": "Handle width: 0.5\" - 2.0\""
+        },
+        "pricing": {
+          "current": 49.99,
+          "original": 69.99,
+          "currency": "USD"
+        },
+        "inventory": 500,
+        "delivery": {
+          "preorder": "Q2 2025",
+          "standard": "Q3 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "3.0\" x 2.2\" x 0.9\"",
+          "weight": "48g",
+          "installation": "Adjustable clamp system"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/damp-handle.png",
+          "gallery": [
+            "assets/images/products/damp-handle/universal-fit.png",
+            "assets/images/products/damp-handle/installation-guide.png"
+          ]
+        },
+        "features": [
+          "Accommodates 0.5\" - 2.0\" handle widths",
+          "Tension-based locking mechanism",
+          "Works with most popular brands",
+          "Tool-free attachment in seconds",
+          "Weather-resistant materials"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:42:25.445Z"
+      },
+      {
+        "product_id": "damp-handle-universal",
+        "name": "DAMP Handle Universal",
+        "category": "damp-handle",
+        "variant": "universal",
+        "status": "development",
+        "priority": 1,
+        "compatibility": {
+          "type": "universal",
+          "brand": "Universal",
+          "description": "Adjustable fit for most cup and tumbler handles",
+          "models": [
+            "Most travel mugs with handles",
+            "Standard coffee mugs",
+            "Water bottles with handles",
+            "Generic tumblers"
+          ],
+          "size_range": "Handle width: 0.5\" - 2.0\""
+        },
+        "pricing": {
+          "current": 49.99,
+          "original": 69.99,
+          "currency": "USD"
+        },
+        "inventory": 500,
+        "delivery": {
+          "preorder": "Q2 2025",
+          "standard": "Q3 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "3.0\" x 2.2\" x 0.9\"",
+          "weight": "48g",
+          "installation": "Adjustable clamp system"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/damp-handle.png",
+          "gallery": [
+            "assets/images/products/damp-handle/universal-fit.png",
+            "assets/images/products/damp-handle/installation-guide.png"
+          ]
+        },
+        "features": [
+          "Accommodates 0.5\" - 2.0\" handle widths",
+          "Tension-based locking mechanism",
+          "Works with most popular brands",
+          "Tool-free attachment in seconds",
+          "Weather-resistant materials"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:42:58.954Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:25:46.862Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:36:38.055Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:37:03.076Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:41:33.191Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:42:03.835Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:42:18.062Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:42:25.446Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:42:44.160Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T08:42:58.954Z"
+      },
+      {
+        "product_id": "damp-handle-stanley",
+        "name": "DAMP Handle for Stanley",
+        "category": "damp-handle",
+        "variant": "stanley",
+        "status": "development",
+        "priority": 2,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "Stanley",
+          "description": "Precision-engineered for Stanley Tumbler series",
+          "models": [
+            "Stanley Adventure Quencher (20oz, 30oz, 40oz)",
+            "Stanley Classic Trigger Action (16oz, 20oz)",
+            "Stanley IceFlow Flip Straw (20oz, 30oz)"
+          ],
+          "size_range": "Stanley standard handle dimensions"
+        },
+        "pricing": {
+          "current": 54.99,
+          "original": 74.99,
+          "currency": "USD"
+        },
+        "inventory": 300,
+        "delivery": {
+          "preorder": "Q3 2025",
+          "standard": "Q4 2025"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0",
+          "water_resistance": "IP67",
+          "dimensions": "2.8\" x 2.1\" x 0.8\"",
+          "weight": "52g",
+          "installation": "Stanley-specific precision mount"
+        },
+        "images": {
+          "primary": "assets/images/products/damp-handle/stanley.png",
+          "gallery": [
+            "assets/images/products/damp-handle/stanley-quencher.png",
+            "assets/images/products/damp-handle/stanley-classic.png",
+            "assets/images/products/damp-handle/stanley-installation.png"
+          ]
+        },
+        "features": [
+          "Custom-molded for Stanley handle geometry",
+          "Doesn't block flip straws or triggers",
+          "Locking mechanism prevents sliding",
+          "Available in Stanley-matching colors",
+          "Remove before dishwasher use"
+        ],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-stanley.md",
+        "last_updated": "2025-07-26T09:07:54.732Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:25:46.858Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:36:38.052Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:37:03.071Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:41:33.190Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:42:03.831Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:42:18.061Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:42:25.443Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:42:44.159Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T08:42:58.952Z"
+      },
+      {
+        "product_id": "damp-handle-yeti",
+        "name": "DAMP Handle for YETI",
+        "category": "damp-handle",
+        "variant": "yeti",
+        "status": "development",
+        "priority": 3,
+        "compatibility": {
+          "type": "brand-specific",
+          "brand": "YETI",
+          "description": "Custom-fit for YETI Rambler series",
+          "models": [
+            "YETI Rambler 20oz Tumbler",
+            "YETI Rambler 30oz Tumbler",
+            "YETI Rambler 26oz Bottle",
+            "YETI Rambler Mug (14oz, 24oz)"
+          ],
+          "size_range": "YETI Rambler handle specifications"
+        },
+        "pricing": {
+          "current": 59.99,
+          "original": 79.99,
+          "currency": "USD"
+        },
+        "inventory": 250,
+        "delivery": {
+          "preorder": "Q4 2025",
+          "standard": "Q1 2026"
+        },
+        "specifications": {
+          "battery_life": "6 months",
+          "connectivity": "BLE 5.0"
+        },
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-yeti.md",
+        "last_updated": "2025-07-26T09:07:54.730Z"
+      }
+    ],
+    "undefined": [
+      {
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:36:38.053Z"
+      },
+      {
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:41:33.191Z"
+      },
+      {
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:42:18.061Z"
+      },
+      {
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T08:42:44.160Z"
+      },
+      {
+        "features": [],
+        "description": "",
+        "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+        "last_updated": "2025-07-26T09:07:54.731Z"
+      }
+    ]
+  },
+  "metadata": {
+    "version": "2.0.0",
+    "last_updated": "2025-07-26T09:07:54.732Z",
+    "total_products": 30,
+    "categories": [
+      "damp-handle",
+      "undefined"
+    ],
+    "build_source": "product-specs documentation"
+  }
+}

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#0f0f23">
     
     <!-- Security Headers -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://js.stripe.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com; connect-src 'self' https://www.google-analytics.com https://api.stripe.com;">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.gstatic.com https://js.stripe.com https://firebasestorage.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://www.googletagmanager.com https://firebasestorage.googleapis.com; connect-src 'self' https://www.google-analytics.com https://api.stripe.com https://firestore.googleapis.com https://firebasestorage.googleapis.com https://fcm.googleapis.com https://firebaseremoteconfig.googleapis.com;">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta http-equiv="X-XSS-Protection" content="1; mode=block">
@@ -1250,13 +1250,52 @@
     <!-- Authentication Module -->
     <script type="module" src="assets/js/auth-modal.js"></script>
 
+    <!-- Firebase Services & Analytics -->
+    <script type="module" src="assets/js/firebase-services.js"></script>
+    <script type="module" src="assets/js/damp-analytics-events.js"></script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        // Register Firebase Messaging Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(registration => {
+                    console.log('✅ Firebase Service Worker registered:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('❌ Service Worker registration failed:', error);
+                });
+        }
+
+        // Register Main Service Worker (PWA)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('✅ PWA Service Worker registered:', registration.scope);
+                })
+                .catch(error => {
+                    console.error('❌ PWA Service Worker registration failed:', error);
+                });
+        }
+    </script>
+
     <!-- Analytics (Load Last) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-YW2BN4SVPQ"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'GA_MEASUREMENT_ID');
+        gtag('config', 'G-YW2BN4SVPQ', {
+            debug_mode: window.location.hostname === 'localhost'
+        });
+        
+        // Track initial page load
+        gtag('event', 'page_view', {
+            page_title: document.title,
+            page_location: window.location.href
+        });
+        
+        console.log('✅ Firebase Analytics initialized with ID: G-YW2BN4SVPQ');
     </script>
 </body>
 </html>

@@ -1,0 +1,48 @@
+type User @table {
+  displayName: String!
+  createdAt: Timestamp!
+  email: String
+  photoUrl: String
+}
+
+type SmartwareDevice @table {
+  owner: User!
+  deviceName: String!
+  serialNumber: String!
+  pairedAt: Timestamp!
+  model: String
+  firmwareVersion: String
+  lastActivityAt: Timestamp
+}
+
+type DrinkSession @table {
+  user: User!
+  device: SmartwareDevice!
+  startTime: Timestamp!
+  status: String!
+  endTime: Timestamp
+  initialVolumeMl: Float
+  consumedVolumeMl: Float
+  drinkType: String
+  locationDescription: String
+}
+
+type AbandonmentAlert @table {
+  user: User!
+  session: DrinkSession!
+  alertTime: Timestamp!
+  alertStatus: String!
+  abandonmentDurationSeconds: Int
+  resolutionAction: String
+  resolvedAt: Timestamp
+}
+
+type UserSetting @table {
+  user: User!
+  createdAt: Timestamp!
+  updatedAt: Timestamp!
+  defaultAbandonmentThresholdSeconds: Int
+  enableNotifications: Boolean
+  enableSoundAlerts: Boolean
+  hydrationTrackingEnabled: Boolean
+}

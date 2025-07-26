@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DAMP Firebase Services Test Suite</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px; 
+            margin: 0 auto; 
+            padding: 20px; 
+            background: #f5f5f5;
+        }
+        
+        .test-section { 
+            background: white; 
+            margin: 20px 0; 
+            padding: 20px; 
+            border-radius: 8px; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 { color: #00d4ff; text-align: center; }
+        h2 { color: #333; border-bottom: 2px solid #00d4ff; padding-bottom: 10px; }
+        
+        button { 
+            background: linear-gradient(135deg, #00d4ff, #0099cc);
+            color: white; 
+            border: none; 
+            padding: 12px 24px; 
+            margin: 5px; 
+            border-radius: 6px; 
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        button:hover { opacity: 0.9; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        .status { 
+            padding: 10px; 
+            margin: 10px 0; 
+            border-radius: 4px; 
+            font-weight: bold;
+        }
+        
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        
+        .test-results { 
+            background: #f8f9fa; 
+            padding: 15px; 
+            border-radius: 4px; 
+            margin: 10px 0;
+            font-family: monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .upload-area {
+            border: 2px dashed #00d4ff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin: 10px 0;
+        }
+        
+        .config-display {
+            background: #1a1a2e;
+            color: #00d4ff;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 12px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 DAMP Firebase Services Test Suite</h1>
+    <div class="status info">
+        <strong>Project:</strong> damp-smart-drinkware<br>
+        <strong>Environment:</strong> <span id="environment">Loading...</span><br>
+        <strong>Time:</strong> <span id="current-time"></span>
+    </div>
+
+    <!-- Firebase Configuration Display -->
+    <div class="test-section">
+        <h2>🔧 Firebase Configuration</h2>
+        <div id="config-display" class="config-display">Loading configuration...</div>
+    </div>
+
+    <!-- Analytics Testing -->
+    <div class="test-section">
+        <h2>📊 Analytics Testing</h2>
+        <button onclick="testAnalyticsEvents()">Test Analytics Events</button>
+        <button onclick="testProductTracking()">Test Product Tracking</button>
+        <button onclick="testUserJourney()">Test User Journey</button>
+        <button onclick="testDeviceEvents()">Test Device Events</button>
+        <div id="analytics-results" class="test-results"></div>
+    </div>
+
+    <!-- Push Notifications Testing -->
+    <div class="test-section">
+        <h2>🔔 Push Notifications Testing</h2>
+        <button onclick="requestNotificationPermission()">Request Permission</button>
+        <button onclick="testLocalNotification()">Test Local Notification</button>
+        <button onclick="getFCMToken()">Get FCM Token</button>
+        <div id="notification-results" class="test-results"></div>
+    </div>
+
+    <!-- Storage Testing -->
+    <div class="test-section">
+        <h2>📁 Storage Testing</h2>
+        <div class="upload-area">
+            <input type="file" id="test-file" accept="image/*" style="display: none;">
+            <button onclick="document.getElementById('test-file').click()">Select Test Image</button>
+            <button onclick="testImageUpload()">Test Upload</button>
+            <button onclick="testBatchUpload()">Test Batch Upload</button>
+        </div>
+        <div id="storage-results" class="test-results"></div>
+    </div>
+
+    <!-- Remote Config Testing -->
+    <div class="test-section">
+        <h2>⚙️ Remote Config Testing</h2>
+        <button onclick="testRemoteConfig()">Fetch All Config</button>
+        <button onclick="testFeatureFlags()">Test Feature Flags</button>
+        <button onclick="updateRemoteConfig()">Force Update</button>
+        <div id="config-results" class="test-results"></div>
+    </div>
+
+    <!-- Authentication Testing -->
+    <div class="test-section">
+        <h2>🔐 Authentication Testing</h2>
+        <button onclick="testAuthState()">Check Auth State</button>
+        <button onclick="testAdminPermissions()">Test Admin Access</button>
+        <div id="auth-results" class="test-results"></div>
+    </div>
+
+    <!-- Firebase Services Integration -->
+    <script type="module">
+        import { 
+            auth, 
+            db, 
+            storage, 
+            remoteConfig, 
+            analytics,
+            getRemoteConfigValue,
+            getRemoteConfigBoolean,
+            getRemoteConfigNumber,
+            logEvent,
+            logPageView,
+            initializeMessaging,
+            uploadProductImage
+        } from './assets/js/firebase-services.js';
+        
+        import {
+            trackProductView,
+            trackDevicePairing,
+            trackNewsletterSignup,
+            trackVoting,
+            trackFunnelStep,
+            trackUserJourney,
+            initializeAnalytics
+        } from './assets/js/damp-analytics-events.js';
+        
+        import { dampStorage } from './assets/js/damp-storage-manager.js';
+
+        // Make functions globally available
+        window.firebaseServices = {
+            auth, db, storage, remoteConfig, analytics,
+            getRemoteConfigValue, getRemoteConfigBoolean, getRemoteConfigNumber,
+            logEvent, logPageView, initializeMessaging, uploadProductImage,
+            trackProductView, trackDevicePairing, trackNewsletterSignup,
+            trackVoting, trackFunnelStep, trackUserJourney, initializeAnalytics,
+            dampStorage
+        };
+
+        // Initialize environment info
+        document.getElementById('environment').textContent = window.location.hostname === 'localhost' ? 'Development (Emulators)' : 'Production';
+        document.getElementById('current-time').textContent = new Date().toLocaleString();
+
+        // Display Firebase configuration
+        const configDisplay = document.getElementById('config-display');
+        const config = {
+            projectId: "damp-smart-drinkware",
+            authDomain: "damp-smart-drinkware.firebaseapp.com",
+            storageBucket: "damp-smart-drinkware.firebasestorage.app",
+            messagingSenderId: "309818614427",
+            appId: "1:309818614427:web:db15a4851c05e58aa25c3e",
+            measurementId: "G-YW2BN4SVPQ"
+        };
+        configDisplay.textContent = JSON.stringify(config, null, 2);
+
+        console.log('🚀 Firebase Test Suite loaded successfully');
+    </script>
+
+    <!-- Test Functions -->
+    <script>
+        // Analytics Testing
+        function testAnalyticsEvents() {
+            const results = document.getElementById('analytics-results');
+            results.innerHTML = '<div class="info">Testing analytics events...</div>';
+            
+            try {
+                // Test basic analytics events
+                window.firebaseServices.logEvent('test_event', {
+                    test_type: 'firebase_test_suite',
+                    timestamp: Date.now()
+                });
+                
+                window.firebaseServices.logPageView('Firebase Test Suite');
+                
+                results.innerHTML += '<div class="success">✅ Basic analytics events fired</div>';
+                console.log('✅ Analytics events tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Analytics error: ${error.message}</div>`;
+                console.error('Analytics test failed:', error);
+            }
+        }
+
+        function testProductTracking() {
+            const results = document.getElementById('analytics-results');
+            
+            try {
+                window.firebaseServices.trackProductView('test-product', 'Test Product', 'test_suite');
+                window.firebaseServices.trackVoting('test-product', 'public');
+                window.firebaseServices.trackNewsletterSignup('test_page', 'test-product');
+                
+                results.innerHTML += '<div class="success">✅ Product tracking events fired</div>';
+                console.log('✅ Product tracking tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Product tracking error: ${error.message}</div>`;
+                console.error('Product tracking test failed:', error);
+            }
+        }
+
+        function testUserJourney() {
+            const results = document.getElementById('analytics-results');
+            
+            try {
+                const steps = ['awareness', 'interest', 'consideration', 'intent'];
+                steps.forEach(step => {
+                    window.firebaseServices.trackFunnelStep(step, 'test-product', { test: true });
+                });
+                
+                window.firebaseServices.trackUserJourney('testing', 'test_suite', 'test_session_123');
+                
+                results.innerHTML += '<div class="success">✅ User journey tracking fired</div>';
+                console.log('✅ User journey tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ User journey error: ${error.message}</div>`;
+                console.error('User journey test failed:', error);
+            }
+        }
+
+        function testDeviceEvents() {
+            const results = document.getElementById('analytics-results');
+            
+            try {
+                window.firebaseServices.trackDevicePairing('handle', 'test_connection', true);
+                
+                results.innerHTML += '<div class="success">✅ Device events fired</div>';
+                console.log('✅ Device events tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Device events error: ${error.message}</div>`;
+                console.error('Device events test failed:', error);
+            }
+        }
+
+        // Push Notifications Testing
+        async function requestNotificationPermission() {
+            const results = document.getElementById('notification-results');
+            results.innerHTML = '<div class="info">Requesting notification permission...</div>';
+            
+            try {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    results.innerHTML += '<div class="success">✅ Notification permission granted</div>';
+                } else {
+                    results.innerHTML += '<div class="error">❌ Notification permission denied</div>';
+                }
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Permission error: ${error.message}</div>`;
+            }
+        }
+
+        function testLocalNotification() {
+            const results = document.getElementById('notification-results');
+            
+            if (Notification.permission === 'granted') {
+                new Notification('🥤 DAMP Test Alert', {
+                    body: 'Firebase services are working correctly!',
+                    icon: '/assets/images/logo/android-icon-192x192.png',
+                    tag: 'test-notification'
+                });
+                results.innerHTML += '<div class="success">✅ Local notification sent</div>';
+                console.log('✅ Local notification tested');
+            } else {
+                results.innerHTML += '<div class="error">❌ Notification permission required</div>';
+            }
+        }
+
+        async function getFCMToken() {
+            const results = document.getElementById('notification-results');
+            results.innerHTML += '<div class="info">Getting FCM token...</div>';
+            
+            try {
+                await window.firebaseServices.initializeMessaging();
+                results.innerHTML += '<div class="success">✅ FCM initialized (check console for token)</div>';
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ FCM error: ${error.message}</div>`;
+            }
+        }
+
+        // Storage Testing
+        async function testImageUpload() {
+            const results = document.getElementById('storage-results');
+            const fileInput = document.getElementById('test-file');
+            
+            if (!fileInput.files[0]) {
+                results.innerHTML = '<div class="error">❌ Please select a file first</div>';
+                return;
+            }
+            
+            results.innerHTML = '<div class="info">Uploading test image...</div>';
+            
+            try {
+                const file = fileInput.files[0];
+                const result = await window.firebaseServices.uploadProductImage(file, 'test-product', 'test-upload');
+                results.innerHTML += `<div class="success">✅ Upload successful: ${result.url}</div>`;
+                console.log('✅ Image upload tested:', result);
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Upload error: ${error.message}</div>`;
+                console.error('Upload test failed:', error);
+            }
+        }
+
+        async function testBatchUpload() {
+            const results = document.getElementById('storage-results');
+            results.innerHTML = '<div class="info">Testing batch upload capabilities...</div>';
+            
+            try {
+                // Create mock files for testing
+                const mockFiles = Array(3).fill(null).map((_, i) => 
+                    new File(['test content'], `test-${i}.txt`, { type: 'text/plain' })
+                );
+                
+                const batchResult = await window.firebaseServices.dampStorage.uploadMultipleFiles(
+                    mockFiles, 
+                    'test-batch',
+                    { prefix: 'batch_test' }
+                );
+                
+                results.innerHTML += `<div class="success">✅ Batch upload: ${batchResult.results.length} files uploaded</div>`;
+                console.log('✅ Batch upload tested:', batchResult);
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Batch upload error: ${error.message}</div>`;
+                console.error('Batch upload test failed:', error);
+            }
+        }
+
+        // Remote Config Testing
+        async function testRemoteConfig() {
+            const results = document.getElementById('config-results');
+            results.innerHTML = '<div class="info">Fetching remote configuration...</div>';
+            
+            try {
+                const alertDistance = await window.firebaseServices.getRemoteConfigNumber('alert_distance_threshold');
+                const supportEmail = await window.firebaseServices.getRemoteConfigValue('support_contact_email');
+                const maintenanceMode = await window.firebaseServices.getRemoteConfigBoolean('app_maintenance_mode');
+                
+                results.innerHTML += `<div class="success">✅ Alert Distance: ${alertDistance}m</div>`;
+                results.innerHTML += `<div class="success">✅ Support Email: ${supportEmail}</div>`;
+                results.innerHTML += `<div class="success">✅ Maintenance Mode: ${maintenanceMode}</div>`;
+                
+                console.log('✅ Remote config tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Remote config error: ${error.message}</div>`;
+                console.error('Remote config test failed:', error);
+            }
+        }
+
+        async function testFeatureFlags() {
+            const results = document.getElementById('config-results');
+            
+            try {
+                const pairingV2 = await window.firebaseServices.getRemoteConfigBoolean('feature_device_pairing_v2');
+                const maxDevices = await window.firebaseServices.getRemoteConfigNumber('max_devices_free_tier');
+                
+                results.innerHTML += `<div class="success">✅ Pairing V2 Enabled: ${pairingV2}</div>`;
+                results.innerHTML += `<div class="success">✅ Max Free Devices: ${maxDevices}</div>`;
+                
+                console.log('✅ Feature flags tested successfully');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Feature flags error: ${error.message}</div>`;
+                console.error('Feature flags test failed:', error);
+            }
+        }
+
+        async function updateRemoteConfig() {
+            const results = document.getElementById('config-results');
+            results.innerHTML += '<div class="info">Forcing remote config update...</div>';
+            
+            try {
+                const { fetchAndActivate } = await import('firebase/remote-config');
+                await fetchAndActivate(window.firebaseServices.remoteConfig);
+                results.innerHTML += '<div class="success">✅ Remote config updated</div>';
+                console.log('✅ Remote config force updated');
+            } catch (error) {
+                results.innerHTML += `<div class="error">❌ Update error: ${error.message}</div>`;
+                console.error('Remote config update failed:', error);
+            }
+        }
+
+        // Authentication Testing
+        function testAuthState() {
+            const results = document.getElementById('auth-results');
+            
+            const user = window.firebaseServices.auth.currentUser;
+            if (user) {
+                results.innerHTML = `<div class="success">✅ User authenticated: ${user.email}</div>`;
+                results.innerHTML += `<div class="info">UID: ${user.uid}</div>`;
+            } else {
+                results.innerHTML = '<div class="info">ℹ️ No user currently authenticated</div>';
+            }
+            
+            console.log('Auth state:', user);
+        }
+
+        function testAdminPermissions() {
+            const results = document.getElementById('auth-results');
+            results.innerHTML += '<div class="info">Testing admin permissions...</div>';
+            
+            // This would normally check user role in Firestore
+            results.innerHTML += '<div class="info">ℹ️ Admin check requires user authentication</div>';
+        }
+
+        // Auto-run initial tests
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 DAMP Firebase Test Suite initialized');
+            
+            // Auto-test analytics on load
+            setTimeout(() => {
+                testAnalyticsEvents();
+                testRemoteConfig();
+            }, 1000);
+        });
+    </script>
+</body>
+</html> 

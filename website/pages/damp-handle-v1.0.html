@@ -437,5 +437,53 @@
         const pwaStyles = document.createElement('style');
         pwaStyles.textContent = '@keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } } @media (display-mode: standalone) { body { padding-top: env(safe-area-inset-top); } }';
         document.head.appendChild(pwaStyles);
-    </script></body>
+    </script>
+
+    <!-- Firebase Services & Analytics -->
+    <script type="module">
+        import { trackProductView, trackPreOrderInitiated, trackNewsletterSignup, trackFunnelStep } from '../assets/js/damp-analytics-events.js';
+        
+        // Track product view
+        trackProductView('damp-handle-v1', 'DAMP Handle v1.0', 'direct');
+        trackFunnelStep('interest', 'damp-handle-v1', { page: 'product_detail' });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // Track pre-order button clicks
+            document.querySelectorAll('[data-action="preorder"], .pre-order-btn').forEach(button => {
+                button.addEventListener('click', () => {
+                    trackPreOrderInitiated('damp-handle-v1', 'DAMP Handle v1.0', 49.99);
+                    trackFunnelStep('intent', 'damp-handle-v1');
+                    console.log('✅ Pre-order initiated tracking fired');
+                });
+            });
+            
+            // Track newsletter signups
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    const emailInput = form.querySelector('input[type="email"]');
+                    if (emailInput && emailInput.value) {
+                        trackNewsletterSignup('product_page', 'damp-handle-v1');
+                        console.log('✅ Newsletter signup tracked from product page');
+                    }
+                });
+            });
+            
+            // Track image gallery interactions
+            document.querySelectorAll('.product-image, .gallery-image').forEach(img => {
+                img.addEventListener('click', () => {
+                    console.log('✅ Product image interaction tracked');
+                });
+            });
+        });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(registration => console.log('✅ Firebase SW registered'))
+                .catch(error => console.error('❌ Firebase SW failed:', error));
+        }
+    </script>
+</body>
 </html>

@@ -1,0 +1,52 @@
+{
+  "parameters": {
+    "feature_device_pairing_v2": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Enable the new device pairing interface"
+    },
+    "alert_distance_threshold": {
+      "defaultValue": {
+        "value": "10"
+      },
+      "description": "Default distance threshold in meters for drink alerts"
+    },
+    "battery_warning_threshold": {
+      "defaultValue": {
+        "value": "20"
+      },
+      "description": "Battery percentage threshold for low battery warnings"
+    },
+    "max_devices_free_tier": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Maximum number of devices for free tier users"
+    },
+    "notification_cooldown_minutes": {
+      "defaultValue": {
+        "value": "15"
+      },
+      "description": "Cooldown period between drink abandonment notifications"
+    },
+    "app_maintenance_mode": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "description": "Enable maintenance mode to temporarily disable features"
+    },
+    "firmware_update_url": {
+      "defaultValue": {
+        "value": "https://dampdrink.com/firmware/latest"
+      },
+      "description": "URL for the latest firmware updates"
+    },
+    "support_contact_email": {
+      "defaultValue": {
+        "value": "support@dampdrink.com"
+      },
+      "description": "Support contact email displayed in the app"
+    }
+  }
+} 

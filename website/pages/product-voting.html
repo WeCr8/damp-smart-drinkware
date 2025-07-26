@@ -2227,5 +2227,47 @@
         const pwaStyles = document.createElement('style');
         pwaStyles.textContent = '@keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } } @media (display-mode: standalone) { body { padding-top: env(safe-area-inset-top); } }';
         document.head.appendChild(pwaStyles);
-    </script></body>
+    </script>
+
+    <!-- Firebase Services & Analytics -->
+    <script type="module">
+        import { trackVoting, trackNewsletterSignup, trackFunnelStep } from '../assets/js/damp-analytics-events.js';
+        
+        // Track page view
+        trackFunnelStep('consideration', null, { page: 'product_voting' });
+        
+        // Enhanced voting tracking
+        document.addEventListener('DOMContentLoaded', () => {
+            // Track voting interactions
+            document.querySelectorAll('[data-product-vote]').forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const productId = e.target.getAttribute('data-product-vote');
+                    const voteType = e.target.closest('.auth-required') ? 'authenticated' : 'public';
+                    trackVoting(productId, voteType);
+                    console.log('✅ Vote tracked:', productId, voteType);
+                });
+            });
+            
+            // Track newsletter signups from voting page
+            document.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', (e) => {
+                    const emailInput = form.querySelector('input[type="email"]');
+                    if (emailInput && emailInput.value) {
+                        trackNewsletterSignup('voting_page', 'mixed_products');
+                        console.log('✅ Newsletter signup tracked from voting page');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/firebase-messaging-sw.js')
+                .then(registration => console.log('✅ Firebase SW registered'))
+                .catch(error => console.error('❌ Firebase SW failed:', error));
+        }
+    </script>
+</body>
 </html> 

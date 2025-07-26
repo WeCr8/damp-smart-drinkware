@@ -188,8 +188,7 @@ function preOrderProduct(productId) {
     const productNames = {
         'damp-handle': 'DAMP Handle v1.0',
         'silicone-bottom': 'DAMP Silicone Bottom', 
-        'cup-sleeve': 'DAMP Silicone Cup Sleeve',
-        'baby-bottle': 'DAMP Baby Bottle'
+        'cup-sleeve': 'DAMP Silicone Cup Sleeve'
     };
     
     const productName = productNames[productId] || productId;

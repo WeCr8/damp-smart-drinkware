@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const products = {
         'damp-handle': { name: 'DAMP Handle v1.0', price: 49.99, originalPrice: 69.99, savings: 20.00 },
         'silicone-bottom': { name: 'DAMP Silicone Bottom', price: 29.99, originalPrice: 39.99, savings: 10.00 },
-        'cup-sleeve': { name: 'DAMP Cup Sleeve', price: 34.99, originalPrice: 44.99, savings: 10.00 },
-        'baby-bottle': { name: 'DAMP Baby Bottle', price: 79.99, originalPrice: 99.99, savings: 20.00 }
+        'cup-sleeve': { name: 'DAMP Cup Sleeve', price: 34.99, originalPrice: 44.99, savings: 10.00 }
+        // Removed baby-bottle for medical device compliance
     };
 
     let selectedProducts = {};

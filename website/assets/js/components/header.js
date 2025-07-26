@@ -160,43 +160,12 @@ class DAMPHeader extends HTMLElement {
                                 <span class="mobile-nav-icon">🥤</span>
                                 <div class="mobile-nav-content">
                                     <span class="mobile-nav-text">Cup Sleeve</span>
-                                    <span class="mobile-nav-subtitle">Adjustable fit • $39.99</span>
-                                </div>
-                            </a>
-                            <a href="${this.basePath}pages/baby-bottle-v1.0.html" data-analytics="mobile-nav-baby">
-                                <span class="mobile-nav-icon">🍼</span>
-                                <div class="mobile-nav-content">
-                                    <span class="mobile-nav-text">Baby Bottle</span>
-                                    <span class="mobile-nav-subtitle">Smart feeding tracker • $79.99</span>
+                                    <span class="mobile-nav-subtitle">Adjustable fit • $34.99</span>
                                 </div>
                             </a>
                         </div>
                         
-                        <!-- Stanley Collection -->
-                        <div class="mobile-nav-section">
-                            <h3 class="mobile-nav-section-title">⭐ Stanley Collection</h3>
-                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley.html" data-analytics="mobile-nav-stanley-general">
-                                <span class="mobile-nav-icon">🏆</span>
-                                <div class="mobile-nav-content">
-                                    <span class="mobile-nav-text">Stanley Compatible</span>
-                                    <span class="mobile-nav-subtitle">All Stanley models</span>
-                                </div>
-                            </a>
-                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley-Quencher-H2.0.html" data-analytics="mobile-nav-stanley-quencher">
-                                <span class="mobile-nav-icon">🥤</span>
-                                <div class="mobile-nav-content">
-                                    <span class="mobile-nav-text">Stanley Quencher H2.0</span>
-                                    <span class="mobile-nav-subtitle">Perfect fit design</span>
-                                </div>
-                            </a>
-                            <a href="${this.basePath}pages/damp-handle-v1.0-stanley-IceFlow.html" data-analytics="mobile-nav-stanley-iceflow">
-                                <span class="mobile-nav-icon">🧊</span>
-                                <div class="mobile-nav-content">
-                                    <span class="mobile-nav-text">Stanley IceFlow</span>
-                                    <span class="mobile-nav-subtitle">Cold drink specialist</span>
-                                </div>
-                            </a>
-                        </div>
+                        <!-- Removed Stanley Collection section entirely for trademark protection -->
                         
                         <!-- Shopping & Account -->
                         <div class="mobile-nav-section">

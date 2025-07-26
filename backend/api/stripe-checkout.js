@@ -30,14 +30,17 @@ app.use(express.json({ limit: '1mb' }));
 
 // DAMP Pre-Sale Product Configuration
 const PRESALE_PRODUCTS = {
-    'damp-early-bird': {
-        name: 'DAMP Smart Cup Accessory - Early Bird',
+    'damp-handle-universal': {
+        name: 'DAMP Handle Universal',
         price: 2999, // $29.99 in cents
         originalPrice: 3999, // $39.99 in cents
-        description: 'Turn your favorite cup smart with DAMP. Never lose your drink again!',
+        description: 'Never abandon your favorite beverage. Works with popular tumbler brands and virtually any drinkware.',
         images: ['https://dampdrink.com/assets/images/products/damp-hero.jpg'],
         features: [
-            'Works with Stanley, Hydro Flask, Yeti, and more',
+            'Works with any cup, mug, or bottle. Universal compatibility - attach to virtually anything.',
+            'Universal handle attachment. Perfect for travel mugs, tumblers, and most drinkware.',
+            '2.4 oz (68g) Universal Model',
+            'IPX4 splash resistant - Universal Model',
             'Bluetooth connectivity with mobile app',
             '6-month battery life',
             'Instant phone alerts',

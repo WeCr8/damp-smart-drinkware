@@ -184,23 +184,8 @@
       },
       "last_updated": "2025-01-13"
     },
-    "pages/baby-bottle-v1.0.html": {
-      "path": "/pages/baby-bottle-v1.0.html",
-      "title": "DAMP Baby Bottle v1.0 - Smart Baby Bottle",
-      "status": "updated",
-      "sections": ["hero", "features", "specifications", "cta", "footer"],
-      "components": {
-        "navigation": {
-          "desktop": "✓ implemented",
-          "mobile": "✓ implemented"
-        },
-        "analytics": "✓ implemented",
-        "cart_integration": "✓ implemented"
-      },
-      "last_updated": "2025-01-13"
-    },
     "pages/cup-sleeve-v1.0.html": {
-      "path": "/pages/cup-sleeve-v1.0.html",
+      "path": "/pages/cup-sleeve-v1.0.html", 
       "title": "DAMP Cup Sleeve v1.0 - Smart Cup Sleeve",
       "status": "updated",
       "sections": ["hero", "features", "specifications", "cta", "footer"],
@@ -209,7 +194,7 @@
           "desktop": "✓ implemented",
           "mobile": "✓ implemented"
         },
-        "analytics": "✓ implemented",
+        "analytics": "✓ implemented", 
         "cart_integration": "✓ implemented"
       },
       "last_updated": "2025-01-13"

@@ -324,7 +324,7 @@ async function initializeProductsCollection() {
       name: 'DAMP Handle v1.0',
       shortName: 'Handle',
       description: 'Universal attachment for any drinkware',
-      longDescription: 'Transform any cup into a smart device with our universal clip-on handle. Perfect for Stanley, Yeti, and most travel mugs.',
+      longDescription: 'Transform any cup into a smart device with our universal clip-on handle. Perfect for travel mugs, tumblers, and most drinkware.',
       price: 49.99,
       currency: 'USD',
       category: 'accessories',

@@ -105,28 +105,6 @@ function getDefaultPricingConfig() {
                     pre_order: 'DAMP_SLV_V1_pre-order',
                     default: 'DAMP_SLV_V1_default'
                 }
-            },
-            'baby-bottle': {
-                id: 'baby-bottle',
-                name: 'DAMP Baby Bottle',
-                description: 'BPA-free smart baby bottle with monitoring',
-                image: '/assets/images/products/baby-bottle/baby-bottle.png',
-                category: 'hardware',
-                inventory: 300,
-                pricing: {
-                    base_price: 9999, // $99.99 in cents
-                    pre_order_price: 7999, // $79.99 in cents
-                    cost_price: 4000,
-                    currency: 'USD'
-                },
-                delivery: {
-                    pre_order_delivery: 'Q4 2025',
-                    standard_delivery: 'Q1 2026'
-                },
-                stripe_keys: {
-                    pre_order: 'DAMP_BBB_V1_pre-order',
-                    default: 'DAMP_BBB_V1_default'
-                }
             }
         },
         pricing_phases: {
@@ -162,7 +140,7 @@ function getDefaultPricingConfig() {
                 start_date: '2025-12-01T00:00:00Z',
                 end_date: '2025-12-31T23:59:59Z',
                 description: 'Holiday Special - 15% off orders over $50',
-                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve', 'baby-bottle'],
+                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve'],
                 usage_limit: 1000,
                 usage_count: 0
             },
@@ -175,7 +153,7 @@ function getDefaultPricingConfig() {
                 start_date: '2025-07-01T00:00:00Z',
                 end_date: '2025-07-31T23:59:59Z',
                 description: 'Launch Special - $50 off orders over $100',
-                applicable_products: ['damp-handle', 'baby-bottle'],
+                applicable_products: ['damp-handle'],
                 usage_limit: 500,
                 usage_count: 0
             }
@@ -198,14 +176,14 @@ function getDefaultPricingConfig() {
                 start_date: '2025-11-29T00:00:00Z',
                 end_date: '2025-11-29T23:59:59Z',
                 discount_percent: 25,
-                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve', 'baby-bottle']
+                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve']
             },
             'CYBER_MONDAY': {
                 active: false,
                 start_date: '2025-12-02T00:00:00Z',
                 end_date: '2025-12-02T23:59:59Z',
                 discount_percent: 30,
-                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve', 'baby-bottle']
+                applicable_products: ['damp-handle', 'silicone-bottom', 'cup-sleeve']
             }
         },
         bundles: {
@@ -220,19 +198,6 @@ function getDefaultPricingConfig() {
                 bundle_price: 7499,
                 savings: 499,
                 badge: 'Best Value'
-            },
-            'family_pack': {
-                active: true,
-                name: 'DAMP Family Pack',
-                description: 'Perfect for the whole family',
-                products: [
-                    { id: 'damp-handle', quantity: 2 },
-                    { id: 'baby-bottle', quantity: 1 },
-                    { id: 'cup-sleeve', quantity: 1 }
-                ],
-                bundle_price: 14999,
-                savings: 1498,
-                badge: 'Family Special'
             }
         },
         settings: {

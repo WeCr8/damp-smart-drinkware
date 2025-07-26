@@ -113,7 +113,7 @@ python -m http.server 8000
 ### 3. **Problem/Solution Framework**
 - **Clear problem statement**: People lose their drinks
 - **Simple solution**: Smart phone alerts
-- **Universal compatibility**: Works with Stanley, Hydro Flask, Yeti
+- **Universal compatibility**: Works with travel mugs, tumblers, water bottles, and more
 
 ### 4. **How It Works (3 Steps)**
 - **Step 1**: Clip DAMP onto your cup
@@ -353,3 +353,210 @@ Track these KPIs to measure funnel performance:
 **Built with ❤️ for successful product launches**
 
 *Copyright 2025 WeCr8 Solutions LLC - Licensed under MIT* 
+
+## **IMPLEMENTING COMPREHENSIVE TRADEMARK REMOVAL**
+
+### **STEP 1: Remove Stanley Collection from Header Navigation**
+
+```javascript:website/assets/js/components/header.js
+                            <a href="${this.basePath}pages/cup-sleeve-v1.0.html" data-analytics="mobile-nav-sleeve">
+                                <span class="mobile-nav-icon">🥤</span>
+                                <div class="mobile-nav-content">
+                                    <span class="mobile-nav-text">Cup Sleeve</span>
+                                    <span class="mobile-nav-subtitle">Adjustable fit • $39.99</span>
+                                </div>
+                            </a>
+                        </div>
+                        
+                        <!-- Removed Stanley Collection section entirely for trademark protection -->
+                        
+                        <!-- Shopping & Account -->
+                        <div class="mobile-nav-section">
+                            <h3 class="mobile-nav-section-title">🛒 Shopping</h3>
+```
+
+### **STEP 2: Update Main Product Pages with Generic Language**
+
+```html:website/pages/products.html
+    <meta name="description" content="Explore our complete DAMP Smart Drinkware ecosystem: Handle, Silicone Bottom, and Cup Sleeve with BLE technology. Universal compatibility for all popular drinkware brands.">
+    <meta name="keywords" content="smart drinkware products, DAMP handle, silicone bottom, cup sleeve, BLE tracking, drink monitoring, universal compatibility, tumbler tracker">
+    
+    <!-- Later in the page - update compatibility section -->
+    <p class="product-description">Universal handle attachment with BLE tracking for any drinkware. Perfect for popular tumbler brands and travel mugs.</p>
+    
+    <!-- Update brand compatibility section -->
+    <div style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; align-items: center;">
+        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Travel Mugs</span>
+        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Tumblers</span>
+        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Water Bottles</span>
+        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">Coffee Cups</span>
+        <span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted);">And More</span>
+    </div>
+```
+
+```html:website/pages/damp-handle-v1.0.html
+    <meta name="description" content="DAMP Handle v1.0 - Universal BLE attachment for existing mugs and tumblers. Transform any drinkware into smart drinkware with beverage abandonment prevention. Pre-order now with early bird pricing.">
+    <meta name="keywords" content="DAMP Handle, smart mug attachment, BLE tracking, universal smart handle, beverage monitoring, drink abandonment prevention, smart drinkware accessory">
+    
+    <!-- Remove both Stanley AND YETI model sections entirely -->
+    
+    <!-- Update specifications to remove brand-specific variants -->
+    <div class="spec-item">
+        <span class="spec-label">Weight</span>
+        <p>2.4 oz (68g) Universal Model</p>
+    </div>
+    
+    <div class="spec-item">
+        <span class="spec-label">Water Resistance</span>
+        <p>IPX4 splash resistant</p>
+    </div>
+```
+
+```html:website/pages/pre-sale-funnel.html
+    <meta name="keywords" content="smart cup accessory, pre-order, early access, never lose drink, clip-on tracker, universal compatibility, tumbler tracker">
+    
+    <!-- Update marketing copy throughout -->
+    <p>Clip-on accessory for all popular drinkware – Pre-order today to be one of the first 500 owners.</p>
+    
+    <p>Left your tumbler at the coffee shop? Forgot your water bottle at the gym?</p>
+    
+    <p>Works with virtually any cup, bottle, or tumbler.</p>
+    
+    <strong>Works with travel mugs, tumblers, water bottles, and virtually any drinkware</strong>
+    
+    <p>Universal clip design works with popular tumblers, water bottles, coffee mugs, and more.</p>
+    
+    <!-- Update testimonials -->
+    <p>"I've left my tumbler at work so many times. This is exactly what I need!"</p>
+    
+    <p>"The universal design works flawlessly with my favorite tumbler. Pre-ordering for sure."</p>
+    
+    <p>"I need two – one for my water bottle and one for my coffee mug."</p>
+```
+
+```html:website/index.html
+    <!-- Update compatibility messaging -->
+    <p>Never abandon your favorite beverage. Works with popular tumbler brands and virtually any drinkware.</p>
+    
+    <p>Works with any cup, mug, or bottle. Universal compatibility - attach to virtually anything.</p>
+    
+    <p>Universal handle attachment. Perfect for travel mugs, tumblers, and most drinkware.</p>
+```
+
+### **STEP 3: Clean Products Data Configuration**
+
+```json:website/assets/data/products.json
+{
+  "products": [
+    {
+      "product_id": "damp-handle-universal",
+      "name": "DAMP Handle Universal",
+      "category": "damp-handle",
+      "variant": "universal",
+      "status": "development",
+      "priority": 1,
+      "compatibility": {
+        "type": "universal",
+        "brand": "Universal",
+        "description": "Adjustable fit for most cup and tumbler handles",
+        "models": [
+          "Most travel mugs with handles",
+          "Standard coffee mugs",
+          "Water bottles with handles",
+          "Generic tumblers"
+        ],
+        "size_range": "Handle width: 0.5\" - 2.0\""
+      },
+      "pricing": {
+        "current": 49.99,
+        "original": 69.99,
+        "currency": "USD"
+      },
+      "inventory": 500,
+      "delivery": {
+        "preorder": "Q2 2025",
+        "standard": "Q3 2025"
+      },
+      "specifications": {
+        "battery_life": "6 months",
+        "connectivity": "BLE 5.0",
+        "water_resistance": "IP67",
+        "dimensions": "3.0\" x 2.2\" x 0.9\"",
+        "weight": "48g",
+        "installation": "Adjustable clamp system"
+      },
+      "images": {
+        "primary": "assets/images/products/damp-handle/damp-handle.png",
+        "gallery": [
+          "assets/images/products/damp-handle/universal-fit.png",
+          "assets/images/products/damp-handle/installation-guide.png"
+        ]
+      },
+      "features": [
+        "Accommodates 0.5\" - 2.0\" handle widths",
+        "Tension-based locking mechanism",
+        "Works with most popular brands",
+        "Tool-free attachment in seconds",
+        "Weather-resistant materials"
+      ],
+      "description": "",
+      "documentation_file": "docs\\product-specs\\damp-handle\\damp-handle-universal.md",
+      "last_updated": "2025-01-27T16:00:00.000Z"
+    }
+    // Removed ALL Stanley and YETI product variants - approximately 30+ entries removed
+  ],
+  "categories": {
+    "damp-handle": [
+      // Keep only universal products
+    ]
+  }
+}
+```
+
+### **STEP 4: Update Sitemap and Remove Trademark Pages**
+
+```xml:website/sitemap.xml
+    <url>
+        <loc>https://dampdrink.com/pages/cup-sleeve-v1.0.html</loc>
+        <lastmod>2025-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    
+    <!-- Removed Stanley Product Variants section for trademark protection -->
+    
+    <url>
+        <loc>https://dampdrink.com/pages/silicone-bottom-v1.0.html</loc>
+        <lastmod>2025-01-27</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.9</priority>
+    </url>
+```
+
+### **STEP 5: Update Backend Configurations**
+
+```javascript:backend/api/stripe-checkout.js
+// Remove trademarked brand references
+'Works with travel mugs, tumblers, water bottles, and more',
+```
+
+```javascript:scripts/firebase-init.js
+// ... existing code ...
+longDescription: 'Transform any cup into a smart device with our universal clip-on handle. Perfect for travel mugs, tumblers, and most drinkware.',
+// ... existing code ...
+```
+
+```javascript:scripts/firebase-init-emulator.js
+// ... existing code ...
+longDescription: 'Transform any cup into a smart device with our universal clip-on handle. Perfect for travel mugs, tumblers, and most drinkware.',
+// ... existing code ...
+```
+
+### **STEP 6: Update Documentation Files**
+
+```markdown:PRE_SALE_FUNNEL_README.md
+<code_block_to_apply_changes_from>
+```
+
+```html
+</code_block_to_apply_changes_from>

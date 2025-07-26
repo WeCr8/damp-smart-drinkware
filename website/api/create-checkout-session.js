@@ -5,30 +5,9 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 // Product catalog with Stripe Price IDs
 const products = {
-    'damp-handle': {
-        name: 'DAMP Handle v1.0',
-        price: 4999, // $49.99 in cents
-        priceId: 'price_1234567890abcdef', // Replace with actual Stripe Price ID
-        description: 'Universal BLE attachment for existing mugs'
-    },
-    'silicone-bottom': {
-        name: 'DAMP Silicone Bottom',
-        price: 2999, // $29.99 in cents
-        priceId: 'price_abcdef1234567890', // Replace with actual Stripe Price ID
-        description: 'Smart silicone base with BLE technology'
-    },
-    'cup-sleeve': {
-        name: 'DAMP Cup Sleeve',
-        price: 3499, // $34.99 in cents
-        priceId: 'price_fedcba0987654321', // Replace with actual Stripe Price ID
-        description: 'Flexible silicone sleeve with sensors'
-    },
-    'baby-bottle': {
-        name: 'DAMP Baby Bottle',
-        price: 7999, // $79.99 in cents
-        priceId: 'price_123456789abcdef0', // Replace with actual Stripe Price ID
-        description: 'BPA-free smart baby bottle'
-    }
+    'damp-handle': { name: 'DAMP Handle v1.0', price: 49.99, originalPrice: 69.99, savings: 20.00 },
+    'silicone-bottom': { name: 'DAMP Silicone Bottom', price: 29.99, originalPrice: 39.99, savings: 10.00 },
+    'cup-sleeve': { name: 'DAMP Cup Sleeve', price: 34.99, originalPrice: 44.99, savings: 10.00 }
 };
 
 export default async function handler(req, res) {
